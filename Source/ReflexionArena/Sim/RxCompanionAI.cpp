@@ -608,8 +608,16 @@ void FRxCompanionAI::ProposeFaultline(FRxSimWorld& World, int32 RegionId)
 
 void FRxCompanionAI::ObserveTremors(FRxSimWorld& World)
 {
-	for (const FRxEvent& Ev : World.GetEvents())
+	// Say() -> World.Emit() appends to World's event array while this loop reads it,
+	// which invalidates a UE ranged-for iterator (Array.h ranged-for guard / dangling
+	// pointer after a reallocation). GDScript's `for ev in world.events` re-checks the
+	// array size every step, so elements appended during the loop ARE visited; those
+	// are always "companion_say" events, which the type filter below skips. Index
+	// iteration against a live Num() reproduces that contract exactly, and the element
+	// reference is re-fetched each step so it never outlives a reallocation.
+	for (int32 i = 0; i < World.GetEvents().Num(); ++i)
 	{
+		const FRxEvent& Ev = World.GetEvents()[i];
 		if (Ev.Type != FString(TEXT("tremor")))
 		{
 			continue;
