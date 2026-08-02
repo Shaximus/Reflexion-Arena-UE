@@ -29,15 +29,23 @@
  * (forward-declared; owner reconciles the interface — see the call list reported
  * at integration).
  *
- * DATA SOURCING NOTE: the Godot reference parses the arena / fragment / skill
- * JSON at runtime (FileAccess + JSON.parse + CanonJson.intify). This port
- * HARDCODES those values from the on-disk JSON instead, because (a) the UE
- * project ships no Content data directory / JSON files, (b) it removes the Json
- * module + file-path + parse dependencies from the deterministic core, and
- * (c) it guarantees the exact positions/config values byte-for-byte. The res://
- * provenance paths are kept below for traceability. If the data ever needs to be
- * swappable, replace LoadArena/LoadFragment/LoadSkillTemplate with a parser that
- * produces the same structs.
+ * DATA SOURCING (RX_DATA_BOUNDARY_CONTRACT.md v1 — P0.3). The arena / fragment /
+ * skill data are now INJECTED, not welded in:
+ *
+ *     on-disk JSON -> FRxDataSource (parse+intify+validate) -> FRxArenaConfig
+ *                                                                   |
+ *                                                                   v
+ *                                            FRxEncounters::BuildArena(World, Cfg)
+ *
+ * The sim core never opens a file: BuildArena is a pure function of its config,
+ * which is what makes a second universe (Rx Worlds) possible without touching
+ * sim code. See Sim/RxDataSource.h for the loader.
+ *
+ * The original hardcoded transcriptions are RETAINED as LoadArenaBaked() /
+ * LoadFragmentBaked() / LoadSkillTemplateBaked(). They are not dead code: they
+ * are the COMPARAND for the loader-fidelity proof (contract §5.1) — the oracle
+ * asserts field-by-field that the from-disk load equals the baked values — and
+ * they back the convenience BuildArena(World) overload.
  */
 
 class FRxSimWorld;      // world-owned sim registry; encounters mutates its setup
@@ -47,7 +55,12 @@ class FRxCompanionAI;   // world-owned companion; attach is routed through the w
  * FRxArenaConfig — the whole parsed arena definition (mirrors the Godot `def`
  * Dictionary loaded from arena_earthquake.json). `Terrain` is fed to
  * FRxTerrain::LoadDef; the remaining fields drive the spawns, boss.Configure and
- * transfer wiring. Values are hardcoded from the JSON (see LoadArena()).
+ * transfer wiring.
+ *
+ * This struct IS the data boundary: FRxDataSource::LoadArenaFromFile produces
+ * one from JSON, LoadArenaBaked() produces the historical hardcoded one, and
+ * BuildArena consumes it without caring which. A different universe is a
+ * different FRxArenaConfig — no sim change required.
  */
 struct FRxArenaConfig
 {
@@ -71,16 +84,28 @@ struct FRxArenaConfig
 class FRxEncounters
 {
 public:
-	// res:// provenance of the source data (informational; the data itself is
-	// hardcoded — see LoadArena/LoadFragment/LoadSkillTemplate and the header note).
+	// res:// provenance of the source data (the Godot originals, which remain the
+	// parity ground truth). The UE project's own copies live in Data/ — see
+	// FRxDataSource::DefaultArenaPath() and Data/PROVENANCE.json.
 	static const TCHAR* ArenaPath()         { return TEXT("res://game/data/arena_earthquake.json"); }
 	static const TCHAR* FragmentPath()      { return TEXT("res://game/data/fragment_earthquake.json"); }
 	static const TCHAR* SkillTemplatePath() { return TEXT("res://game/data/skill_faultline_interrupt.json"); }
 
 	/**
-	 * build_arena: load terrain def + arena config, spawn player/companion/boss
-	 * (sequential ids 1,2,3), configure the boss FSM, wire the id fields, attach
-	 * the companion AI, and emit encounter_ready. Spawn ORDER is load-bearing.
+	 * build_arena, DATA-DRIVEN FORM (contract §2.1). Config is injected: load the
+	 * terrain def, spawn player/companion/boss (sequential ids 1,2,3), configure
+	 * the boss FSM, wire the id fields, attach the companion AI, emit
+	 * encounter_ready. Spawn ORDER is load-bearing (entity ids follow it).
+	 *
+	 * This function opens no file and consults no global — it is a pure function
+	 * of Cfg, so a different universe is just a different Cfg.
+	 */
+	static void BuildArena(FRxSimWorld& World, const FRxArenaConfig& Cfg);
+
+	/**
+	 * Convenience overload using the default BAKED config, so callers that do
+	 * not (yet) source data from disk keep working unchanged. Equivalent to
+	 * BuildArena(World, LoadArenaBaked()).
 	 */
 	static void BuildArena(FRxSimWorld& World);
 
@@ -90,22 +115,27 @@ public:
 	 */
 	static void BuildTransfer(FRxSimWorld& World);
 
-	/** load_fragment: the compiled EARTHQUAKE Compression Fragment (SHENRON §6). */
-	static FRxFragmentSpec LoadFragment();
+	// -----------------------------------------------------------------------
+	// BAKED data (contract §5.1). The historical hardcoded transcriptions of the
+	// three JSON files, kept SPECIFICALLY as the comparand for the loader-
+	// fidelity proof: the oracle asserts field-by-field that
+	// FRxDataSource::Load*FromFile(Data/<file>.json) == Load*Baked().
+	// Do not delete these — deleting them deletes the proof.
+	// -----------------------------------------------------------------------
+
+	/** The arena definition, hardcoded from arena_earthquake.json. */
+	static FRxArenaConfig LoadArenaBaked();
+
+	/** The compiled EARTHQUAKE Compression Fragment (SHENRON §6), hardcoded. */
+	static FRxFragmentSpec LoadFragmentBaked();
 
 	/**
-	 * load_skill_template: the fixed-choice FAULTLINE_INTERRUPT template.
+	 * The fixed-choice FAULTLINE_INTERRUPT template, hardcoded.
 	 * NOTE: the shared contract's FRxSkillSpec is the authoring-request subset
 	 * (name/trigger/effect/cost/cooldown/commit_window). The template file's
 	 * extra fields (skill_id/derived_from/legal_options/residual_risk/authority)
 	 * are intentionally not represented — they belong to FRxSkillArtifact, which
 	 * FRxSkillSystem::AuthorSkill produces from this spec.
 	 */
-	static FRxSkillSpec LoadSkillTemplate();
-
-	/**
-	 * The arena definition (hardcoded from arena_earthquake.json). Exposed for
-	 * tests/tools; BuildArena consumes it internally.
-	 */
-	static FRxArenaConfig LoadArena();
+	static FRxSkillSpec LoadSkillTemplateBaked();
 };

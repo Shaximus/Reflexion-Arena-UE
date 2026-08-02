@@ -1,0 +1,24 @@
+{
+ "skill_id": "faultline_interrupt",
+ "name": "FAULTLINE INTERRUPT",
+ "derived_from": "earthquake",
+ "legal_options": {
+  "name": [
+   "FAULTLINE INTERRUPT"
+  ],
+  "trigger": [
+   "committed_ground_propagation"
+  ],
+  "effect": [
+   "destabilize_anchor"
+  ]
+ },
+ "trigger": "committed_ground_propagation",
+ "effect": "destabilize_anchor",
+ "cost": 30,
+ "cooldown": 240,
+ "commit_window": 20,
+ "residual_risk": "wrong surface id amplifies local instability (+200 stress on wrong region)",
+ "authority": "validated_request_only",
+ "notes": "Fixed-choice skill artifact template (CONTRACTS.md \u00a72 SkillSystem, SHENRON \u00a77). Trigger: target begins a committed ground-propagation action (DAMP_CANCEL<=stress<STRESS_THRESHOLD). Effect: validated destabilizing strike at the target's anchor point (dampen 600); on a boss anchor mid-ACCUMULATE this drops stress below DAMP_CANCEL and opens the DESTABILIZED combo window. Never mutates SimWorld directly: execution routes through world.submit as a validated use_skill command."
+}

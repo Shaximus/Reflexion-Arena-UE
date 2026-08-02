@@ -11,6 +11,8 @@
 // adds Sim/ to the include search path (the Sim TUs include each other this way).
 #include "Sim/RxSimWorld.h"
 #include "Sim/RxEncounters.h"
+#include "Sim/RxDataSource.h"
+#include "Sim/RxTerrain.h"
 #include "Sim/RxCommands.h"
 #include "Sim/RxReceipts.h"
 #include "Sim/RxCompanionAI.h"
@@ -55,6 +57,22 @@ namespace RxPath
 	static const TCHAR* Acceptance = TEXT("/home/shax/Projects/core-tech/Reflexion-Arena/game/data/acceptance_run_v1.json");
 	static const TCHAR* Malformed  = TEXT("/home/shax/Projects/core-tech/Reflexion-Arena/tests/adversarial/malformed_plans.jsonl");
 	static const TCHAR* Injection  = TEXT("/home/shax/Projects/core-tech/Reflexion-Arena/tests/adversarial/injection_corpus.jsonl");
+}
+
+// ---------------------------------------------------------------------------
+// DATA BOUNDARY state (RX_DATA_BOUNDARY_CONTRACT.md v1).
+//
+// The arena config used by EVERY BuildArena call in this harness is loaded FROM
+// DISK (Data/arena_earthquake.json) through FRxDataSource. Proof obligation §5.2
+// is precisely that the hash still holds when the arena comes from a file rather
+// than from C++ literals. There is deliberately NO fallback to the baked config:
+// if the load fails the harness reports FAIL rather than silently passing on
+// hardcoded data.
+// ---------------------------------------------------------------------------
+namespace RxData
+{
+	static FRxArenaConfig ArenaCfg;
+	static bool bArenaLoaded = false;
 }
 
 // ---------------------------------------------------------------------------
@@ -187,7 +205,7 @@ namespace
 		FAcceptResult R;
 
 		FRxSimWorld World(Seed);
-		FRxEncounters::BuildArena(World);
+		FRxEncounters::BuildArena(World, RxData::ArenaCfg); // FROM DISK (contract §5.2)
 
 		int32 TransferRecognizedTick = -1;
 		// while not agent.exhausted(world)  <=>  world.tick <= max_tick
@@ -624,7 +642,7 @@ namespace
 			return false;
 		}
 		FRxSimWorld World(7);
-		FRxEncounters::BuildArena(World);
+		FRxEncounters::BuildArena(World, RxData::ArenaCfg); // FROM DISK (contract §5.2)
 		for (const TSharedPtr<FJsonObject>& Row : Rows)
 		{
 			const FString Id = Row->GetStringField(TEXT("id"));
@@ -657,7 +675,7 @@ namespace
 			const FString Payload = Row->GetStringField(TEXT("payload"));
 
 			FRxSimWorld World(7);
-		FRxEncounters::BuildArena(World);
+		FRxEncounters::BuildArena(World, RxData::ArenaCfg); // FROM DISK (contract §5.2)
 			World.Step(); // step once so the world has run
 			const FString Before = World.StateHash();
 
@@ -694,7 +712,7 @@ namespace
 	{
 		UE_LOG(LogRxOracle, Display, TEXT("ORACLE --- PART 2b: authority matrix on raw envelopes ---"));
 		FRxSimWorld World(7);
-		FRxEncounters::BuildArena(World);
+		FRxEncounters::BuildArena(World, RxData::ArenaCfg); // FROM DISK (contract §5.2)
 
 		// companion T2 without approval -> ERR_AUTHORITY (all 5 T2 types)
 		auto MakeT2Params = [](const FString& T) -> FRxJsonValue
@@ -766,7 +784,7 @@ namespace
 	{
 		UE_LOG(LogRxOracle, Display, TEXT("ORACLE --- PART 3: receipt chain tamper (RA-01/RA-02/RA-03) ---"));
 		FRxSimWorld World(7);
-		FRxEncounters::BuildArena(World);
+		FRxEncounters::BuildArena(World, RxData::ArenaCfg); // FROM DISK (contract §5.2)
 
 		// small scripted run (mirror the Python PART 3 fixture)
 		TMap<int32, TArray<FRxJsonValue>> ByTick;
@@ -857,6 +875,408 @@ namespace
 }
 
 // ---------------------------------------------------------------------------
+// DATA BOUNDARY — RX_DATA_BOUNDARY_CONTRACT.md v1 proof obligations §5.1 and
+// §5.3 (§5.2 hash invariance and §5.4 ordering are proven by the ACCEPTANCE
+// section above, which now builds every arena from the on-disk config).
+//
+//   §5.1 Loader fidelity  — Load*FromFile(Data/*.json) == Load*Baked(), field by
+//                           field, PASS/FAIL printed per field group.
+//   §5.3 Malformed input  — truncated / non-integral coordinate / missing key
+//                           each rejected with an error naming the offence, and
+//                           with the output struct left untouched.
+// ---------------------------------------------------------------------------
+namespace
+{
+	int32 DataPassed = 0;
+	int32 DataTotal = 0;
+
+	void DataCheck(const FString& Name, bool bOk, const FString& Detail)
+	{
+		DataTotal += 1;
+		if (bOk) { DataPassed += 1; }
+		UE_LOG(LogRxOracle, Display, TEXT("ORACLE  [%s] %-46s %s"),
+			bOk ? TEXT("PASS") : TEXT("FAIL"), *Name, *Detail);
+	}
+
+	// Records the FIRST differing field path in a group, so a failure says
+	// exactly which field diverged rather than just "not equal".
+	struct FFieldDiff
+	{
+		bool bOk = true;
+		FString First;
+
+		void Note(const FString& Where)
+		{
+			if (bOk) { bOk = false; First = Where; }
+		}
+		template <typename T>
+		void Eq(const FString& Where, const T& A, const T& B)
+		{
+			if (!(A == B)) { Note(Where); }
+		}
+		FString Detail(const FString& OkText) const
+		{
+			return bOk ? OkText : FString::Printf(TEXT("first difference at %s"), *First);
+		}
+	};
+
+	// ---- §5.1 arena fidelity -------------------------------------------------
+	void CheckArenaFidelity(const FRxArenaConfig& L, const FRxArenaConfig& B)
+	{
+		// regions: id / name / kind / poly / stress / stable / anchored_by, IN ORDER
+		{
+			FFieldDiff D;
+			if (L.Terrain.Regions.Num() != B.Terrain.Regions.Num())
+			{
+				D.Note(FString::Printf(TEXT("regions.Num (loaded=%d baked=%d)"),
+					L.Terrain.Regions.Num(), B.Terrain.Regions.Num()));
+			}
+			else
+			{
+				for (int32 i = 0; i < B.Terrain.Regions.Num(); ++i)
+				{
+					const FRxRegion& RL = L.Terrain.Regions[i];
+					const FRxRegion& RB = B.Terrain.Regions[i];
+					const FString P = FString::Printf(TEXT("regions[%d]"), i);
+					D.Eq(P + TEXT(".id"), RL.Id, RB.Id);
+					D.Eq(P + TEXT(".name"), RL.Name, RB.Name);
+					D.Eq(P + TEXT(".kind"), RL.Kind, RB.Kind);
+					D.Eq(P + TEXT(".stress"), RL.Stress, RB.Stress);
+					D.Eq(P + TEXT(".stable"), RL.bStable, RB.bStable);
+					D.Eq(P + TEXT(".anchored_by"), RL.AnchoredBy, RB.AnchoredBy);
+					if (RL.Poly.Num() != RB.Poly.Num())
+					{
+						D.Note(P + TEXT(".poly.Num"));
+					}
+					else
+					{
+						for (int32 v = 0; v < RB.Poly.Num(); ++v)
+						{
+							D.Eq(FString::Printf(TEXT("%s.poly[%d]"), *P, v), RL.Poly[v], RB.Poly[v]);
+						}
+					}
+				}
+			}
+			DataCheck(TEXT("fidelity arena.regions"), D.bOk,
+				D.Detail(FString::Printf(TEXT("%d regions identical (id/name/kind/poly/stress/stable/anchored_by, in order)"),
+					B.Terrain.Regions.Num())));
+		}
+
+		// edges: order is load-bearing (diffusion order + BFS layering)
+		{
+			FFieldDiff D;
+			if (L.Terrain.Edges.Num() != B.Terrain.Edges.Num())
+			{
+				D.Note(FString::Printf(TEXT("edges.Num (loaded=%d baked=%d)"),
+					L.Terrain.Edges.Num(), B.Terrain.Edges.Num()));
+			}
+			else
+			{
+				for (int32 i = 0; i < B.Terrain.Edges.Num(); ++i)
+				{
+					if (L.Terrain.Edges[i].A != B.Terrain.Edges[i].A ||
+						L.Terrain.Edges[i].B != B.Terrain.Edges[i].B)
+					{
+						D.Note(FString::Printf(TEXT("edges[%d]"), i));
+					}
+				}
+			}
+			DataCheck(TEXT("fidelity arena.edges (ordered)"), D.bOk,
+				D.Detail(FString::Printf(TEXT("%d edges identical in document order"), B.Terrain.Edges.Num())));
+		}
+
+		// stress_schedule: order is hashed in the terrain snapshot
+		{
+			FFieldDiff D;
+			if (L.Terrain.StressSchedule.Num() != B.Terrain.StressSchedule.Num())
+			{
+				D.Note(FString::Printf(TEXT("stress_schedule.Num (loaded=%d baked=%d)"),
+					L.Terrain.StressSchedule.Num(), B.Terrain.StressSchedule.Num()));
+			}
+			else
+			{
+				for (int32 i = 0; i < B.Terrain.StressSchedule.Num(); ++i)
+				{
+					const FRxStressEvent& SL = L.Terrain.StressSchedule[i];
+					const FRxStressEvent& SB = B.Terrain.StressSchedule[i];
+					const FString P = FString::Printf(TEXT("stress_schedule[%d]"), i);
+					D.Eq(P + TEXT(".tick"), SL.Tick, SB.Tick);
+					D.Eq(P + TEXT(".region"), SL.Region, SB.Region);
+					D.Eq(P + TEXT(".rate"), SL.Rate, SB.Rate);
+					D.Eq(P + TEXT(".until"), SL.Until, SB.Until);
+				}
+			}
+			DataCheck(TEXT("fidelity arena.stress_schedule (ordered)"), D.bOk,
+				D.Detail(FString::Printf(TEXT("%d events identical in document order"),
+					B.Terrain.StressSchedule.Num())));
+		}
+
+		// spawns: all three, and spawn order fixes entity ids 1/2/3
+		{
+			FFieldDiff D;
+			D.Eq(TEXT("spawns.player"), L.SpawnPlayer, B.SpawnPlayer);
+			D.Eq(TEXT("spawns.companion"), L.SpawnCompanion, B.SpawnCompanion);
+			D.Eq(TEXT("spawns.boss"), L.SpawnBoss, B.SpawnBoss);
+			DataCheck(TEXT("fidelity arena.spawns"), D.bOk,
+				D.Detail(FString::Printf(TEXT("player=(%d,%d) companion=(%d,%d) boss=(%d,%d)"),
+					L.SpawnPlayer.X, L.SpawnPlayer.Y, L.SpawnCompanion.X, L.SpawnCompanion.Y,
+					L.SpawnBoss.X, L.SpawnBoss.Y)));
+		}
+
+		// boss: anchor_region / stability / arena_regions (ordered)
+		{
+			FFieldDiff D;
+			D.Eq(TEXT("boss.anchor_region"), L.BossAnchorRegion, B.BossAnchorRegion);
+			D.Eq(TEXT("boss.stability"), L.BossStability, B.BossStability);
+			if (L.BossArenaRegions.Num() != B.BossArenaRegions.Num())
+			{
+				D.Note(TEXT("boss.arena_regions.Num"));
+			}
+			else
+			{
+				for (int32 i = 0; i < B.BossArenaRegions.Num(); ++i)
+				{
+					D.Eq(FString::Printf(TEXT("boss.arena_regions[%d]"), i),
+						L.BossArenaRegions[i], B.BossArenaRegions[i]);
+				}
+			}
+			DataCheck(TEXT("fidelity arena.boss"), D.bOk,
+				D.Detail(FString::Printf(TEXT("anchor_region=%d stability=%d arena_regions=%d entries"),
+					L.BossAnchorRegion, L.BossStability, L.BossArenaRegions.Num())));
+		}
+
+		// transfer region (exit_bridge)
+		{
+			const bool bOk = L.TransferRegion == B.TransferRegion;
+			DataCheck(TEXT("fidelity arena.transfer_region"), bOk,
+				FString::Printf(TEXT("loaded=%d baked=%d"), L.TransferRegion, B.TransferRegion));
+		}
+
+		// whole-terrain canonical JSON: one hash over regions+edges+schedule that
+		// is sensitive to VALUES and ORDER simultaneously (belt and braces on top
+		// of the field-by-field walk above).
+		{
+			FRxTerrain TL, TB;
+			TL.LoadDef(L.Terrain);
+			TB.LoadDef(B.Terrain);
+			const FString HL = FRxCanonJson::Sha256Hex(TL.ToCanonicalJson());
+			const FString HB = FRxCanonJson::Sha256Hex(TB.ToCanonicalJson());
+			DataCheck(TEXT("fidelity arena.terrain_canonical_hash"), HL == HB,
+				FString::Printf(TEXT("loaded=%s baked=%s"), *HL.Left(16), *HB.Left(16)));
+		}
+	}
+
+	// ---- §5.1 fragment fidelity ---------------------------------------------
+	void CheckFragmentFidelity(const FRxFragmentSpec& L, const FRxFragmentSpec& B)
+	{
+		// compiler scalars + ordered checks_run
+		{
+			FFieldDiff D;
+			D.Eq(TEXT("compiler.notes"), L.Compiler.Notes, B.Compiler.Notes);
+			D.Eq(TEXT("compiler.ref_commit"), L.Compiler.RefCommit, B.Compiler.RefCommit);
+			D.Eq(TEXT("compiler.repo"), L.Compiler.Repo, B.Compiler.Repo);
+			D.Eq(TEXT("compiler.tool"), L.Compiler.Tool, B.Compiler.Tool);
+			D.Eq(TEXT("compiler.version"), L.Compiler.Version, B.Compiler.Version);
+			if (L.Compiler.ChecksRun.Num() != B.Compiler.ChecksRun.Num())
+			{
+				D.Note(TEXT("compiler.checks_run.Num"));
+			}
+			else
+			{
+				for (int32 i = 0; i < B.Compiler.ChecksRun.Num(); ++i)
+				{
+					D.Eq(FString::Printf(TEXT("compiler.checks_run[%d]"), i),
+						L.Compiler.ChecksRun[i], B.Compiler.ChecksRun[i]);
+				}
+			}
+			DataCheck(TEXT("fidelity fragment.compiler"), D.bOk,
+				D.Detail(FString::Printf(TEXT("%d checks_run in order + notes/ref_commit/repo/tool/version"),
+					B.Compiler.ChecksRun.Num())));
+		}
+
+		// vendored_sha map (contract §5.1 calls this out explicitly): same size,
+		// same keys, same values — compared in BOTH directions.
+		{
+			FFieldDiff D;
+			if (L.Compiler.VendoredSha.Num() != B.Compiler.VendoredSha.Num())
+			{
+				D.Note(FString::Printf(TEXT("vendored_sha.Num (loaded=%d baked=%d)"),
+					L.Compiler.VendoredSha.Num(), B.Compiler.VendoredSha.Num()));
+			}
+			for (const TPair<FString, FString>& Kv : B.Compiler.VendoredSha)
+			{
+				const FString* Got = L.Compiler.VendoredSha.Find(Kv.Key);
+				if (Got == nullptr) { D.Note(TEXT("vendored_sha['") + Kv.Key + TEXT("'] missing in loaded")); }
+				else if (*Got != Kv.Value) { D.Note(TEXT("vendored_sha['") + Kv.Key + TEXT("']")); }
+			}
+			for (const TPair<FString, FString>& Kv : L.Compiler.VendoredSha)
+			{
+				if (B.Compiler.VendoredSha.Find(Kv.Key) == nullptr)
+				{
+					D.Note(TEXT("vendored_sha['") + Kv.Key + TEXT("'] extra in loaded"));
+				}
+			}
+			DataCheck(TEXT("fidelity fragment.vendored_sha"), D.bOk,
+				D.Detail(FString::Printf(TEXT("%d path->sha entries identical"), B.Compiler.VendoredSha.Num())));
+		}
+
+		// SHENRON §6 canon fields + validity + ordered transfer_domains
+		{
+			FFieldDiff D;
+			D.Eq(TEXT("valid"), L.bValid, B.bValid);
+			D.Eq(TEXT("counterplay"), L.Counterplay, B.Counterplay);
+			D.Eq(TEXT("propagation"), L.Propagation, B.Propagation);
+			D.Eq(TEXT("residual_risk"), L.ResidualRisk, B.ResidualRisk);
+			D.Eq(TEXT("trigger"), L.Trigger, B.Trigger);
+			if (L.TransferDomains.Num() != B.TransferDomains.Num())
+			{
+				D.Note(TEXT("transfer_domains.Num"));
+			}
+			else
+			{
+				for (int32 i = 0; i < B.TransferDomains.Num(); ++i)
+				{
+					D.Eq(FString::Printf(TEXT("transfer_domains[%d]"), i),
+						L.TransferDomains[i], B.TransferDomains[i]);
+				}
+			}
+			DataCheck(TEXT("fidelity fragment.canon_fields"), D.bOk,
+				D.Detail(FString::Printf(TEXT("valid/counterplay/propagation/residual_risk/trigger + %d transfer_domains"),
+					B.TransferDomains.Num())));
+		}
+
+		// the fragment hash STRING (contract §5.1 calls this out explicitly)
+		{
+			const bool bOk = L.FragmentHash == B.FragmentHash;
+			DataCheck(TEXT("fidelity fragment.fragment_hash"), bOk,
+				FString::Printf(TEXT("loaded=%s"), *L.FragmentHash));
+		}
+
+		// canonical-JSON hash of the whole socketed artifact — the exact bytes the
+		// sim would hash if this fragment were socketed.
+		{
+			const FString HL = FRxCanonJson::HashValue(L.ToJson());
+			const FString HB = FRxCanonJson::HashValue(B.ToJson());
+			DataCheck(TEXT("fidelity fragment.canonical_hash"), HL == HB,
+				FString::Printf(TEXT("loaded=%s baked=%s"), *HL.Left(16), *HB.Left(16)));
+		}
+	}
+
+	// ---- §5.1 skill-template fidelity ---------------------------------------
+	void CheckSkillFidelity(const FRxSkillSpec& L, const FRxSkillSpec& B)
+	{
+		FFieldDiff D;
+		D.Eq(TEXT("name"), L.Name, B.Name);
+		D.Eq(TEXT("trigger"), L.Trigger, B.Trigger);
+		D.Eq(TEXT("effect"), L.Effect, B.Effect);
+		D.Eq(TEXT("cost"), L.Cost, B.Cost);
+		D.Eq(TEXT("cooldown"), L.Cooldown, B.Cooldown);
+		D.Eq(TEXT("commit_window"), L.CommitWindow, B.CommitWindow);
+		DataCheck(TEXT("fidelity skill_template"), D.bOk,
+			D.Detail(FString::Printf(TEXT("'%s' trigger=%s effect=%s cost=%d cooldown=%d commit_window=%d"),
+				*L.Name, *L.Trigger, *L.Effect, L.Cost, L.Cooldown, L.CommitWindow)));
+	}
+
+	// ---- §5.3 malformed input must be rejected precisely ---------------------
+	// Each case must (a) return false, (b) produce an error naming the offence,
+	// and (c) leave the output struct untouched — never a partial load.
+	void CheckMalformed(const FString& CaseName, const FString& Path, const FString& MustMention)
+	{
+		constexpr int32 Sentinel = -987654;
+		FRxArenaConfig Out;
+		Out.TransferRegion = Sentinel;   // canary for "no partial load"
+		FString Error;
+
+		const bool bLoaded = FRxDataSource::LoadArenaFromFile(Path, Out, Error);
+		const bool bRejected = !bLoaded;
+		const bool bNamed = !Error.IsEmpty() && Error.Contains(MustMention);
+		const bool bUntouched = Out.TransferRegion == Sentinel && Out.Terrain.Regions.Num() == 0;
+
+		DataCheck(FString::Printf(TEXT("malformed %s rejected"), *CaseName),
+			bRejected && bNamed && bUntouched,
+			FString::Printf(TEXT("rejected=%s names('%s')=%s no_partial_load=%s | error: %s"),
+				bRejected ? TEXT("yes") : TEXT("NO — ACCEPTED"),
+				*MustMention,
+				bNamed ? TEXT("yes") : TEXT("no"),
+				bUntouched ? TEXT("yes") : TEXT("no"),
+				Error.IsEmpty() ? TEXT("(none)") : *Error));
+	}
+
+	bool RunDataBoundary()
+	{
+		UE_LOG(LogRxOracle, Display, TEXT("ORACLE ============================================================"));
+		UE_LOG(LogRxOracle, Display, TEXT("ORACLE == DATA BOUNDARY (FRxDataSource: on-disk JSON -> sim) =="));
+		UE_LOG(LogRxOracle, Display, TEXT("ORACLE ============================================================"));
+
+		DataPassed = 0;
+		DataTotal = 0;
+
+		const FString ArenaPath = FRxDataSource::DefaultArenaPath();
+		const FString FragmentPath = FRxDataSource::DefaultFragmentPath();
+		const FString SkillPath = FRxDataSource::DefaultSkillTemplatePath();
+		UE_LOG(LogRxOracle, Display, TEXT("ORACLE data dir: %s"), *FRxDataSource::DataDir());
+
+		// ---- load the three files from disk ----
+		FRxArenaConfig LoadedArena;
+		FString ArenaError;
+		const bool bArenaOk = FRxDataSource::LoadArenaFromFile(ArenaPath, LoadedArena, ArenaError);
+		DataCheck(TEXT("load arena_earthquake.json"), bArenaOk,
+			bArenaOk ? FString::Printf(TEXT("%d regions, %d edges, %d stress events"),
+				LoadedArena.Terrain.Regions.Num(), LoadedArena.Terrain.Edges.Num(),
+				LoadedArena.Terrain.StressSchedule.Num())
+			: ArenaError);
+
+		FRxFragmentSpec LoadedFragment;
+		FString FragmentError;
+		const bool bFragOk = FRxDataSource::LoadFragmentFromFile(FragmentPath, LoadedFragment, FragmentError);
+		DataCheck(TEXT("load fragment_earthquake.json"), bFragOk,
+			bFragOk ? FString::Printf(TEXT("fragment_hash=%s"), *LoadedFragment.FragmentHash.Left(16))
+			: FragmentError);
+
+		FRxSkillSpec LoadedSkill;
+		FString SkillError;
+		const bool bSkillOk = FRxDataSource::LoadSkillTemplateFromFile(SkillPath, LoadedSkill, SkillError);
+		DataCheck(TEXT("load skill_faultline_interrupt.json"), bSkillOk,
+			bSkillOk ? FString::Printf(TEXT("'%s'"), *LoadedSkill.Name) : SkillError);
+
+		// ---- §5.1 fidelity: loaded == baked, field by field ----
+		if (bArenaOk)
+		{
+			CheckArenaFidelity(LoadedArena, FRxEncounters::LoadArenaBaked());
+			RxData::ArenaCfg = LoadedArena;   // used by ACCEPTANCE + ADVERSARIAL
+			RxData::bArenaLoaded = true;
+		}
+		else
+		{
+			UE_LOG(LogRxOracle, Error, TEXT("ORACLE DATA BOUNDARY: arena load failed — %s"), *ArenaError);
+		}
+		if (bFragOk)
+		{
+			CheckFragmentFidelity(LoadedFragment, FRxEncounters::LoadFragmentBaked());
+		}
+		if (bSkillOk)
+		{
+			CheckSkillFidelity(LoadedSkill, FRxEncounters::LoadSkillTemplateBaked());
+		}
+
+		// ---- §5.3 malformed input rejection ----
+		UE_LOG(LogRxOracle, Display, TEXT("ORACLE --- malformed-input rejection (Data/tests) ---"));
+		const FString TestDir = FPaths::Combine(FRxDataSource::DataDir(), TEXT("tests"));
+		CheckMalformed(TEXT("truncated"),
+			FPaths::Combine(TestDir, TEXT("arena_truncated.json")), TEXT("parse failed"));
+		CheckMalformed(TEXT("non-integral coord (2000.5)"),
+			FPaths::Combine(TestDir, TEXT("arena_nonintegral_coord.json")), TEXT("regions[0].poly[0][0]"));
+		CheckMalformed(TEXT("missing key (boss.stability)"),
+			FPaths::Combine(TestDir, TEXT("arena_missing_key.json")), TEXT("boss.stability"));
+
+		const bool bOk = (DataPassed == DataTotal) && (DataTotal > 0);
+		UE_LOG(LogRxOracle, Display, TEXT("ORACLE DATA BOUNDARY checks: %d/%d passed"), DataPassed, DataTotal);
+		UE_LOG(LogRxOracle, Display, TEXT("ORACLE DATA BOUNDARY RESULT: %s"), bOk ? TEXT("PASS") : TEXT("FAIL"));
+		return bOk;
+	}
+}
+
+// ---------------------------------------------------------------------------
 // Commandlet entry point
 // ---------------------------------------------------------------------------
 UReflexionOracleCommandlet::UReflexionOracleCommandlet()
@@ -871,15 +1291,33 @@ int32 UReflexionOracleCommandlet::Main(const FString& /*Params*/)
 {
 	UE_LOG(LogRxOracle, Display, TEXT("ORACLE BEGIN Reflexion Arena UE5.8 parity harness"));
 
-	const bool bAcceptance = RunAcceptance();
-	const bool bAdversarial = RunAdversarial();
+	// The data boundary runs FIRST: it loads the arena from disk into
+	// RxData::ArenaCfg, which every subsequent BuildArena consumes.
+	const bool bDataBoundary = RunDataBoundary();
+
+	bool bAcceptance = false;
+	bool bAdversarial = false;
+	if (RxData::bArenaLoaded)
+	{
+		bAcceptance = RunAcceptance();
+		bAdversarial = RunAdversarial();
+	}
+	else
+	{
+		// No fallback to the baked config: a green run on hardcoded data while
+		// the on-disk load is broken would be a false pass.
+		UE_LOG(LogRxOracle, Error,
+			TEXT("ORACLE SKIPPING acceptance+adversarial: no arena config could be loaded from disk"));
+	}
 
 	UE_LOG(LogRxOracle, Display, TEXT("ORACLE ============================================================"));
 	UE_LOG(LogRxOracle, Display, TEXT("ORACLE == VERDICT =="));
+	UE_LOG(LogRxOracle, Display, TEXT("ORACLE   data boundary:     %s"), bDataBoundary ? TEXT("PROVEN") : TEXT("FAIL"));
 	UE_LOG(LogRxOracle, Display, TEXT("ORACLE   acceptance parity: %s"), bAcceptance ? TEXT("PROVEN") : TEXT("MISMATCH"));
 	UE_LOG(LogRxOracle, Display, TEXT("ORACLE   adversarial:       %s"), bAdversarial ? TEXT("44/44") : TEXT("NOT 44/44"));
-	UE_LOG(LogRxOracle, Display, TEXT("ORACLE   overall:           %s"), (bAcceptance && bAdversarial) ? TEXT("PASS") : TEXT("FAIL"));
+	UE_LOG(LogRxOracle, Display, TEXT("ORACLE   overall:           %s"),
+		(bDataBoundary && bAcceptance && bAdversarial) ? TEXT("PASS") : TEXT("FAIL"));
 	UE_LOG(LogRxOracle, Display, TEXT("ORACLE END"));
 
-	return (bAcceptance && bAdversarial) ? 0 : 1;
+	return (bDataBoundary && bAcceptance && bAdversarial) ? 0 : 1;
 }

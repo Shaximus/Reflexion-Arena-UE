@@ -1,0 +1,41 @@
+{
+  "schema": "rx.data-provenance.v1",
+  "purpose": "SHA-256 receipts for the arena/fragment/skill data vendored into the UE project from the Godot reference (RX_DATA_BOUNDARY_CONTRACT.md v1 §4). The Godot originals are the parity ground truth and MUST NOT be modified; recording both hashes makes drift between the two repos detectable rather than silent. This mirrors the project's Provenance Constitution: the data gets receipts too.",
+  "hash_algorithm": "sha256",
+  "hash_scope": "raw file bytes; each copy is byte-identical to its origin",
+  "origin_repo": "Reflexion-Arena (Godot 4.7 reference)",
+  "origin_repo_path": "/home/shax/Projects/core-tech/Reflexion-Arena",
+  "origin_repo_head_at_copy": "5a814da3a8a6b8e6b5e3907c71b7c05a92f9934d",
+  "recorded_utc": "2026-08-02",
+  "files": {
+    "arena_earthquake.json": {
+      "copy_path": "Data/arena_earthquake.json",
+      "copy_sha256": "01de4e94668c947a210ebb0d1bab358364c8a4978dce6e6f2c8bb38a48cd564a",
+      "origin_path": "game/data/arena_earthquake.json",
+      "origin_sha256": "01de4e94668c947a210ebb0d1bab358364c8a4978dce6e6f2c8bb38a48cd564a",
+      "origin_last_commit": "b771af87aacb6c5aef1ba198cdd737bd5eff271f",
+      "identical": true
+    },
+    "fragment_earthquake.json": {
+      "copy_path": "Data/fragment_earthquake.json",
+      "copy_sha256": "b09e4d2ddc2209b5820bbaa40443375b16afba5156410d3e9698694f877d1a7c",
+      "origin_path": "game/data/fragment_earthquake.json",
+      "origin_sha256": "b09e4d2ddc2209b5820bbaa40443375b16afba5156410d3e9698694f877d1a7c",
+      "origin_last_commit": "b771af87aacb6c5aef1ba198cdd737bd5eff271f",
+      "identical": true
+    },
+    "skill_faultline_interrupt.json": {
+      "copy_path": "Data/skill_faultline_interrupt.json",
+      "copy_sha256": "798599e0e2be2f06a94aa59be87019edbdd0203759b3dccb3e1f8a64a954d218",
+      "origin_path": "game/data/skill_faultline_interrupt.json",
+      "origin_sha256": "798599e0e2be2f06a94aa59be87019edbdd0203759b3dccb3e1f8a64a954d218",
+      "origin_last_commit": "b771af87aacb6c5aef1ba198cdd737bd5eff271f",
+      "identical": true
+    }
+  },
+  "verify": [
+    "cd Reflexion-Arena-UE && sha256sum Data/*.json          # -> files[].copy_sha256",
+    "cd Reflexion-Arena   && sha256sum game/data/*.json      # -> files[].origin_sha256",
+    "any mismatch means the two repos have drifted; reconcile before trusting a parity run"
+  ]
+}

@@ -1,0 +1,364 @@
+{
+ "seed": 7,
+ "regions": [
+  {
+   "id": 0,
+   "name": "spawn_path",
+   "kind": "ground",
+   "poly": [
+    [
+     2000,
+     12000
+    ],
+    [
+     10000,
+     12000
+    ],
+    [
+     10000,
+     18000
+    ],
+    [
+     2000,
+     18000
+    ]
+   ],
+   "stress": 0,
+   "stable": true,
+   "anchored_by": -1
+  },
+  {
+   "id": 1,
+   "name": "bridge_w_support",
+   "kind": "bridge",
+   "poly": [
+    [
+     10000,
+     13000
+    ],
+    [
+     16000,
+     13000
+    ],
+    [
+     16000,
+     17000
+    ],
+    [
+     10000,
+     17000
+    ]
+   ],
+   "stress": 0,
+   "stable": true,
+   "anchored_by": -1
+  },
+  {
+   "id": 2,
+   "name": "bridge_e_support",
+   "kind": "bridge",
+   "poly": [
+    [
+     16000,
+     13000
+    ],
+    [
+     22000,
+     13000
+    ],
+    [
+     22000,
+     17000
+    ],
+    [
+     16000,
+     17000
+    ]
+   ],
+   "stress": 0,
+   "stable": true,
+   "anchored_by": -1
+  },
+  {
+   "id": 3,
+   "name": "approach",
+   "kind": "ground",
+   "poly": [
+    [
+     22000,
+     11500
+    ],
+    [
+     26500,
+     11500
+    ],
+    [
+     26500,
+     18500
+    ],
+    [
+     22000,
+     18500
+    ]
+   ],
+   "stress": 0,
+   "stable": true,
+   "anchored_by": -1
+  },
+  {
+   "id": 4,
+   "name": "arena_n",
+   "kind": "rock",
+   "poly": [
+    [
+     29800,
+     9500
+    ],
+    [
+     32200,
+     9500
+    ],
+    [
+     32200,
+     14000
+    ],
+    [
+     29800,
+     14000
+    ]
+   ],
+   "stress": 0,
+   "stable": true,
+   "anchored_by": -1
+  },
+  {
+   "id": 5,
+   "name": "boss_anchor",
+   "kind": "pillar",
+   "poly": [
+    [
+     30000,
+     14000
+    ],
+    [
+     32000,
+     14000
+    ],
+    [
+     32000,
+     16000
+    ],
+    [
+     30000,
+     16000
+    ]
+   ],
+   "stress": 0,
+   "stable": true,
+   "anchored_by": -1
+  },
+  {
+   "id": 6,
+   "name": "arena_e",
+   "kind": "rock",
+   "poly": [
+    [
+     32200,
+     13500
+    ],
+    [
+     35000,
+     13500
+    ],
+    [
+     35000,
+     16500
+    ],
+    [
+     32200,
+     16500
+    ]
+   ],
+   "stress": 0,
+   "stable": true,
+   "anchored_by": -1
+  },
+  {
+   "id": 7,
+   "name": "arena_s",
+   "kind": "rock",
+   "poly": [
+    [
+     29800,
+     16000
+    ],
+    [
+     32200,
+     16000
+    ],
+    [
+     32200,
+     20500
+    ],
+    [
+     29800,
+     20500
+    ]
+   ],
+   "stress": 0,
+   "stable": true,
+   "anchored_by": -1
+  },
+  {
+   "id": 8,
+   "name": "arena_w",
+   "kind": "rock",
+   "poly": [
+    [
+     26500,
+     13500
+    ],
+    [
+     29800,
+     13500
+    ],
+    [
+     29800,
+     16500
+    ],
+    [
+     26500,
+     16500
+    ]
+   ],
+   "stress": 0,
+   "stable": true,
+   "anchored_by": -1
+  },
+  {
+   "id": 9,
+   "name": "exit_bridge",
+   "kind": "bridge",
+   "poly": [
+    [
+     35000,
+     13000
+    ],
+    [
+     39000,
+     13000
+    ],
+    [
+     39000,
+     17000
+    ],
+    [
+     35000,
+     17000
+    ]
+   ],
+   "stress": 0,
+   "stable": true,
+   "anchored_by": -1
+  }
+ ],
+ "edges": [
+  [
+   0,
+   1
+  ],
+  [
+   1,
+   2
+  ],
+  [
+   2,
+   3
+  ],
+  [
+   3,
+   8
+  ],
+  [
+   8,
+   4
+  ],
+  [
+   4,
+   6
+  ],
+  [
+   6,
+   7
+  ],
+  [
+   7,
+   8
+  ],
+  [
+   4,
+   5
+  ],
+  [
+   6,
+   5
+  ],
+  [
+   7,
+   5
+  ],
+  [
+   8,
+   5
+  ],
+  [
+   6,
+   9
+  ]
+ ],
+ "spawns": {
+  "player": [
+   4000,
+   15000
+  ],
+  "companion": [
+   5000,
+   15500
+  ],
+  "boss": [
+   31000,
+   15000
+  ]
+ },
+ "boss": {
+  "anchor_region": 5,
+  "arena_regions": [
+   4,
+   6,
+   7,
+   8
+  ]
+ },
+ "transfer_region": 9,
+ "stress_schedule": [
+  {
+   "tick": 3000,
+   "region": 3,
+   "rate": 60,
+   "until": 3040
+  },
+  {
+   "tick": 3400,
+   "region": 1,
+   "rate": 15,
+   "until": 3520
+  },
+  {
+   "tick": 4800,
+   "region": 8,
+   "rate": 2,
+   "until": 5400
+  }
+ ],
+ "notes": "~40000x30000 milli-unit world. spawn_path -> bridge W/E supports -> approach -> arena ring (N/E/S/W) around boss_anchor pillar (id 5, pillars concentrate stress) -> exit_bridge (id 9, transfer: collapsing). stress_schedule: mutual-dependency hazards (approach 3000, bridge_w 3400) + boss-threshold precursors (arena_w 4800)."
+}

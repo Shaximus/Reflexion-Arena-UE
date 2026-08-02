@@ -1,0 +1,110 @@
+{
+ "seed": 7,
+ "regions": [
+  {
+   "id": 0,
+   "name": "spawn_path",
+   "kind": "ground",
+   "poly": [
+    [
+     2000,
+     12000
+    ],
+    [
+     10000,
+     12000
+    ],
+    [
+     10000,
+     18000
+    ],
+    [
+     2000,
+     18000
+    ]
+   ],
+   "stress": 0,
+   "stable": true,
+   "anchored_by": -1
+  },
+  {
+   "id": 1,
+   "name": "bridge_w_support",
+   "kind": "bridge",
+   "poly": [
+    [
+     10000,
+     13000
+    ],
+    [
+     16000,
+     13000
+    ],
+    [
+     16000,
+     17000
+    ],
+    [
+     10000,
+     17000
+    ]
+   ],
+   "stress": 0,
+   "stable": true,
+   "anchored_by": -1
+  },
+  {
+   "id": 2,
+   "name": "bridge_e_support",
+   "kind": "bridge",
+   "poly": [
+    [
+     16000,
+     13000
+    ],
+    [
+     22000,
+     13000
+    ],
+    [
+     22000,
+     17000
+    ],
+    [
+     16000,
+     17000
+    ]
+   ],
+   "stress": 0,
+   "stable": true,
+   "anchored_by": -1
+  },
+  {
+   "id": 3,
+   "name": "approach",
+   "kind": "ground",
+   "poly": [
+    [
+     22000,
+     11500
+    ],
+    [
+     26500,
+     11500
+    ],
+    [
+     26500,
+     18500
+    ],
+    [
+     22000,
+     18500
+    ]
+   ],
+   "stress": 0,
+   "stable": true,
+   "anchored_by": -1
+  },
+  {
+   "id": 4,
+   

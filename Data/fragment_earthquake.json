@@ -1,0 +1,41 @@
+{
+  "compiler": {
+    "checks_run": [
+      "kernel_import",
+      "packet_construction",
+      "semantic_ir_validation",
+      "gate_security",
+      "gate_security_negative_control",
+      "gate_boundary",
+      "gate_boundary_negative_control",
+      "canon_field_fidelity",
+      "packet_serialization",
+      "fragment_hash"
+    ],
+    "notes": "Offline subset: packet construction + SemanticIR.validate + security/boundary hard gates. Full pipeline (extraction/scoring/expansion) not vendored; see tools/semantic_kernel/VENDORED_FROM.md.",
+    "ref_commit": "9bf2f6ac408066ccec94ed3e3d2478a0a1f4eb80",
+    "repo": "Shaximus/semantic_compiler_kernel",
+    "tool": "semantic_compiler_kernel",
+    "vendored_sha": {
+      "core/__init__.py": "1ea36e8db322c1006ab48ab86e63a1e8aa41324c",
+      "core/packet.py": "667d4c364e0e370638ccbc1c535e42ab7f782cb9",
+      "core/semantic_ir.py": "a4d21b09054d70cd1e37d25c37b398b6ba58d430",
+      "core/types.py": "b156834cbca30e42334ba1cc588448ef7f68cc92",
+      "gates/boundaries.py": "5c2f653769132819eebb48cf5c7514345535574c",
+      "gates/security.py": "be455440c6431fa002bb3ab08e34dd60f358de1f"
+    },
+    "version": "2.0.0-draft (upstream release V2.1.3 freeze, packet v2.0.0)"
+  },
+  "counterplay": "Decouple, anchor, dampen, relocate, or interrupt release.",
+  "fragment_hash": "bc4ac7eab932f8c59d6011b54114f4a5793b4336a138b71cbab180ad87a4cafa",
+  "propagation": "Connected surfaces transmit disruptive force.",
+  "residual_risk": "Secondary cascades and aftershocks.",
+  "transfer_domains": [
+    "terrain",
+    "structures",
+    "formations",
+    "infrastructure",
+    "distributed systems"
+  ],
+  "trigger": "Accumulated structural stress exceeds threshold."
+}

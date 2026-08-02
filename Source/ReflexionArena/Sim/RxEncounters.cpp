@@ -14,20 +14,22 @@
  * RxEncounters.cpp — implementation mirroring encounters.gd build_arena /
  * build_transfer / load_fragment / load_skill_template.
  *
- * The arena/fragment/skill data are hardcoded from the on-disk JSON
- * (arena_earthquake.json / fragment_earthquake.json /
- * skill_faultline_interrupt.json) — see the RxEncounters.h header note for the
- * rationale. Values are transcribed verbatim to preserve exact positions/config
- * and replay/hash parity.
+ * BuildArena takes its FRxArenaConfig as a parameter (RX_DATA_BOUNDARY_CONTRACT
+ * v1 §2.1): this TU opens no file and parses no JSON. Sourcing config from disk
+ * is FRxDataSource's job (Sim/RxDataSource.h).
+ *
+ * The Load*Baked() functions below are the historical verbatim transcriptions of
+ * arena_earthquake.json / fragment_earthquake.json /
+ * skill_faultline_interrupt.json. They are retained as the comparand for the
+ * loader-fidelity proof (contract §5.1).
  */
 
 // ---------------------------------------------------------------------------
-// build_arena
+// build_arena — data-driven form: config is injected, nothing is loaded here.
 // ---------------------------------------------------------------------------
 
-void FRxEncounters::BuildArena(FRxSimWorld& World)
+void FRxEncounters::BuildArena(FRxSimWorld& World, const FRxArenaConfig& Def)
 {
-	const FRxArenaConfig Def = LoadArena();
 	World.Terrain().LoadDef(Def.Terrain);
 
 	// spawns (sequential ids: player=1, companion=2, boss=3 — ADR-0005).
@@ -61,6 +63,13 @@ void FRxEncounters::BuildArena(FRxSimWorld& World)
 	World.Emit(TEXT("encounter_ready"), Data);
 }
 
+// Convenience overload: the default baked config (contract §2.1 — existing
+// callers keep working unchanged during the transition).
+void FRxEncounters::BuildArena(FRxSimWorld& World)
+{
+	BuildArena(World, LoadArenaBaked());
+}
+
 // ---------------------------------------------------------------------------
 // build_transfer (SHENRON §8: exit_bridge starts collapsing)
 // ---------------------------------------------------------------------------
@@ -87,10 +96,10 @@ void FRxEncounters::BuildTransfer(FRxSimWorld& World)
 }
 
 // ---------------------------------------------------------------------------
-// LoadArena — hardcoded mirror of arena_earthquake.json
+// LoadArenaBaked — hardcoded mirror of arena_earthquake.json (fidelity comparand)
 // ---------------------------------------------------------------------------
 
-FRxArenaConfig FRxEncounters::LoadArena()
+FRxArenaConfig FRxEncounters::LoadArenaBaked()
 {
 	FRxArenaConfig Cfg;
 
@@ -159,10 +168,10 @@ FRxArenaConfig FRxEncounters::LoadArena()
 }
 
 // ---------------------------------------------------------------------------
-// LoadFragment — hardcoded mirror of fragment_earthquake.json (SHENRON §6 canon)
+// LoadFragmentBaked — hardcoded mirror of fragment_earthquake.json (SHENRON §6 canon)
 // ---------------------------------------------------------------------------
 
-FRxFragmentSpec FRxEncounters::LoadFragment()
+FRxFragmentSpec FRxEncounters::LoadFragmentBaked()
 {
 	FRxFragmentSpec F;
 	F.bValid = true;
@@ -208,11 +217,11 @@ FRxFragmentSpec FRxEncounters::LoadFragment()
 }
 
 // ---------------------------------------------------------------------------
-// LoadSkillTemplate — hardcoded mirror of skill_faultline_interrupt.json
+// LoadSkillTemplateBaked — hardcoded mirror of skill_faultline_interrupt.json
 // (authoring-request subset; see header note).
 // ---------------------------------------------------------------------------
 
-FRxSkillSpec FRxEncounters::LoadSkillTemplate()
+FRxSkillSpec FRxEncounters::LoadSkillTemplateBaked()
 {
 	FRxSkillSpec S;
 	S.Name = TEXT("FAULTLINE INTERRUPT");
