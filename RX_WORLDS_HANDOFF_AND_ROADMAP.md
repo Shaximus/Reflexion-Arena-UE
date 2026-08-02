@@ -28,7 +28,13 @@ One standing rule carried from the founder's own canon (the Provenance Constitut
   `RxRng` (SplitMix64), `RxTypes`, `RxCanonJson` (SHA-256 from scratch), `RxReceipts` (hash-chain), `RxTerrain`, `RxBossEarthquake` (FSM), `RxSkillSystem`, `RxCommands` (authority gate), `RxCompanionAI`, `RxIntent`, and the integrator `RxSimWorld` (the `step()` pipeline).
 - **Compiles green. Runs headless** (`RxOracleCommandlet` via `UnrealEditor-Cmd -run=ReflexionOracle -nullrhi -unattended`).
 - **Deterministic** (two replays → identical hash). **Adversarial 44/44** (authority, injection, receipt-tamper) — exact match to the reference.
-- `final_state_hash = b976626216a03282b72d82b9f9dc759e078d59cce19529dfb6f47b8aec3e61ac`, `receipt_count = 776` — **matches the acceptance file's engine-anchored `expect` block bit-for-bit.**
+- `final_state_hash = b36ad6d028e1b5452629df480c537adc7ce85e1b4b5b0fab4c95067506261cfa`, `receipt_count = 776` — **matches the acceptance file's engine-anchored `expect` block bit-for-bit.**
+  > **Anchor history — read before trusting any older doc.** This anchor was re-baselined
+  > **2026-08-02** from the previous `b976626216a03282…` when the canon-6 transfer domains
+  > were restored. The fragment the sim consumes lives in the acceptance *command stream*
+  > (`ticks[40].cmds[0]`), **not** in the data file — which is why an earlier canon edit
+  > appeared to leave the hash unchanged until `test_canon_parity.py` caught it. If you
+  > find `b976626…` cited anywhere, that document predates 2026-08-02 and is stale.
 
 **The Godot slice is preserved as the reference blueprint — DO NOT DELETE IT.** It is the parity ground-truth and the behavioral spec every C++ module was ported against. `/home/shax/Projects/core-tech/Reflexion-Arena/` and its `tools/oracle/` are load-bearing test infrastructure.
 
@@ -36,9 +42,36 @@ One standing rule carried from the founder's own canon (the Provenance Constitut
 
 # 2. Honest open items (do not treat as done)
 
-1. **Companion-timing parity residual.** The C++ port matches the engine-anchored `expect` (hash + 776 receipts) and is contract-correct ("one receipt per applied command"). But it diverges from the *Python mirror* (`tools/oracle/run_acceptance.py`, which computes `1d4a…`/728) on: two intermediate beat ticks (`weave_interrupted` 5770 vs 5790; `transfer_recognized` 6851 vs 6834) and `companion_hp` (900 vs 950). The acceptance file's own notes flag the *mirror* as the divergent party (it under-seals ~48 companion-runtime receipts). **Weight of evidence says the C++ is right and the mirror has a companion-receipt bug — but there is no Godot 4.7.1 binary on this machine to run a definitive live three-way diff.** Close this by: (a) reconciling the mirror vs C++ companion timing against `companion_ai.gd` line-by-line, and/or (b) obtaining a real engine build for a live diff. **Do not paper over it.**
-2. **Entity-prop presence model.** `FRxEntity` uses `-1`/empty sentinels for prop presence, not dedicated bools. The integrator flagged a non-reachable edge case (a genuinely region-`-1` weave). Overhaul candidate: add explicit `bHas*` bools to `FRxEntity` for exact `Dictionary.has()` parity in all paths.
-3. **Data is hardcoded, not data-driven.** `RxEncounters` transcribes `arena_earthquake.json` / `fragment_earthquake.json` / `skill_faultline_interrupt.json` values inline (no Content dir, no JSON loader in the sim core). Overhaul: a data-loading boundary (`intify()` was intentionally not ported) so universes/arenas become swappable assets — this is a prerequisite for Rx Worlds (Section 5).
+> **Status as of 2026-08-02: items 1–3 are CLOSED. Items 4–5 remain open.**
+> This section previously listed all five as open and was being read as current by
+> swarms and agents. A stale roadmap is exactly how the Boss≠Blight and
+> ARDA-deck≠TokenRouter confusions propagated — **if you are reading this document,
+> check its dates against the repo before treating any claim as live.**
+
+1. ~~**Companion-timing parity residual.**~~ **CLOSED 2026-08-02.** The Python mirror now
+   matches the C++ bit-for-bit, including `companion_hp = 900`, with all 8 beats reporting
+   `[MATCH]`. The weight-of-evidence call recorded below was **correct**: the *mirror* was
+   the divergent party (missing T3 weave-completion and the boss state mirror), not the C++.
+   All three implementations — C++, Godot engine reference, Python mirror — now agree.
+   *Original text kept for provenance:* the C++ diverged from `tools/oracle/run_acceptance.py`
+   (`1d4a…`/728) on two beat ticks (`weave_interrupted` 5770 vs 5790; `transfer_recognized`
+   6851 vs 6834) and `companion_hp` (900 vs 950).
+2. ~~**Entity-prop presence model.**~~ **CLOSED 2026-08-02** on branch
+   `p0.4/prop-presence-bools` (`5d3d411`). `FRxEntity` now carries explicit
+   `bHasWeaveRegionId` / `bHasWeaveMode` / `bHasWeaveStartTick`; readers mirror the
+   reference's `.get(key, default)` exactly, preserving the deliberate asymmetry where an
+   abort keeps `weave_start_tick` but erases region/mode. Anchor **unchanged**, 7/7 new
+   oracle checks, and a negative control that *fails* under the old sentinel model
+   (`has=NO — sentinel model dropped it`).
+   > ⚠️ **The "non-reachable edge case" claim in the original text was WRONG.** A genuinely
+   > region-`-1` weave is **ordinary gameplay**: `commands.gd:154-156` whitelists
+   > `region_id == -1`, `companion_ai.gd:255` defaults to `-1`, and `terrain.gd:95` returns
+   > `-1` for any point outside every polygon. The sentinel model was silently dropping the
+   > key from the canonical snapshot **and from every receipt hash sealed during that weave**.
+   > This was a determinism defect filed as a non-issue — treat "non-reachable" claims in
+   > this document as hypotheses until someone has actually traced the callers.
+3. ~~**Data is hardcoded, not data-driven.**~~ **CLOSED.** `RxDataSource` provides the
+   data-loading boundary; arenas load from manifest. See `Sim/RX_DATA_BOUNDARY_CONTRACT.md`.
 4. **There is no presentation layer yet.** The sim is headless authoritative logic only. No 3D, no actors, no VFX, no audio, no input. That is Phase 1 (Section 6) and the reason the MCP was installed.
 5. **`acceptance_run_v1.json` was re-anchored** during a prior refactor; mind provenance when you trust `expect` fields — always cross-check against the Godot reference behavior, never a lone JSON claim.
 
@@ -89,7 +122,10 @@ The proven slice (now in C++) is canon §8.3's design-frozen first target: one c
 
 Each phase is "done" when its **proof** passes, not when a clock says so. Keep the vertical-slice discipline: depth before breadth.
 
-**P0 — Close the sim (finish what exists).** Reconcile the companion-timing parity residual (Section 2.1); add prop-presence bools (2.2); make data-driven (2.3). *Proof:* C++ oracle == Godot reference on ALL beats + hash + companion_hp, arena loaded from manifest, 44/44 held.
+**P0 — Close the sim (finish what exists). ✅ COMPLETE 2026-08-02.** Reconcile the companion-timing parity residual (Section 2.1) ✅; add prop-presence bools (2.2) ✅; make data-driven (2.3) ✅. *Proof — all conditions met:* C++ oracle == Godot reference on ALL beats + hash + `companion_hp`, arena loaded from manifest, 44/44 held. Verified `b36ad6d0…` / 776 receipts / 44-44 adversarial / 19-19 data boundary / 7-7 prop-presence, run1==run2, Python mirror MATCH.
+> **Caveat for whoever automates this:** `RxOracleCommandlet` **exits code 1 even on PASS**
+> (pre-existing `GameFeatureData` startup errors). Its exit status is **not** usable as a CI
+> gate until that is fixed — parse the `overall:` line, not `$?`.
 
 **P1 — Embodiment Slice (the first PLAYABLE 3D proof).** This is the canon's §10.4 / §3.12 embodiment slice fused with the Earthquake Proof: third-person human avatar; embodied following companion (look-at, formations, readable presence, no casual teleport §4.7); click-to-reference; natural-language tactical command → companion plan → approval-gated execution → physical execution; the Earthquake boss room in 3D with real telegraph/propagation/decouple; interrupted Tokenweave with a coherence meter; one Compression Fragment drop; one authored /skill; one transfer recognition; deterministic replay + a Gloat Card. Built **via the UE MCP driving the editor** (level, actors, materials, UMG) on top of the authoritative C++ sim. *Proof:* a human + companion clear the Earthquake boss in 3D, the run replays deterministically from receipts, and a first-time player understands *why* they won.
 
