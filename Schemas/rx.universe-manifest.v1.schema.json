@@ -1,0 +1,559 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://reflexion.gg/schemas/rx.universe-manifest.v1.schema.json",
+  "title": "Rx Worlds Universe Manifest v1",
+  "description": "Machine-readable registration manifest for a universe in the Reflexion Multiverse (canon section 5.1). Hard invariants: cross-universe behavior defaults to DENY (section 5.2); simulation-affecting data is integer-only (deterministic, receipt-based sim); no field may grant direct paid statistical superiority (canon section 6.2 balancing rule); licensed and original universes are distinct roster classes (section 5.1).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "universe",
+    "canon_rules",
+    "species_templates",
+    "body_foundry",
+    "power_system",
+    "ability_grammar",
+    "transformation_trees",
+    "factions",
+    "equipment_rules",
+    "visual_audio_language",
+    "character_creation_boundaries",
+    "competitive_cost_functions",
+    "cross_universe_permissions",
+    "rights_revenue_revocation"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "rx.universe-manifest.v1"
+    },
+    "universe": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "roster_class"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$",
+          "description": "Stable registry slug, unique across the Universe Registry."
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "roster_class": {
+          "type": "string",
+          "enum": ["official_franchise", "creator_universe", "original_reflexion"],
+          "description": "Canon section 5.1 three roster classes. Licensed universes (official_franchise) and original universes (original_reflexion) are distinct; creator_universe is the lower-friction indie/author path."
+        },
+        "vertical_slice": {
+          "type": "string",
+          "description": "Optional name of the first vertical slice (e.g. 'Pantheon Trial — The Broken Gate')."
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "canon_rules": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["deterministic_simulation", "numeric_domain", "hash_algorithm", "serialization"],
+      "properties": {
+        "deterministic_simulation": {
+          "const": true,
+          "description": "The sim this plugs into is deterministic and replayable from receipts."
+        },
+        "numeric_domain": {
+          "const": "integer",
+          "description": "No floats anywhere in simulation-affecting data. Every numeric field in this manifest that feeds the sim MUST be declared integer."
+        },
+        "hash_algorithm": {
+          "const": "sha-256"
+        },
+        "serialization": {
+          "const": "canonical-json-v1",
+          "description": "Canonical JSON serialization is required for hash stability."
+        },
+        "rule_notes": {
+          "type": "string",
+          "description": "Optional free-text notes on universe-specific rule interpretations."
+        }
+      }
+    },
+    "species_templates": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "name", "base_attributes"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$" },
+          "name": { "type": "string", "minLength": 1 },
+          "description": { "type": "string" },
+          "tradition_inspiration": {
+            "type": "string",
+            "description": "Optional cultural/mythic inspiration note. Original Reflexion rosters may reference public-domain traditions but never a trademarked game's expression (canon section 9)."
+          },
+          "base_attributes": {
+            "type": "object",
+            "minProperties": 1,
+            "additionalProperties": { "type": "integer" }
+          },
+          "tags": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+    "body_foundry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["chassis_classes", "constraints"],
+      "properties": {
+        "chassis_classes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "name", "durability", "mobility", "offensive_ceiling", "defensive_utility", "autonomy"],
+            "properties": {
+              "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$" },
+              "name": { "type": "string", "minLength": 1 },
+              "durability": { "type": "integer", "minimum": 0 },
+              "mobility": { "type": "integer", "minimum": 0 },
+              "offensive_ceiling": { "type": "integer", "minimum": 0 },
+              "defensive_utility": { "type": "integer", "minimum": 0 },
+              "autonomy": { "type": "integer", "minimum": 0 }
+            }
+          }
+        },
+        "constraints": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["max_total_attribute_points", "max_single_attribute"],
+          "properties": {
+            "max_total_attribute_points": { "type": "integer", "minimum": 1 },
+            "max_single_attribute": { "type": "integer", "minimum": 1 },
+            "min_single_attribute": { "type": "integer", "minimum": 0 }
+          }
+        }
+      }
+    },
+    "power_system": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "resources"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$" },
+        "name": { "type": "string", "minLength": 1 },
+        "description": { "type": "string" },
+        "resources": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "name", "max_value", "regen_per_tick"],
+            "properties": {
+              "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$" },
+              "name": { "type": "string", "minLength": 1 },
+              "max_value": { "type": "integer", "minimum": 1 },
+              "regen_per_tick": { "type": "integer", "minimum": 0 }
+            }
+          }
+        }
+      }
+    },
+    "ability_grammar": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["targeting_kinds", "effect_kinds", "abilities"],
+      "properties": {
+        "targeting_kinds": {
+          "type": "array",
+          "minItems": 1,
+          "description": "Closed enum of legal targeting modes, mirroring the closed-enum style of arena.tactical-intent.v1 (canon section 6.7).",
+          "items": {
+            "type": "string",
+            "enum": ["self", "single_target", "area", "line", "chain", "summon"]
+          }
+        },
+        "effect_kinds": {
+          "type": "array",
+          "minItems": 1,
+          "description": "Closed enum of legal effect kinds for this universe.",
+          "items": {
+            "type": "string",
+            "enum": ["damage", "heal", "shield", "movement", "control", "summon", "buff", "debuff"]
+          }
+        },
+        "abilities": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "name", "cost", "cooldown_ticks", "targeting", "effects"],
+            "properties": {
+              "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$" },
+              "name": { "type": "string", "minLength": 1 },
+              "description": { "type": "string" },
+              "cost": { "type": "integer", "minimum": 0 },
+              "cooldown_ticks": { "type": "integer", "minimum": 0 },
+              "targeting": {
+                "type": "string",
+                "enum": ["self", "single_target", "area", "line", "chain", "summon"]
+              },
+              "effects": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["kind", "magnitude", "duration_ticks"],
+                  "properties": {
+                    "kind": {
+                      "type": "string",
+                      "enum": ["damage", "heal", "shield", "movement", "control", "summon", "buff", "debuff"]
+                    },
+                    "magnitude": { "type": "integer" },
+                    "duration_ticks": { "type": "integer", "minimum": 0 }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "transformation_trees": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "name", "nodes"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$" },
+          "name": { "type": "string", "minLength": 1 },
+          "description": { "type": "string" },
+          "nodes": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["id", "name", "cost", "prerequisites"],
+              "properties": {
+                "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$" },
+                "name": { "type": "string", "minLength": 1 },
+                "cost": { "type": "integer", "minimum": 0 },
+                "prerequisites": {
+                  "type": "array",
+                  "description": "Ids of nodes that must be unlocked first. Empty array = root node.",
+                  "items": { "type": "string" }
+                },
+                "grants": {
+                  "type": "object",
+                  "description": "Attribute grants. Integers only.",
+                  "additionalProperties": { "type": "integer" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "factions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "name"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$" },
+          "name": { "type": "string", "minLength": 1 },
+          "description": { "type": "string" },
+          "disposition_tags": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+    "equipment_rules": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pay_to_win_prohibited", "slots", "items"],
+      "properties": {
+        "pay_to_win_prohibited": {
+          "const": true,
+          "description": "Canon section 6.2 balancing rule: ranked competition separates combat budget from real-money monetization. No loot or manifest field may grant direct paid statistical superiority. Enforced per-item below."
+        },
+        "slots": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string" }
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "name", "slot", "real_money_purchasable", "stat_modifiers"],
+            "properties": {
+              "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$" },
+              "name": { "type": "string", "minLength": 1 },
+              "slot": { "type": "string" },
+              "acquisition": {
+                "type": "string",
+                "enum": ["earn_only", "cosmetic_purchase", "earn_or_cosmetic"]
+              },
+              "real_money_purchasable": { "type": "boolean" },
+              "stat_modifiers": {
+                "type": "object",
+                "additionalProperties": { "type": "integer" }
+              }
+            },
+            "if": {
+              "properties": { "real_money_purchasable": { "const": true } },
+              "required": ["real_money_purchasable"]
+            },
+            "then": {
+              "description": "Anything purchasable with real money must be cosmetic-only: zero stat modifiers.",
+              "properties": {
+                "stat_modifiers": { "maxProperties": 0 }
+              }
+            }
+          }
+        }
+      }
+    },
+    "visual_audio_language": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["glyph_dialect", "originality_note"],
+      "properties": {
+        "glyph_dialect": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Per-universe Tokenweave dialect (canon section 9.1: mythology = luminous runic equations). Structural language stays common; expression is universe-specific."
+        },
+        "palette": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^#[0-9a-fA-F]{6}$"
+          }
+        },
+        "audio_motifs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "originality_note": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Required statement documenting how this universe respects IP boundaries (canon section 9: no Matrix glyph design, no AoM expression, no proprietary depictions)."
+        }
+      }
+    },
+    "character_creation_boundaries": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["attribute_point_budget", "living_traditions_care"],
+      "properties": {
+        "attribute_point_budget": { "type": "integer", "minimum": 0 },
+        "allowed_species": {
+          "type": "array",
+          "description": "Ids from species_templates permitted at character creation. Absent = all.",
+          "items": { "type": "string" }
+        },
+        "forbidden_combinations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["species", "chassis"],
+            "properties": {
+              "species": { "type": "string" },
+              "chassis": { "type": "string" }
+            }
+          }
+        },
+        "living_traditions_care": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["respectful_depiction"],
+          "description": "Canon section 9.3: traditions represented with care. The content review process itself is NOT specified in canon (open question 11.13) — see README.",
+          "properties": {
+            "respectful_depiction": { "const": true },
+            "review_process_ref": {
+              "type": "string",
+              "description": "Optional reference to the assigned review process. Underspecified in canon."
+            }
+          }
+        }
+      }
+    },
+    "competitive_cost_functions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["budget_currency", "default_draft_budget", "cost_components", "ranked_monetization_separation"],
+      "properties": {
+        "budget_currency": {
+          "const": "power",
+          "description": "Threat Draft budget currency (canon section 6.2)."
+        },
+        "default_draft_budget": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Fixed combat budget per player, e.g. 100 Power (canon section 6.2)."
+        },
+        "cost_components": {
+          "type": "array",
+          "minItems": 1,
+          "description": "Closed set of opportunity-cost dimensions from canon section 6.2.",
+          "items": {
+            "type": "string",
+            "enum": [
+              "chassis_durability",
+              "mobility",
+              "offensive_ceiling",
+              "defensive_utility",
+              "autonomy",
+              "information_access",
+              "crowd_control",
+              "recovery",
+              "synergy",
+              "command_bandwidth_efficiency"
+            ]
+          }
+        },
+        "component_weights": {
+          "type": "object",
+          "description": "Optional weighting of cost components. Canon section 11 open question 9: power-budget cost weighting is NOT specified in the sources. Integers only (e.g. basis points).",
+          "additionalProperties": { "type": "integer", "minimum": 0 }
+        },
+        "ranked_monetization_separation": {
+          "const": true,
+          "description": "Canon section 6.2: combat budget is separated from real-money monetization. Cosmetics, identity packages, arenas, themes, announcers, and licensed characters monetize without corrupting competitive legitimacy."
+        }
+      }
+    },
+    "cross_universe_permissions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["default_policy", "grants"],
+      "properties": {
+        "default_policy": {
+          "const": "deny",
+          "description": "Canon section 5.2: cross-universe behavior defaults to DENY. Traversal is the governed, receipted exception, never the default. This value cannot be overridden."
+        },
+        "grants": {
+          "type": "array",
+          "description": "Explicit traversal grants. A grant is only effective when BOTH manifests involved carry a matching grant (requires_counterparty_grant).",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["counterparty_universe_id", "direction", "fragment_kinds", "receipt_required", "requires_counterparty_grant"],
+            "properties": {
+              "counterparty_universe_id": {
+                "type": "string",
+                "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+              },
+              "direction": {
+                "type": "string",
+                "enum": ["inbound", "outbound", "bidirectional"]
+              },
+              "fragment_kinds": {
+                "type": "array",
+                "minItems": 1,
+                "description": "Canon section 5.4 distinction: universal structural fragments may transfer; licensed expressions remain governed by their home manifest. Adjudication of expression vs structure is NOT specified in canon (open question 11.8).",
+                "items": {
+                  "type": "string",
+                  "enum": ["universal_structural_fragment", "licensed_expression"]
+                }
+              },
+              "receipt_required": {
+                "const": true,
+                "description": "Every governed traversal must be receipted into the hash chain."
+              },
+              "requires_counterparty_grant": {
+                "const": true,
+                "description": "Canon section 5.2: authority exists only when BOTH universes' manifests explicitly grant it."
+              },
+              "conditions": {
+                "type": "string",
+                "description": "Optional free-text conditions on the grant."
+              }
+            }
+          }
+        }
+      }
+    },
+    "rights_revenue_revocation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ip_owner", "license", "revocation"],
+      "properties": {
+        "ip_owner": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["id", "name"],
+          "properties": {
+            "id": { "type": "string", "minLength": 1 },
+            "name": { "type": "string", "minLength": 1 }
+          }
+        },
+        "license": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "revenue_share_bps"],
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": ["reflexion_owned", "third_party_licensed", "creator_grant"]
+            },
+            "revenue_share_bps": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 10000,
+              "description": "Revenue share in basis points (integer; 10000 = 100%)."
+            },
+            "terms_ref": {
+              "type": "string",
+              "description": "Optional reference to the full license terms document."
+            }
+          }
+        },
+        "revocation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["modes", "notice_period_days", "effect_on_existing_deployments"],
+          "properties": {
+            "modes": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "enum": ["immediate", "end_of_season", "sunset_with_notice"]
+              }
+            },
+            "notice_period_days": { "type": "integer", "minimum": 0 },
+            "effect_on_existing_deployments": {
+              "type": "string",
+              "enum": ["grandfather", "freeze", "disable"],
+              "description": "What revocation does to characters/companions already deployed from this universe."
+            }
+          }
+        }
+      }
+    },
+    "extensions": {
+      "type": "object",
+      "description": "Optional universe-specific extensions. Anything simulation-affecting here must still obey the integer-only rule; consumers must ignore unknown extensions.",
+      "additionalProperties": true
+    }
+  }
+}

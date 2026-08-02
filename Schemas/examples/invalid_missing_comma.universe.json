@@ -1,0 +1,62 @@
+{
+  "schema_version": "rx.universe-manifest.v1",
+  "universe": {
+    "id": "mythology",
+    "name": "Mythology",
+    "roster_class": "original_reflexion",
+    "vertical_slice": "Pantheon Trial — The Broken Gate",
+    "description": "INTENTIONALLY MALFORMED FILE. Used to test that the validator rejects bad input with a precise error. A comma is missing below, echoing the PR #6 defect (missing comma at line 50)."
+  },
+  "canon_rules": {
+    "deterministic_simulation": true,
+    "numeric_domain": "integer",
+    "hash_algorithm": "sha-256",
+    "serialization": "canonical-json-v1",
+    "rule_notes": "Padding lines follow so the defect lands near line 50."
+  },
+  "species_templates": [
+    {
+      "id": "stormcaller-scion",
+      "name": "Stormcaller Scion",
+      "description": "Padding entry one.",
+      "tradition_inspiration": "public-domain Greek mythic archetypes",
+      "base_attributes": {
+        "might": 6,
+        "cunning": 4,
+        "resolve": 5
+      },
+      "tags": ["sky"]
+    },
+    {
+      "id": "raven-sworn",
+      "name": "Raven-Sworn",
+      "description": "Padding entry two.",
+      "tradition_inspiration": "public-domain Norse mythic archetypes",
+      "base_attributes": {
+        "might": 4,
+        "cunning": 7,
+        "resolve": 4
+      },
+      "tags": ["omens"]
+    },
+    {
+      "id": "sun-barge-warden",
+      "name": "Sun-Barge Warden",
+      "description": "Padding entry three.",
+      "tradition_inspiration": "public-domain Egyptian mythic archetypes",
+      "base_attributes": {
+        "might": 5,
+        "cunning": 3,
+        "resolve": 7
+      }
+      "tags": ["order"]
+    }
+  ],
+  "body_foundry": {
+    "chassis_classes": [],
+    "constraints": {
+      "max_total_attribute_points": 20,
+      "max_single_attribute": 10
+    }
+  }
+}

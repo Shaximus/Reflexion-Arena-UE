@@ -1,0 +1,257 @@
+{
+  "schema_version": "rx.universe-manifest.v1",
+  "universe": {
+    "id": "mythology",
+    "name": "Mythology",
+    "roster_class": "original_reflexion",
+    "vertical_slice": "Pantheon Trial — The Broken Gate",
+    "description": "First registered universe. A Reflexion-original roster inspired by public-domain Greek, Norse, and Egyptian mythology. Ports the structural category (pantheons, divine favor, myth-unit rosters as design space) — never any trademarked game's expression."
+  },
+  "canon_rules": {
+    "deterministic_simulation": true,
+    "numeric_domain": "integer",
+    "hash_algorithm": "sha-256",
+    "serialization": "canonical-json-v1",
+    "rule_notes": "All encounters in this universe replay deterministically from receipts. Divine favor is modeled as an integer resource, never as hidden RNG."
+  },
+  "species_templates": [
+    {
+      "id": "stormcaller-scion",
+      "name": "Stormcaller Scion",
+      "description": "Reflexion-original mortal lineage touched by sky and thunder; inspired by public-domain Greek mythic archetypes.",
+      "tradition_inspiration": "public-domain Greek mythic archetypes (original depiction)",
+      "base_attributes": {
+        "might": 6,
+        "cunning": 4,
+        "resolve": 5
+      },
+      "tags": ["sky", "mortal-lineage"]
+    },
+    {
+      "id": "raven-sworn",
+      "name": "Raven-Sworn",
+      "description": "Reflexion-original wanderers who trade memory for foresight; inspired by public-domain Norse mythic archetypes.",
+      "tradition_inspiration": "public-domain Norse mythic archetypes (original depiction)",
+      "base_attributes": {
+        "might": 4,
+        "cunning": 7,
+        "resolve": 4
+      },
+      "tags": ["omens", "mortal-lineage"]
+    },
+    {
+      "id": "sun-barge-warden",
+      "name": "Sun-Barge Warden",
+      "description": "Reflexion-original guardians of the measured passage of light; inspired by public-domain Egyptian mythic archetypes.",
+      "tradition_inspiration": "public-domain Egyptian mythic archetypes (original depiction)",
+      "base_attributes": {
+        "might": 5,
+        "cunning": 3,
+        "resolve": 7
+      },
+      "tags": ["order", "mortal-lineage"]
+    }
+  ],
+  "body_foundry": {
+    "chassis_classes": [
+      {
+        "id": "hoplite-frame",
+        "name": "Hoplite Frame",
+        "durability": 8,
+        "mobility": 3,
+        "offensive_ceiling": 5,
+        "defensive_utility": 8,
+        "autonomy": 4
+      },
+      {
+        "id": "skirmisher-frame",
+        "name": "Skirmisher Frame",
+        "durability": 4,
+        "mobility": 8,
+        "offensive_ceiling": 6,
+        "defensive_utility": 3,
+        "autonomy": 5
+      }
+    ],
+    "constraints": {
+      "max_total_attribute_points": 20,
+      "max_single_attribute": 10,
+      "min_single_attribute": 1
+    }
+  },
+  "power_system": {
+    "id": "divine-favor",
+    "name": "Divine Favor",
+    "description": "Earned standing with the universe's mythic order, spent to fuel abilities. Earned only through play; never purchasable.",
+    "resources": [
+      {
+        "id": "favor",
+        "name": "Favor",
+        "max_value": 100,
+        "regen_per_tick": 1
+      }
+    ]
+  },
+  "ability_grammar": {
+    "targeting_kinds": ["self", "single_target", "area", "line"],
+    "effect_kinds": ["damage", "heal", "shield", "movement", "control", "buff", "debuff"],
+    "abilities": [
+      {
+        "id": "thunderous-rebuke",
+        "name": "Thunderous Rebuke",
+        "description": "A line of concussive force that punishes over-extension.",
+        "cost": 20,
+        "cooldown_ticks": 40,
+        "targeting": "line",
+        "effects": [
+          { "kind": "damage", "magnitude": 30, "duration_ticks": 0 },
+          { "kind": "control", "magnitude": -2, "duration_ticks": 10 }
+        ]
+      },
+      {
+        "id": "omens-of-the-ninth-hour",
+        "name": "Omens of the Ninth Hour",
+        "description": "Read the field; briefly sharpen an ally's anticipation.",
+        "cost": 15,
+        "cooldown_ticks": 60,
+        "targeting": "single_target",
+        "effects": [
+          { "kind": "buff", "magnitude": 3, "duration_ticks": 30 }
+        ]
+      },
+      {
+        "id": "measured-dawn-aegis",
+        "name": "Measured Dawn Aegis",
+        "description": "Raise a warding light around the caster.",
+        "cost": 25,
+        "cooldown_ticks": 80,
+        "targeting": "self",
+        "effects": [
+          { "kind": "shield", "magnitude": 40, "duration_ticks": 25 }
+        ]
+      }
+    ]
+  },
+  "transformation_trees": [
+    {
+      "id": "trial-of-the-broken-gate",
+      "name": "Trial of the Broken Gate",
+      "description": "First-slice transformation tree: the path from mortal lineage to gatewarden.",
+      "nodes": [
+        {
+          "id": "awakened-lineage",
+          "name": "Awakened Lineage",
+          "cost": 1,
+          "prerequisites": [],
+          "grants": { "resolve": 1 }
+        },
+        {
+          "id": "tempered-at-the-threshold",
+          "name": "Tempered at the Threshold",
+          "cost": 2,
+          "prerequisites": ["awakened-lineage"],
+          "grants": { "might": 1, "resolve": 1 }
+        },
+        {
+          "id": "gatewarden",
+          "name": "Gatewarden",
+          "cost": 3,
+          "prerequisites": ["tempered-at-the-threshold"],
+          "grants": { "resolve": 2, "cunning": 1 }
+        }
+      ]
+    }
+  ],
+  "factions": [
+    {
+      "id": "concord-of-the-high-storm",
+      "name": "Concord of the High Storm",
+      "description": "Reflexion-original sky-order of oathkeepers; Greek-myth-inspired in structure only.",
+      "disposition_tags": ["oathbound", "proud"]
+    },
+    {
+      "id": "the-pale-muster",
+      "name": "The Pale Muster",
+      "description": "Reflexion-original host of oathbound wanderers; Norse-myth-inspired in structure only.",
+      "disposition_tags": ["fatalistic", "loyal"]
+    },
+    {
+      "id": "court-of-the-measured-sun",
+      "name": "Court of the Measured Sun",
+      "description": "Reflexion-original keepers of cycles and weighing; Egyptian-myth-inspired in structure only.",
+      "disposition_tags": ["orderly", "judicious"]
+    }
+  ],
+  "equipment_rules": {
+    "pay_to_win_prohibited": true,
+    "slots": ["aegis", "armament", "mantle"],
+    "items": [
+      {
+        "id": "gate-oath-band",
+        "name": "Gate-Oath Band",
+        "slot": "armament",
+        "acquisition": "earn_only",
+        "real_money_purchasable": false,
+        "stat_modifiers": { "resolve": 1 }
+      },
+      {
+        "id": "dawn-herald-mantle",
+        "name": "Dawn Herald Mantle",
+        "slot": "mantle",
+        "acquisition": "cosmetic_purchase",
+        "real_money_purchasable": true,
+        "stat_modifiers": {}
+      }
+    ]
+  },
+  "visual_audio_language": {
+    "glyph_dialect": "luminous runic equations",
+    "palette": ["#1c2a4a", "#c9a227", "#e8e4d8"],
+    "audio_motifs": ["low bronze resonance", "distant choir of stone", "wind over a broken threshold"],
+    "originality_note": "All glyphs are drawn from Reflexion's original symbolic alphabet (semantic graph notation, geometric runes, dependency lines) per canon section 9.1 — no Matrix glyph design, coloration, typography, animation, or sound. Roster, art, audio, and text are Reflexion originals inspired by public-domain mythology per canon section 9.2 — no Age of Mythology names, art, audio, unit designs, UI, or text. Living traditions are represented with care per canon section 9.3."
+  },
+  "character_creation_boundaries": {
+    "attribute_point_budget": 20,
+    "allowed_species": ["stormcaller-scion", "raven-sworn", "sun-barge-warden"],
+    "forbidden_combinations": [
+      { "species": "raven-sworn", "chassis": "hoplite-frame" }
+    ],
+    "living_traditions_care": {
+      "respectful_depiction": true
+    }
+  },
+  "competitive_cost_functions": {
+    "budget_currency": "power",
+    "default_draft_budget": 100,
+    "cost_components": [
+      "chassis_durability",
+      "mobility",
+      "offensive_ceiling",
+      "defensive_utility",
+      "autonomy",
+      "crowd_control",
+      "recovery",
+      "command_bandwidth_efficiency"
+    ],
+    "ranked_monetization_separation": true
+  },
+  "cross_universe_permissions": {
+    "default_policy": "deny",
+    "grants": []
+  },
+  "rights_revenue_revocation": {
+    "ip_owner": {
+      "id": "reflexion",
+      "name": "Reflexion"
+    },
+    "license": {
+      "type": "reflexion_owned",
+      "revenue_share_bps": 10000
+    },
+    "revocation": {
+      "modes": ["sunset_with_notice"],
+      "notice_period_days": 90,
+      "effect_on_existing_deployments": "grandfather"
+    }
+  }
+}

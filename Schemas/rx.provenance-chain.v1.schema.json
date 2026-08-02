@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://reflexion.gg/schemas/rx.provenance-chain.v1.schema.json",
+  "title": "Rx Worlds Character Provenance Chain v1",
+  "description": "Cryptographically verifiable provenance chain carried by every character/companion (canon section 5.1): official IP owner -> approved character package -> versioned Arena implementation -> licensed assets and behavior policy -> auditable player deployment. The chain is an ordered list of links; each link binds to its predecessor by hash so that tampering with any link invalidates every subsequent link. This schema enforces link SHAPE. Chain continuity (previous_link_hash linkage, genesis link, index ordering) and signature validity are verified procedurally by the receipt verifier (see README), exactly as the adversarial receipt-tamper tests do for RxReceipts.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "subject", "links"],
+  "properties": {
+    "schema_version": {
+      "const": "rx.provenance-chain.v1"
+    },
+    "subject": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "id"],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": ["character", "companion", "fragment"]
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Stable identifier of the character/companion/fragment this chain proves provenance for."
+        }
+      }
+    },
+    "links": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Ordered provenance links. Expected canonical order (canon section 5.1): ip_owner -> character_package -> arena_implementation -> asset_license -> behavior_policy -> player_deployment. asset_license and behavior_policy may be combined or omitted for Reflexion-original rosters; ordering and completeness rules beyond shape are enforced by the verifier, not by this schema.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["index", "link_type", "issuer", "issued_at_tick", "content_hash", "previous_link_hash", "signature"],
+        "properties": {
+          "index": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Position in the chain. The genesis link has index 0."
+          },
+          "link_type": {
+            "type": "string",
+            "enum": [
+              "ip_owner",
+              "character_package",
+              "arena_implementation",
+              "asset_license",
+              "behavior_policy",
+              "player_deployment"
+            ]
+          },
+          "issuer": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "name", "public_key_id"],
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Stable identity of the issuing authority (e.g. 'reflexion', an IP holder id, or a player id for player_deployment)."
+              },
+              "name": { "type": "string", "minLength": 1 },
+              "public_key_id": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Identifier of the public key that must verify this link's signature."
+              }
+            }
+          },
+          "issued_at_tick": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Deterministic logical time (simulation tick). No wall-clock floats anywhere in provenance data."
+          },
+          "content_hash": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$",
+            "description": "SHA-256 (lowercase hex) of the canonical-JSON serialization of the payload this link attests (the package, implementation build, license, policy, or deployment record)."
+          },
+          "previous_link_hash": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$",
+            "description": "SHA-256 (lowercase hex) of the canonical-JSON serialization of the PREVIOUS link. The genesis link (index 0) MUST use 64 zero characters as its previous hash."
+          },
+          "signature": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["algorithm", "value"],
+            "properties": {
+              "algorithm": {
+                "type": "string",
+                "enum": ["ed25519"],
+                "description": "Closed enum of permitted signature algorithms."
+              },
+              "value": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Base64-encoded signature over the canonical-JSON serialization of this link with the signature field excluded."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
