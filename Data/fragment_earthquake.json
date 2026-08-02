@@ -27,14 +27,15 @@
     "version": "2.0.0-draft (upstream release V2.1.3 freeze, packet v2.0.0)"
   },
   "counterplay": "Decouple, anchor, dampen, relocate, or interrupt release.",
-  "fragment_hash": "bc4ac7eab932f8c59d6011b54114f4a5793b4336a138b71cbab180ad87a4cafa",
+  "fragment_hash": "7b45e77f7f61fa0f18a0c3e763cf1bc59a53f34f679af7c66722f2121e3cf2d9",
   "propagation": "Connected surfaces transmit disruptive force.",
   "residual_risk": "Secondary cascades and aftershocks.",
   "transfer_domains": [
-    "terrain",
-    "structures",
-    "formations",
+    "geology",
+    "combat",
     "infrastructure",
+    "economics",
+    "organizations",
     "distributed systems"
   ],
   "trigger": "Accumulated structural stress exceeds threshold."

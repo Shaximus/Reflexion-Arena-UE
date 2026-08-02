@@ -201,14 +201,21 @@ FRxFragmentSpec FRxEncounters::LoadFragmentBaked()
 	F.Compiler.Version = TEXT("2.0.0-draft (upstream release V2.1.3 freeze, packet v2.0.0)");
 
 	F.Counterplay = TEXT("Decouple, anchor, dampen, relocate, or interrupt release.");
-	F.FragmentHash = TEXT("bc4ac7eab932f8c59d6011b54114f4a5793b4336a138b71cbab180ad87a4cafa");
+	// Re-baselined 2026-08-02 (founder ruling): transfer_domains restored to the
+	// canon SHENRON §2.2 line 98 set of SIX. The shipped fragment had drifted to
+	// five (terrain/structures/formations/infrastructure/distributed systems) and
+	// compile_fragment.py hard-asserted that drift against the canon. Changing the
+	// canon fields changes fragment_hash, which is inside the sim snapshot, which
+	// moves final_state_hash -- an authorized, documented re-baseline.
+	F.FragmentHash = TEXT("7b45e77f7f61fa0f18a0c3e763cf1bc59a53f34f679af7c66722f2121e3cf2d9");
 	F.Propagation = TEXT("Connected surfaces transmit disruptive force.");
 	F.ResidualRisk = TEXT("Secondary cascades and aftershocks.");
 	F.TransferDomains = {
-		TEXT("terrain"),
-		TEXT("structures"),
-		TEXT("formations"),
+		TEXT("geology"),
+		TEXT("combat"),
 		TEXT("infrastructure"),
+		TEXT("economics"),
+		TEXT("organizations"),
 		TEXT("distributed systems"),
 	};
 	F.Trigger = TEXT("Accumulated structural stress exceeds threshold.");

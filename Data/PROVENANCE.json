@@ -18,11 +18,12 @@
     },
     "fragment_earthquake.json": {
       "copy_path": "Data/fragment_earthquake.json",
-      "copy_sha256": "b09e4d2ddc2209b5820bbaa40443375b16afba5156410d3e9698694f877d1a7c",
+      "copy_sha256": "3b7efd68206333cbf16d6679bbe70a189b32f15807f99f9366b17ab765053389",
       "origin_path": "game/data/fragment_earthquake.json",
-      "origin_sha256": "b09e4d2ddc2209b5820bbaa40443375b16afba5156410d3e9698694f877d1a7c",
+      "origin_sha256": "3b7efd68206333cbf16d6679bbe70a189b32f15807f99f9366b17ab765053389",
       "origin_last_commit": "b771af87aacb6c5aef1ba198cdd737bd5eff271f",
-      "identical": true
+      "identical": true,
+      "rebaselined": "2026-08-02: transfer_domains restored to canon SHENRON 2.2 line 98 (six domains); fragment_hash bc4ac7ea->7b45e77f"
     },
     "skill_faultline_interrupt.json": {
       "copy_path": "Data/skill_faultline_interrupt.json",

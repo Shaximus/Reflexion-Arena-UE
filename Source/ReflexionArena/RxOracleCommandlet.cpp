@@ -23,27 +23,41 @@ DEFINE_LOG_CATEGORY_STATIC(LogRxOracle, Log, All);
 
 // ---------------------------------------------------------------------------
 // Reference values from the Godot-faithful Python oracle
-// (Reflexion-Arena/tools/oracle/run_acceptance.py, sim_mirror.py). These are the
-// ACTUAL computed values of the sim mirror (NOT the stale acceptance_expect
-// fixture). Used only to print a self-contained VERDICT; the harness computes its
-// own values independently and compares.
+// (Reflexion-Arena/tools/oracle/run_acceptance.py, sim_mirror.py). Used only to
+// print a self-contained VERDICT; the harness computes its own values
+// independently and compares.
+//
+// UPDATED 2026-08-02, twice over. The previous values (1d4a7ce4… / 728 /
+// weave_interrupted 5790 / transfer_recognized 6834) were the output of a BUGGY
+// mirror: sim_mirror.py was missing the sim-internal T3 weave-completion block
+// and the boss entity.state mirror from sim_world.gd. A companion that began
+// weaving and was never hit stayed "weaving" forever. Both were restored from
+// the GDScript ground truth; the mirror now agrees with this port bit-for-bit,
+// so these are no longer "divergent reference" values — they are the SAME
+// values this port produces.
+//
+// Then RE-BASELINED (founder ruling): transfer_domains restored to the canon
+// SHENRON §2.2 line 98 set of six. The fragment is embedded in the
+// socket_fragment command in acceptance_run_v1.json and enters the hashed
+// snapshot, so the correction moved fragment_hash bc4ac7ea…→7b45e77f… and
+// final_state_hash b976626…→b36ad6d0….
 // ---------------------------------------------------------------------------
 namespace RxRef
 {
-	static const TCHAR* AcceptanceHash = TEXT("1d4a7ce4f60e4bafc3c242bc33c8b9b1dd241fc9f2efa7ace411e2efac56c581");
-	static const TCHAR* ChainHead      = TEXT("6d20643cea8de0136a340f5c12f819fd0f7b4220c2ecd84cf50702d919fb7524");
-	static constexpr int32 ReceiptCount = 728;
+	static const TCHAR* AcceptanceHash = TEXT("b36ad6d028e1b5452629df480c537adc7ce85e1b4b5b0fab4c95067506261cfa");
+	static const TCHAR* ChainHead      = TEXT("94090edffdc3f30a7b58d22420832063d2ced17ae8d9962ac39ae4fdf96933c6");
+	static constexpr int32 ReceiptCount = 776;
 	// beat name -> expected tick
 	static const TArray<TPair<FString, int32>>& Beats()
 	{
 		static const TArray<TPair<FString, int32>> V = {
 			{ TEXT("telegraph"), 5386 },
-			{ TEXT("weave_interrupted"), 5790 },
+			{ TEXT("weave_interrupted"), 5770 },
 			{ TEXT("DESTABILIZED"), 6424 },
 			{ TEXT("DEFEATED"), 6462 },
 			{ TEXT("fragment"), 6701 },
 			{ TEXT("skill"), 6761 },
-			{ TEXT("transfer_recognized"), 6834 },
+			{ TEXT("transfer_recognized"), 6851 },
 			{ TEXT("receipt"), 6902 },
 		};
 		return V;
