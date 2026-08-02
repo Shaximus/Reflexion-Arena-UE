@@ -1,0 +1,8 @@
+Binaries/
+Intermediate/
+Saved/
+DerivedDataCache/
+_build_logs/
+*.so
+*.debug
+*.sym

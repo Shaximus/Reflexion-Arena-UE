@@ -1,0 +1,23 @@
+{
+	"FileVersion": 3,
+	"EngineAssociation": "",
+	"Category": "",
+	"Description": "Reflexion Arena — knowledge-as-loot ARPG (UE5.8). SHENRON canon: Earthquake Proof vertical slice, ported from the proven Godot sim reference.",
+	"Modules": [
+		{
+			"Name": "ReflexionArena",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		}
+	],
+	"Plugins": [
+		{
+			"Name": "ModelContextProtocol",
+			"Enabled": true
+		},
+		{
+			"Name": "AllToolsets",
+			"Enabled": true
+		}
+	]
+}
