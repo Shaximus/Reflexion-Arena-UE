@@ -3,9 +3,19 @@
 **Status:** LOCKED for implementation (P0.3). Authored by the integrator before fan-out.
 **Purpose:** make the sim data-driven so arenas/universes become swappable assets — the
 prerequisite for Rx Worlds (handoff §5, item 1).
-**Prime constraint:** `final_state_hash = b976626216a03282b72d82b9f9dc759e078d59cce19529dfb6f47b8aec3e61ac`,
+**Prime constraint:** `final_state_hash = b36ad6d028e1b5452629df480c537adc7ce85e1b4b5b0fab4c95067506261cfa`,
 `receipt_count = 776`, final `tick=11901 player_hp=840 companion_hp=900 boss_stability=0`,
 adversarial 44/44. **These MUST NOT change.** A green compile is not a pass; the oracle diff is the gate.
+
+> ⚠️ **Anchor superseded 2026-08-02.** This document previously asserted
+> `b976626216a03282…` as the prime constraint. That value was re-baselined when the canon-6
+> transfer domains were restored. If you find the old hash asserted as a *live* constraint
+> anywhere, that document predates 2026-08-02 and is stale.
+>
+> **Known limitation of this gate (measured 2026-08-02):** the hash chain verifies
+> determinism and integrity, **not behavioural correctness**. A trajectory delivering 150 of
+> 300 expected damage passed both determinism and chain verification. The oracle diff is
+> necessary and not sufficient — behavioural assertions must be checked separately.
 
 ---
 
