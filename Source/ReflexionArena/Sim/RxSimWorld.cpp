@@ -676,9 +676,11 @@ void FRxSimWorld::Upkeep()
 			if (Tick >= E.WeaveAbortTick + 2)
 			{
 				E.State = RxState::Idle;
-				E.bHasWeaveAbort = false; // erase weave_abort_tick
-				E.WeaveRegionId = -1;     // erase weave_region_id
-				E.WeaveMode = FString();  // erase weave_mode
+				E.bHasWeaveAbort = false;      // erase weave_abort_tick
+				E.WeaveRegionId = -1;          // erase weave_region_id
+				E.bHasWeaveRegionId = false;
+				E.WeaveMode = FString();       // erase weave_mode
+				E.bHasWeaveMode = false;
 				// weave_start_tick intentionally NOT erased (mirrors the .gd)
 			}
 			continue; // rooted while weaving
@@ -687,10 +689,13 @@ void FRxSimWorld::Upkeep()
 		// Sim-internal T3 weave completion.
 		if (E.State == RxState::Weaving)
 		{
-			if (Tick - E.WeaveStartTick >= RxSim::WEAVE_DURATION_TICKS)
+			// Absent weave_start_tick reads as the current tick (elapsed 0), which
+			// is .get("weave_start_tick", tick) — NOT the -1 a sentinel test sees.
+			const int32 StartTick = E.bHasWeaveStartTick ? E.WeaveStartTick : Tick;
+			if (Tick - StartTick >= RxSim::WEAVE_DURATION_TICKS)
 			{
-				const int32 Rid = E.WeaveRegionId;
-				const FString Mode = E.WeaveMode.IsEmpty() ? FString(TEXT("anchor")) : E.WeaveMode;
+				const int32 Rid = E.bHasWeaveRegionId ? E.WeaveRegionId : -1;
+				const FString Mode = E.bHasWeaveMode ? E.WeaveMode : FString(TEXT("anchor"));
 				if (Rid != -1 && TerrainImpl.RegionExists(Rid))
 				{
 					if (Mode == TEXT("anchor"))
@@ -735,8 +740,11 @@ void FRxSimWorld::EraseWeaveProps(FRxEntity& E)
 {
 	E.bHasWeaveAbort = false;
 	E.WeaveRegionId = -1;
+	E.bHasWeaveRegionId = false;
 	E.WeaveMode = FString();
+	E.bHasWeaveMode = false;
 	E.WeaveStartTick = -1;
+	E.bHasWeaveStartTick = false;
 }
 
 // ---------------------------------------------------------------------------
@@ -867,9 +875,15 @@ FRxCmdResult FRxSimWorld::Apply(const FRxPending& P)
 		}
 		const FString Mode = Params.GetString(TEXT("mode"), TEXT("anchor"));
 		E.State = RxState::Weaving;
+		// Assigned unconditionally, exactly as the .gd does (sim_world.gd:309-311):
+		// a Rid of -1 (region_at miss, or the companion's own default) is a real
+		// present value, not an absence. Presence never depends on the value.
 		E.WeaveRegionId = Rid;
+		E.bHasWeaveRegionId = true;
 		E.WeaveMode = Mode;
+		E.bHasWeaveMode = true;
 		E.WeaveStartTick = Tick;
+		E.bHasWeaveStartTick = true;
 		E.bHasMoveTarget = false; // erase move_target
 		SetFlag(TEXT("weave_interrupted"), false);
 		FRxJsonValue D = FRxJsonValue::Object();
@@ -1028,7 +1042,9 @@ void FRxSimWorld::ApplyWaveEntry(const FRxScheduledWave& W)
 		}
 		const int32 EReg = TerrainImpl.RegionAt(E.Pos);
 		const bool bOnRegion = EReg == RegionId;
-		const int32 WeaveRegion = E.WeaveRegionId;
+		// .get("weave_region_id", -1) — the reference deliberately collapses an
+		// absent key and a present -1 here (sim_world.gd:396); mirror that.
+		const int32 WeaveRegion = E.bHasWeaveRegionId ? E.WeaveRegionId : -1;
 		const bool bWeaveHit = E.State == RxState::Weaving && WeaveRegion == RegionId;
 
 		if (bOnRegion)
@@ -1094,15 +1110,15 @@ FRxJsonValue FRxSimWorld::EntitySnapshotJson(const FRxEntity& E) const
 	{
 		Props.Set(TEXT("move_target"), FRxJsonValue::IntPoint(E.MoveTarget));
 	}
-	if (E.WeaveRegionId != -1)
+	if (E.bHasWeaveRegionId)
 	{
 		Props.Set(TEXT("weave_region_id"), FRxJsonValue::Int(E.WeaveRegionId));
 	}
-	if (!E.WeaveMode.IsEmpty())
+	if (E.bHasWeaveMode)
 	{
 		Props.Set(TEXT("weave_mode"), FRxJsonValue::Str(E.WeaveMode));
 	}
-	if (E.WeaveStartTick != -1)
+	if (E.bHasWeaveStartTick)
 	{
 		Props.Set(TEXT("weave_start_tick"), FRxJsonValue::Int(E.WeaveStartTick));
 	}

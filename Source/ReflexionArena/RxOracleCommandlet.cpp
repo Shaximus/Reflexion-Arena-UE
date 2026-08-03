@@ -1291,6 +1291,228 @@ namespace
 }
 
 // ---------------------------------------------------------------------------
+// PROP PRESENCE (P0.4) — an ABSENT prop must be distinguishable from a prop
+// that merely holds a zero/sentinel value.
+//
+// The reference assigns props unconditionally (sim_world.gd:309-311,
+// `e["props"]["weave_region_id"] = rid`), so Dictionary.has() stays true even
+// for rid == -1 — a value the old sentinel test (`WeaveRegionId != -1`) read as
+// ABSENT, silently dropping the key from the canonical snapshot and therefore
+// from every receipt hash sealed while that weave was live.
+//
+// The state is reachable, not theoretical: commands.gd:154-156 whitelists
+// region_id == -1 (it skips the region-exists check), companion_ai.gd:255
+// defaults region_id to -1 whenever the player's reference carried no region,
+// and terrain.gd:95 returns -1 for a position outside every polygon. Such a
+// weave then holds weave_region_id == -1 for WEAVE_DURATION_TICKS.
+//
+// NEGATIVE CONTROL: "weave on region -1" below FAILS against the pre-P0.4
+// sentinel snapshot and passes after it. The remaining checks are invariants
+// that must survive the change (notably the deliberate abort asymmetry:
+// weave_start_tick outlives region/mode — sim_world.gd:212-214).
+// ---------------------------------------------------------------------------
+namespace
+{
+	int32 PropPassed = 0;
+	int32 PropTotal = 0;
+
+	void PropCheck(const FString& Name, bool bOk, const FString& Detail)
+	{
+		PropTotal += 1;
+		if (bOk) { PropPassed += 1; }
+		UE_LOG(LogRxOracle, Display, TEXT("ORACLE  [%s] %-46s %s"),
+			bOk ? TEXT("PASS") : TEXT("FAIL"), *Name, *Detail);
+	}
+
+	// One entity's props object, read back out of the CANONICAL snapshot — the
+	// same payload that feeds StateHash(), not the struct fields.
+	FRxJsonValue SnapshotProps(const FRxSimWorld& World, FRxEntityId Id)
+	{
+		const FRxJsonValue Snap = World.Snapshot();
+		if (const FRxJsonValue* Ents = Snap.Find(TEXT("entities")))
+		{
+			for (const FRxJsonValue& E : Ents->ArrayItems)
+			{
+				if (static_cast<FRxEntityId>(E.GetInt(TEXT("id"))) == Id)
+				{
+					if (const FRxJsonValue* P = E.Find(TEXT("props")))
+					{
+						return *P;
+					}
+				}
+			}
+		}
+		return FRxJsonValue::Object();
+	}
+
+	FString PropKeyList(const FRxJsonValue& Props)
+	{
+		TArray<FString> Keys;
+		for (const TPair<FString, FRxJsonValue>& Kv : Props.ObjectItems)
+		{
+			Keys.Add(Kv.Key);
+		}
+		Keys.Sort();
+		return Keys.Num() == 0 ? FString(TEXT("{}")) : FString::Join(Keys, TEXT(","));
+	}
+
+	// Submit one player-approved envelope and let Step() apply it.
+	void SubmitAndStep(FRxSimWorld& World, const FString& Type, const FRxJsonValue& Params)
+	{
+		FRxCommandEnvelope Env;
+		Env.Actor = RxActor::Player;
+		Env.Type = Type;
+		Env.Params = Params;
+		Env.bApproved = true;
+		Env.bHasApproved = true;
+		World.Submit(Env);
+		World.Step();
+	}
+
+	bool RunPropPresence()
+	{
+		UE_LOG(LogRxOracle, Display, TEXT("ORACLE ============================================================"));
+		UE_LOG(LogRxOracle, Display, TEXT("ORACLE == PROP PRESENCE (absent != zero-valued) =="));
+		UE_LOG(LogRxOracle, Display, TEXT("ORACLE ============================================================"));
+		PropPassed = 0;
+		PropTotal = 0;
+
+		// ---- 1. a fresh entity carries no optional props at all ----
+		{
+			FRxSimWorld World(7);
+			FRxEncounters::BuildArena(World, RxData::ArenaCfg);
+			const FRxJsonValue P = SnapshotProps(World, World.PlayerId);
+			const bool bOk = !P.HasKey(TEXT("move_target"))
+				&& !P.HasKey(TEXT("weave_region_id"))
+				&& !P.HasKey(TEXT("weave_mode"))
+				&& !P.HasKey(TEXT("weave_start_tick"))
+				&& !P.HasKey(TEXT("weave_abort_tick"));
+			PropCheck(TEXT("fresh entity has no optional props"), bOk,
+				FString::Printf(TEXT("props=%s"), *PropKeyList(P)));
+		}
+
+		// ---- 2. NEGATIVE CONTROL: a genuine region--1 weave is PRESENT ----
+		{
+			FRxSimWorld World(7);
+			FRxEncounters::BuildArena(World, RxData::ArenaCfg);
+
+			// Park the player outside every polygon so region_at() misses.
+			const FIntPoint Outside(0, 0);
+			const int32 OutsideRegion = World.GetTerrain().RegionAt(Outside);
+			if (FRxEntity* E = World.FindEntity(World.PlayerId))
+			{
+				E->Pos = Outside;
+			}
+			PropCheck(TEXT("precondition: (0,0) is outside every region"),
+				OutsideRegion == -1, FString::Printf(TEXT("region_at((0,0))=%d"), OutsideRegion));
+
+			FRxJsonValue Params = FRxJsonValue::Object();
+			Params.Set(TEXT("region_id"), FRxJsonValue::Int(-1)); // -> region_at fallback -> -1
+			SubmitAndStep(World, RxCmd::TokenweaveBegin, Params);
+
+			const FRxJsonValue P = SnapshotProps(World, World.PlayerId);
+			const bool bPresent = P.HasKey(TEXT("weave_region_id"));
+			const int64 Val = P.GetInt(TEXT("weave_region_id"), 999);
+			PropCheck(TEXT("weave on region -1: key PRESENT (neg. control)"),
+				bPresent && Val == -1,
+				FString::Printf(TEXT("has=%s value=%lld | props=%s"),
+					bPresent ? TEXT("yes") : TEXT("NO — sentinel model dropped it"),
+					Val, *PropKeyList(P)));
+
+			// its siblings must be present too (all three assigned together)
+			PropCheck(TEXT("weave on region -1: mode+start_tick present"),
+				P.HasKey(TEXT("weave_mode")) && P.HasKey(TEXT("weave_start_tick")),
+				FString::Printf(TEXT("mode='%s' start_tick=%lld"),
+					*P.GetString(TEXT("weave_mode")), P.GetInt(TEXT("weave_start_tick"), -999)));
+		}
+
+		// ---- 3. abort asymmetry: weave_start_tick outlives region/mode ----
+		{
+			FRxSimWorld World(7);
+			FRxEncounters::BuildArena(World, RxData::ArenaCfg);
+
+			FRxJsonValue Params = FRxJsonValue::Object();
+			Params.Set(TEXT("region_id"), FRxJsonValue::Int(1));
+			Params.Set(TEXT("mode"), FRxJsonValue::Str(TEXT("anchor")));
+			SubmitAndStep(World, RxCmd::TokenweaveBegin, Params);
+
+			const int32 StartTick = World.GetEntity(World.PlayerId).WeaveStartTick;
+
+			// Latch the interruption exactly as a RELEASE wave does (sim_world.gd:411).
+			if (FRxEntity* E = World.FindEntity(World.PlayerId))
+			{
+				E->WeaveAbortTick = World.Tick;
+				E->bHasWeaveAbort = true;
+			}
+			// Upkeep finalizes at tick >= abort_tick + 2.
+			World.Step();
+			World.Step();
+			World.Step();
+
+			const FRxJsonValue P = SnapshotProps(World, World.PlayerId);
+			const bool bOk = P.HasKey(TEXT("weave_start_tick"))
+				&& P.GetInt(TEXT("weave_start_tick"), -999) == StartTick
+				&& !P.HasKey(TEXT("weave_region_id"))
+				&& !P.HasKey(TEXT("weave_mode"))
+				&& !P.HasKey(TEXT("weave_abort_tick"));
+			PropCheck(TEXT("after abort: start_tick kept, region/mode erased"), bOk,
+				FString::Printf(TEXT("state='%s' props=%s"),
+					*World.GetEntity(World.PlayerId).State, *PropKeyList(P)));
+		}
+
+		// ---- 4. completion erases all four weave props ----
+		{
+			FRxSimWorld World(7);
+			FRxEncounters::BuildArena(World, RxData::ArenaCfg);
+
+			FRxJsonValue Params = FRxJsonValue::Object();
+			Params.Set(TEXT("region_id"), FRxJsonValue::Int(1));
+			SubmitAndStep(World, RxCmd::TokenweaveBegin, Params);
+
+			// Age the weave past WEAVE_DURATION_TICKS so the next Upkeep completes it.
+			if (FRxEntity* E = World.FindEntity(World.PlayerId))
+			{
+				E->WeaveStartTick = World.Tick - RxSim::WEAVE_DURATION_TICKS;
+			}
+			World.Step();
+
+			const FRxJsonValue P = SnapshotProps(World, World.PlayerId);
+			const bool bOk = !P.HasKey(TEXT("weave_region_id"))
+				&& !P.HasKey(TEXT("weave_mode"))
+				&& !P.HasKey(TEXT("weave_start_tick"))
+				&& !P.HasKey(TEXT("weave_abort_tick"));
+			PropCheck(TEXT("after completion: all weave props erased"), bOk,
+				FString::Printf(TEXT("state='%s' props=%s"),
+					*World.GetEntity(World.PlayerId).State, *PropKeyList(P)));
+		}
+
+		// ---- 5. move_target (0,0) is a value, not an absence ----
+		{
+			FRxSimWorld World(7);
+			FRxEncounters::BuildArena(World, RxData::ArenaCfg);
+
+			FRxJsonValue Params = FRxJsonValue::Object();
+			Params.Set(TEXT("x"), FRxJsonValue::Int(0));
+			Params.Set(TEXT("y"), FRxJsonValue::Int(0));
+			SubmitAndStep(World, RxCmd::MoveTo, Params);
+
+			const FRxJsonValue P = SnapshotProps(World, World.PlayerId);
+			const FRxJsonValue* Mt = P.Find(TEXT("move_target"));
+			const bool bOk = Mt != nullptr && Mt->Type == ERxJsonType::Array
+				&& Mt->ArrayItems.Num() == 2
+				&& Mt->ArrayItems[0].IntValue == 0 && Mt->ArrayItems[1].IntValue == 0;
+			PropCheck(TEXT("move_target (0,0) present, not absent"), bOk,
+				FString::Printf(TEXT("props=%s"), *PropKeyList(P)));
+		}
+
+		const bool bOk = (PropPassed == PropTotal) && (PropTotal > 0);
+		UE_LOG(LogRxOracle, Display, TEXT("ORACLE PROP PRESENCE checks: %d/%d passed"), PropPassed, PropTotal);
+		UE_LOG(LogRxOracle, Display, TEXT("ORACLE PROP PRESENCE RESULT: %s"), bOk ? TEXT("PASS") : TEXT("FAIL"));
+		return bOk;
+	}
+}
+
+// ---------------------------------------------------------------------------
 // Commandlet entry point
 // ---------------------------------------------------------------------------
 UReflexionOracleCommandlet::UReflexionOracleCommandlet()
@@ -1311,17 +1533,19 @@ int32 UReflexionOracleCommandlet::Main(const FString& /*Params*/)
 
 	bool bAcceptance = false;
 	bool bAdversarial = false;
+	bool bPropPresence = false;
 	if (RxData::bArenaLoaded)
 	{
 		bAcceptance = RunAcceptance();
 		bAdversarial = RunAdversarial();
+		bPropPresence = RunPropPresence();
 	}
 	else
 	{
 		// No fallback to the baked config: a green run on hardcoded data while
 		// the on-disk load is broken would be a false pass.
 		UE_LOG(LogRxOracle, Error,
-			TEXT("ORACLE SKIPPING acceptance+adversarial: no arena config could be loaded from disk"));
+			TEXT("ORACLE SKIPPING acceptance+adversarial+prop-presence: no arena config could be loaded from disk"));
 	}
 
 	UE_LOG(LogRxOracle, Display, TEXT("ORACLE ============================================================"));
@@ -1329,9 +1553,10 @@ int32 UReflexionOracleCommandlet::Main(const FString& /*Params*/)
 	UE_LOG(LogRxOracle, Display, TEXT("ORACLE   data boundary:     %s"), bDataBoundary ? TEXT("PROVEN") : TEXT("FAIL"));
 	UE_LOG(LogRxOracle, Display, TEXT("ORACLE   acceptance parity: %s"), bAcceptance ? TEXT("PROVEN") : TEXT("MISMATCH"));
 	UE_LOG(LogRxOracle, Display, TEXT("ORACLE   adversarial:       %s"), bAdversarial ? TEXT("44/44") : TEXT("NOT 44/44"));
+	UE_LOG(LogRxOracle, Display, TEXT("ORACLE   prop presence:     %s"), bPropPresence ? TEXT("PROVEN") : TEXT("FAIL"));
 	UE_LOG(LogRxOracle, Display, TEXT("ORACLE   overall:           %s"),
-		(bDataBoundary && bAcceptance && bAdversarial) ? TEXT("PASS") : TEXT("FAIL"));
+		(bDataBoundary && bAcceptance && bAdversarial && bPropPresence) ? TEXT("PASS") : TEXT("FAIL"));
 	UE_LOG(LogRxOracle, Display, TEXT("ORACLE END"));
 
-	return (bDataBoundary && bAcceptance && bAdversarial) ? 0 : 1;
+	return (bDataBoundary && bAcceptance && bAdversarial && bPropPresence) ? 0 : 1;
 }

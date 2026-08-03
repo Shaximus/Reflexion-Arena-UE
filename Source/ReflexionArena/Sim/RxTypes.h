@@ -27,12 +27,23 @@ using FRxEntityId = int32;
  * the reference), which is load-bearing for snapshot/hash parity: an absent prop
  * must NOT appear in the canonical snapshot.
  *
+ * PRESENCE IS NEVER INFERRED FROM VALUE (P0.4). The reference assigns props
+ * unconditionally — `e["props"]["weave_region_id"] = rid` (sim_world.gd:309)
+ * runs even when `rid == -1`, so `Dictionary.has()` is true for a value that a
+ * sentinel test would read as absent. Every optional prop therefore carries its
+ * own bool; the value fields keep their -1/empty initialisers only as the
+ * reference's `.get(key, default)` fallbacks, never as presence tests.
+ *
  * props key mapping (see sim_world.gd snapshot()/_upkeep()):
  *   move_target       -> MoveTarget      (present iff bHasMoveTarget)
- *   weave_region_id   -> WeaveRegionId   (present while weaving)
- *   weave_mode        -> WeaveMode       (present while weaving)
- *   weave_start_tick  -> WeaveStartTick  (present while weaving)
+ *   weave_region_id   -> WeaveRegionId   (present iff bHasWeaveRegionId)
+ *   weave_mode        -> WeaveMode       (present iff bHasWeaveMode)
+ *   weave_start_tick  -> WeaveStartTick  (present iff bHasWeaveStartTick)
  *   weave_abort_tick  -> WeaveAbortTick  (present iff bHasWeaveAbort)
+ *
+ * Lifetimes differ and the asymmetry is deliberate: a weave abort erases
+ * region/mode/abort but KEEPS weave_start_tick (sim_world.gd:212-214), while a
+ * completed weave erases all four (_erase_weave_props, sim_world.gd:248-251).
  */
 struct FRxEntity
 {
@@ -43,13 +54,18 @@ struct FRxEntity
 	int32 MaxHp = 0;
 	FString State = TEXT("idle");       // "idle"|"weaving"|"dead"|<boss FSM state>
 
-	// --- typed props (present only when the matching flag/sentinel says so) ---
+	// --- typed props (present iff the matching bHas* flag is set) ---
 	FIntPoint MoveTarget = FIntPoint::ZeroValue;
 	bool bHasMoveTarget = false;
 
-	int32 WeaveRegionId = -1;
+	int32 WeaveRegionId = -1;           // fallback -1 mirrors .get("weave_region_id", -1)
+	bool bHasWeaveRegionId = false;
+
 	FString WeaveMode;                  // "anchor" | (other weave modes)
+	bool bHasWeaveMode = false;
+
 	int32 WeaveStartTick = -1;
+	bool bHasWeaveStartTick = false;
 
 	int32 WeaveAbortTick = -1;
 	bool bHasWeaveAbort = false;
