@@ -1,0 +1,209 @@
+{
+  "verdict": "PRODUCT_AUTHORITY_PATH_ABSENT",
+  "results": [
+    {
+      "part": 1,
+      "label": "companion T2 'author_skill' WITHOUT approval -> ERR_AUTHORITY",
+      "expected_ok": false,
+      "actual_ok": false,
+      "code": "ERR_AUTHORITY",
+      "detail": "companion T2 command 'author_skill' requires approved:true",
+      "as_expected": true,
+      "note": "reached authority rule"
+    },
+    {
+      "part": 1,
+      "label": "companion T2 'author_skill' WITH approved:true -> must ADMIT",
+      "expected_ok": true,
+      "actual_ok": true,
+      "code": "OK",
+      "detail": "",
+      "as_expected": true,
+      "note": ""
+    },
+    {
+      "part": 1,
+      "label": "player T2 'author_skill' (own authority) -> must ADMIT",
+      "expected_ok": true,
+      "actual_ok": true,
+      "code": "OK",
+      "detail": "",
+      "as_expected": true,
+      "note": ""
+    },
+    {
+      "part": 1,
+      "label": "companion T2 'socket_fragment' WITHOUT approval -> ERR_AUTHORITY",
+      "expected_ok": false,
+      "actual_ok": false,
+      "code": "ERR_AUTHORITY",
+      "detail": "companion T2 command 'socket_fragment' requires approved:true",
+      "as_expected": true,
+      "note": "reached authority rule"
+    },
+    {
+      "part": 1,
+      "label": "companion T2 'socket_fragment' WITH approved:true -> must ADMIT",
+      "expected_ok": true,
+      "actual_ok": true,
+      "code": "OK",
+      "detail": "",
+      "as_expected": true,
+      "note": ""
+    },
+    {
+      "part": 1,
+      "label": "player T2 'socket_fragment' (own authority) -> must ADMIT",
+      "expected_ok": true,
+      "actual_ok": true,
+      "code": "OK",
+      "detail": "",
+      "as_expected": true,
+      "note": ""
+    },
+    {
+      "part": 1,
+      "label": "companion T2 'strike' WITHOUT approval -> ERR_AUTHORITY",
+      "expected_ok": false,
+      "actual_ok": false,
+      "code": "ERR_AUTHORITY",
+      "detail": "companion T2 command 'strike' requires approved:true",
+      "as_expected": true,
+      "note": "reached authority rule"
+    },
+    {
+      "part": 1,
+      "label": "companion T2 'strike' WITH approved:true -> must ADMIT",
+      "expected_ok": true,
+      "actual_ok": true,
+      "code": "OK",
+      "detail": "",
+      "as_expected": true,
+      "note": ""
+    },
+    {
+      "part": 1,
+      "label": "player T2 'strike' (own authority) -> must ADMIT",
+      "expected_ok": true,
+      "actual_ok": true,
+      "code": "OK",
+      "detail": "",
+      "as_expected": true,
+      "note": ""
+    },
+    {
+      "part": 1,
+      "label": "companion T2 'tokenweave_begin' WITHOUT approval -> ERR_AUTHORITY",
+      "expected_ok": false,
+      "actual_ok": false,
+      "code": "ERR_AUTHORITY",
+      "detail": "companion T2 command 'tokenweave_begin' requires approved:true",
+      "as_expected": true,
+      "note": "reached authority rule"
+    },
+    {
+      "part": 1,
+      "label": "companion T2 'tokenweave_begin' WITH approved:true -> must ADMIT",
+      "expected_ok": true,
+      "actual_ok": true,
+      "code": "OK",
+      "detail": "",
+      "as_expected": true,
+      "note": ""
+    },
+    {
+      "part": 1,
+      "label": "player T2 'tokenweave_begin' (own authority) -> must ADMIT",
+      "expected_ok": true,
+      "actual_ok": true,
+      "code": "OK",
+      "detail": "",
+      "as_expected": true,
+      "note": ""
+    },
+    {
+      "part": 1,
+      "label": "companion T2 'use_skill' WITHOUT approval -> ERR_AUTHORITY",
+      "expected_ok": false,
+      "actual_ok": false,
+      "code": "ERR_AUTHORITY",
+      "detail": "companion T2 command 'use_skill' requires approved:true",
+      "as_expected": true,
+      "note": "reached authority rule"
+    },
+    {
+      "part": 1,
+      "label": "companion T2 'use_skill' WITH approved:true -> must ADMIT",
+      "expected_ok": true,
+      "actual_ok": true,
+      "code": "OK",
+      "detail": "",
+      "as_expected": true,
+      "note": ""
+    },
+    {
+      "part": 1,
+      "label": "player T2 'use_skill' (own authority) -> must ADMIT",
+      "expected_ok": true,
+      "actual_ok": true,
+      "code": "OK",
+      "detail": "",
+      "as_expected": true,
+      "note": ""
+    },
+    {
+      "part": 2,
+      "label": "canonical authored skill -> must ADMIT",
+      "expected_ok": true,
+      "actual_ok": true,
+      "code": "",
+      "detail": "",
+      "as_expected": true,
+      "note": ""
+    },
+    {
+      "part": 2,
+      "label": "E11 adjust_counter{boss_stability} THE EXPLOIT -> ?",
+      "expected_ok": false,
+      "actual_ok": false,
+      "code": "",
+      "detail": "effect must be one of ['destabilize_anchor']",
+      "as_expected": true,
+      "note": "must be refused"
+    },
+    {
+      "part": 2,
+      "label": "E11 adjust_counter{boss_release_delay} CANON-LEGITIMATE -> ?",
+      "expected_ok": true,
+      "actual_ok": false,
+      "code": "",
+      "detail": "effect must be one of ['destabilize_anchor']",
+      "as_expected": false,
+      "note": "a real allow-list must ADMIT this"
+    }
+  ],
+  "legal_effects": [
+    "destabilize_anchor"
+  ],
+  "command_types": [
+    "approve",
+    "author_skill",
+    "cancel",
+    "correct",
+    "instruct",
+    "move_to",
+    "reference",
+    "socket_fragment",
+    "strike",
+    "tokenweave_begin",
+    "use_skill",
+    "wait"
+  ],
+  "t2_types": [
+    "author_skill",
+    "socket_fragment",
+    "strike",
+    "tokenweave_begin",
+    "use_skill"
+  ]
+}

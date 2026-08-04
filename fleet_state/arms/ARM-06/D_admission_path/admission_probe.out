@@ -1,0 +1,42 @@
+PART 1 — the authority path that EXISTS: Commands.validate() envelope tiers
+  command types: ['approve', 'author_skill', 'cancel', 'correct', 'instruct', 'move_to', 'reference', 'socket_fragment', 'strike', 'tokenweave_begin', 'use_skill', 'wait']
+  T2 types     : ['author_skill', 'socket_fragment', 'strike', 'tokenweave_begin', 'use_skill']
+
+  [as expected] companion T2 'author_skill' WITHOUT approval -> ERR_AUTHORITY ok=False code=ERR_AUTHORITY      companion T2 command 'author_skill' requires approved:true
+  [as expected] companion T2 'author_skill' WITH approved:true -> must ADMIT ok=True  code=OK                 
+  [as expected] player T2 'author_skill' (own authority) -> must ADMIT ok=True  code=OK                 
+  [as expected] companion T2 'socket_fragment' WITHOUT approval -> ERR_AUTHORITY ok=False code=ERR_AUTHORITY      companion T2 command 'socket_fragment' requires approved:true
+  [as expected] companion T2 'socket_fragment' WITH approved:true -> must ADMIT ok=True  code=OK                 
+  [as expected] player T2 'socket_fragment' (own authority) -> must ADMIT ok=True  code=OK                 
+  [as expected] companion T2 'strike' WITHOUT approval -> ERR_AUTHORITY ok=False code=ERR_AUTHORITY      companion T2 command 'strike' requires approved:true
+  [as expected] companion T2 'strike' WITH approved:true -> must ADMIT ok=True  code=OK                 
+  [as expected] player T2 'strike' (own authority) -> must ADMIT     ok=True  code=OK                 
+  [as expected] companion T2 'tokenweave_begin' WITHOUT approval -> ERR_AUTHORITY ok=False code=ERR_AUTHORITY      companion T2 command 'tokenweave_begin' requires approved:true
+  [as expected] companion T2 'tokenweave_begin' WITH approved:true -> must ADMIT ok=True  code=OK                 
+  [as expected] player T2 'tokenweave_begin' (own authority) -> must ADMIT ok=True  code=OK                 
+  [as expected] companion T2 'use_skill' WITHOUT approval -> ERR_AUTHORITY ok=False code=ERR_AUTHORITY      companion T2 command 'use_skill' requires approved:true
+  [as expected] companion T2 'use_skill' WITH approved:true -> must ADMIT ok=True  code=OK                 
+  [as expected] player T2 'use_skill' (own authority) -> must ADMIT  ok=True  code=OK                 
+
+PART 2 — is there an E11 (adjust_counter) admission path at all?
+  SkillSystem.LEGAL_EFFECTS = ['destabilize_anchor']
+
+  [as expected] canonical authored skill -> must ADMIT               ok=True  code=-                  
+  [as expected] E11 adjust_counter{boss_stability} THE EXPLOIT -> ?  ok=False code=-                  effect must be one of ['destabilize_anchor']
+  [UNEXPECTED ] E11 adjust_counter{boss_release_delay} CANON-LEGITIMATE -> ? ok=False code=-                  effect must be one of ['destabilize_anchor']
+
+============================================================================================
+  exploit refused          : True  code=
+  canon-legitimate refused : True  code=
+  refusals IDENTICAL       : True
+
+  VERDICT: PRODUCT_AUTHORITY_PATH_ABSENT
+  The exploit and the canon-legitimate case are refused by the SAME rule,
+  with the same code and the same message. That rule is the effect
+  VOCABULARY, not a counter allow-list. Nothing in the product distinguishes
+  boss_stability from boss_release_delay, because nothing in the product
+  implements E11 at all. The exploit is unreachable, not gated.
+============================================================================================
+
+probes not matching their stated expectation: 1
+  E11 adjust_counter{boss_release_delay} CANON-LEGITIMATE -> ?

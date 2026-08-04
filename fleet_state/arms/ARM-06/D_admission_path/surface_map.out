@@ -1,0 +1,31 @@
+surface                   kind  E11_effect_id   E11_param       write_scope     C10_condition 
+------------------------------------------------------------------------------------------------
+UE sim core (C++)         impl  0               0               0               0             
+UE commandlet / harness   impl  0               0               0               0             
+UE schemas                impl  0               0               0               0             
+UE data fixtures          impl  0               0               0               0             
+Godot sim (GDScript)      impl  0               0               0               0             
+Godot tests               impl  0               0               0               0             
+Godot presentation        impl  0               0               0               0             
+Godot data fixtures       impl  0               0               0               0             
+Python sim mirror         impl  0               0               0               0             
+Adversarial corpora       impl  0               0               0               0             
+UE design spec (ENUMS)    spec  7               6               4               4             
+UE design spec (GRAMMAR)  spec  0               1               0               0             
+
+==============================================================================
+  E11_effect_id    implementation surfaces:    0    specification surfaces:    7
+  E11_param        implementation surfaces:    0    specification surfaces:    7
+  write_scope      implementation surfaces:    0    specification surfaces:    4
+  C10_condition    implementation surfaces:    0    specification surfaces:    4
+==============================================================================
+
+  surfaces searched: 10 implementation, 2 specification
+  rg errors: 0  (a surface that errored is NOT evidence of absence)
+  E11 occurrences across ALL implementation surfaces: 0
+  C10 occurrences across ALL implementation surfaces: 0
+
+  POSITIVE CONTROL — E11 in specification surfaces: 7 (detector works)
+
+  PRODUCT_AUTHORITY_PATH_ABSENT — E11 appears on ZERO implementation
+  surfaces and only in specification. There is nothing to exercise.

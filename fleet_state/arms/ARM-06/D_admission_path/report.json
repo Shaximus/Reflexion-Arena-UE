@@ -1,0 +1,183 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-06-20260804T2340Z-CHECKPOINT-05",
+  "arm_id": "ARM-06",
+  "goal_id": "wave1a-ARM-06-product-verification-v1",
+  "generated_at": "2026-08-04T23:40:00Z",
+  "state": "CHECKPOINT",
+  "chat_url": "https://claude.ai/code/session_01Qy2Sxm1r9VZPewmoMV6N8k",
+  "authority_ceiling": "L2",
+  "evidence_root": "fleet_state/arms/ARM-06/D_admission_path",
+  "claims": [
+    {
+      "claim_id": "d.items-1-to-4-delivered",
+      "text": "KESTREL ITEMS 1-4 delivered in commit d7ed39b and verified across 10 controls, pre- and post-repair, harness exit 0 with zero deviations. (1) missing mandatory rows now fail CLOSED: M4 0->1. (2) columns resolved by validated header NAME with the verdict marker matched as **YES**/**NO**, never by position: M5 1->0, and an unreadable verdict or a renamed write-scope column now halts rather than defaulting: M8 0->2, M9 0->2. (3) setup failure and authority breach have DISTINCT exit codes: 2 vs 1, M6 1->2. (4) both mutations and the canonical fixture rerun: canonical exit 0 in place, 6 counters, 7/7 cases.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "d.item-5-real-authority-path-exercised",
+      "text": "KESTREL ITEM 5 — a real authority admission path was located and exercised end-to-end: Commands.validate() in sim_mirror_rules.py:41-117. 15 of 15 probes behaved as stated across all five T2 command types (author_skill, socket_fragment, strike, tokenweave_begin, use_skill): companion without approval REFUSED with code ERR_AUTHORITY; companion with approved:true ADMITTED; player under own authority ADMITTED. This is live product code refusing and admitting, with a working negative control on each type.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "d.item-5-is-command-tier-not-e11",
+      "text": "CRITICAL QUALIFICATION — the authority path that exists governs COMMAND TIERS, not E11 effects. Its only authority rule is \"companion T2 command requires approved:true\" (sim_mirror_rules.py:109-111). It contains no counter_id, no effect allow-list, and no write-scope check. Exercising it does NOT exercise the E11 repair, and must not be reported as having done so.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "d.item-6-product-authority-path-absent",
+      "text": "KESTREL ITEM 6 — PRODUCT_AUTHORITY_PATH_ABSENT. The decisive test: if an E11 authority path existed, adjust_counter{boss_release_delay} (CANON, the one A2-writable counter) would be ADMITTED while adjust_counter{boss_stability} (THE EXPLOIT) would be REFUSED. Measured, BOTH are refused IDENTICALLY, by the same rule with the same message: \"effect must be one of ['destabilize_anchor']\". The refusal is the effect VOCABULARY, not a counter allow-list. A gate that also refuses the legitimate case is not a gate. The exploit is UNREACHABLE, not GATED.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "d.item-6-surface-map-complete",
+      "text": "ABSENCE PROVEN AGAINST A NAMED SURFACE MAP — E11 occurs 0 times across 10 implementation surfaces spanning BOTH product trees (UE sim core, UE commandlet, UE schemas, UE data, Godot sim, Godot tests, Godot presentation, Godot data, Python sim mirror, adversarial corpora) and 7 times in specification only. C10/counter_threshold likewise: 0 implementation, 4 specification. Zero ripgrep errors — no surface was silently unsearched.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "d.detector-positive-control",
+      "text": "THE ABSENCE PROOF HAS A POSITIVE CONTROL, AND IT CAUGHT A REAL DETECTOR BUG. The first surface map reported 0 for the specification files, which are KNOWN to describe E11 — rg -c on a single FILE emits a bare count with no path prefix, and my path:count parser read that as zero. Every zero in that run was meaningless. Fixed with -H; the spec surfaces now report 7 and the harness now WITHHOLDS its verdict (exit 4) if the positive control ever reads zero again. An absence proof without a positive control is not a proof.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "d.item-7-a5-stays-open",
+      "text": "KESTREL ITEM 7 — A.5 STAYS OPEN. C10 expected semantics were NOT found in implementable form: counter_threshold occurs 0 times across all 10 implementation surfaces. The §4.1 registry maps counter_ids to C++ fields that do exist (e.g. FRxBossEarthquake::Stability, RxBossEarthquake.h:75), but the C10 condition type that would READ them does not exist anywhere. \"C10 reads unaffected by the E11 repair\" is therefore VACUOUSLY true — there was no C10 implementation to affect — which is not the same as verified. No test was invented.",
+      "status": "UNKNOWN"
+    },
+    {
+      "claim_id": "d.registry-governs-absent-vocabulary",
+      "text": "SYNTHESIS — the E11 write-scope repair governs a vocabulary the product does not implement. SkillSystem.LEGAL_EFFECTS is ['destabilize_anchor']: exactly ONE effect, and it is not E11. The design specifies a closed set of 16 effects (E1-E16); the product admits one. The repair is correct and premature: it is a specification of intended authority, valid the day E11 is implemented, and enforcing nothing today.",
+      "status": "MACHINE_VERIFIED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "../C_e11_test_repair/repair_matrix.out",
+      "sha256": "d21281bde459a434b9829599f5c3555653b2b6ab68115ba304ef68eb63024223",
+      "claim_ids": [
+        "d.items-1-to-4-delivered"
+      ]
+    },
+    {
+      "path": "../C_e11_test_repair/post_repair_root.out",
+      "sha256": "bc0c120de23793aabf042d1ea362218bbffc94ea15d53f17c0d440877a8c3edd",
+      "claim_ids": [
+        "d.items-1-to-4-delivered"
+      ]
+    },
+    {
+      "path": "admission_probe.out",
+      "sha256": "16a175ef004dea16906f76524ea45592f834cf794ea2892be241239d21a974c0",
+      "claim_ids": [
+        "d.item-5-real-authority-path-exercised",
+        "d.item-5-is-command-tier-not-e11",
+        "d.item-6-product-authority-path-absent",
+        "d.registry-governs-absent-vocabulary"
+      ]
+    },
+    {
+      "path": "admission_probe.exit",
+      "sha256": "c1878d07c636cd37631dc02c63f0c580708d78de1f2bc05c1a3b607dabb60bb7",
+      "claim_ids": [
+        "d.item-5-real-authority-path-exercised"
+      ]
+    },
+    {
+      "path": "admission_results.json",
+      "sha256": "376b0f9d9b816cf9089b71bbbd488693644eff99b00035d5852b59409f5434e3",
+      "claim_ids": [
+        "d.item-5-real-authority-path-exercised",
+        "d.item-5-is-command-tier-not-e11",
+        "d.item-6-product-authority-path-absent"
+      ]
+    },
+    {
+      "path": "surface_map.out",
+      "sha256": "ddaf3db5ae0448e5fe89138045f3647bf185ee806f4bae20301a1c2f0a2fec3e",
+      "claim_ids": [
+        "d.item-6-surface-map-complete",
+        "d.detector-positive-control",
+        "d.registry-governs-absent-vocabulary"
+      ]
+    },
+    {
+      "path": "surface_map.json",
+      "sha256": "871076d433d8b2a74aa30955165bdb573a58aa491f17c43cd573873c1c2e20dd",
+      "claim_ids": [
+        "d.item-6-surface-map-complete"
+      ]
+    },
+    {
+      "path": "surface_map.exit",
+      "sha256": "cb30b1b5b95544ebb251b562ea5b673a27332c5ead6815f21b082e77205284f6",
+      "claim_ids": [
+        "d.item-6-surface-map-complete"
+      ]
+    },
+    {
+      "path": "surface_map.py",
+      "sha256": "0f5e70c5ec6394a36ac07d7e81e8bb41fde2f8a587a39e2f205c755f16d903ee",
+      "claim_ids": [
+        "d.item-6-surface-map-complete",
+        "d.detector-positive-control"
+      ]
+    },
+    {
+      "path": "admission_probe.err",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "claim_ids": []
+    },
+    {
+      "path": "surface_map.err",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "claim_ids": []
+    },
+    {
+      "path": "admission_probe.py",
+      "sha256": "f0e9c24bcf78fcd15d988a6a1c226aee86314f13f906c8d95eb486a0e7d66d40",
+      "claim_ids": []
+    }
+  ],
+  "artifacts": [
+    "../C_e11_test_repair/repair_matrix.out",
+    "../C_e11_test_repair/post_repair_root.out",
+    "admission_probe.out",
+    "admission_probe.exit",
+    "admission_results.json",
+    "surface_map.out",
+    "surface_map.json",
+    "surface_map.exit",
+    "surface_map.py",
+    "admission_probe.err",
+    "surface_map.err",
+    "admission_probe.py"
+  ],
+  "tests": [
+    {
+      "command": "python3 admission_probe.py   # Commands.validate + SkillSystem.validate_spec",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "admission_probe.out",
+      "stderr_artifact": "admission_probe.err",
+      "negative_control": true
+    },
+    {
+      "command": "python3 surface_map.py surface_map.json   # 12 surfaces x 4 pattern groups",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "surface_map.out",
+      "stderr_artifact": "surface_map.err",
+      "negative_control": true
+    }
+  ],
+  "decisions_requested": [
+    "PRODUCT_AUTHORITY_PATH_ABSENT is reported per item 6. The E11 repair cannot be independently verified against product behaviour until E11 exists in code. L4/L5 call: does K-01 close on registry-document evidence plus this absence proof, or does it stay ACTIVE pending an implemented E11 admission path?",
+    "The design specifies 16 effects; the product implements 1. That gap is far larger than the E11 repair and is not ARM-06 scope to close. Someone should own whether E1-E16 is a roadmap or a contract."
+  ],
+  "risks": [
+    "The registry write-scope column is currently unenforced by anything executable. If E11 is implemented later by someone who does not read §4.0, the allow-list will not stop them — the document does not bind the code. The repaired test guards the document only.",
+    "My first surface-map run produced a FALSE ABSENCE across every surface because of a ripgrep output-format assumption. It was caught only because the specification files served as an accidental positive control. Any future absence claim in this fleet should carry an explicit known-present case, not rely on one being incidentally in range.",
+    "My first admission probe also passed for the wrong reason: it chose author_skill as the T2 exemplar, which fails ERR_MALFORMED on missing params.spec before the tier check is reached, so the \"refusal\" proved nothing about authority. Fixed by supplying well-formed params per type and asserting the refusal code is specifically ERR_AUTHORITY."
+  ],
+  "next_action": "Awaiting L4/L5 disposition on K-01. A.5 remains OPEN. No in-scope work remains that does not depend on E11 being implemented in product code."
+}

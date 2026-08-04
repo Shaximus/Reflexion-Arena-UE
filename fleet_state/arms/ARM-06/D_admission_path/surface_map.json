@@ -1,0 +1,183 @@
+{
+  "surfaces": [
+    {
+      "surface": "UE sim core (C++)",
+      "path": "/home/shax/.claude-squad/worktrees/arm/product-verification-v1_18c8af42232fea3a/Source/ReflexionArena/Sim",
+      "kind": "impl",
+      "exists": true,
+      "hits": {
+        "E11_effect_id": 0,
+        "E11_param": 0,
+        "write_scope": 0,
+        "C10_condition": 0
+      },
+      "errors": []
+    },
+    {
+      "surface": "UE commandlet / harness",
+      "path": "/home/shax/.claude-squad/worktrees/arm/product-verification-v1_18c8af42232fea3a/Source/ReflexionArena",
+      "kind": "impl",
+      "exists": true,
+      "hits": {
+        "E11_effect_id": 0,
+        "E11_param": 0,
+        "write_scope": 0,
+        "C10_condition": 0
+      },
+      "errors": []
+    },
+    {
+      "surface": "UE schemas",
+      "path": "/home/shax/.claude-squad/worktrees/arm/product-verification-v1_18c8af42232fea3a/Schemas",
+      "kind": "impl",
+      "exists": true,
+      "hits": {
+        "E11_effect_id": 0,
+        "E11_param": 0,
+        "write_scope": 0,
+        "C10_condition": 0
+      },
+      "errors": []
+    },
+    {
+      "surface": "UE data fixtures",
+      "path": "/home/shax/.claude-squad/worktrees/arm/product-verification-v1_18c8af42232fea3a/Data",
+      "kind": "impl",
+      "exists": true,
+      "hits": {
+        "E11_effect_id": 0,
+        "E11_param": 0,
+        "write_scope": 0,
+        "C10_condition": 0
+      },
+      "errors": []
+    },
+    {
+      "surface": "Godot sim (GDScript)",
+      "path": "/home/shax/Projects/core-tech/Reflexion-Arena/game/sim",
+      "kind": "impl",
+      "exists": true,
+      "hits": {
+        "E11_effect_id": 0,
+        "E11_param": 0,
+        "write_scope": 0,
+        "C10_condition": 0
+      },
+      "errors": []
+    },
+    {
+      "surface": "Godot tests",
+      "path": "/home/shax/Projects/core-tech/Reflexion-Arena/game/tests",
+      "kind": "impl",
+      "exists": true,
+      "hits": {
+        "E11_effect_id": 0,
+        "E11_param": 0,
+        "write_scope": 0,
+        "C10_condition": 0
+      },
+      "errors": []
+    },
+    {
+      "surface": "Godot presentation",
+      "path": "/home/shax/Projects/core-tech/Reflexion-Arena/game/presentation",
+      "kind": "impl",
+      "exists": true,
+      "hits": {
+        "E11_effect_id": 0,
+        "E11_param": 0,
+        "write_scope": 0,
+        "C10_condition": 0
+      },
+      "errors": []
+    },
+    {
+      "surface": "Godot data fixtures",
+      "path": "/home/shax/Projects/core-tech/Reflexion-Arena/game/data",
+      "kind": "impl",
+      "exists": true,
+      "hits": {
+        "E11_effect_id": 0,
+        "E11_param": 0,
+        "write_scope": 0,
+        "C10_condition": 0
+      },
+      "errors": []
+    },
+    {
+      "surface": "Python sim mirror",
+      "path": "/home/shax/Projects/core-tech/Reflexion-Arena/tools/oracle",
+      "kind": "impl",
+      "exists": true,
+      "hits": {
+        "E11_effect_id": 0,
+        "E11_param": 0,
+        "write_scope": 0,
+        "C10_condition": 0
+      },
+      "errors": []
+    },
+    {
+      "surface": "Adversarial corpora",
+      "path": "/home/shax/Projects/core-tech/Reflexion-Arena/tests",
+      "kind": "impl",
+      "exists": true,
+      "hits": {
+        "E11_effect_id": 0,
+        "E11_param": 0,
+        "write_scope": 0,
+        "C10_condition": 0
+      },
+      "errors": []
+    },
+    {
+      "surface": "UE design spec (ENUMS)",
+      "path": "/home/shax/.claude-squad/worktrees/arm/product-verification-v1_18c8af42232fea3a/Design/RX_SKILL_ENUMS_V1.md",
+      "kind": "spec",
+      "exists": true,
+      "hits": {
+        "E11_effect_id": 7,
+        "E11_param": 6,
+        "write_scope": 4,
+        "C10_condition": 4
+      },
+      "errors": []
+    },
+    {
+      "surface": "UE design spec (GRAMMAR)",
+      "path": "/home/shax/.claude-squad/worktrees/arm/product-verification-v1_18c8af42232fea3a/Design/RX_SKILL_GRAMMAR_V1.md",
+      "kind": "spec",
+      "exists": true,
+      "hits": {
+        "E11_effect_id": 0,
+        "E11_param": 1,
+        "write_scope": 0,
+        "C10_condition": 0
+      },
+      "errors": []
+    }
+  ],
+  "patterns": {
+    "E11_effect_id": [
+      "adjust_counter",
+      "AdjustCounter"
+    ],
+    "E11_param": [
+      "counter_id",
+      "CounterId"
+    ],
+    "write_scope": [
+      "A2-writable",
+      "A2Writable",
+      "AllowList",
+      "allow_list"
+    ],
+    "C10_condition": [
+      "counter_threshold",
+      "CounterThreshold"
+    ]
+  },
+  "e11_impl_occurrences": 0,
+  "c10_impl_occurrences": 0,
+  "rg_errors": []
+}
