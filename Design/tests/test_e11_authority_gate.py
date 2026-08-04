@@ -8,13 +8,23 @@ A gate that has never been observed refusing is not a gate.
 
 SCOPE — read this before trusting a green run.
     This checks the REGISTRY DOCUMENT (RX_SKILL_ENUMS_V1.md §4.1). It does not
-    execute product code. There is no E11 admission path in the UE tree to test:
-    `rg -e adjust_counter -e AdjustCounter -e AllowList Source/` exits 1, and
-    FRxSkillSpec (RxSkillSystem.h:77-85) is a six-field fixed-choice spec with no
-    effect list. The enforcement requirement at RX_SKILL_ENUMS_V1.md:261-266 —
-    "the validator ... MUST reject an E11 whose counter_id is not A2-writable" —
-    is therefore UNMET IN CODE. Passing this file means the registry is correct
-    and its assertions can fail. It does not mean a validator rejects anything.
+    execute product code. Passing this file means the registry is correct and its
+    assertions can fail. It does not mean a validator rejects anything.
+
+    MEASURED 2026-08-04, at commit d7ed39b — A DATED OBSERVATION, NOT A STANDING
+    FACT. At that time no E11 admission path existed on any of ten implementation
+    surfaces across both product trees; `adjust_counter` occurred 0 times in
+    implementation and 7 times in specification, and both the exploit
+    (`adjust_counter{boss_stability}`) and the canon-legitimate case
+    (`adjust_counter{boss_release_delay}`) were refused IDENTICALLY by the effect
+    vocabulary, not by any allow-list. Evidence, with the detector's own positive
+    control: fleet_state/arms/ARM-06/D_admission_path/report.json.
+
+    ARM-08 IS IMPLEMENTING THAT PATH. When it lands, the paragraph above becomes
+    HISTORY and this file will still be checking only the document. Do not cite
+    it as current evidence that E11 is unimplemented — re-run the surface map
+    (D_admission_path/surface_map.py) and read what it says today. A dated claim
+    left undated is how a true observation turns into a false one.
 
 REPAIRED 2026-08-04 by ARM-06 after three measured defects in the original:
 
@@ -28,6 +38,14 @@ REPAIRED 2026-08-04 by ARM-06 after three measured defects in the original:
             assertions passed VACUOUSLY — only the single boss_release_delay
             positive assertion noticed. FIX: the A2-writable column is located by
             HEADER NAME, and an unrecognised verdict cell is an error, not a False.
+
+  DEFECT-6  registry drift fail-open (found 2026-08-04, after the first five were
+            closed). DEFECT-1 caught a governed row going MISSING; the inverse was
+            unguarded. Adding a new counter row marked A2-writable passed at exit
+            0, because the gate only ever looked up the counters it already knew.
+            The allow-list could be widened silently — the original hole in
+            reverse. FIX: registry closure. Any counter in §4.1 that no case
+            governs is a failure.
 
   DEFECT-3  exit-code collision. The doc path was cwd-relative, so running from any
             other directory exited 1 with FileNotFoundError — indistinguishable, by
@@ -80,13 +98,20 @@ def parse_registry(text):
         if not line.startswith("|"):
             continue
         c = cells(line)
-        if any("counter_id" in x for x in c):
-            for j, x in enumerate(c):
-                if "a2-writable" in x.lower():
-                    header_i, col = i, j
-                    break
-            if col is not None:
-                break
+        # Identify the §4.1 header by the write-scope column, NOT by the presence of
+        # "counter_id" — that substring also occurs in the C10 conditions row (:233)
+        # and the E11 effects row (:338), which are different tables entirely.
+        matches = [j for j, x in enumerate(c) if "a2-writable" in x.lower()]
+        if not matches:
+            continue
+        # SCHEMA, not position, now that this is confirmed to be the header.
+        if len(matches) > 1:
+            die(f"§4.1 header has {len(matches)} columns claiming to be the "
+                f"A2-writable column: {[c[j] for j in matches]}")
+        if "counter_id" not in c[0]:
+            die(f"§4.1 header found but `counter_id` is not the first column: {c}")
+        header_i, col = i, matches[0]
+        break
     if col is None:
         die("no §4.1 table with an 'A2-writable' column header was found in "
             f"{DOC.name}. The registry's write-scope column is the whole point of the "
@@ -141,6 +166,19 @@ def main():
     fails += present
     print(f"  {cid:24s} {'False':6s}  {'PRESENT' if present else 'absent':6s}  "
           f"{'*** FAIL ***' if present else 'PASS'}   {why}")
+
+    # DEFECT-6: registry CLOSURE. DEFECT-1 caught a governed row going missing; this
+    # catches the inverse — a new counter appearing that no case governs. Without it
+    # the allow-list can be widened silently, which is the original hole in reverse:
+    # boss_stability was writable because no column denied it; a new counter would be
+    # writable because no case checks it.
+    ungoverned = sorted(set(registry) - {c[0] for c in CASES})
+    for cid in ungoverned:
+        fails += 1
+        state = "WRITABLE" if registry[cid] else "denied"
+        print(f"  {cid:24s} {'—':6s}  {state:6s}  *** FAIL ***   "
+              f"UNGOVERNED — in §4.1 but no case governs it; add it to CASES with an "
+              f"explicit expectation")
 
     print()
     print(f"  {'ALL GATE CONDITIONS MET' if not fails else f'{fails} FAILURE(S)'}")

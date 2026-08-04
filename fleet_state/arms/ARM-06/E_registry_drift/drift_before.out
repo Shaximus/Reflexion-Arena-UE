@@ -1,0 +1,9 @@
+control                    expected  actual  verdict
+------------------------------------------------------------------------------
+D0_baseline                0         0       as designed   unmutated registry
+D1_new_writable_counter    1         0       *** FAIL-OPEN ***   an UNGOVERNED counter appears, marked A2-WRITABLE
+D2_new_denied_counter      1         0       *** FAIL-OPEN ***   an ungoverned counter appears, marked denied (lower risk, still ungoverned)
+
+REGISTRY DRIFT IS A FAIL-OPEN. A counter added to §4.1 is never checked
+against the governed case list, so the allow-list can be widened silently.
+controls not behaving as designed: 2  ['D1_new_writable_counter', 'D2_new_denied_counter']
