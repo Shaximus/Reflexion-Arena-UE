@@ -1,0 +1,33 @@
+# ARM-06 — all envelopes against the AUTHORITATIVE validator
+# tool: /home/shax/Projects/core-tech/PentaCLI/.claude/worktrees/arm-00-fleet-foundry/fleet_state/foundry/tools/validate_arm_report.py
+# sha256: 214292d64839d31f44c277b1be2579e923396c416c96f279fd25ca6d9680dfcb
+# codes: 0 ADMITTED | 1 REJECTED | 2 LOAD_ERROR | 10 SCHEMA_ONLY
+
+EXIT=0   fleet_state/arms/ARM-06/A_e11_replay/report.json
+    ADMITTED: ARM-06-20260804T2054Z-CHECKPOINT-01 (ARM-06) state=CHECKPOINT evidence_root=fleet_state/arms/ARM-06/A_e11_replay
+EXIT=0   fleet_state/arms/ARM-06/B_oracle_discrimination/report.json
+    ADMITTED: ARM-06-20260804T2115Z-CHECKPOINT-02 (ARM-06) state=CHECKPOINT evidence_root=fleet_state/arms/ARM-06/B_oracle_discrimination
+EXIT=0   fleet_state/arms/ARM-06/C_e11_test_repair/report.json
+    ADMITTED: ARM-06-20260804T2210Z-CHECKPOINT-03 (ARM-06) state=CHECKPOINT evidence_root=fleet_state/arms/ARM-06/C_e11_test_repair
+EXIT=0   fleet_state/arms/ARM-06/D_admission_path/report.json
+    ADMITTED: ARM-06-20260804T2340Z-CHECKPOINT-05 (ARM-06) state=CHECKPOINT evidence_root=fleet_state/arms/ARM-06
+EXIT=0   fleet_state/arms/ARM-06/E_registry_drift/report.json
+    ADMITTED: ARM-06-20260805T0010Z-CHECKPOINT-06 (ARM-06) state=CHECKPOINT evidence_root=fleet_state/arms/ARM-06/E_registry_drift
+EXIT=0   fleet_state/arms/ARM-06/F_c10_read_anchors/report.json
+    ADMITTED: ARM-06-20260805T0020Z-CHECKPOINT-07 (ARM-06) state=CHECKPOINT evidence_root=fleet_state/arms/ARM-06/F_c10_read_anchors
+EXIT=0   fleet_state/arms/ARM-06/G_admission_control/report.json
+    ADMITTED: ARM-06-20260805T0030Z-CHECKPOINT-08 (ARM-06) state=CHECKPOINT evidence_root=fleet_state/arms/ARM-06/G_admission_control
+EXIT=0   fleet_state/arms/ARM-06/H_suite_runner/report.json
+    ADMITTED: ARM-06-20260805T0040Z-CHECKPOINT-09 (ARM-06) state=CHECKPOINT evidence_root=fleet_state/arms/ARM-06/H_suite_runner
+EXIT=0   fleet_state/arms/ARM-06/I_per_tick/report.json
+    ADMITTED: ARM-06-20260805T0050Z-CHECKPOINT-10 (ARM-06) state=CHECKPOINT evidence_root=fleet_state/arms/ARM-06/I_per_tick
+EXIT=0   fleet_state/arms/ARM-06/J_redistribution/report.json
+    ADMITTED: ARM-06-20260805T0100Z-CHECKPOINT-11 (ARM-06) state=CHECKPOINT evidence_root=fleet_state/arms/ARM-06/J_redistribution
+EXIT=0   fleet_state/arms/ARM-06/K_anchor_fix/report.json
+    ADMITTED: ARM-06-20260805T0110Z-CHECKPOINT-12 (ARM-06) state=CHECKPOINT evidence_root=fleet_state/arms/ARM-06/K_anchor_fix
+EXIT=0   fleet_state/arms/ARM-06/L_envelope_validator/report.json
+    ADMITTED: ARM-06-20260805T0120Z-CHECKPOINT-13 (ARM-06) state=CHECKPOINT evidence_root=fleet_state/arms/ARM-06/L_envelope_validator
+EXIT=0   fleet_state/arms/ARM-06/M_head_channel/report.json
+    ADMITTED: ARM-06-20260805T0130Z-CHECKPOINT-14 (ARM-06) state=CHECKPOINT evidence_root=fleet_state/arms/ARM-06/M_head_channel
+EXIT=0   fleet_state/arms/ARM-06/N_stability/report.json
+    ADMITTED: ARM-06-20260805T0200Z-CHECKPOINT-15 (ARM-06) state=CHECKPOINT evidence_root=fleet_state/arms/ARM-06/N_stability

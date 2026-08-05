@@ -1,0 +1,58 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-06-20260805T0230Z-CHECKPOINT-16",
+  "arm_id": "ARM-06",
+  "goal_id": "wave1a-ARM-06-product-verification-v1",
+  "generated_at": "2026-08-05T02:30:00Z",
+  "state": "CHECKPOINT",
+  "chat_url": "https://chatgpt.com/g/g-p-6a46a73f024481918cf7a4c4ce131766-the-board-room/c/6a72276b-1b18-83ea-9617-54360924c769",
+  "authority_ceiling": "L2",
+  "evidence_root": "fleet_state/arms/ARM-06/O_authoritative_validation",
+  "claims": [
+    {
+      "claim_id": "o.all-admitted",
+      "text": "All 14 ARM-06 report envelopes are ADMITTED by the AUTHORITATIVE validator at fleet_state/foundry/tools/validate_arm_report.py (sha256 214292d6...), exit 0 for every one, zero REJECTED, zero LOAD_ERROR, zero SCHEMA_ONLY. Until this run they had only been checked against ARM-06's own validator, which makes them drafts by the fleet's own standard.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "o.local-validator-agreed",
+      "text": "ARM-06's own validator and the authoritative validator agree on all 14 envelopes. The local check was therefore a faithful pre-filter and not a weaker standard that let defects through — measured by running both, not assumed from the fact that both said yes.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "o.schema-shape-confirmed",
+      "text": "The claim and evidence shapes ARM-06 emitted are the ones the authoritative validator requires: claims as {claim_id, text, status} and evidence as top-level objects {path, sha256, claim_ids} distinct from artifacts. No envelope needed rewriting to be admitted.",
+      "status": "MACHINE_VERIFIED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "authoritative_run.txt",
+      "sha256": "76349f32739e5b2712683292535a319edccd3ad59af5e8aded95d6958f3896c2",
+      "claim_ids": [
+        "o.all-admitted",
+        "o.local-validator-agreed",
+        "o.schema-shape-confirmed"
+      ]
+    }
+  ],
+  "artifacts": [
+    "authoritative_run.txt"
+  ],
+  "tests": [
+    {
+      "command": "for r in fleet_state/arms/ARM-06/*/report.json; do python3 validate_arm_report.py $r; done",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "authoritative_run.txt",
+      "stderr_artifact": "authoritative_run.txt",
+      "negative_control": false
+    }
+  ],
+  "decisions_requested": [],
+  "risks": [
+    "This envelope was itself validated with the authoritative tool before commit; a report not run against that validator is a draft, and that now includes this one.",
+    "14 of 14 admitted is a schema and evidence-integrity result. It says nothing about whether the CLAIMS inside them are true — admission checks resolvability and hashes, not correctness. The strongest claims in those envelopes remain the ones that argue against my own earlier statements."
+  ],
+  "next_action": "BLOCKED on push and Head-channel authority; both are permission denials, not authority refusals."
+}
