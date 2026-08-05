@@ -1,0 +1,30 @@
+# Closing a residual published in CHECKPOINT-29: the audit could not detect
+# a mirror that is PRESENT BUT WRONG. Fix: record mirror identity per run.
+# Not a pinned hash — the mirror legitimately changes and a pin would fail
+# on every honest edit to the sim.
+
+== real mirror ==
+  K-03B bounded trajectory audit
+  mirror path   : /home/shax/Projects/core-tech/Reflexion-Arena/tools/oracle
+  sim_mirror.py : 37ae041b0c6971f7cb987ae4c8208e2c8caab5fef4f59f20fddef47bf57fdc9c
+  (identity RECORDED, not asserted — a wrong-but-present mirror is invisible to any check that only tests for absence)
+  PASS           canonical clean            0 forbidden transient(s) across 11902 ticks
+  PASS           canary caught              caught at tick_idx=3500 boss_stability 300->340
+  PASS           boss_release_delay observable 2 distinct values [0, 20]
+  PASS           deterministic              two canonical runs, full-trace sha256
+
+== dirty sandbox mirror (the CHECKPOINT-29 negative control) ==
+  K-03B bounded trajectory audit
+  mirror path   : /tmp/claude-1000/-home-shax--claude-squad-worktrees-arm-product-verification-v1-18c8af42232fea3a/53254b17-7eba-4069-80db-3983f669856d/scratchpad/dirty/tools/oracle
+  sim_mirror.py : 3f1041e4a032b9b55f3ce8a0411fff262eeea35b9913005a8e7299d6630b27ff
+  (identity RECORDED, not asserted — a wrong-but-present mirror is invisible to any check that only tests for absence)
+  *** FAIL ***   canonical clean            1 forbidden transient(s) across 11902 ticks
+
+== distinguishable from output alone? (field 3, not 2) ==
+  real  : 37ae041b0c6971f7cb987ae4c8208e2c8caab5fef4f59f20fddef47bf57fdc9c
+  dirty : 3f1041e4a032b9b55f3ce8a0411fff262eeea35b9913005a8e7299d6630b27ff
+  distinguishable: YES
+
+# NOTE: the first version of THIS check used awk $2, which is the colon,
+# and reported 'distinguishable: NO' about output that visibly differed.
+# My checker was the defect, not the capability. Fixed to $3.

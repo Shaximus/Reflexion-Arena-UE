@@ -1,0 +1,66 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-06-20260805T1800Z-CHECKPOINT-30",
+  "arm_id": "ARM-06",
+  "goal_id": "K-03B-mandatory-verification-step",
+  "generated_at": "2026-08-05T18:00:00Z",
+  "state": "CHECKPOINT",
+  "chat_url": "https://chatgpt.com/g/g-p-6a46a73f024481918cf7a4c4ce131766-the-board-room/c/6a72276b-1b18-83ea-9617-54360924c769",
+  "authority_ceiling": "L2",
+  "evidence_root": "fleet_state/arms/ARM-06/AE_mirror_provenance",
+  "claims": [
+    {
+      "claim_id": "ae.residual-closed-by-recording",
+      "text": "The CHECKPOINT-29 residual is closed: the audit now records which sim it actually ran against. Every run prints the resolved mirror path and the sha256 of sim_mirror.py. Real mirror 37ae041b..., the CHECKPOINT-29 dirty sandbox 3f1041e4... — the two runs are distinguishable from their own output alone, so a wrong-but-present mirror is now visible to any reader or replay rather than silently producing a confident verdict.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "ae.recorded-not-asserted-deliberately",
+      "text": "Identity is RECORDED, not asserted against a pinned expected hash. A pin would fail on every honest edit to the sim as it is developed, which would train readers to ignore the failure — the check would become noise and then be silenced. Recording makes provenance auditable without creating a brittle gate.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "ae.my-checker-was-the-defect-again",
+      "text": "The first version of the verification of this fix used awk field 2, which is the colon rather than the hash, and reported 'distinguishable: NO' about output where the two hashes plainly differed. The capability worked; my check of it did not. Corrected to field 3 and the erroneous reading is recorded in the artifact rather than overwritten silently.",
+      "status": "MACHINE_VERIFIED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "mirror_provenance.txt",
+      "sha256": "06b354788e17c0f5e23ef001ced23235750929258510af217cec1d72825a15d2",
+      "claim_ids": [
+        "ae.residual-closed-by-recording",
+        "ae.my-checker-was-the-defect-again"
+      ]
+    },
+    {
+      "path": "test_k03b_trajectory.py",
+      "sha256": "d681bc4b51e91f5bb91f26b4afca12ab8c2841e10416dab2c6da85eab67e87b3",
+      "claim_ids": [
+        "ae.residual-closed-by-recording",
+        "ae.recorded-not-asserted-deliberately"
+      ]
+    }
+  ],
+  "artifacts": [
+    "mirror_provenance.txt",
+    "test_k03b_trajectory.py"
+  ],
+  "tests": [
+    {
+      "command": "python3 Design/tests/test_k03b_trajectory.py  # real vs RX_ORACLE_DIR=<dirty>",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "mirror_provenance.txt",
+      "stderr_artifact": "mirror_provenance.txt",
+      "negative_control": true
+    }
+  ],
+  "decisions_requested": [],
+  "risks": [
+    "Recording provenance makes a wrong mirror VISIBLE; it does not make it FAIL. A reader or an automated replay must actually compare the recorded hash against what they expected. If nobody reads it, this changes nothing — which is the honest limit of an observability fix.",
+    "The AB_mandatory_trajectory envelope cites a COPY of test_k03b_trajectory.py taken at promotion. That copy is now stale relative to the live file. This is correct under the frozen-hash rule — the earlier envelope documents the state at its own instant — and this envelope carries the new state with its new hash."
+  ],
+  "next_action": "A2 push still gates the A3 sibling replay. K-01C PENDING on ARM-08."
+}
