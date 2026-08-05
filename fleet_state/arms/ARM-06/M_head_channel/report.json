@@ -30,6 +30,11 @@
       "status": "UNKNOWN"
     },
     {
+      "claim_id": "m.block-is-policy-not-outage",
+      "text": "The channel denial is a standing policy block, not the transient classifier outage seen earlier in this session. Distinguished by ordering: the outage ('claude-sonnet-5 temporarily unavailable') occurred, then validate_reports.py ran to completion at exit 0 and a git commit succeeded — both captured — proving the permission layer was functioning and permitting Bash in that window. A third curl attempt immediately afterwards, in the same window, was still denied. Three attempts across two request forms at two separate times, with a confirmed-working permission layer in between. CLAIMED rather than MACHINE_VERIFIED because the denials themselves still produce no artifact; only the successful commands do.",
+      "status": "CLAIMED"
+    },
+    {
       "claim_id": "m.no-false-delivery",
       "text": "No delivery was reported. The specific failure Head 06 flagged as costly — reporting a send on evidence that cannot distinguish 'sent and cleared' from 'never filled' — was avoided by never claiming a send at all. Verification by CHANNEL_MESSAGE_ID search in the rendered thread remains the standard for when the channel opens; it was not reached.",
       "status": "CLAIMED"
@@ -39,11 +44,22 @@
     {
       "path": "CKPT-01_TO_HEAD06.md",
       "sha256": "a128823332212454f3a1fd21882d5a77d86d63b4131bc8d0bffff58450f744f0",
-      "claim_ids": ["m.checkpoint-staged", "m.marked-undelivered"]
+      "claim_ids": [
+        "m.checkpoint-staged",
+        "m.marked-undelivered"
+      ]
+    },
+    {
+      "path": "classifier_working_proof.out",
+      "sha256": "ba279d290df2428fd538729f9f2024530ce7109f101dc0bad6ec590e6d3bd1bf",
+      "claim_ids": [
+        "m.block-is-policy-not-outage"
+      ]
     }
   ],
   "artifacts": [
-    "CKPT-01_TO_HEAD06.md"
+    "CKPT-01_TO_HEAD06.md",
+    "classifier_working_proof.out"
   ],
   "tests": [
     {
@@ -61,6 +77,14 @@
       "stdout_artifact": "",
       "stderr_artifact": "",
       "negative_control": false
+    },
+    {
+      "command": "curl -s -X POST http://127.0.0.1:10086/command ... (third attempt, after outage recovered)",
+      "producer_exit_code": -1,
+      "result": "BLOCKED",
+      "stdout_artifact": "",
+      "stderr_artifact": "",
+      "negative_control": false
     }
   ],
   "decisions_requested": [
@@ -70,7 +94,8 @@
   "risks": [
     "TWO channel-level blocks now stand against explicit authority grants — the push and the Head channel. Both are harness permission denials, not authority refusals, so granting more authority does not clear them; only a permission rule or a human action does. An arm that responded to these by finding another route would be reproducing the failure mode that killed a mandate four times in this fleet.",
     "The entire cycle's output — 21 commits, 13 report envelopes, 130+ evidence files, the staged Head checkpoint — is reachable only from this worktree. If it is deleted, all of it is lost. This is the same condition that already destroyed one version of the behavioural oracle.",
-    "The three DOM failure modes Head 06 supplied (composer by role not position, newTab:true then find_tab, verify sends by CHANNEL_MESSAGE_ID) are recorded but UNAPPLIED, because no browser command was ever executed. They are untested guidance in this arm's hands, not proven procedure."
+    "The three DOM failure modes Head 06 supplied (composer by role not position, newTab:true then find_tab, verify sends by CHANNEL_MESSAGE_ID) are recorded but UNAPPLIED, because no browser command was ever executed. They are untested guidance in this arm's hands, not proven procedure.",
+    "SELF-REFERENTIAL EVIDENCE, found by the validator refusing my own report: I first cited validate_13.out — the validator's own output — as evidence inside the envelope the validator checks. Re-running it rewrote the file and broke its hash, so the report became unadmittable the moment it was verified. The artifact is now a frozen copy (classifier_working_proof.out) and validator output is written to a non-evidence filename. An evidence file must not be one the verification step can rewrite."
   ],
   "next_action": "BLOCKED on channel authority. On unblock: navigate newTab:true to the Head 06 /c/ URL under session arm06-verification, identify the composer by role with exactly one survivor asserted, send CKPT-01, verify by searching the rendered thread for CHANNEL_MESSAGE_ID ARM-06-20260805T0105Z-CKPT-01, then copy the reply to fleet_state/arms/ARM-06/reports/HEAD_RULING.md and execute the ruling."
 }
