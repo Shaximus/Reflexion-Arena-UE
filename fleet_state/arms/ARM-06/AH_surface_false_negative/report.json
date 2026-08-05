@@ -1,0 +1,83 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-06-20260805T1930Z-CHECKPOINT-33",
+  "arm_id": "ARM-06",
+  "goal_id": "K-01C-independent-authority-replay",
+  "generated_at": "2026-08-05T19:30:00Z",
+  "state": "CHECKPOINT",
+  "chat_url": "https://chatgpt.com/g/g-p-6a46a73f024481918cf7a4c4ce131766-the-board-room/c/6a72276b-1b18-83ea-9617-54360924c769",
+  "authority_ceiling": "L2",
+  "evidence_root": "fleet_state/arms/ARM-06/AH_surface_false_negative",
+  "claims": [
+    {
+      "claim_id": "ah.my-control-false-negative",
+      "text": "FALSIFIED — my own item-5 control. Run against a tree carrying ARM-08's real E11 gate it printed 'UE static scan: 20 occurrence(s)' and then concluded PRODUCT_AUTHORITY_PATH_ABSENT, contradicting its own output in the same run. The verdict was derived solely from the PYTHON MIRROR while ARM-08 implemented in UE C++ (RxCounterAuthority.h/.cpp, AdmitCounterWrite, EAdmission). 'Absent from the surface I probe' is not 'absent'.",
+      "status": "FALSIFIED"
+    },
+    {
+      "claim_id": "ah.caught-before-it-reported",
+      "text": "Caught BEFORE it produced a false report. K-01C is my independent replay of the E11 authority path; had ARM-08's branch merged while the control was unfixed, K-01C would have fired and told Head 06 that no admission path exists — against an implementation of 502 new lines that demonstrably does. The finding came from asking, pre-emptively, which SURFACE the other arm was building on rather than waiting for the trigger.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "ah.fixed-and-both-directions-verified",
+      "text": "Fixed and verified in both directions. Against the tree with the C++ gate it now reports PRODUCT_AUTHORITY_PATH_PRESENT_BUT_UNEXERCISED at exit 2, naming that the C++ gate needs a built editor and its own harness (ARM-08 ships RxSkillGateCommandlet). Against my own worktree, where the path genuinely is absent, it still reports PRODUCT_AUTHORITY_PATH_ABSENT at exit 2 — the honest absence finding is unchanged.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "ah.arm08-reached-my-a5-finding-independently",
+      "text": "Corroboration from a separate seat: ARM-08's RxCounterAuthority.h states 'THE READ SIDE DOES NOT EXIST. C10 counter_threshold is SPECIFIED and NOT implemented ... nothing can read these counters through C10 because there is no C10.' That is my A.5 finding, reached independently by the implementing arm rather than inherited from my report.",
+      "status": "MACHINE_VERIFIED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "surface_false_negative.txt",
+      "sha256": "6a2c6d95ae51e02c59547ee8a989ebfbfa505623f53fe3ecfa8179142ce32d86",
+      "claim_ids": [
+        "ah.my-control-false-negative",
+        "ah.caught-before-it-reported",
+        "ah.fixed-and-both-directions-verified",
+        "ah.arm08-reached-my-a5-finding-independently"
+      ]
+    },
+    {
+      "path": "test_e11_admission_path.py",
+      "sha256": "3c32155dae2f36ecb4827d8b4f913b5454521ce91b3779067d6b36b6dc05ef64",
+      "claim_ids": [
+        "ah.fixed-and-both-directions-verified"
+      ]
+    }
+  ],
+  "artifacts": [
+    "surface_false_negative.txt",
+    "test_e11_admission_path.py"
+  ],
+  "tests": [
+    {
+      "command": "python3 test_e11_admission_path.py  # tree WITH ARM-08's C++ gate, after fix",
+      "producer_exit_code": 2,
+      "result": "FAIL",
+      "stdout_artifact": "surface_false_negative.txt",
+      "stderr_artifact": "surface_false_negative.txt",
+      "negative_control": true
+    },
+    {
+      "command": "python3 Design/tests/test_e11_admission_path.py  # own worktree, path truly absent",
+      "producer_exit_code": 2,
+      "result": "FAIL",
+      "stdout_artifact": "surface_false_negative.txt",
+      "stderr_artifact": "surface_false_negative.txt",
+      "negative_control": true
+    }
+  ],
+  "decisions_requested": [
+    "K-01B APPEARS COMPLETE on arm/e11-authority-impl-v1: RxCounterAuthority.h/.cpp (502 lines), RxSkillSystem +325, RxSkillGateCommandlet, adjust_counter in 5 Source/ files, deny-by-default in two directions. Not merged to master and not in my worktree. Head 06 should decide whether K-01C proceeds against their branch or waits for merge.",
+    "K-01C AS SPECIFIED NEEDS A UE BUILD. The C++ gate cannot be exercised end-to-end from Python. ARM-08 ships RxSkillGateCommandlet; running it needs the ReflexionArena module built, which has never been built in my worktree. Requesting direction: build here, or replay on a seat that already has one."
+  ],
+  "risks": [
+    "I have READ ARM-08's implementation to determine the surface. I have not reviewed it, not verified its behaviour, and not formed a view on whether the gate is correct. Reading a header to find out which language it is in is not verification, and I will not let proximity to their code become an implied endorsement of it.",
+    "My control is still a PYTHON probe. The fix makes it refuse to claim absence when the UE surface disagrees; it does not make it able to exercise the C++ gate. K-01C is not closer to done — it is correctly reporting that it cannot be done from here."
+  ],
+  "next_action": "K-01C blocked on a UE build or a seat that has one. BLOCKED on push. No browser work per the stand-down."
+}

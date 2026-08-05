@@ -1,0 +1,34 @@
+# MY OWN item-5 control produced a FALSE NEGATIVE against the real E11.
+# ARM-08 implemented in UE C++ (RxCounterAuthority.h/.cpp, AdmitCounterWrite,
+# EAdmission{Admit,RejectUnknownCounter,RejectAuthorityOwned}). My control
+# probes the PYTHON MIRROR.
+
+== BEFORE the fix, against a tree carrying ARM-08's real C++ gate ==
+  UE static scan : 20 occurrence(s) of adjust_counter/AdjustCounter
+  VERDICT        : PRODUCT_AUTHORITY_PATH_ABSENT   exit 2
+  -> it printed 20 occurrences and then declared the path absent,
+     contradicting its own output in the same run.
+
+== AFTER the fix, same tree ==
+  ------------------------------------------------------------------------------------------------
+  adjust_counter{boss_stability}  THE EXPLOIT  False     effect must be one of ['destabilize_anchor']
+  adjust_counter{boss_release_delay}  CANON    False     effect must be one of ['destabilize_anchor']
+
+  PRODUCT_AUTHORITY_PATH_PRESENT_BUT_UNEXERCISED — 20 occurrence(s) of ('adjust_counter', 'AdjustCounter') exist in the UE sim, but this control
+  exercises the PYTHON MIRROR, where E11 is not implemented. The two
+  surfaces disagree, and the mirror's answer is NOT the product's answer.
+  Exercising the C++ gate needs a built editor and its own harness
+  (ARM-08 ships RxSkillGateCommandlet for exactly this).
+
+  exit 2 — the path exists and was NOT exercised. NOT a pass, NOT an
+  absence finding. Reporting ABSENT here would be a false negative.
+AFTER_EXIT=2
+
+== unchanged where the path genuinely is absent (my own worktree) ==
+  Same rule, same message. That is the effect VOCABULARY, not a counter allow-list.
+  A gate that also refuses the legitimate case is not a gate: the exploit is
+  UNREACHABLE, not GATED.
+  'adjust_counter' is not in LEGAL_EFFECTS (['destabilize_anchor']).
+
+  exit 2 — nothing to exercise. This is NOT a pass and NOT a breach.
+OWN_WORKTREE_EXIT=2
