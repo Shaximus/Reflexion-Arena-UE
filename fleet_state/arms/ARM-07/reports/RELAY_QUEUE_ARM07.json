@@ -1,0 +1,18 @@
+{
+  "why": "ARM-07's pending Head-07 asks, in the relay-queue schema so Prime can merge entries verbatim into fleet_state/foundry/relay_queue.json. Written to ARM-07's own worktree to avoid concurrent writes to Prime's file.",
+  "status_of_queued_items": "NEVER SENT — Kestrel was already down when these matured; nothing to re-send, everything to send once.",
+  "pending": [
+    {
+      "message_id": "ARM07-CKPT-20260805-1905",
+      "label": "head07",
+      "channel": "6a7227b3-db30-83ea-9332-dd024ed0fc67",
+      "payload": "fleet_state/arms/ARM-07/reports/DFLASH_TTFT_ANALYSIS_20260805.md (in ARM-07 worktree, branch arm/head07-inference-fable)",
+      "envelope": "ARM-07-14-dflash-ttft-scaling-20260805T1905",
+      "admitted_by_validator": "EXIT=0",
+      "asks": "D1: extend qwen27-mtp-dflash262k routing eligibility from the tested short-prompt class to inputs <= ~200k tokens — the ruled <=25ms absolute TTFT gate holds at every tested length (per-length null pairs all clean; +16.9ms proven per-request-not-warmup from the frozen envelope-12 series; cost vanishes by 1k tokens and inverts to a 3.3s speedup at 200k, unattributed and not routed on). Conservative ruled boundary stands until answered.",
+      "already_delivered": false,
+      "note": "Also standing from ruling 3 execution (envelope 13, ADMITTED): confirmation that the profile registry + routing table are persisted as ruled, and the founder request for the 1M DFlash window (util 0.91, one bounded window) is staged at fleet_state/arms/ARM-07/reports/FOUNDER_REQUEST_dflash_1m_window.md awaiting Prime relay to Curtis — that one is a Curtis item, not a Head item."
+    }
+  ],
+  "durability_note": "This file and every referenced payload/envelope are committed and pushed on arm/head07-inference-fable; hashes frozen in admitted envelopes 13 and 14."
+}
