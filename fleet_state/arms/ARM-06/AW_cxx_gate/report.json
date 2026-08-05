@@ -1,0 +1,155 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-06-20260805T2340Z-CHECKPOINT-42",
+  "arm_id": "ARM-06",
+  "goal_id": "K-01C",
+  "generated_at": "2026-08-05T23:40:00Z",
+  "state": "CHECKPOINT",
+  "chat_url": "local://claude-squad/arm-product-verification-v1",
+  "authority_ceiling": "L2",
+  "evidence_root": "fleet_state/arms/ARM-06/AW_cxx_gate",
+  "claims": [
+    {
+      "claim_id": "C1",
+      "text": "The E11 write-scope gate predicate in ARM-08's RxCounterAuthority.cpp (origin/arm/e11-authority-impl-v1 @ 08f742a) is CORRECT: compiled standalone with g++ -std=c++17 and called directly, it passes 18/18 assertions derived from RX_SKILL_ENUMS_V1.md 4.0/4.1 — boss_stability is refused as RejectAuthorityOwned, boss_release_delay is admitted, unknown/empty/nullptr and prefix/suffix/truncation/case/space attacks are all refused as RejectUnknownCounter, the two rejection reasons stay distinguishable, and exactly one of six registry rows is A2-writable.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "C2",
+      "text": "That 18/18 result is discriminating, not vacuous: seven mutations applied to the PRODUCT translation unit (never the harness) were every one detected, each producing a DISTINCT failure signature, while the unmutated TU fired zero assertions. The harness localises which defect was introduced rather than merely alarming that something broke.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "C3",
+      "text": "The gate is UNREACHABLE from the player-facing path. FRxSimWorld::ParseSkillSpec (RxSimWorld.cpp:158, called from author_skill at :930) reads exactly six fields — name, trigger, effect, cost, cooldown, commit_window — and never touches `effects`, so FRxSkillSpec::Effects is always empty and the gate loop at RxSkillSystem.cpp:217 iterates nothing. boss_stability is safe today because the parser cannot express the attack, not because the gate refuses it: UNREACHABLE, not GATED.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "C4",
+      "text": "The absence of any writer to FRxSkillSpec::Effects is claimed against a named search surface: FRxSkillEffect (RxSkillSystem.h:86) is a plain C++ struct and not a USTRUCT, so no reflection-based deserialiser can populate it without naming it; git grep across all of Source/** for `.Effects`, `Effects.Add|Emplace|Num` and `FRxSkillEffect` returns three hits — two declarations and one read — and no writer.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "C5",
+      "text": "The reachability verdict is itself discriminating on the same causal path: four scratch trees produce four DISTINCT exit codes — R0 as-shipped exits 3 (correct but unreachable), R1 with ParseSkillSpec populating Effects exits 0 (GATE LIVE), R2 reachable plus boss_stability made writable exits 1 (BREACH), R3 with the gate source removed exits 2 (cannot evaluate). R1 proves the check can recognise a live correct gate and not only condemn an unreachable one; R2 proves reachability alone is not read as safety.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "C6",
+      "text": "One registry cite is stale: RxCounterAuthority.cpp cites FRxBossEarthquake::TremorStage at RxBossEarthquake.h:81, but line 81 is blank and the field is at :80. ARM-08's check_registry_matches_doc.py cannot catch this class of drift because it parses the writability column only and never examines the cite string. Severity is documentation — it changes no admission decision.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "C7",
+      "text": "A suspected functional defect is FALSIFIED. The stale NOTE at RxSkillSystem.cpp:238-240 states that AuthorSkill maps any validation failure to ERR_STATE, which would flatten the gate's ERR_AUTHORITY at the player-facing boundary. The code at :268-273 in fact propagates the code explicitly so ERR_AUTHORITY survives. The comment is stale and contradicts the code 30 lines below it; the functional defect does not exist.",
+      "status": "FALSIFIED"
+    },
+    {
+      "claim_id": "C8",
+      "text": "The cite check published above was wrong on its first run and was corrected before publication: it reported TremorStage 'is at :64' because RxBossEarthquake.h declares int32 TremorStage twice — at :64 in FRxBossSnapshot and at :80 in FRxBossEarthquake — and the check matched the bare field name while ignoring the Type:: qualifier it had already parsed. Right about the failure, wrong about the diagnosis. Fixed by scoping the search to the qualifier's declaration span.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "C9",
+      "text": "The prior blocker 'K-01C behavioural half needs a built editor carrying ARM-08's code' is retired for the gate predicate and its reachability. ARM-08 wrote RxCounterAuthority as a deliberately UE-free translation unit precisely so it could be linked by a host-toolchain test without an engine build. A built editor is still required to exercise the gate inside a running sim, which this checkpoint does not do.",
+      "status": "MACHINE_VERIFIED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "00_provenance.txt",
+      "sha256": "bc02d7dabf216e0b20dae2d970e66cd87e46a7170784dfe0c71514e0feb6bd9c",
+      "claim_ids": ["C1", "C9"]
+    },
+    {
+      "path": "01_driver_18_assertions.txt",
+      "sha256": "34d9ec2a969138d583c2e538e1467547a11ac036d3d5770e8b4e52ee2403d3e9",
+      "claim_ids": ["C1"]
+    },
+    {
+      "path": "02_mutation_matrix.txt",
+      "sha256": "ba40d0b5a36e23ae3a83f707c7683935903387a4c341cc18a54e3e9af78cea5c",
+      "claim_ids": ["C2"]
+    },
+    {
+      "path": "03_reachability_controls.txt",
+      "sha256": "48e3546add0d9547f473fba331300074a7fd7c22be24abfdc8f17ee850605bf1",
+      "claim_ids": ["C5"]
+    },
+    {
+      "path": "04_live_test_run.txt",
+      "sha256": "7e7b130a39c4bc4098346645b193e3e40644510f0c6ec898dd43cb2e51b119a3",
+      "claim_ids": ["C1", "C3", "C6", "C8"]
+    },
+    {
+      "path": "05_suite_run.txt",
+      "sha256": "32989c380d1f88cf1046b4ba48a3374d77c8da8d1359b72e2f7fedff53a6ea48",
+      "claim_ids": ["C1", "C3"]
+    },
+    {
+      "path": "06_findings.md",
+      "sha256": "f51526d64b6a1e5551725e1917d94d565317c3f091476b5e5e5d6d4602484704",
+      "claim_ids": ["C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9"]
+    },
+    {
+      "path": "mutate_gate_tu.py",
+      "sha256": "9d807d89d3a9f4200e1c884b025f3e1908146f560235a5ef32534c5e24a5509b",
+      "claim_ids": ["C2"]
+    },
+    {
+      "path": "reachability_controls.py",
+      "sha256": "5322f5bcd879590a90e7668854e4c79d6635c58801778b2b6c646bcd1f36f695",
+      "claim_ids": ["C5"]
+    }
+  ],
+  "artifacts": [
+    "Design/tests/test_e11_cxx_gate.py",
+    "Design/tests/e11_gate_driver.cpp",
+    "fleet_state/arms/ARM-06/AW_cxx_gate/06_findings.md",
+    "fleet_state/arms/ARM-06/AW_cxx_gate/mutate_gate_tu.py",
+    "fleet_state/arms/ARM-06/AW_cxx_gate/reachability_controls.py"
+  ],
+  "tests": [
+    {
+      "name": "Design/tests/test_e11_cxx_gate.py",
+      "command": "python3 Design/tests/test_e11_cxx_gate.py",
+      "producer_exit_code": 3,
+      "result": "exit 3 UNEXERCISED — predicate correct (18/18), gate not reachable from the player-facing parser",
+      "exit_code": 3
+    },
+    {
+      "name": "fleet_state/arms/ARM-06/AW_cxx_gate/mutate_gate_tu.py",
+      "command": "python3 fleet_state/arms/ARM-06/AW_cxx_gate/mutate_gate_tu.py",
+      "producer_exit_code": 0,
+      "result": "exit 0 — 7/7 mutations of the product TU detected, all signatures distinct, clean tree silent",
+      "exit_code": 0
+    },
+    {
+      "name": "fleet_state/arms/ARM-06/AW_cxx_gate/reachability_controls.py",
+      "command": "python3 fleet_state/arms/ARM-06/AW_cxx_gate/reachability_controls.py",
+      "producer_exit_code": 0,
+      "result": "exit 0 — 4/4 controls hit their expected exit code, all four codes distinct",
+      "exit_code": 0
+    },
+    {
+      "name": "Design/tests/run_tests.py",
+      "command": "python3 Design/tests/run_tests.py",
+      "producer_exit_code": 2,
+      "result": "exit 2 INCONCLUSIVE — test_e11_admission_path.py still exits 2 because the Python mirror genuinely has no E11 implementation; that surface is unchanged by this checkpoint",
+      "exit_code": 2
+    }
+  ],
+  "decisions_requested": [
+    "ARM-08's gate is correct and not load-bearing. Whether to wire FRxSimWorld::ParseSkillSpec to read an `effects` array is a product decision above L2 — it changes what a player-authored spec can express. ARM-06 recommends it be decided explicitly rather than left implicit, because the current state reads as 'gated' to anyone who greps for the gate.",
+    "Silent drop: a spec carrying an `effects` array today validates OK and the effects vanish with no diagnostic. If wiring the parser is deferred, ARM-06 recommends ParseSkillSpec reject an unrecognised `effects` key rather than ignore it, so the no-op is visible. This is a change to ARM-08's file and is not in ARM-06's writable scope.",
+    "The stale cite (RxBossEarthquake.h:81 -> :80) is in ARM-08's RxCounterAuthority.cpp and in ARM-08's copy of RX_SKILL_ENUMS_V1.md. ARM-06's copy already carries the correction, so this will surface as merge drift. Routing to ARM-08 rather than fixing it across a scope boundary."
+  ],
+  "risks": [
+    "C1 and C2 verify the predicate as a standalone C++ function compiled by g++ 13.3.0. The shipped artifact is compiled by UE's toolchain with different flags and a different standard library. Nothing here proves the predicate behaves identically in an editor build, only that the source is correct as written.",
+    "The reachability finding is a static claim about a hand-written parser. It is strong — FRxSkillEffect is not a USTRUCT, so reflection is excluded, and no writer exists in Source/** — but it is still text analysis, not execution. A writer introduced through a path this scan does not model would falsify C3, and the test would need to be re-run to catch it.",
+    "test_e11_cxx_gate.py reads its subject from origin/arm/e11-authority-impl-v1 when the worktree lacks the file. That ref is a moving target: ARM-08 pushing a new commit changes what this test exercises without any change to ARM-06's tree. The provenance file pins the sha exercised at this checkpoint (08f742a); a later run proving something different is expected, not a contradiction.",
+    "Exit 3 (UNEXERCISED) remains a new code in this fleet's test vocabulary. Any external runner treating non-zero as failure reads 'correct but not load-bearing' as a defect. Restated from CHECKPOINT-41 because a second test now emits it.",
+    "ARM-06 has 33 commits unpushed. Every artifact in this checkpoint exists only in one worktree."
+  ],
+  "next_action": "Hold. The three external triggers are unchanged: push is denied by .claude/settings.json (Bash(git push:*) in the deny array), the Head channel stand-down is in force with Kestrel down for rulings, and ARM-08's branch is unmerged. This checkpoint moved K-01C's product-authority half as far as static and host-toolchain evidence can take it. The remaining half — exercising the gate inside a running sim — needs a built editor and ARM-08's RxSkillGateCommandlet, and is genuinely blocked, not deferred."
+}

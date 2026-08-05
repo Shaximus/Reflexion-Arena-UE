@@ -1,0 +1,55 @@
+[C0_clean] 0 assertion(s) fired   (unmutated product TU — must produce the EMPTY signature)
+[C1_exploit_writable] 2 assertion(s) fired   (boss_stability marked A2-writable)
+      FAIL exactly_one_writable
+      FAIL exploit_refused
+[C2_canon_locked] 2 assertion(s) fired   (boss_release_delay locked — refuses everything)
+      FAIL canon_admitted
+      FAIL exactly_one_writable
+[C3_unknown_falls_through] 10 assertion(s) fired   (registry miss resolves to row 0)
+      FAIL case_not_admitted
+      FAIL empty_refused
+      FAIL nullptr_refused
+      FAIL prefix_not_admitted
+      FAIL protected_prefix_safe
+      FAIL rejections_distinguishable
+      FAIL space_not_admitted
+      FAIL suffix_not_admitted
+      FAIL truncation_not_admitted
+      FAIL unknown_refused
+[C4_prefix_match] 10 assertion(s) fired   (SameId matches on prefix)
+      FAIL canon_admitted
+      FAIL case_not_admitted
+      FAIL empty_refused
+      FAIL prefix_not_admitted
+      FAIL protected_prefix_safe
+      FAIL rejections_distinguishable
+      FAIL space_not_admitted
+      FAIL suffix_not_admitted
+      FAIL truncation_not_admitted
+      FAIL unknown_refused
+[C5_details_collapsed] 1 assertion(s) fired   (both rejections share one reason string)
+      FAIL details_distinct
+[C6_fail_open_unknown] 9 assertion(s) fired   (unknown counter fails OPEN)
+      FAIL case_not_admitted
+      FAIL empty_refused
+      FAIL nullptr_refused
+      FAIL prefix_not_admitted
+      FAIL protected_prefix_safe
+      FAIL space_not_admitted
+      FAIL suffix_not_admitted
+      FAIL truncation_not_admitted
+      FAIL unknown_refused
+[C7_second_writable] 1 assertion(s) fired   (a second A2-writable row added)
+      FAIL exactly_one_writable
+
+============================================================================================
+DISCRIMINATION MATRIX
+============================================================================================
+  mutations evaluated        : 7
+  survived undetected        : 0  []
+  colliding signatures       : 0
+
+  DIAGONAL: every mutation was detected, each with a DISTINCT signature, and
+  the unmutated product TU fired nothing. The harness localises the defect,
+  it does not merely alarm.
+MATRIX_EXIT=0

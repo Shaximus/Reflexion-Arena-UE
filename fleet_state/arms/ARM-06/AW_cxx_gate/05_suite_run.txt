@@ -1,0 +1,73 @@
+  Design/tests — 5 test(s), run from /home/shax/.claude-squad/worktrees/arm/product-verification-v1_18c8af42232fea3a
+  test                                   exit  meaning        summary
+  ----------------------------------------------------------------------------------------------------
+  test_c10_read_anchors.py               0     MET            ALL READ ANCHORS RESOLVE
+  test_e11_admission_path.py             2     INCONCLUSIVE   exit 2 — nothing to exercise. This is NOT a pass and
+  test_e11_authority_gate.py             0     MET            ALL GATE CONDITIONS MET
+  test_e11_cxx_gate.py                   3     UNEXERCISED    exit 3 — correct but not load-bearing. NOT a pass, N
+  test_k03b_trajectory.py                0     MET            TRAJECTORY AUDIT CLEAN
+
+  ---- test_e11_admission_path.py (exit 2, INCONCLUSIVE) ----
+  |   E11 ADMISSION PATH — end-to-end authority control (Kestrel item 5)
+  |   UE sim  : /home/shax/.claude-squad/worktrees/arm/product-verification-v1_18c8af42232fea3a/Source/ReflexionArena/Sim
+  |   mirror  : /home/shax/Projects/core-tech/Reflexion-Arena/tools/oracle
+  | 
+  |   UE static scan: 0 occurrence(s) of ('adjust_counter', 'AdjustCounter', 'AdmitCounterWrite', 'EAdmission', 'CounterAuthority', 'bA2Writable', 'A2Writable', 'IsKnownCounter')
+  | 
+  |   positive control — canonical spec admitted: True
+  |   effect vocabulary: ['destabilize_anchor']
+  | 
+  |   case                                         admitted  detail
+  |   ------------------------------------------------------------------------------------------------
+  |   adjust_counter{boss_stability}  THE EXPLOIT  False     effect must be one of ['destabilize_anchor']
+  |   adjust_counter{boss_release_delay}  CANON    False     effect must be one of ['destabilize_anchor']
+  | 
+  | 
+  |   PRODUCT_AUTHORITY_PATH_ABSENT — the exploit and the canon-legitimate case are refused IDENTICALLY
+  |   Same rule, same message. That is the effect VOCABULARY, not a counter allow-list.
+  |   A gate that also refuses the legitimate case is not a gate: the exploit is
+  |   UNREACHABLE, not GATED.
+  |   'adjust_counter' is not in LEGAL_EFFECTS (['destabilize_anchor']).
+  | 
+  |   exit 2 — nothing to exercise. This is NOT a pass and NOT a breach.
+
+  ---- test_e11_cxx_gate.py (exit 3, UNEXERCISED) ----
+  |   E11 C++ WRITE-SCOPE GATE — real product TU on the host toolchain
+  |   gate source ref : origin/arm/e11-authority-impl-v1 (worktree preferred)
+  |     <- origin/arm/e11-authority-impl-v1:Source/ReflexionArena/Sim/RxCounterAuthority.h
+  |     <- origin/arm/e11-authority-impl-v1:Source/ReflexionArena/Sim/RxCounterAuthority.cpp
+  | 
+  |   registry rows      : 6 (1 A2-writable)
+  |   assertions         : 18 pass, 0 fail
+  | 
+  |   PREDICATE CONFIRMED — the discriminating pair splits: boss_stability
+  |   is refused as authority-owned, boss_release_delay is admitted, and the
+  |   two rejection reasons stay distinguishable.
+  | 
+  |   registry cite check: 5/6 resolve
+  |       STALE boss_tremor_stage        RxBossEarthquake.h:81 does not mention TremorStage — FRxBossEarthquake::TremorStage is at :80
+  |   A stale cite is a documentation defect, not an authority breach:
+  |   it does not change any admission decision. Reported, not fatal.
+  | 
+  |   reachability: ParseSkillSpec reads 6 field(s): ['commit_window', 'cooldown', 'cost', 'effect', 'name', 'trigger']; writes Spec.Effects: False
+  | 
+  |   PRODUCT_AUTHORITY_GATE_UNREACHABLE — the predicate is correct and
+  |   nothing on the player-facing path can reach it. author_skill ->
+  |   ParseSkillSpec never reads `effects`, so FRxSkillSpec::Effects is
+  |   always empty and the gate loop iterates nothing. A spec carrying an
+  |   effects array is not REFUSED, it is SILENTLY DROPPED.
+  |   boss_stability is safe today because the parser cannot express the
+  |   attack — not because the gate refuses it. That is UNREACHABLE, not
+  |   GATED, and the two must not be recorded as the same result.
+  | 
+  |   exit 3 — correct but not load-bearing. NOT a pass, NOT a breach.
+
+  ====================================================================================================
+  met          : 3
+  DEFECT   (1) : 0  []
+  INCONCL. (2) : 1  ['test_e11_admission_path.py']
+  UNEXERC. (3) : 1  ['test_e11_cxx_gate.py']
+  ====================================================================================================
+  1 and 2 are NOT the same result and are not summed. A defect is a
+  finding about the product; inconclusive means the check did not run.
+SUITE_EXIT=2

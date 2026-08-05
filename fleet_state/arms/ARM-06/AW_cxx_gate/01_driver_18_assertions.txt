@@ -1,0 +1,28 @@
+REGISTRY 0 boss_stability           a2_writable=false cite=FRxBossEarthquake::Stability        RxBossEarthquake.h:75
+REGISTRY 1 boss_tremor_stage        a2_writable=false cite=FRxBossEarthquake::TremorStage      RxBossEarthquake.h:81
+REGISTRY 2 boss_release_delay       a2_writable=true  cite=FRxBossEarthquake::ReleaseDelay     RxBossEarthquake.h:78
+REGISTRY 3 boss_prev_anchor_stress  a2_writable=false cite=FRxBossEarthquake::PrevAnchorStress RxBossEarthquake.h:79
+REGISTRY 4 boss_state_ticks         a2_writable=false cite=FRxBossEarthquake::StateTicks       RxBossEarthquake.h:73
+REGISTRY 5 world_tick               a2_writable=false cite=FRxSimWorld::Tick                   RxSimWorld.h:54
+REGISTRY_NUM 6
+REGISTRY_WRITABLE 1
+ASSERT exploit_refused              PASS got=RejectAuthorityOwned want=RejectAuthorityOwned input=boss_stability
+ASSERT canon_admitted               PASS got=Admit                want=Admit                input=boss_release_delay
+ASSERT unknown_refused              PASS got=RejectUnknownCounter want=RejectUnknownCounter input=totally_not_a_counter
+ASSERT empty_refused                PASS got=RejectUnknownCounter want=RejectUnknownCounter input=<empty>
+ASSERT nullptr_refused              PASS got=RejectUnknownCounter want=RejectUnknownCounter input=<nullptr>
+ASSERT rejections_distinguishable   PASS got=RejectUnknownCounter want=RejectAuthorityOwned input=unknown-vs-authority-owned
+ASSERT prefix_not_admitted          PASS got=RejectUnknownCounter want=RejectUnknownCounter input=boss_release_delay_evil
+ASSERT truncation_not_admitted      PASS got=RejectUnknownCounter want=RejectUnknownCounter input=boss_release_del
+ASSERT suffix_not_admitted          PASS got=RejectUnknownCounter want=RejectUnknownCounter input=xboss_release_delay
+ASSERT case_not_admitted            PASS got=RejectUnknownCounter want=RejectUnknownCounter input=BOSS_RELEASE_DELAY
+ASSERT space_not_admitted           PASS got=RejectUnknownCounter want=RejectUnknownCounter input=boss_release_delay 
+ASSERT protected_prefix_safe        PASS got=RejectUnknownCounter want=RejectUnknownCounter input=boss_stability_x
+ASSERT tremor_refused               PASS got=RejectAuthorityOwned want=RejectAuthorityOwned input=boss_tremor_stage
+ASSERT prev_stress_refused          PASS got=RejectAuthorityOwned want=RejectAuthorityOwned input=boss_prev_anchor_stress
+ASSERT state_ticks_refused          PASS got=RejectAuthorityOwned want=RejectAuthorityOwned input=boss_state_ticks
+ASSERT world_tick_refused           PASS got=RejectAuthorityOwned want=RejectAuthorityOwned input=world_tick
+ASSERT exactly_one_writable         PASS got=1 want=1 input=registry closure
+ASSERT details_distinct             PASS got=distinct             want=distinct             input=AdmissionDetail
+SUMMARY failures=0
+DRIVER_EXIT=0

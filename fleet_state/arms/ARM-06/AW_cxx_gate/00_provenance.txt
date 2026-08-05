@@ -1,0 +1,10 @@
+# ARM-06 — E11 C++ gate exercised on the host toolchain
+# generated 2026-08-05  (dates fixed, no clock read inside evidence)
+# gate source: origin/arm/e11-authority-impl-v1 @ 08f742a62af617172ff2b616a0cc06e877af01c2
+
+## sha256 of the product translation unit AS EXERCISED
+398f1242de4897593ab80a33fd6d5f1aeddac9d0a3ced037d928100b752ec3e2  RxCounterAuthority.h
+85db1a7bec4f4f92ff3c4cb701f69c90a6dfc518575c0e10bdc2c3efed0aefed  RxCounterAuthority.cpp
+
+## compiler
+g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0

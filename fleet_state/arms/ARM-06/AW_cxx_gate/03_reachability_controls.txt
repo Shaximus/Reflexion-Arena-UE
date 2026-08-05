@@ -1,0 +1,15 @@
+[R0_as_shipped         ] exit=3 want=3  OK   predicate correct, gate unreachable
+[R1_reachable          ] exit=0 want=0  OK   parser populates Effects — GATE LIVE
+[R2_reachable_broken   ] exit=1 want=1  OK   reachable AND boss_stability writable — BREACH
+[R3_no_gate            ] exit=2 want=2  OK   gate source removed — cannot evaluate
+
+========================================================================================
+  controls           : 4
+  mismatches         : 0  []
+  distinct exit codes: [0, 1, 2, 3]
+
+  DISCRIMINATING: all four states are reachable and each has its own exit
+  code. The check can recognise a LIVE correct gate (R1), not only condemn
+  an unreachable one — and it separates 'reachable but wrong' (R2) from
+  'right but unreachable' (R0), which is the distinction that matters.
+REACH_CTL_EXIT=0
