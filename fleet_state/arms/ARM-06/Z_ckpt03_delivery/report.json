@@ -1,0 +1,53 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-06-20260805T1620Z-CHECKPOINT-25",
+  "arm_id": "ARM-06",
+  "goal_id": "wave1a-ARM-06-product-verification-v1",
+  "generated_at": "2026-08-05T16:20:00Z",
+  "state": "CHECKPOINT",
+  "chat_url": "https://chatgpt.com/g/g-p-6a46a73f024481918cf7a4c4ce131766-the-board-room/c/6a72276b-1b18-83ea-9617-54360924c769",
+  "authority_ceiling": "L2",
+  "evidence_root": "fleet_state/arms/ARM-06/Z_ckpt03_delivery",
+  "claims": [
+    {
+      "claim_id": "z.ckpt03-delivered",
+      "text": "CKPT-03 delivered to Head 06 and verified by searching the rendered thread for its own CHANNEL_MESSAGE_ID (idFoundInThread=1, role='user'), never by composer length. Tab REUSED via find_tab on the exact /c/ URL (tabId 1875935947, borrowed=false) rather than re-navigated, composer identified by role with exactly one survivor, send control confirmed enabled before clicking. Before 4953 chars, after 0.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "z.correction-carried-to-head",
+      "text": "The correction was carried to the Head rather than left in my own ledger. CKPT-02 told Head 06 '28 commits, NOT pushed' and escalated it as the highest-risk condition; CKPT-03 states plainly that the figure was wrong, that the branch had in fact been pushed to a65ae02, that the real exposure is 9, and that I repeated the inflated number across six checkpoints without re-deriving it. A correction that stays in the author's own files is not a correction.",
+      "status": "MACHINE_VERIFIED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "ckpt03_delivery.txt",
+      "sha256": "2c50eb2e42088c1d5b0c1df91851ab938880a277dd5e824c313636297789176d",
+      "claim_ids": [
+        "z.ckpt03-delivered",
+        "z.correction-carried-to-head"
+      ]
+    }
+  ],
+  "artifacts": [
+    "ckpt03_delivery.txt"
+  ],
+  "tests": [
+    {
+      "command": "curl -X POST http://127.0.0.1:10086/command (find_tab, fill, send, verify by id)",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "ckpt03_delivery.txt",
+      "stderr_artifact": "ckpt03_delivery.txt",
+      "negative_control": false
+    }
+  ],
+  "decisions_requested": [
+    "Awaiting Head 06 on: R3 disposition now that the shipped-oracle blindness is measured; the push of the remaining 9 commits or clearing the deny rule; and whether the self-verified ARM-06 row in the M2 replay should be replayed by a sibling before it is relied on."
+  ],
+  "risks": [
+    "The reply has not been captured yet. Nothing in this envelope claims a Head disposition — only that the message was delivered."
+  ],
+  "next_action": "Capture the Head 06 reply, anchored to this CHANNEL_MESSAGE_ID and gated on length stabilisation, then execute it."
+}

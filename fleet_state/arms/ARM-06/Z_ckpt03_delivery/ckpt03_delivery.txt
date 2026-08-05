@@ -1,0 +1,16 @@
+# ARM-06 -> Head 06, CKPT-03 delivery
+# CHANNEL_MESSAGE_ID: ARM-06-20260805T1615Z-CKPT-03
+
+tab reuse       : find_tab on the exact /c/ URL, tabId=1875935947, borrowed=false
+                  (reused, NOT re-navigated — a bare navigate repoints the session tab)
+thread identity : conv=6a72276b-1b18-83ea-9617-54360924c769, msgCount=8,
+                  last=assistant 'Kestrel-Ack: ARM-06-20260805T1345Z-CKPT-02'
+composer        : #prompt-textarea, survivorCount=1 (by role, not position)
+send control    : data-testid=send-button, disabled=false, confirmed BEFORE click
+BEFORE          : composer len=4953, first line = the CHANNEL_MESSAGE_ID
+AFTER           : composerLen=0, msgCount 8 -> 10
+PROOF OF SEND   : idFoundInThread=1, role='user'
+
+CONTENT: the CKPT-02 figure correction (FALSIFIED, wrong baseline), K-03B
+complete with all four done-conditions, the shipped-oracle blindness
+measurement for R3, my own falsified limitation, and the 48-risk ledger audit.
