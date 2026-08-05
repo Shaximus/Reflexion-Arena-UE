@@ -1,0 +1,70 @@
+MODULE-WIDE WRITE SCAN — closing the limitation I named in CHECKPOINT-36:
+  'My scan covers RxSkillSystem.cpp only. A write to those fields from
+   another translation unit would be invisible to it.'
+
+The question is NOT whether the fields are ever written — the boss FSM must
+write its own state, that IS authority. The question is whether any write
+sits on a PLAYER/EFFECT path without passing the gate.
+
+  files containing writes to protected counter fields: 4
+
+  RxSkillGateCommandlet.cpp   (25 write(s))
+        534  ReleaseDelay       W.Boss.ReleaseDelay = 100;   // a known, non-zero starting value
+        535  Stability          W.Boss.Stability    = 300;
+        584  ReleaseDelay       W.Boss.ReleaseDelay = 100;
+        585  Stability          W.Boss.Stability    = 300;
+        593  Stability          TEXT("RXGATE  [%s] EXECUTE admissible THEN exploit  ReleaseDelay=%d (1
+        593  ReleaseDelay       TEXT("RXGATE  [%s] EXECUTE admissible THEN exploit  ReleaseDelay=%d (1
+      ... 19 more
+
+  Sim/RxBossEarthquake.cpp   (20 write(s))
+         31  Stability          Stability = InStability;
+         41  StateTicks         StateTicks += 1;
+         52  TremorStage        TremorStage = 0;
+         53  PrevAnchorStress   PrevAnchorStress = AnchorStress(World);
+         80  TremorStage        TremorStage = 0;
+         81  PrevAnchorStress   PrevAnchorStress = AnchorStress(World);
+      ... 14 more
+
+  Sim/RxBossEarthquake.h   (10 write(s))
+         58  StateTicks         int32 StateTicks = 0;       // "state_ticks"
+         60  Stability          int32 Stability = 0;        // "stability"
+         62  ReleaseDelay       int32 ReleaseDelay = 0;     // "release_delay"
+         63  PrevAnchorStress   int32 PrevAnchorStress = 0; // "prev_anchor_stress"
+         64  TremorStage        int32 TremorStage = 0;      // "tremor_stage"
+         73  StateTicks         int32 StateTicks = 0;
+      ... 4 more
+
+  Sim/RxSkillSystem.cpp   (1 write(s))
+        429  ReleaseDelay       World.Boss.ReleaseDelay += Fx.Delta;
+
+  on the SKILL/EFFECT path (gated, verified CHECKPOINT-36): ['Sim/RxSkillSystem.cpp']
+  in the BOSS FSM (authority writing its own state)        : ['Sim/RxBossEarthquake.cpp', 'Sim/RxBossEarthquake.h']
+  ANYWHERE ELSE                                            : ['RxSkillGateCommandlet.cpp']
+
+  FINDING: writes exist outside both categories. Each needs adjudication.
+
+=== ADJUDICATION of the third category ===
+RxSkillGateCommandlet.cpp is 'URxSkillGateCommandlet : public UCommandlet'.
+Header intent: 'exercises the E11 write-scope gate through the REAL FString path'.
+Entry point is Main(); it is invoked explicitly, not reachable from play.
+Its writes construct a LOCAL fixture world:
+    FRxSimWorld W(7);
+    W.Boss.ReleaseDelay = 100;   // a known, non-zero starting value
+    W.Boss.Stability    = 300;
+then exercise the gate against it. That is test scaffolding setting up its own
+world, not a product path mutating live state.
+
+PRECEDENT: my own worktree's RxOracleCommandlet.cpp uses the same pattern.
+Fixture-setup inside a verification commandlet is already normal in this codebase.
+
+REVISED FINDING: three categories, no bypass.
+  1 write   gated skill path        RxSkillSystem.cpp:429 (gate at 355)
+ 30 writes  boss FSM authority      RxBossEarthquake.cpp/.h — authority moving
+                                    its own state, which is what authority IS
+ 25 writes  verification commandlet local fixture worlds, explicitly invoked
+
+NOTE FOR MY OWN ARM, from their header: 'RxOracleCommandlet exits 1 even on
+PASS because of pre-existing GameFeatureData...' — a spurious exit code in the
+commandlet MY task-1 report described as unrunnable. Worth checking if it is
+ever built here.

@@ -1,0 +1,59 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-06-20260805T2100Z-CHECKPOINT-37",
+  "arm_id": "ARM-06",
+  "goal_id": "K-01C-independent-authority-replay",
+  "generated_at": "2026-08-05T21:00:00Z",
+  "state": "CHECKPOINT",
+  "chat_url": "https://chatgpt.com/g/g-p-6a46a73f024481918cf7a4c4ce131766-the-board-room/c/6a72276b-1b18-83ea-9617-54360924c769",
+  "authority_ceiling": "L2",
+  "evidence_root": "fleet_state/arms/ARM-06/AL_module_wide_writes",
+  "claims": [
+    {
+      "claim_id": "al.no-bypass-module-wide",
+      "text": "MODULE-WIDE, closing the limitation named in CHECKPOINT-36: across all 32 source files on ARM-08's branch, every write to a protected counter falls into exactly three categories and none is a bypass. One write on the gated skill path (RxSkillSystem.cpp:429, gate at 355); 30 in the boss FSM, which is authority moving its own state and is what authority means; 25 in URxSkillGateCommandlet, which constructs LOCAL FRxSimWorld fixtures and is invoked explicitly via Main() rather than reachable from play.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "al.third-category-adjudicated-not-alarmed",
+      "text": "The scan flagged a third category and I adjudicated it rather than reporting a bypass. RxSkillGateCommandlet is ARM-08's own gate-verification harness — header intent 'exercises the E11 write-scope gate through the REAL FString path' — writing fixture values into a local world it constructed. My own worktree's RxOracleCommandlet uses the identical pattern, so fixture-setup inside a verification commandlet is established practice here. Reporting it as an authority bypass would have been a false alarm against another arm's correct work.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "al.oracle-commandlet-exit-code-note",
+      "text": "Incidental finding for my own arm, from ARM-08's header: 'RxOracleCommandlet exits 1 even on PASS because of pre-existing GameFeatureData...'. That is the commandlet my task-1 report described as not runnable in this worktree. If it is ever built here, its exit code is not a trustworthy pass/fail signal without accounting for that. Recorded, not verified — I have not built it.",
+      "status": "CLAIMED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "module_wide.txt",
+      "sha256": "01e7421373db161e65606f48fe77db59bcb074eff253070e742197ad005ffe5a",
+      "claim_ids": [
+        "al.no-bypass-module-wide",
+        "al.third-category-adjudicated-not-alarmed"
+      ]
+    }
+  ],
+  "artifacts": [
+    "module_wide.txt"
+  ],
+  "tests": [
+    {
+      "command": "materialise 32 .cpp/.h from arm/e11-authority-impl-v1; scan every file for writes to the five protected counter fields; classify each site",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "module_wide.txt",
+      "stderr_artifact": "module_wide.txt",
+      "negative_control": false
+    }
+  ],
+  "decisions_requested": [
+    "K-01C static half is now complete: registry corresponds to spec (CHECKPOINT-35), no unguarded write on the admission path (CHECKPOINT-36), and no bypass anywhere in the module (this one). The behavioural half needs a built editor — and ARM-08 ships RxSkillGateCommandlet precisely to exercise it, which is the natural instrument for K-01C's remainder."
+  ],
+  "risks": [
+    "I classified the commandlet as non-product by reading its type, entry point and fixture construction. I did not verify it is excluded from a shipping build. A commandlet that ships and can be invoked is a different risk profile than one stripped at packaging, and I have not checked the target rules.",
+    "The scan matches writes by regex across 32 files. It found 56 sites including the one real gated write, which is its positive control, but a write expressed through a reference or helper would still evade it."
+  ],
+  "next_action": "K-01C behavioural half blocked on a UE build. BLOCKED on push. No browser work."
+}
