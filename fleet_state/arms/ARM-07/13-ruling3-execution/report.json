@@ -1,0 +1,52 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-07-13-ruling3-execution-20260805T1815",
+  "arm_id": "ARM-07",
+  "goal_id": "head07-ruling3-execution-profiles-and-founder-request",
+  "generated_at": "2026-08-05T18:15:00-03:00",
+  "state": "CHECKPOINT",
+  "chat_url": "https://chatgpt.com/g/g-p-6a46a73f024481918cf7a4c4ce131766-the-board-room/c/6a7227b3-db30-83ea-9332-dd024ed0fc67",
+  "authority_ceiling": "ARM-07 owns technical profile selection/activation/verification/restoration per HEAD07 ruling 3; Head 07 admits profiles; founder owns the 0.87 GPU memory ceiling",
+  "evidence_root": "fleet_state/arms/ARM-07/evidence",
+  "claims": [
+    {
+      "claim_id": "C1",
+      "status": "MACHINE_VERIFIED",
+      "text": "HEAD07 ruling 3 captured verbatim (4,141 chars, Kestrel-Ack ARM07-CKPT-20260805-1735, RULING-END present): dflash262k PROMOTED to QUALIFIED OPT-IN under a re-scoped absolute short-prompt TTFT gate (<=100 ms median, <=25 ms regression; measured 60.6 ms / +16.9 ms passes); ARM-07 owns technical profile selection with an explicit runtime_profile job field and auto-routing table; a narrow founder request for one bounded DFlash-1M window at util 0.91 is authorized. Capture required the proven stalled-stream recovery (render froze at 1 char for 9 minutes; reload re-rendered the complete server-side ruling)."
+    },
+    {
+      "claim_id": "C2",
+      "status": "MACHINE_VERIFIED",
+      "text": "Profile registry and auto-routing table PERSISTED to ARM-07's fleet-state surface (fleet_state/arms/ARM-07/profiles/registry.json) exactly per the ruling: three profiles (canonical default; longprefix QUALIFIED OPT-IN, behaviorally qualified NOT bitwise; dflash262k QUALIFIED OPT-IN, byte-identical) with mechanisms, hook fingerprints, routing boundaries, the ruled job fields, the transactional activation protocol, and the report-after-10-jobs trigger. No new daemon created."
+    },
+    {
+      "claim_id": "C3",
+      "status": "MACHINE_VERIFIED",
+      "text": "The founder request STAGED verbatim to the ruling's terms (one bounded DFlash-1M feasibility window, temporary util 0.91, explicitly excluding permanent change/default promotion/concurrent workload, all transactional safeguards retained) at fleet_state/arms/ARM-07/reports/FOUNDER_REQUEST_dflash_1m_window.md, routed to Curtis via Hannah Prime macro scheduling. Not executed: 0.87 is a founder-authorized ceiling — the request is the correct channel, not a workaround."
+    }
+  ],
+  "evidence": [
+    {"path": "14_head_ruling_3.md", "sha256": "7cb0f244746362590ba106890ea3098677ce1a91470f688b93ec38b62e0e1671", "claim_ids": ["C1"]},
+    {"path": "14_profile_registry.json", "sha256": "91bf3995236d9c7c9fbaf6b92bffc1b393f31858295e3201c183c21a0259c6e0", "claim_ids": ["C2"]},
+    {"path": "14_founder_request.md", "sha256": "b4c9201c1ce024c247ca566f74743ab5e15b0b32e9f38eed72e89d0d746638f4", "claim_ids": ["C3"]}
+  ],
+  "artifacts": [
+    "fleet_state/arms/ARM-07/profiles/registry.json (live registry; evidence copy frozen)",
+    "fleet_state/arms/ARM-07/reports/HEAD_RULING_3_ttft_and_routing.md (live copy)",
+    "fleet_state/arms/ARM-07/reports/FOUNDER_REQUEST_dflash_1m_window.md (live copy, awaiting Prime relay)"
+  ],
+  "tests": [
+    {"name": "ruling_capture", "command": "tab reload + cached-global slice retrieval (2 parts, reassembled, length 4141 verified)", "result": "verbatim capture with RULING-END and correct ack id", "producer_exit_code": 0}
+  ],
+  "decisions_requested": [
+    {
+      "id": "D1",
+      "decision": "Hannah Prime: relay FOUNDER_REQUEST_dflash_1m_window.md to Curtis (macro scheduling owns founder-facing routing). ARM-07 executes the window on approval; a denial leaves the admitted 262k profile unaffected."
+    }
+  ],
+  "risks": [
+    "The auto-routing table is untested against real jobs; the ruling's own trigger (report after 10 auto-resolved jobs or first incident) is the containment.",
+    "Job-field plumbing (runtime_profile in requests) does not yet exist in litellm/callers; until it does, profile selection is manual via ARM-07 windows."
+  ],
+  "next_action": "Idle pending: Curtis's answer on the 1M window (via Prime), first real profile-selection jobs, or new tasking. All three qualified profiles and their receipts are on the pushed branch."
+}

@@ -1,0 +1,41 @@
+{
+  "registry_version": "1.0",
+  "authority": "HEAD07 ruling Kestrel-Ack ARM07-CKPT-20260805-1735 (fleet_state/arms/ARM-07/reports/HEAD_RULING_3_ttft_and_routing.md); ARM-07 owns selection/activation/verification/restoration; Head 07 admits profiles and rules on routing-policy changes",
+  "generated_at": "2026-08-05T18:05:00-03:00",
+  "profiles": {
+    "qwen27-mtp-default": {
+      "state": "CANONICAL",
+      "config": "K6 MTP, fp8_per_channel, TRITON_ATTN, max_num_seqs=4, YaRN 1M (max_model_len 1048576), prefix caching off, no KV offload",
+      "mechanism": "unit + 30-yarn-1m.conf + unmodified qwen_mtp_boot_tuning.py",
+      "hook_sha256": "5d8cb66f685e5bc741e266cd2f983f4994b0e57aa8e147d28da97bfd9dd4ff5c",
+      "qualification": "envelopes 01-03, 09-10 (ARM-07); measured 125.9-131.6 tok/s short decode by prompt class, digest era 35280d79 under YaRN"
+    },
+    "qwen27-mtp-longprefix": {
+      "state": "QUALIFIED OPT-IN (HEAD07 rulings 2+3, V11 -0.03% NLL)",
+      "config": "canonical + enable-prefix-caching + mamba align + 128 GiB CPU KV offload; max_num_seqs 4; 1M",
+      "mechanism": "hook patch: disable_single_stream_kv_offload -> size 64->128 keep; disable_mamba_prefix_cache_for_decode -> no-op (arm07_needle_corrected.py patch_hook_5b)",
+      "output_equivalence": "behaviorally qualified, NOT bitwise (digest era c5ff09be, stable within profile)",
+      "routing": "repeated reusable prefix >=50k, moderate output, 136 GiB host-RAM budget free, caller accepts profile-specific deterministic output; NOT for cold long one-offs, long generation at depth, or exact-identity validation",
+      "qualification": "envelope 10 (matrix: 12.33x/49.86x rep-prefix TTFT), envelope 12 (V11 within tolerance)"
+    },
+    "qwen27-mtp-dflash262k": {
+      "state": "QUALIFIED OPT-IN (HEAD07 ruling 3; TTFT gate re-scoped absolute <=100ms median / <=25ms regression, measured 60.6ms/+16.9ms)",
+      "config": "canonical except: speculative-config dflash8 (z-lab/Qwen3.5-27B-DFlash), max_model_len 262144",
+      "mechanism": "hook patch: _rewrite_control_width -> dflash JSON + _arm07_dflash262k_maxlen 1048576->262144 (arm07_dflash262k_qual.py)",
+      "output_equivalence": "BYTE-IDENTICAL to baseline (digest 35280d79 both arms, measured)",
+      "routing": "tested short-prompt class, context <=262144, expected output >=32 tokens, exact identity required/preferred; NOT for long prompts (draft-prefill scaling unmeasured); NOT combined with longprefix (no evidence)",
+      "qualification": "envelope 12 (+23.6% median decode, 18/18, clean recovery, 5-run stable, no Marlin)"
+    }
+  },
+  "auto_routing_table": [
+    {"condition": "repeated_prefix true AND estimated repeated prefix >=50k tokens AND host_ram_budget_gib >= 136 AND moderate expected_output", "profile": "qwen27-mtp-longprefix"},
+    {"condition": "tested short-prompt class AND maximum_context_required <= 262144 AND expected_output_tokens >= 32", "profile": "qwen27-mtp-dflash262k"},
+    {"condition": "exact_digest_required true (baseline era) OR unclassified workload OR cold long prompt OR maximum_context_required > 262144", "profile": "qwen27-mtp-default"}
+  ],
+  "job_fields": {
+    "runtime_profile": "auto | qwen27-mtp-default | qwen27-mtp-longprefix | qwen27-mtp-dflash262k",
+    "auto_requires": ["estimated_input_tokens", "expected_output_tokens", "repeated_prefix", "exact_digest_required", "maximum_context_required", "host_ram_budget_gib"]
+  },
+  "activation_protocol": "every non-default activation is one locked transaction: snapshot -> lock -> activate -> real-completion verification -> execute -> restore or deliberately retain -> final verification -> release (arm07_txn_window.sh)",
+  "reporting_trigger": "after first 10 auto-resolved jobs, or immediately on first misroute / semantic discrepancy / restoration failure / resource collision"
+}
