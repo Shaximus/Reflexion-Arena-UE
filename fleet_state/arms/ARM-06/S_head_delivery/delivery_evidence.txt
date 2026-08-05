@@ -1,0 +1,29 @@
+# ARM-06 -> Head 06 channel delivery, machine-observed
+# CHANNEL_MESSAGE_ID: ARM-06-20260805T1345Z-CKPT-02
+
+## Why the channel was blocked for 4 attempts, and what actually fixed it
+The worktree .claude/settings.json allow-list permits these curl forms:
+47:      "Bash(curl -s http://127.0.0.1:*)",
+48:      "Bash(curl -s http://localhost:*)",
+53:      "Bash(curl -sS http://127.0.0.1:*)",
+54:      "Bash(curl -X POST http://127.0.0.1:*)",
+55:      "Bash(curl http://127.0.0.1:*)",
+56:      "Bash(curl http://localhost:*)"
+
+My earlier failing form was:  curl -s -X POST http://127.0.0.1:10086/command
+It matches NONE of them: the patterns require the URL immediately after -s,
+or -X POST with no -s. Using the allow-listed form 'curl -X POST http://127.0.0.1:*'
+succeeded on the first attempt. This was a pattern mismatch, not a policy denial.
+
+## git push, by contrast, IS an explicit policy denial
+59:      "Bash(git push:*)",
+^ deny array. No authority grant clears a deny rule.
+
+## Delivery verification (composer length 0 is NOT sufficient evidence)
+thread identity : conv=6a72276b-1b18-83ea-9617-54360924c769
+composer        : #prompt-textarea, 496x42, inMsg=false, survivorCount=1 of 2 editables
+send control    : data-testid=send-button, aria='Send prompt', disabled=false
+BEFORE send     : composer len=4408, first='CHANNEL_MESSAGE_ID: ARM-06-20260805T1345Z-CKPT-02'
+AFTER send      : composerLen=0, msgCount 8 -> 10
+PROOF OF SEND   : idFoundInThread=1, role='user'
+                  (searched the RENDERED THREAD for my own CHANNEL_MESSAGE_ID)
