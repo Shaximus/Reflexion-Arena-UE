@@ -1,0 +1,49 @@
+[M0_unmutated] 10/10 controls passed  exit=0   control: the suite must pass 10/10 untouched
+[M1_verdict_says_human] 8/10 controls passed  exit=1   absence path claims a HUMAN origin — aimed at control #4
+      caught by: CONTROL   human-typed bytes
+      caught by: CONTROL   near-miss payload
+[M2_ignore_chain_integrity] <no score>  exit=1   attest() stops gating on chain integrity — aimed at 'tamper blocks attestation'
+      caught by: CONTROL   tamper blocks
+[M3_match_session_only] 7/10 controls passed  exit=1   attest() matches on session alone, ignoring payload — aimed at near-miss control
+      caught by: CONTROL   and does NOT claim
+      caught by: CONTROL   human-typed bytes
+      caught by: CONTROL   near-miss payload
+[M4_verify_always_intact] 7/10 controls passed  exit=1   verify_chain() always reports INTACT — aimed at tamper and chain-break controls
+      caught by: CONTROL   deleted middle
+      caught by: CONTROL   tamper blocks
+      caught by: CONTROL   tampered receipt
+[M5_no_prev_link] 9/10 controls passed  exit=1   write_receipt() stops linking receipts — aimed at chain-break detection
+      caught by: SETUP     three-receipt
+[M6_never_attest] 9/10 controls passed  exit=1   happy path broken: a genuine injection no longer attests — aimed at POSITIVE #1
+      caught by: POSITIVE  attested injection
+[M7_good_chain_reports_tampered] 6/10 controls passed  exit=1   a GOOD chain now reports TAMPERED — aimed at POSITIVE #2
+      caught by: CONTROL   and does NOT claim
+      caught by: POSITIVE  attested injection
+      caught by: POSITIVE  chain intact
+      caught by: SETUP     three-receipt
+[M8_no_chain_attests] <no score>  exit=1   missing chain now reports INTACT — aimed at the NO_CHAIN control
+      MUTATION CRASHED THE SUBJECT — tests nothing. The suite raised
+      before controls could render a verdict. Choose a coherent mutation.
+
+==============================================================================
+PER-CONTROL DISCRIMINATION — did each control ever fail?
+==============================================================================
+  POSITIVE  attested injection       failed under: ['M6_never_attest', 'M7_good_chain_reports_tampered']
+  POSITIVE  chain intact             failed under: ['M7_good_chain_reports_tampered']
+  CONTROL   human-typed bytes        failed under: ['M1_verdict_says_human', 'M3_match_session_only']
+  CONTROL   and does NOT claim       failed under: ['M3_match_session_only', 'M7_good_chain_reports_tampered']
+  CONTROL   near-miss payload        failed under: ['M1_verdict_says_human', 'M3_match_session_only']
+  CONTROL   tampered receipt         failed under: ['M4_verify_always_intact']
+  CONTROL   tamper blocks            failed under: ['M2_ignore_chain_integrity', 'M4_verify_always_intact']
+  SETUP     three-receipt            failed under: ['M5_no_prev_link', 'M7_good_chain_reports_tampered']
+  CONTROL   deleted middle           failed under: ['M4_verify_always_intact']
+  CONTROL   no chain                 failed under: *** NEVER OBSERVED FAILING — MAY BE UNTESTED ***
+
+controls never observed failing: 1  ['CONTROL   no chain']
+
+NEVER OBSERVED FAILING IS NOT DECORATIVE. It means no mutation in THIS
+matrix challenged that control. Three times in one session I read that
+as proof a control was inert; each time the mutation had failed to apply,
+crashed the subject, or aimed at a path it never reached. Before calling
+any control decorative, confirm a mutation aimed at ITS subject actually
+ran to completion and the control still passed.

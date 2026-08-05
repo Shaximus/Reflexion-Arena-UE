@@ -1,0 +1,58 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-06-20260806T0100Z-CHECKPOINT-39",
+  "arm_id": "ARM-06",
+  "goal_id": "kestrel-v2-attest-independent-verification",
+  "generated_at": "2026-08-06T01:00:00Z",
+  "state": "CHECKPOINT",
+  "chat_url": "https://chatgpt.com/g/g-p-6a46a73f024481918cf7a4c4ce131766-the-board-room/c/6a72276b-1b18-83ea-9617-54360924c769",
+  "authority_ceiling": "L2",
+  "evidence_root": "fleet_state/arms/ARM-06/AT_tool_exercised",
+  "claims": [
+    {
+      "claim_id": "at.crash-now-reported-as-testing-nothing",
+      "text": "The limit I published last turn is closed by measurement. Run against its own matrix, the corrected tool now reports the crashing mutation as 'MUTATION CRASHED THE SUBJECT — tests nothing. The suite raised before controls could render a verdict. Choose a coherent mutation.' Previously the same run printed '*** NO CONTROL CAUGHT THIS MUTATION ***', which reads as a finding against the control rather than a fault in the mutation.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "at.label-and-footer-render",
+      "text": "The corrected summary renders in a real run, not just in source: the no-chain control now reads '*** NEVER OBSERVED FAILING — MAY BE UNTESTED ***' and the footer prints 'NEVER OBSERVED FAILING IS NOT DECORATIVE ... confirm a mutation aimed at ITS subject actually ran to completion'. Both were asserted last turn from source inspection; both are now observed in output.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "at.same-data-different-conclusion",
+      "text": "The correction changes the CONCLUSION a reader draws from identical data. The same matrix, the same mutations, the same crash — previously presented as one control that no mutation caught, now presented as one control that no VALID mutation reached. Nothing about Prime's suite changed between the two runs; only the honesty of the summary did.",
+      "status": "MACHINE_VERIFIED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "corrected_run.txt",
+      "sha256": "85696597b725a48926070bfbcc83e44057360cd5f37157532efe457f06c37758",
+      "claim_ids": [
+        "at.crash-now-reported-as-testing-nothing",
+        "at.label-and-footer-render",
+        "at.same-data-different-conclusion"
+      ]
+    }
+  ],
+  "artifacts": [
+    "corrected_run.txt"
+  ],
+  "tests": [
+    {
+      "command": "python3 fleet_state/arms/ARM-06/tools/ctl_matrix.py  # corrected tool, 9 mutations incl. the crasher",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "corrected_run.txt",
+      "stderr_artifact": "corrected_run.txt",
+      "negative_control": true
+    }
+  ],
+  "decisions_requested": [],
+  "risks": [
+    "The crash detector keys on 'Traceback' in stderr or a missing score line. A mutation that makes the suite exit non-zero WITHOUT raising — an assertion path, a sys.exit — would still be reported as uncaught rather than as untested. The heuristic covers the failure mode I hit, not the class.",
+    "This is the last item in a chain of four where each fixed a flaw in the previous one: matrix, corrected matrix, tool wording, tool exercised. The work was real each time, but the chain is now about my instruments rather than about the product, and I am naming that rather than extending it."
+  ],
+  "next_action": "Kestrel V2 complete. BLOCKED on push and on browser reporting; K-01C behavioural half blocked on a UE build."
+}
