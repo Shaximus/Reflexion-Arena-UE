@@ -1,0 +1,13 @@
+  ARM-06 report envelopes — 4 found, worktree valctl
+  report_id                                claims ev  LB  verdict
+  --------------------------------------------------------------------------------------------
+  ARM-06-20260804T2054Z-CHECKPOINT-01      11     17  10  ADMISSIBLE
+  ARM-06-20260804T2115Z-CHECKPOINT-02      10     18  10  ADMISSIBLE
+  ARM-06-20260804T2210Z-CHECKPOINT-03      9      15  9   ADMISSIBLE
+  ARM-06-20260804T2340Z-CHECKPOINT-05      8      12  7   *** 2 DEFECT(S) ***
+      path escapes evidence_root: ../C_e11_test_repair/repair_matrix.out
+      path escapes evidence_root: ../C_e11_test_repair/post_repair_root.out
+
+  total defects across all envelopes: 2
+  A report whose evidence cannot be RESOLVED is unadmittable even when
+  every artifact exists and every hash is correct.

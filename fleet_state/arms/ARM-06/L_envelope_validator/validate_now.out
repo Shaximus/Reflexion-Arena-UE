@@ -1,0 +1,9 @@
+  ARM-06 report envelopes — 4 found, worktree product-verification-v1_18c8af42232fea3a
+  report_id                                claims ev  LB  verdict
+  --------------------------------------------------------------------------------------------
+  ARM-06-20260804T2054Z-CHECKPOINT-01      11     17  10  ADMISSIBLE
+  ARM-06-20260804T2115Z-CHECKPOINT-02      10     18  10  ADMISSIBLE
+  ARM-06-20260804T2210Z-CHECKPOINT-03      9      15  9   ADMISSIBLE
+  ARM-06-20260804T2340Z-CHECKPOINT-05      8      12  7   ADMISSIBLE
+
+  total defects across all envelopes: 0

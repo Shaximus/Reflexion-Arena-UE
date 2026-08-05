@@ -1,0 +1,18 @@
+branch                 expected  actual  verdict
+--------------------------------------------------------------------------------------
+B0_clean_control       0         0       as designed   a valid envelope must be ADMISSIBLE
+B1_missing_key         1         1       as designed   required top-level key absent
+      -> missing required key: next_action
+B2_absolute_root       1         1       as designed   evidence_root must be relative
+B3_missing_file        1         1       as designed   declared evidence file does not exist
+      -> evidence file missing: real.txt
+B4_hash_mismatch       1         1       as designed   sha256 does not recompute
+      -> sha256 mismatch: real.txt
+B5_bad_status          1         1       as designed   claim status outside the permitted set
+      -> claim fx.1: bad status 'PROBABLY_FINE'
+B6_uncovered_claim     1         1       as designed   load-bearing claim with no evidence
+      -> load-bearing claim has NO evidence: fx.1
+B7_escape_dotdot       1         1       as designed   path escapes the declared root
+      -> path escapes evidence_root: ../validate_reports.py
+
+branches that did not fire: 0  []

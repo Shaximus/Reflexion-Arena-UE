@@ -1,0 +1,1 @@
+producer_exit=1  # must be 1 — it must catch the defect that really happened
