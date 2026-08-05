@@ -1,0 +1,82 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-06-20260806T0240Z-CHECKPOINT-41",
+  "arm_id": "ARM-06",
+  "goal_id": "wave1a-ARM-06-product-verification-v1",
+  "generated_at": "2026-08-06T02:40:00Z",
+  "state": "CHECKPOINT",
+  "chat_url": "https://chatgpt.com/g/g-p-6a46a73f024481918cf7a4c4ce131766-the-board-room/c/6a72276b-1b18-83ea-9617-54360924c769",
+  "authority_ceiling": "L2",
+  "evidence_root": "fleet_state/arms/ARM-06/AV_diagonal_all_branches",
+  "claims": [
+    {
+      "claim_id": "av.diagonal-six-of-six",
+      "text": "The diagonal now covers 6 mutations and all three verdicts of the admission control, with ZERO off-diagonal movements: D1 gate 0->1, D2 anchors 0->1, D3 trajectory 0->1, D4 admission 2->1 BREACH, D5 admission 2->0 GATE CONFIRMED, D6 admission 2->3 PRESENT_BUT_UNEXERCISED. Each mutation moved exactly its own test and left every other test at its clean verdict.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "av.control-recognises-a-correct-gate",
+      "text": "D5 is the branch that mattered and had never been exercised: given a mirror implementing a CORRECT allow-list — exploit refused, canon admitted — the admission control returns exit 0 GATE CONFIRMED. Its exit-1 BREACH branch had fired before, but only against gates I had deliberately broken. A verifier that can condemn a bad implementation but cannot recognise a good one would have been useless the day ARM-08's gate lands, and that property was untested until now.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "av.exit-code-collision-found-and-fixed",
+      "text": "The diagonal found a real DEFECT-3-class collision in my OWN control. D6 originally reported 'NOTHING CHANGED' — but the verdict text had changed correctly to PRODUCT_AUTHORITY_PATH_PRESENT_BUT_UNEXERCISED. Both that state and PRODUCT_AUTHORITY_PATH_ABSENT exited 2, so 'no gate exists anywhere' and 'a gate exists that I could not reach' were indistinguishable to any exit-code reader — including my own run_tests.py. That is precisely the exit-code collision I found and fixed in the E11 gate as DEFECT-3, reproduced in the instrument I built afterwards.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "av.fix-verified-both-directions",
+      "text": "Fixed by giving PRESENT_BUT_UNEXERCISED its own exit code 3, with run_tests.py taught that 3 means UNEXERCISED and reported on its own line, distinct from INCONCLUSIVE. Verified both ways: D6 now moves 2->3 and is diagonal, and the LIVE suite is unchanged at admission=2 ABSENT, suite exit 2, because in my worktree no gate genuinely exists. The fix distinguishes the two states without altering the honest verdict where only one of them applies.",
+      "status": "MACHINE_VERIFIED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "diagonal_full.txt",
+      "sha256": "3270d2856caba3815b82ffaf3d931c024e45d213b0e8e1a0a7fbac7f7d93073b",
+      "claim_ids": [
+        "av.diagonal-six-of-six",
+        "av.control-recognises-a-correct-gate",
+        "av.exit-code-collision-found-and-fixed",
+        "av.fix-verified-both-directions"
+      ]
+    },
+    {
+      "path": "diagonal.py",
+      "sha256": "12a2d946cefc10fa251321847ba41a92e1146b71a3c366416a45ea8d738047c4",
+      "claim_ids": [
+        "av.diagonal-six-of-six"
+      ]
+    },
+    {
+      "path": "test_e11_admission_path.py",
+      "sha256": "3a5aafeb53ccc123b8ce449b4cfb8587cd911743c54ae89c933c52ff9cf735db",
+      "claim_ids": [
+        "av.exit-code-collision-found-and-fixed",
+        "av.fix-verified-both-directions"
+      ]
+    }
+  ],
+  "artifacts": [
+    "diagonal_full.txt",
+    "diagonal.py",
+    "test_e11_admission_path.py"
+  ],
+  "tests": [
+    {
+      "command": "python3 diagonal.py  # 6 aimed mutations x full suite, scratch trees only",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "diagonal_full.txt",
+      "stderr_artifact": "diagonal_full.txt",
+      "negative_control": true
+    }
+  ],
+  "decisions_requested": [],
+  "risks": [
+    "Exit 3 is a NEW code in this fleet's test vocabulary. Any external runner that treats non-zero as failure will read UNEXERCISED as a defect. That is safer than the collision it replaces — it over-reports rather than hiding a real path — but it is a contract change and anyone consuming these exit codes needs to know.",
+    "Six mutations, all chosen and aimed by me. Diagonality is evidence of independence over the cases I thought of, not a proof over the cases I did not.",
+    "D6's fixture is a hand-written header carrying the structural tokens, not ARM-08's real file. It proves the control reacts to the token surface; CHECKPOINT-33 is where it was run against the genuine C++ tree."
+  ],
+  "next_action": "Head report queued to file; Kestrel down. BLOCKED on push."
+}

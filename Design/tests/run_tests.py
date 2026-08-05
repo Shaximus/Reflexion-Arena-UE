@@ -35,6 +35,7 @@ MEANING = {
     0: ("MET", "condition met"),
     1: ("DEFECT", "gate violated / defect found"),
     2: ("INCONCLUSIVE", "could not evaluate — NOT a pass"),
+    3: ("UNEXERCISED", "a real path exists that this check could not reach"),
 }
 
 
@@ -75,13 +76,15 @@ def main():
     codes = [p.returncode for _, p, _ in results]
     defects = [t.name for t, p, _ in results if p.returncode == 1]
     inconclusive = [t.name for t, p, _ in results if p.returncode == 2]
-    unexpected = [(t.name, p.returncode) for t, p, _ in results if p.returncode > 2]
+    unexercised = [t.name for t, p, _ in results if p.returncode == 3]
+    unexpected = [(t.name, p.returncode) for t, p, _ in results if p.returncode > 3]
 
     print()
     print("  " + "=" * 100)
     print(f"  met          : {codes.count(0)}")
     print(f"  DEFECT   (1) : {len(defects)}  {defects}")
     print(f"  INCONCL. (2) : {len(inconclusive)}  {inconclusive}")
+    print(f"  UNEXERC. (3) : {len(unexercised)}  {unexercised}")
     if unexpected:
         print(f"  UNEXPECTED   : {unexpected}")
     print("  " + "=" * 100)
@@ -92,7 +95,7 @@ def main():
         return 1
     if inconclusive:
         return 2
-    if unexpected:
+    if unexercised or unexpected:
         return 3
     return 0
 
