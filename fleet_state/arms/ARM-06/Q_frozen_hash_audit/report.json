@@ -1,0 +1,52 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-06-20260805T0330Z-CHECKPOINT-17",
+  "arm_id": "ARM-06",
+  "goal_id": "wave1a-ARM-06-product-verification-v1",
+  "generated_at": "2026-08-05T03:30:00Z",
+  "state": "CHECKPOINT",
+  "chat_url": "https://chatgpt.com/g/g-p-6a46a73f024481918cf7a4c4ce131766-the-board-room/c/6a72276b-1b18-83ea-9617-54360924c769",
+  "authority_ceiling": "L2",
+  "evidence_root": "fleet_state/arms/ARM-06/Q_frozen_hash_audit",
+  "claims": [
+    {
+      "claim_id": "q.no-hash-drift",
+      "text": "Frozen-hash audit: 163 cited evidence files across 16 envelopes recomputed against their declared sha256. ZERO drift, zero missing. All 16 envelopes still exit 0 ADMITTED under the authoritative validator, so no already-admitted envelope has been silently invalidated by a later edit.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "q.recursive-freeze-hazard",
+      "text": "STRUCTURAL HAZARD, now recorded: P_arm_status cites the other fifteen report.json files by hash. Any future regeneration of one of those envelopes silently invalidates P — an already-admitted arm-level report — even though nothing about P itself changed. Citing envelopes as evidence makes the arm-level report brittle against exactly the kind of routine re-emission the standing instruction asks for. Any such regeneration must be followed by a NEW arm-level envelope, never an in-place edit under the published hash.",
+      "status": "MACHINE_VERIFIED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "frozen_audit.txt",
+      "sha256": "7e9e1e930cd798bfcb555f87e6c73689b94ffaa087eeb0a836f6a40d6a24badc",
+      "claim_ids": [
+        "q.no-hash-drift",
+        "q.recursive-freeze-hazard"
+      ]
+    }
+  ],
+  "artifacts": [
+    "frozen_audit.txt"
+  ],
+  "tests": [
+    {
+      "command": "for r in fleet_state/arms/ARM-06/*/report.json; do python3 validate_arm_report.py $r; done; plus per-file sha256 recompute",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "frozen_audit.txt",
+      "stderr_artifact": "frozen_audit.txt",
+      "negative_control": false
+    }
+  ],
+  "decisions_requested": [],
+  "risks": [
+    "This envelope cites only its own audit output, deliberately. Had it cited the sixteen report.json files it audits, it would freeze them and deepen the recursive hazard it exists to warn about.",
+    "163 files checked with 0 drift is a snapshot, not a guarantee. It holds until the next edit to any cited file, which is precisely why the rule is 'hash evidence LAST, when the file is final'."
+  ],
+  "next_action": "BLOCKED on push and Head-channel authority; both are permission denials."
+}
