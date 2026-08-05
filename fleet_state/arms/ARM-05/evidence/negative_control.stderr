@@ -1,0 +1,24 @@
+Traceback (most recent call last):
+  File "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/evidence/negative_control.py", line 9, in deco
+    RESULTS.append(("PASS", label, fn()))
+                                   ^^^^
+  File "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/evidence/negative_control.py", line 18, in _
+    from semantic_compiler.expansion.gem_forge import socket_fragment  # noqa
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ImportError: cannot import name 'socket_fragment' from 'semantic_compiler.expansion.gem_forge' (/home/shax/Apps/semantic_compiler/expansion/gem_forge/__init__.py)
+Traceback (most recent call last):
+  File "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/evidence/negative_control.py", line 9, in deco
+    RESULTS.append(("PASS", label, fn()))
+                                   ^^^^
+  File "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/evidence/negative_control.py", line 23, in _
+    from semantic_compiler.expansion.gem_decode import spawn_boss_encounter  # noqa
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ImportError: cannot import name 'spawn_boss_encounter' from 'semantic_compiler.expansion.gem_decode' (/home/shax/Apps/semantic_compiler/expansion/gem_decode/__init__.py)
+Traceback (most recent call last):
+  File "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/evidence/negative_control.py", line 9, in deco
+    RESULTS.append(("PASS", label, fn()))
+                                   ^^^^
+  File "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/evidence/negative_control.py", line 28, in _
+    import semantic_compiler.gameplay.runtime  # noqa
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ModuleNotFoundError: No module named 'semantic_compiler.gameplay'

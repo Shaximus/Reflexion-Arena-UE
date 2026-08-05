@@ -1,0 +1,235 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-05-2026-08-05T01:08:23Z-gem-inventory-v1",
+  "arm_id": "ARM-05",
+  "goal_id": "gem-gameplay-v1/task-1-inventory-classify-crossref-contract",
+  "generated_at": "2026-08-05T01:08:23Z",
+  "state": "COMPLETE_CANDIDATE",
+  "chat_url": "UNKNOWN_NOT_SUPPLIED_IN_ARM_BRIEF",
+  "authority_ceiling": "L2",
+  "repository": "ReflexionArena.uproject (Reflexion Arena UE project)",
+  "worktree": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60",
+  "branch": "arm/gem-gameplay-v1",
+  "head_sha": "c5fa2f8965fb9eb908bdcbcbc7f89db4fd467ad5",
+  "evidence_root": "fleet_state/arms/ARM-05/evidence",
+
+  "claims": [
+    {
+      "claim_id": "C1",
+      "text": "The ARM-05 brief's WRITABLE paths Source/RxWorlds/Gameplay and Source/RxWorlds/Gems do not exist. Source/RxWorlds does not exist at any depth in the worktree. The real source root is Source/ReflexionArena/ with sim code in Source/ReflexionArena/Sim/ (15 files).",
+      "status": "MACHINE_VERIFIED",
+      "evidence": [
+        "find . -path ./.git -prune -o -iname '*RxWorlds*' -print  -> no output, RC=0",
+        "ls Source/ -> ReflexionArena/, ReflexionArena.Target.cs, ReflexionArenaEditor.Target.cs",
+        "ls -R Source/ReflexionArena -> Sim/ contains RxSkillSystem.{h,cpp}, RxBossEarthquake.{h,cpp}, 15 files total"
+      ]
+    },
+    {
+      "claim_id": "C2",
+      "text": "semantic_compiler's 'Gem' is a Path-of-Exile-gem to inference-architecture translation corpus, not a gameplay item system. It contains no gameplay runtime: no gameplay module, no boss/encounter spawner, no fragment socketing.",
+      "status": "MACHINE_VERIFIED",
+      "evidence": [
+        "expansion/gem_forge/taxonomy.py:18-36 DEPLOYMENT_SLOTS = MODEL_PAYLOAD/DRAFT_HEAD/VERIFIER/SCHEDULER/ROUTER/CACHE_LAYER/HARDWARE_ACCELERATOR",
+        "expansion/gem_forge/taxonomy.py:38-59 CAPABILITY_DOMAINS = SPECULATION/VERIFICATION/BATCHING/RESOURCE_BUDGETING/LATENCY_CONTROL",
+        "expansion/gem_decode/measured.py:68-69,194-199 hardware receipts (PCIe round-trip, RTX PRO 6000)",
+        "fleet_state/arms/ARM-05/evidence/negative_control.stdout: ModuleNotFoundError semantic_compiler.gameplay; ImportError socket_fragment; ImportError spawn_boss_encounter"
+      ]
+    },
+    {
+      "claim_id": "C3",
+      "text": "RX_DESIGN_CANON_V1-SHENRON.md contains exactly 7 'Gem' + 1 'Gemini' occurrences across 1564 lines, and none refer to a gameplay item. All refer to the deleted Google Gemini Gem incident (CANON:22, 502, 522) or the Gemini Live product name (CANON:1132). The canon's gameplay progression noun is 'Compression Fragment'.",
+      "status": "MACHINE_VERIFIED",
+      "evidence": [
+        "grep -oiE '\\bgem[a-z]*' RX_DESIGN_CANON_V1-SHENRON.md | sort | uniq -c  ->  7 Gem, 1 Gemini (RC=0)",
+        "wc -lc -> 1564 lines / 192675 bytes",
+        "All 8 hits read individually; CANON:502 describes the platform deleting a Gemini Gem ~27 min after an anti-hedge instruction",
+        "CANON:249-251 (Sec 3.1 Compression Fragments), CANON:50, CANON:80-81, CANON:1460 glossary",
+        "CANON:1020 canon-mandated vocabulary disambiguation duty (Doctrine vs Compression Fragments)"
+      ]
+    },
+    {
+      "claim_id": "C4",
+      "text": "Fragment decompression is the canon's named open gap (CANON:1427) and is currently a hardcoded constant in the engine: AuthorSkill validates against one-element whitelists.",
+      "status": "MACHINE_VERIFIED",
+      "evidence": [
+        "Source/ReflexionArena/Sim/RxSkillSystem.cpp:46-50 LegalNames() = { \"FAULTLINE INTERRUPT\" }",
+        "Source/ReflexionArena/Sim/RxSkillSystem.cpp:52-56 LegalTriggers() = { \"committed_ground_propagation\" }",
+        "Source/ReflexionArena/Sim/RxSkillSystem.cpp:58-62 LegalEffects() = { \"destabilize_anchor\" }",
+        "Source/ReflexionArena/Sim/RxSkillSystem.cpp:174-202 ValidateSpec consults those statics",
+        "CANON:1427 'Fragment decompression mechanics. Cost, boundedness rules, and failure modes'",
+        "Data/skill_faultline_interrupt.json already carries a legal_options object that the C++ ignores"
+      ]
+    },
+    {
+      "claim_id": "C5",
+      "text": "semantic_compiler's skill_decompression module shares byte-identical authority and hash vocabulary with the shipped engine artifact, evidencing common design lineage.",
+      "status": "MACHINE_VERIFIED",
+      "evidence": [
+        "expansion/skill_decompression.py:120 authority_requirement = 'validated_request_only'",
+        "Source/ReflexionArena/Sim/RxSkillSystem.h:100 FString Authority; // 'validated_request_only'",
+        "Data/skill_faultline_interrupt.json field \"authority\": \"validated_request_only\"",
+        "expansion/skill_decompression.py:152-157 sha256 over sort-keyed JSON with hash field nulled; RxSkillSystem.h:104-108 hashes artifact BEFORE adding skill_hash",
+        "evidence/probe_primitives.stdout: skill_id=skill.faultline_interrupt produced by decompress_skill"
+      ]
+    },
+    {
+      "claim_id": "C6",
+      "text": "All 8 gem primitive probes execute successfully against semantic_compiler @ 12fef8f; the pinned corpus contains 1017 PoE gems and forge_component runs end to end, correctly demoting to NOVEL under its matcher floor.",
+      "status": "MACHINE_VERIFIED",
+      "evidence": [
+        "evidence/probe_primitives.stdout: SUMMARY pass=8 fail=0",
+        "evidence/probe_primitives.exit: EXIT=0",
+        "evidence/probe_primitives.stderr: 0 bytes (sha256 e3b0c442...b7852b855 = empty)",
+        "load_pinned_corpus container_len=1017; forge_component composition=NOVEL matches=8",
+        "rig_map.coverage_report: playbook_gems=28 covered=28 missing=[]"
+      ]
+    },
+    {
+      "claim_id": "C7",
+      "text": "The probe methodology is falsifiable: the harness reports FAIL for three absent primitives in the same run where a known-good primitive still passes.",
+      "status": "MACHINE_VERIFIED",
+      "evidence": [
+        "evidence/negative_control.stdout: 3 FAIL (socket_fragment, spawn_boss_encounter, semantic_compiler.gameplay) + 1 PASS (known-good control)",
+        "evidence/negative_control.exit: EXIT=0 where the script exits 0 ONLY when fails==3 (inverted assertion)",
+        "evidence/negative_control.stderr: 2058 bytes of retained tracebacks, not suppressed"
+      ]
+    },
+    {
+      "claim_id": "C8",
+      "text": "The read-only repository /home/shax/Apps/semantic_compiler was not modified: HEAD unchanged, git status clean, and zero bytecode files were written by ARM-05's probe runs.",
+      "status": "MACHINE_VERIFIED",
+      "evidence": [
+        "cd /home/shax/Apps/semantic_compiler && git status --porcelain -> empty, RC=0",
+        "git rev-parse HEAD -> 12fef8fd651318e99e3da541e50f071f583f4ae9 (unchanged from session start)",
+        "find . -name '*.pyc' -newermt '2026-08-04' | wc -l -> 0",
+        "Pre-existing __pycache__ dirs dated Jul 25 / Aug 3, gitignored"
+      ]
+    },
+    {
+      "claim_id": "C9",
+      "text": "Classification of 16 primitive groups: EXISTING 2, EXISTING_WITH_DIFFERENT_NAME 3, COMPILABLE_TO_EXISTING_COMMANDS 2, REQUIRES_SMALL_EXTENSION 4, FUTURE_SYSTEM 2, REJECT 4. The largest single body of code in the package (gem_decode) falls in the REJECT set for gameplay purposes.",
+      "status": "CLAIMED",
+      "evidence": [
+        "fleet_state/arms/ARM-05/INVENTORY_AND_CLASSIFICATION.md section 2, each row carrying file:line justification",
+        "Status is CLAIMED not MACHINE_VERIFIED: the per-row file:line anchors are machine-checked, but the CLASSIFICATION LABEL is an engineering judgement that no command can verify. It requires independent review."
+      ]
+    },
+    {
+      "claim_id": "C10",
+      "text": "The Fragment Decompression v1 contract is a design document only. No engine code, Content, or Config was written or modified by ARM-05.",
+      "status": "MACHINE_VERIFIED",
+      "evidence": [
+        "git status --porcelain: all ARM-05 writes confined to fleet_state/arms/ARM-05/",
+        "No file under Source/, Content/, Config/, Design/, or tools/oracle appears in git status",
+        ".claude/settings.json appears in git status but is dated 19:43, predating ARM-05's first write at 19:45 — arm provisioning, not ARM-05 output"
+      ]
+    }
+  ],
+
+  "artifacts": [
+    "fleet_state/arms/ARM-05/INVENTORY_AND_CLASSIFICATION.md sha256=78cb23e678e479a45d500255878182c31a897b2e15771a1a8df6c41d4bf990c7",
+    "fleet_state/arms/ARM-05/CANON_CROSSREF.md sha256=140b4815b6fff992b6cba4ab78af9ac1e677a758f8c66203f0eab8e09836953d",
+    "fleet_state/arms/ARM-05/CONTRACT_fragment_decompression_v1.md sha256=5b322a87c43e014521e630592fcbc537da55da25c198320127a6a4bc9fd469b1",
+    "fleet_state/arms/ARM-05/evidence/probe_primitives.py sha256=96d01fe11f05cfc7365577a18d0c3229faac29c1fee8bd7a3814f11441b97d65",
+    "fleet_state/arms/ARM-05/evidence/probe_primitives.stdout sha256=0a1609b03d88b435a782602814a9c85c6ef49ec117468569406d94de9b70c9de",
+    "fleet_state/arms/ARM-05/evidence/probe_primitives.stderr sha256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "fleet_state/arms/ARM-05/evidence/negative_control.py sha256=8b6f325856708c98221201f9d2208642eaaa791c9266790d69d4d2eb019a6b51",
+    "fleet_state/arms/ARM-05/evidence/negative_control.stdout sha256=e513adee24f855c6061f9b4a82f2943b223cf685102a7f289c1c4a90af480a45",
+    "fleet_state/arms/ARM-05/evidence/negative_control.stderr sha256=ee98275900426a9c332cff7cbf7921c8e09ed2e4697ca37203d7df749f6e9b8e"
+  ],
+
+  "files_changed": [
+    "fleet_state/arms/ARM-05/INVENTORY_AND_CLASSIFICATION.md",
+    "fleet_state/arms/ARM-05/CANON_CROSSREF.md",
+    "fleet_state/arms/ARM-05/CONTRACT_fragment_decompression_v1.md",
+    "fleet_state/arms/ARM-05/ARM_REPORT.json",
+    "fleet_state/arms/ARM-05/evidence/probe_primitives.py",
+    "fleet_state/arms/ARM-05/evidence/probe_primitives.stdout",
+    "fleet_state/arms/ARM-05/evidence/probe_primitives.stderr",
+    "fleet_state/arms/ARM-05/evidence/probe_primitives.exit",
+    "fleet_state/arms/ARM-05/evidence/negative_control.py",
+    "fleet_state/arms/ARM-05/evidence/negative_control.stdout",
+    "fleet_state/arms/ARM-05/evidence/negative_control.stderr",
+    "fleet_state/arms/ARM-05/evidence/negative_control.exit"
+  ],
+
+  "commits": [],
+
+  "tests": [
+    {
+      "command": "PYTHONPATH=/home/shax /home/shax/Apps/semantic_compiler/.venv/bin/python fleet_state/arms/ARM-05/evidence/probe_primitives.py",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "fleet_state/arms/ARM-05/evidence/probe_primitives.stdout",
+      "stderr_artifact": "fleet_state/arms/ARM-05/evidence/probe_primitives.stderr",
+      "negative_control": false,
+      "notes": "8 PASS / 0 FAIL. stderr is 0 bytes and was captured to file, not discarded. Exit code captured unpiped."
+    },
+    {
+      "command": "PYTHONPATH=/home/shax /home/shax/Apps/semantic_compiler/.venv/bin/python fleet_state/arms/ARM-05/evidence/negative_control.py",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "fleet_state/arms/ARM-05/evidence/negative_control.stdout",
+      "stderr_artifact": "fleet_state/arms/ARM-05/evidence/negative_control.stderr",
+      "negative_control": true,
+      "notes": "Inverted assertion: exits 0 ONLY when exactly 3 absent primitives FAIL while the known-good control PASSes. Proves the probe harness can distinguish presence from absence."
+    },
+    {
+      "command": "UE compile / Unreal automation tests",
+      "producer_exit_code": -1,
+      "result": "NOT_RUN",
+      "stdout_artifact": null,
+      "stderr_artifact": null,
+      "negative_control": false,
+      "notes": "Deliberately not run. Task 1 produced zero engine code; there is nothing new to compile. The contract's A1-A7 acceptance gates are pre-declared but UNMEASURED."
+    }
+  ],
+
+  "dependencies": [
+    "ARM-04 (Content, Config) — consumer of CONTRACT_fragment_decompression_v1.md; would author Data/decompression_earthquake.json, 4 Config keys, and 3 negative-control fixtures.",
+    "ARM-06 (Design/tests, tools/oracle) — the contract's A2 state-hash parity gate needs the oracle/replay harness ARM-06 owns.",
+    "Hannah Prime (L3) — must re-issue ARM-05's writable scope before any engine code can land."
+  ],
+
+  "decisions_requested": [
+    {
+      "authority": "L3",
+      "question": "ARM-05's granted WRITABLE paths (Source/RxWorlds/Gameplay, Source/RxWorlds/Gems) do not exist. Should ARM-05's writable scope be re-issued against the real path Source/ReflexionArena/Sim/, or should Source/RxWorlds/ be created as a new module?",
+      "blocked_action": "Any ARM-05 engine implementation, including the Fragment Decompression v1 contract in Source.",
+      "safe_parallel_work": "ARM-04 can author the Data table, Config keys, and negative-control fixtures from the contract now — none of that touches Source/."
+    },
+    {
+      "authority": "L3",
+      "question": "The arm is named 'Gem Forge Gameplay Integration', but canon has zero gameplay Gem concepts and semantic_compiler's Gem code is inference tooling (4 of 16 primitive groups REJECTED for gameplay). Should ARM-05 be renamed and re-scoped to Fragment Decompression, or is there a Gem mandate ARM-05 has not been shown?",
+      "blocked_action": "Committing further ARM-05 effort to Gem-named work whose gameplay value is unestablished.",
+      "safe_parallel_work": "The Fragment Decompression contract stands regardless of the naming decision; it is anchored to CANON:1427, not to the Gem vocabulary."
+    },
+    {
+      "authority": "L3",
+      "question": "CANON:1427 requires a decompression COST. ARM-05 has no evidential basis to set one and left decompression_cost at 0 rather than inventing a number. Who sets it?",
+      "blocked_action": "Finalizing the contract's cost semantics.",
+      "safe_parallel_work": "All other contract fields (invariants D0-D5, failure modes, gates A1-A7) are complete and independent of the cost value."
+    }
+  ],
+
+  "risks": [
+    "NAME COLLISION IS THE PRIMARY RISK: three different meanings of 'Gem' are live in this fleet (canon = a deleted Gemini assistant config; semantic_compiler = Path of Exile gems; ARM-05's title = a presumed gameplay system). Canon CANON:1020 already imposes a vocabulary-disambiguation duty for a near-identical collision on 'fragment'. If swarms read 'Gem Forge Gameplay Integration' as fact, they will build gameplay on inference tooling.",
+    "The arm brief's writable scope pointed at a nonexistent path. Per the fleet's four-times-repeated failure mode, ARM-05 reported this rather than silently retargeting to Source/ReflexionArena/. If other arms received similarly stale scopes, they may already have worked around them.",
+    "C9 (the classification labels) is engineering judgement and is marked CLAIMED, not verified. An independent reviewer could reasonably reclassify rows 5, 6, 10, or 16.",
+    "The Fragment Decompression contract is UNIMPLEMENTED and UNMEASURED. Gates A1-A7 are pre-declared thresholds, not results. No claim of working decompression is made.",
+    "semantic_compiler's decompress_skill uses substring heuristics (skill_decompression.py:64-77) and is explicitly NOT proposed as the engine implementation; adopting it directly would violate contract invariant D0 (purity/determinism) and break replay hashing."
+  ],
+
+  "resource_usage": {
+    "models": ["claude-opus-5[1m]"],
+    "harnesses": ["Claude Code CLI"],
+    "subagents": 0,
+    "notes": "No subagents, workflows, or deep research were used, per session directive. All reads and probes performed inline."
+  },
+
+  "next_action": "Await Hannah Prime's ruling on the writable-scope premise failure (decision 1) and the Gem-vs-Fragment re-scope (decision 2). Meanwhile ARM-04 can begin authoring Data/decompression_earthquake.json, the four Config keys, and the three negative-control fixtures from CONTRACT_fragment_decompression_v1.md section 8 — none of which requires Source/ write access.",
+
+  "integration_instructions": "Nothing to integrate into the engine: ARM-05 produced documentation and evidence only, all confined to fleet_state/arms/ARM-05/. There are no commits. Review order: (1) CANON_CROSSREF.md section 4 — the writable-scope premise failure, which is the blocking item; (2) CANON_CROSSREF.md section 1 — the Gem/Fragment name collision, which affects fleet-wide vocabulary; (3) INVENTORY_AND_CLASSIFICATION.md — reclassify any of the 16 rows on review; (4) CONTRACT_fragment_decompression_v1.md — hand section 8 to ARM-04 if the contract is accepted. Do NOT enable rx.decompression.enabled; the contract ships it false until A1/A2 parity is measured.",
+
+  "content_sha256": null
+}

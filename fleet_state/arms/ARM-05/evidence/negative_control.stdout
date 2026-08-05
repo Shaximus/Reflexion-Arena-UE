@@ -1,0 +1,6 @@
+FAIL  | ABSENT.gem_forge.socket_fragment_into_knowledge_tree | ImportError: cannot import name 'socket_fragment' from 'semantic_compiler.expansion.gem_forge' (/home/shax/Apps/semantic_compiler/expansion/gem_forge/__init__.py)
+FAIL  | ABSENT.gem_decode.spawn_boss_encounter               | ImportError: cannot import name 'spawn_boss_encounter' from 'semantic_compiler.expansion.gem_decode' (/home/shax/Apps/semantic_compiler/expansion/gem_decode/__init__.py)
+FAIL  | ABSENT.module.rx_gameplay_runtime                    | ModuleNotFoundError: No module named 'semantic_compiler.gameplay'
+PASS  | CONTROL.known_good_still_passes                      | ok=skill.test
+
+SUMMARY fail=3 (EXPECT 3 — the three ABSENT probes)
