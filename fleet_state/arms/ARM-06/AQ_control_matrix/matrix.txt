@@ -1,0 +1,60 @@
+[M0_unmutated] 10/10 controls passed  exit=0   control: the suite must pass 10/10 untouched
+[M1_verdict_says_human] 8/10 controls passed  exit=1   absence path claims a HUMAN origin — aimed at control #4
+      caught by: CONTROL   human-typed bytes
+      caught by: CONTROL   near-miss payload
+[M2_ignore_chain_integrity] <no score>  exit=1   attest() stops gating on chain integrity — aimed at 'tamper blocks attestation'
+      caught by: CONTROL   tamper blocks
+[M3_match_session_only] 7/10 controls passed  exit=1   attest() matches on session alone, ignoring payload — aimed at near-miss control
+      caught by: CONTROL   and does NOT claim
+      caught by: CONTROL   human-typed bytes
+      caught by: CONTROL   near-miss payload
+[M4_verify_always_intact] 7/10 controls passed  exit=1   verify_chain() always reports INTACT — aimed at tamper and chain-break controls
+      caught by: CONTROL   deleted middle
+      caught by: CONTROL   tamper blocks
+      caught by: CONTROL   tampered receipt
+[M5_no_prev_link] 9/10 controls passed  exit=1   write_receipt() stops linking receipts — aimed at chain-break detection
+      caught by: SETUP     three-receipt
+
+==============================================================================
+PER-CONTROL DISCRIMINATION — did each control ever fail?
+==============================================================================
+  POSITIVE  attested injection       failed under: *** NEVER — DECORATIVE ***
+  POSITIVE  chain intact             failed under: *** NEVER — DECORATIVE ***
+  CONTROL   human-typed bytes        failed under: ['M1_verdict_says_human', 'M3_match_session_only']
+  CONTROL   and does NOT claim       failed under: ['M3_match_session_only']
+  CONTROL   near-miss payload        failed under: ['M1_verdict_says_human', 'M3_match_session_only']
+  CONTROL   tampered receipt         failed under: ['M4_verify_always_intact']
+  CONTROL   tamper blocks            failed under: ['M2_ignore_chain_integrity', 'M4_verify_always_intact']
+  SETUP     three-receipt            failed under: ['M5_no_prev_link']
+  CONTROL   deleted middle           failed under: ['M4_verify_always_intact']
+  CONTROL   no chain                 failed under: *** NEVER — DECORATIVE ***
+
+controls never observed failing: 3  ['POSITIVE  attested injection', 'POSITIVE  chain intact', 'CONTROL   no chain']
+
+=== READING THIS MATRIX HONESTLY ===
+My FIRST run reported '6 controls never failing — DECORATIVE'. That was
+WRONG and I did not publish it. Two mutations had not applied (anchors
+matched 2x and 0x) and one crashed before scoring, so six controls were
+simply never challenged. Absence of failure was absence of a test.
+Anchors corrected; all five mutations now land.
+
+7 of 10 controls are OBSERVED FAILING under at least one mutation.
+
+The 3 that never failed are NOT shown to be decorative:
+  POSITIVE attested injection  a POSITIVE control. It SHOULD pass under
+                               mutations that break negative paths. My
+                               matrix contains no happy-path mutation.
+  POSITIVE chain intact        same.
+  CONTROL  no chain            a real negative control, but the NO_CHAIN
+                               path returns early, before any code I
+                               mutated. Untested here, not disproven.
+
+NUANCE ON CONTROL #4, 'and does NOT claim human':
+  It DID fail under M3 (attest matches on session alone), so it is not
+  inert in every scenario. But M1 — the verdict literally reading
+  HUMAN_TYPED_ORIGIN_UNRESOLVED — is the exact case it is named for, and
+  it PASSED that. It is a coarse canary that trips when the whole attest
+  path breaks, not the check its name promises. The name overpromises.
+
+MATRIX LIMITATION: M2 produced '<no score>' — the suite raised rather than
+completing, so per-control attribution for that run is partial.
