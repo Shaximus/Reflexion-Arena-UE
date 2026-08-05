@@ -1,0 +1,73 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-06-20260805T1905Z-CHECKPOINT-32",
+  "arm_id": "ARM-06",
+  "goal_id": "wave1a-ARM-06-product-verification-v1",
+  "generated_at": "2026-08-05T19:05:00Z",
+  "state": "CHECKPOINT",
+  "chat_url": "https://chatgpt.com/g/g-p-6a46a73f024481918cf7a4c4ce131766-the-board-room/c/6a72276b-1b18-83ea-9617-54360924c769",
+  "authority_ceiling": "L2",
+  "evidence_root": "fleet_state/arms/ARM-06/AG_browser_standdown",
+  "claims": [
+    {
+      "claim_id": "ag.standdown-complied",
+      "text": "Browser work stopped on order. The reply monitor was already dead (TaskStop confirmed 'not running'), and close_session returned {ok:true, closed:0} — zero because my session's own tab was ALREADY GONE, which is exactly what produced the poller's -2 error sentinel. No further webbridge calls will be made until Prime lifts the hold.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "ag.near-miss-wrong-conversation",
+      "text": "NEAR-MISS, and the fleet should have it. When my session lost its tab, the DOCUMENTED recovery — find_tab with active:true — returned a DIFFERENT conversation: mine is /c/6a72276b-1b18-83ea-9617-54360924c769, it handed back /c/6a7226f5-65a8-83ea-abde-289ead2dcd5f with borrowed=true. Same six-character prefix. I did NOT write to it. Had I gone straight to fill+send, ARM-06's checkpoint would have been posted into another Board Room channel.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "ag.recovery-guidance-is-unsafe-as-written",
+      "text": "The hazard is structural, not bad luck: active:true does NOT check the URL you asked for, it returns whatever tab is focused. On a machine running five arms with 18 tabs, the focused tab is very unlikely to be yours. Safe recovery is find_tab on the exact /c/ URL and, if that fails, STOP — never fall back to borrowing a stranger's tab. What actually caught it was reading the url field in the response before acting on the handle, which costs nothing.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "ag.ckpt06-written-not-sent",
+      "text": "CKPT-06 was written to fleet_state/arms/ARM-06/reports/CKPT-06_TO_HEAD06.md instead of being delivered, per the stand-down. Its header states NOT DELIVERED in the first three lines so a staged file can never be mistaken for a sent message. It carries the still-unanswered R1/R2 from CKPT-05, the near-miss, and the unchanged push blocker.",
+      "status": "MACHINE_VERIFIED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "standdown_and_nearmiss.txt",
+      "sha256": "48446dc3bdd4f93f9fcfcc5c9852f7358bf706d51326c5e59bc9b3af98b1f58a",
+      "claim_ids": [
+        "ag.standdown-complied",
+        "ag.near-miss-wrong-conversation",
+        "ag.recovery-guidance-is-unsafe-as-written"
+      ]
+    },
+    {
+      "path": "CKPT-06_TO_HEAD06.md",
+      "sha256": "1239cc9b07606b3fd03c40919f3e9e39bd6e057635d7174f9cbe85a1f346511a",
+      "claim_ids": [
+        "ag.ckpt06-written-not-sent"
+      ]
+    }
+  ],
+  "artifacts": [
+    "standdown_and_nearmiss.txt",
+    "CKPT-06_TO_HEAD06.md"
+  ],
+  "tests": [
+    {
+      "command": "close_session; find_tab exact-URL vs find_tab active:true",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "standdown_and_nearmiss.txt",
+      "stderr_artifact": "standdown_and_nearmiss.txt",
+      "negative_control": false
+    }
+  ],
+  "decisions_requested": [
+    "Fleet guidance fix: the documented tab-recovery path (find_tab active:true) can hand an arm another arm's conversation. Recommend: recover ONLY by exact /c/ URL, and treat failure as a hard stop rather than falling back to the focused tab. Any arm that followed the current guidance during the 18-tab period may have written to the wrong channel — worth checking whether that happened to anyone."
+  ],
+  "risks": [
+    "I cannot verify whether other arms hit the same near-miss and did NOT check the returned url. That would be silent cross-channel posting, and it is invisible from my seat.",
+    "Head reporting is postponed, so R1 (the transport-rule correction) is sitting in a file. If the fleet acts on the uncorrected rule meanwhile, arms will chase a transport bug that four measurements say is not there."
+  ],
+  "next_action": "Local work only: no webbridge calls until Prime lifts the hold. BLOCKED on push. K-01C PENDING on ARM-08."
+}

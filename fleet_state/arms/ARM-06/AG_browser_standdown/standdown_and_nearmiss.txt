@@ -1,0 +1,27 @@
+# ARM-06 browser stand-down, and a near-miss worth the fleet knowing
+
+STAND-DOWN COMPLIED
+  monitor bldbbqvn4        : already killed; TaskStop confirmed not running
+  close_session            : {"ok":true,"success":true,"closed":0}
+  closed=0 because my session's own tab was ALREADY GONE — which is what
+  produced the poller's -2 error sentinel in the first place.
+  No further webbridge calls will be made until Prime says otherwise.
+
+NEAR-MISS: find_tab active:true BORROWED THE WRONG CONVERSATION
+  my thread   : /c/6a72276b-1b18-83ea-9617-54360924c769
+  what active:true returned:
+                /c/6a7226f5-65a8-83ea-abde-289ead2dcd5f  tabId=1875935944 borrowed=true
+  Those two /c/ ids share a 6-character prefix ('6a722') and differ after.
+  I did NOT write to it. Had I proceeded to fill+send, ARM-06's checkpoint
+  would have been posted into a DIFFERENT Board Room conversation.
+
+WHY THE STANDARD GUIDANCE LEADS THERE:
+  'session tab was closed -> re-establish with find_tab active:true' is the
+  documented recovery. But active:true does NOT check the URL you asked for;
+  it hands back whatever tab is currently focused. On a machine running five
+  Arms with 18 tabs open, the focused tab is very unlikely to be yours.
+  The safe recovery is find_tab on the exact /c/ URL and, if that fails,
+  STOP — not fall back to borrowing a stranger's tab.
+
+WHAT SAVED IT: checking the returned url field before acting on the handle.
+  The response carries the real conversation id. Reading it costs nothing.
