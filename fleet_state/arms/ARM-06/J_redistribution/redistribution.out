@@ -1,0 +1,26 @@
+mutation applied: wave damage redirected between player and companion
+aggregate damage preserved by construction; only distribution changes
+
+BEHAVIOURAL ORACLE — magnitudes, not fingerprints
+Diagnostic specificity: names WHICH quantity moved. Detection is the hash's job.
+
+  PASS           final_tick               expected 11901 (±0), got 11901
+  *** FAIL ***   player_hp                expected 840 (±0), got 900  <-- OFF BY 60
+  *** FAIL ***   companion_hp             expected 900 (±0), got 840  <-- OFF BY -60
+  PASS           boss_stability           expected 0 (±0), got 0
+  PASS           total_hp_lost            expected 560 (±0), got 560
+  PASS           outcome_flags            {'boss_defeated': True, 'transfer_success': True, 'receipt_emitted': True} — REDUNDANT: observed failing only under N3, where boss_stability already fails. Cheap cross-check, not independent evidence.
+
+RESULT: FAIL
+
+producer_exit=1
+
+==============================================================================
+  assertions that FAILED: ['player_hp', 'companion_hp']
+  total_hp_lost caught it     : False
+  per-entity HP caught it     : True
+
+  CONFIRMED AS REPORTED — the aggregate is blind to redistribution, and
+  the per-entity assertions are what cover it. The logged risk is real
+  and already mitigated; it is not an open hole.
+==============================================================================
