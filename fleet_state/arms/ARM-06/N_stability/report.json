@@ -1,0 +1,101 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-06-20260805T0200Z-CHECKPOINT-15",
+  "arm_id": "ARM-06",
+  "goal_id": "wave1a-ARM-06-product-verification-v1",
+  "generated_at": "2026-08-05T02:00:00Z",
+  "state": "CHECKPOINT",
+  "chat_url": "https://chatgpt.com/g/g-p-6a46a73f024481918cf7a4c4ce131766-the-board-room/c/6a72276b-1b18-83ea-9617-54360924c769",
+  "authority_ceiling": "L2",
+  "evidence_root": "fleet_state/arms/ARM-06/N_stability",
+  "claims": [
+    {
+      "claim_id": "n.hash-check-already-catches-it",
+      "text": "The existing sha256 check ALREADY catches self-referential evidence. Reproduced: an envelope cites selfref.out, the validator is run with its output redirected into that same file, and the run reports \"sha256 mismatch: selfref.out\" at exit 1. The shell truncates the file BEFORE the validator executes, so the declared hash no longer matches what is on disk. This is how the real M_head_channel defect was caught.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "n.stability-sweep-cannot-fail",
+      "text": "The stability sweep I wrote to guard this defect CANNOT FAIL for it, and was removed. In the same run that reports the sha256 mismatch, the sweep reports \"0 evidence file(s) changed during verification\". Validation is read-only, so its before and after snapshots both see the already-truncated file. A check that cannot fail proves nothing — checklist B item 3, applied to my own new code rather than to inherited code.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "n.validator-restored",
+      "text": "validate_reports.py was reverted to its committed form, sha256 1cfb0b88156051000b449f1f9253769b31b8a163e4d1ba7eea465bda8162f1f8, and still reports 13 envelopes ADMISSIBLE with 0 defects while still catching the self-reference defect at exit 1. The non-discriminating assertion was removed rather than shipped.",
+      "status": "MACHINE_VERIFIED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "selfref_defect.out",
+      "sha256": "3aa979f889a02dd4fd5378622af0e6dff873da88f2c8ebb7e6ddf4d65a010c1a",
+      "claim_ids": [
+        "n.hash-check-already-catches-it",
+        "n.stability-sweep-cannot-fail",
+        "n.validator-restored"
+      ]
+    },
+    {
+      "path": "selfref_defect.exit",
+      "sha256": "7b441920940561ddf7cd461c2ee4350edfc46d06a0f175fff58b8d804c100fba",
+      "claim_ids": [
+        "n.hash-check-already-catches-it"
+      ]
+    },
+    {
+      "path": "selfref_control.out",
+      "sha256": "9ddbc21329bafe05d292e0390b417af3a50659e242b389917bcfd952e6cc0791",
+      "claim_ids": [
+        "n.stability-sweep-cannot-fail"
+      ]
+    },
+    {
+      "path": "selfref_control.exit",
+      "sha256": "7b441920940561ddf7cd461c2ee4350edfc46d06a0f175fff58b8d804c100fba",
+      "claim_ids": []
+    },
+    {
+      "path": "stability_now.out",
+      "sha256": "939692d9421588e368e4b620c46593bcabf9719d59e2da66d42763e22ef2b740",
+      "claim_ids": []
+    },
+    {
+      "path": "stability_now.exit",
+      "sha256": "c1878d07c636cd37631dc02c63f0c580708d78de1f2bc05c1a3b607dabb60bb7",
+      "claim_ids": []
+    }
+  ],
+  "artifacts": [
+    "selfref_defect.out",
+    "selfref_defect.exit",
+    "selfref_control.out",
+    "selfref_control.exit",
+    "stability_now.out",
+    "stability_now.exit"
+  ],
+  "tests": [
+    {
+      "command": "python3 validate_reports.py > <cited evidence file>  # reproduce self-reference",
+      "producer_exit_code": 1,
+      "result": "FAIL",
+      "stdout_artifact": "selfref_defect.out",
+      "stderr_artifact": "selfref_defect.out",
+      "negative_control": true
+    },
+    {
+      "command": "python3 validate_reports.py  # clean fixture, sweep baseline",
+      "producer_exit_code": 1,
+      "result": "FAIL",
+      "stdout_artifact": "selfref_control.out",
+      "stderr_artifact": "selfref_control.out",
+      "negative_control": true
+    }
+  ],
+  "decisions_requested": [],
+  "risks": [
+    "I wrote a check, tested whether it could fail, found it could not, and removed it. Had I shipped it, ARM-06 would have carried a guard that reports 'all evidence stable' forever while the thing it names goes undetected — the same shape as the total_hp_lost bound this arm was created to remove.",
+    "PROCESS DEFECT, THIRD OCCURRENCE: I overwrote the decisive artifact by redirecting a second run into the same filename, and had to reproduce it in scratch. Same mistake as the N6 control in Task B and the repair_matrix rerun in Task C. Writing failing runs to a distinct filename FIRST is a habit I have still not formed.",
+    "The removed sweep would have caught a genuinely different hazard — evidence mutated concurrently by another process during validation. That hazard has no demonstrated failure here, so no assertion was kept for it."
+  ],
+  "next_action": "Validator restored to its committed form; no non-discriminating assertion shipped."
+}

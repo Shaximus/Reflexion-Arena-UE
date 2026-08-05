@@ -1,0 +1,13 @@
+  ARM-06 report envelopes — 1 found, worktree stabctl
+  report_id                                claims ev  LB  verdict
+  --------------------------------------------------------------------------------------------
+  FX-SELFREF                               1      1   1   *** 1 DEFECT(S) ***
+      sha256 mismatch: selfref.out
+        declared 62b0c0767a0d936528c5e12e349eb572c57ff271930d84715d43ad1e4599d279
+        actual   07a0ed41238524145cd485f0c3d27157a2851de9909ba45d6a1706d666044dd2
+
+  stability sweep: 0 evidence file(s) changed during verification
+
+  total defects across all envelopes: 1
+  A report whose evidence cannot be RESOLVED is unadmittable even when
+  every artifact exists and every hash is correct.
