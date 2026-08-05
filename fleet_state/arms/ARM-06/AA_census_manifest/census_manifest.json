@@ -1,0 +1,1013 @@
+{
+  "manifest_version": "1.0",
+  "purpose": "frozen envelope cohort for an exact M2 admission census",
+  "frozen_by": "ARM-06",
+  "ruling": "Head 06, HN-20260805-OPT-03",
+  "count": 143,
+  "admitted": 129,
+  "rejected": 14,
+  "other": 0,
+  "entries": [
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-1/report.json",
+      "sha256": "a4c9619511a6aadfe8cb3221e0c229773682e69c12e75d1613f8c29453fb1f59",
+      "report_id": "ARM-08-E11-AUTH-20260804-01-ITEM1",
+      "arm_id": "ARM-08",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-10/report.json",
+      "sha256": "2e761e4c6c94c1ce6be922b587366e34a947b052fa7ba21546579c42bf268dde",
+      "report_id": "ARM-08-E11-AUTH-20260804-01-ITEM10",
+      "arm_id": "ARM-08",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-11/report.json",
+      "sha256": "c004786b4603f33d512afd572204fc0b12fc13991290b8369a421b1694b90940",
+      "report_id": "ARM-08-E11-AUTH-20260804-01-ITEM11",
+      "arm_id": "ARM-08",
+      "validator_exit": 1
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-12/report.json",
+      "sha256": "d77ff489a8c14ddd785d03aeaf7700c1029cfbc7218df6d15d82d1a081599433",
+      "report_id": "ARM-08-E11-AUTH-20260804-01-ITEM12",
+      "arm_id": "ARM-08",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-13/report.json",
+      "sha256": "3b4c187a70672060448c78a01c1c923586c95f68f9b270a38075ece5c29581d6",
+      "report_id": "ARM-08-E11-AUTH-20260804-01-ITEM13",
+      "arm_id": "ARM-08",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-14/report.json",
+      "sha256": "5a6384585dc328865091cfdb8634eb1d4a4d1cddebdf0adaed8fa35fa953181a",
+      "report_id": "ARM-08-E11-AUTH-20260804-01-ITEM14",
+      "arm_id": "ARM-08",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-15/report.json",
+      "sha256": "1b5489dc05bf3b64e7711a0c94c69900915203a65dee3377e3e703aa82e4edb3",
+      "report_id": "ARM-08-E11-AUTH-20260804-01-ITEM15",
+      "arm_id": "ARM-08",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-16/report.json",
+      "sha256": "5b93c61c053181c75224f98c1254380ae1b566a1dcc04c0faed213af1df1b4c9",
+      "report_id": "ARM-08-E11-AUTH-20260804-01-ITEM16",
+      "arm_id": "ARM-08",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-17/report.json",
+      "sha256": "44176034c20226321a9850934e7aa6db82948fb4867f3b0c2b5e3a520aa1be9e",
+      "report_id": "ARM-08-E11-AUTH-20260804-01-ITEM17",
+      "arm_id": "ARM-08",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-18/report.json",
+      "sha256": "4c1e3ada405e78bfe16405399939ede1c8eacbd60c2f2595efe182fbbc101dda",
+      "report_id": "ARM-08-E11-AUTH-20260804-01-ITEM18",
+      "arm_id": "ARM-08",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-19/report.json",
+      "sha256": "68eae6f577eab716fce86c7fc43b7d63a06032e3414d6b2fcc44f16bdfe941f6",
+      "report_id": "ARM-08-E11-AUTH-20260804-01-ITEM19",
+      "arm_id": "ARM-08",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-2/report.json",
+      "sha256": "67a0cf66b861a06d5a76e6ea97566e1f1cc5114ac9cddb161d01ebac03bec0fe",
+      "report_id": "ARM-08-E11-AUTH-20260804-01-ITEM2",
+      "arm_id": "ARM-08",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-20/report.json",
+      "sha256": "ce2320bd90990057bdb3d5b29a4c0ccebb793ec0091e2cb87422756d619776a6",
+      "report_id": "ARM-08-E11-AUTH-20260804-01-ITEM20",
+      "arm_id": "ARM-08",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-21/report.json",
+      "sha256": "39e36a40de8159ab346c7748b7d0295d5cc949209cdd3308ee70a8476069aceb",
+      "report_id": "ARM-08-E11-AUTH-20260804-01-ITEM21",
+      "arm_id": "ARM-08",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-22/report.json",
+      "sha256": "25e302d27c0f82f60b5bced67077652c0def95d609fa5f28568608ccd242b342",
+      "report_id": "ARM-08-E11-AUTH-20260804-01-ITEM22",
+      "arm_id": "ARM-08",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-23/report.json",
+      "sha256": "82fdca22df2c3ea92db79ddef7b0244ace0b7ed1c8c1d31c310bb34a06bd7bb1",
+      "report_id": "ARM-08-E11-AUTH-20260804-01-ITEM23",
+      "arm_id": "ARM-08",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-24/report.json",
+      "sha256": "39e46abaeb951b7d5e2bb5f9449341b0fc185f7dc84d3cb9ddea3ef9fd7209e3",
+      "report_id": "ARM-08-E11-AUTH-20260804-01-ITEM24",
+      "arm_id": "ARM-08",
+      "validator_exit": 1
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-25/report.json",
+      "sha256": "47eab28d8b33bd93bc832fee5d2dcd5f4e3624fd7a386a02a5dee87069208541",
+      "report_id": "ARM-08-E11-AUTH-20260804-01-ITEM25",
+      "arm_id": "ARM-08",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-26/report.json",
+      "sha256": "61eabd5b43cccc18b8e4e3fa1a5ada4d03b456a4e622aad68383f69126aba7d9",
+      "report_id": "ARM-08-E11-AUTH-20260804-01-ITEM26",
+      "arm_id": "ARM-08",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-27/report.json",
+      "sha256": "75fa7a0724454703fcb270a7c837bae376a1d6349d32413ebec432cc41d74397",
+      "report_id": "ARM-08-E11-AUTH-20260804-01-ITEM27",
+      "arm_id": "ARM-08",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-28/report.json",
+      "sha256": "3b495e696414fcdd14807b835aaf161be92c958b8d5a02aeb6abbb46c3fd55c0",
+      "report_id": "ARM-08-E11-AUTH-20260804-01-ITEM28",
+      "arm_id": "ARM-08",
+      "validator_exit": 1
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-29/report.json",
+      "sha256": "1b173c930cad9cf984ce9ffa60d3929c503322453fb2d7221e2a1493eb7564b5",
+      "report_id": "ARM-08-E11-AUTH-20260804-01-ITEM29",
+      "arm_id": "ARM-08",
+      "validator_exit": 1
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-3/report.json",
+      "sha256": "b252de9bd2ddd529796ccb9c47070942dafa84b98d3dcccb449a17f805c6ba0e",
+      "report_id": "ARM-08-E11-AUTH-20260804-01-ITEM3",
+      "arm_id": "ARM-08",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-30/report.json",
+      "sha256": "035ce54e965263b00a581fe0cca0592f2d83811450047467d25b797cbf5e0b83",
+      "report_id": "ARM-08-E11-AUTH-20260804-01-ITEM30",
+      "arm_id": "ARM-08",
+      "validator_exit": 1
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-31/report.json",
+      "sha256": "a89a580adaecfc311cba393ad92d81c6d94ff2004f3116b20533eaa234d634ee",
+      "report_id": "ARM-08-E11-AUTH-20260804-01-ITEM31",
+      "arm_id": "ARM-08",
+      "validator_exit": 1
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-32/report.json",
+      "sha256": "c2b5db763d5653d205d6cadbeae9fe6dd91182bbb644f3fcce9e45acb36628c7",
+      "report_id": "ARM-08-E11-AUTH-20260804-01-ITEM32",
+      "arm_id": "ARM-08",
+      "validator_exit": 1
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-33/report.json",
+      "sha256": "e914c28fcb7a00f48f2a920c761a88eb5d155ecc0d703529ea25c8004ea1bc1f",
+      "report_id": "ARM-08-E11-AUTH-20260804-01-ITEM33",
+      "arm_id": "ARM-08",
+      "validator_exit": 1
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-34/report.json",
+      "sha256": "53ff2b73fb688c5e8fbc057b1188a6c5a5385a5c814408c690d2ba8c05a59ec4",
+      "report_id": "ARM-08-E11-AUTH-20260804-01-ITEM34",
+      "arm_id": "ARM-08",
+      "validator_exit": 1
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-35/report.json",
+      "sha256": "db6ed932583bac3ac25a0be7bf3568d66cc4df7655e0f66f28aaabc6625c284d",
+      "report_id": "ARM-08-E11-AUTH-20260804-01-ITEM35",
+      "arm_id": "ARM-08",
+      "validator_exit": 1
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-36/report.json",
+      "sha256": "5b15d0b674e5e19223d3e5bdfafafba3c7ea655853c33c65a7f6b0d1e6e5ce03",
+      "report_id": "ARM-08-E11-AUTH-20260804-01-ITEM36",
+      "arm_id": "ARM-08",
+      "validator_exit": 1
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-37/report.json",
+      "sha256": "290c3b154936867d88d7ab683c84ab102c613da25a027c5b491385d17105aafa",
+      "report_id": "ARM-08-E11-AUTH-20260804-01-ITEM37",
+      "arm_id": "ARM-08",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-38/report.json",
+      "sha256": "a4a2c355ef55432c57116478d23c18946d1a39c3f87962ddaa5f860a965a06b6",
+      "report_id": "ARM-08-E11-AUTH-20260804-01-ITEM38",
+      "arm_id": "ARM-08",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-39/report.json",
+      "sha256": "49650563eb70f4164388f7ea771bd0abc2d95affca755f80352607baac56e5e1",
+      "report_id": "ARM-08-E11-AUTH-20260804-01-ITEM39",
+      "arm_id": "ARM-08",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-4/report.json",
+      "sha256": "b57a217d2899026155cea16fd3fd78671f6c503a718e09da603fa729660ea82c",
+      "report_id": "ARM-08-E11-AUTH-20260804-01-ITEM4",
+      "arm_id": "ARM-08",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-40/report.json",
+      "sha256": "9dbaed68132f83f5cfdde53ff783171ebeb89ad592f54652c5abefcae1feb98c",
+      "report_id": "ARM-08-E11-AUTH-20260804-01-ITEM40",
+      "arm_id": "ARM-08",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-41/report.json",
+      "sha256": "6fb3ce899e7863c6bcf4296c7825a74da03e8d8f6c42a7a1531aba586e1db080",
+      "report_id": "ARM-08-E11-AUTH-20260804-01-ITEM41",
+      "arm_id": "ARM-08",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-42/report.json",
+      "sha256": "008d136c8c2e51ff92b6c01d8fbe2b4bc91f486d78437b22dcdfcb427fc771d3",
+      "report_id": "ARM-08-E11-AUTH-20260804-01-ITEM42",
+      "arm_id": "ARM-08",
+      "validator_exit": 1
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-5/report.json",
+      "sha256": "c9318f1cb04f5b6921067805d93d681012b8081193bd51b88fde1113b54a75b4",
+      "report_id": "ARM-08-E11-AUTH-20260804-01-ITEM5",
+      "arm_id": "ARM-08",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-6/report.json",
+      "sha256": "55ce41ab9eac8bdbb6ab43c2c32347367544c26107001ae7d7c87d89b0dd1531",
+      "report_id": "ARM-08-E11-AUTH-20260804-01-ITEM6",
+      "arm_id": "ARM-08",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-7/report.json",
+      "sha256": "399cf4ae75adae5263d2113cce5297453f040cb7bd160c537d4b9b0d934a83e3",
+      "report_id": "ARM-08-E11-AUTH-20260804-01-ITEM7",
+      "arm_id": "ARM-08",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-8/report.json",
+      "sha256": "afc46c403ac60a4b6d0ed7b21ae4fdee78429520fbadcc203e6b81fca6a54db0",
+      "report_id": "ARM-08-E11-AUTH-20260804-01-ITEM8",
+      "arm_id": "ARM-08",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-9/report.NEGATIVE_CONTROL.json",
+      "sha256": "67c329ac559db69adaa7b1730a17b18e81ed14395edf06e9483260acdbc31a4b",
+      "report_id": "ARM-08-E11-AUTH-20260804-01-ITEM9-NEGATIVE-CONTROL",
+      "arm_id": "ARM-08",
+      "validator_exit": 1
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-9/report.json",
+      "sha256": "399d87abc4e2c3bb8582082223050c5cecdbce72e2fdb046d5fb299b3568a8b5",
+      "report_id": "ARM-08-E11-AUTH-20260804-01-ITEM9",
+      "arm_id": "ARM-08",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item1/report.json",
+      "sha256": "1c19571519c87d199a15d0980faa906454b69668a0f25af21c71040e8147525d",
+      "report_id": "ARM-05-item1-2026-08-05T02:25:37Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item10/report.json",
+      "sha256": "83163213603571afaf5df8bfbe542bc152dc4f2f7f640d07c6942ec74fd395f8",
+      "report_id": "ARM-05-item10-2026-08-05T03:29:20Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item11/report.json",
+      "sha256": "904dd918c36673b85136d857654c66611084933c85e018354c485ff3fe1b744f",
+      "report_id": "ARM-05-item11-2026-08-05T03:36:28Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item12/report.json",
+      "sha256": "5e0320970aa1a4c1615d97953fc341279092d3ab9efba8c2abadcf7e0e48135a",
+      "report_id": "ARM-05-item12-2026-08-05T03:41:15Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item13/report.json",
+      "sha256": "8105541bdbbea4eddc6541df565c18375d092e239c51f43978a03dbcc9b70ba8",
+      "report_id": "ARM-05-item13-2026-08-05T03:47:36Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item14/report.json",
+      "sha256": "b749f52736450c440fc2d357a28342969e8bded4a693a44fc9aa1383df7f7fe0",
+      "report_id": "ARM-05-item14-2026-08-05T03:54:52Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item15/report.json",
+      "sha256": "21fe0417f955cf44e9bc0b0ecda7c692d8c3a30f7322381342068e16ce287841",
+      "report_id": "ARM-05-item15-2026-08-05T03:59:30Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item16/report.json",
+      "sha256": "d18a8b146b9ae0af449fa41d68f35b6751fbd675e89cdcaf01db361fb220d6c3",
+      "report_id": "ARM-05-item16-2026-08-05T04:05:18Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item17/report.json",
+      "sha256": "45d5851cf543cf61a0c99092fa5546916d86daf501b1514c90ddf06778b726e0",
+      "report_id": "ARM-05-item17-2026-08-05T04:11:34Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item18/report.json",
+      "sha256": "5e8447542c45481e07d26b0c67ac109e38c2d292a18c114bd9677a6e5ee14680",
+      "report_id": "ARM-05-item18-2026-08-05T04:17:18Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item19/report.json",
+      "sha256": "452e0be3ca1833b9f7a96abeb817bef11d0926f76e796029742504d8c1919d38",
+      "report_id": "ARM-05-item19-2026-08-05T04:23:01Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item2/report.json",
+      "sha256": "160177dcd5494c927606e7ef8a162b972f33cbf87ea0a7cc0d4695b7d2d953bf",
+      "report_id": "ARM-05-item2-2026-08-05T02:25:37Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item20/report.json",
+      "sha256": "c326a666700a0922cabfccafe43bdc7fa1fae741d84e95aad85d186d6f695bd1",
+      "report_id": "ARM-05-item20-2026-08-05T04:26:47Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item21/report.json",
+      "sha256": "6ae70bb3ed78f29b0984f2746d03e7d3ce0ffc34e0e481f9351cf44276e91561",
+      "report_id": "ARM-05-item21-2026-08-05T04:32:35Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item22/report.json",
+      "sha256": "20402e8529fe955d623f2d677ad34f0e66f7decf502405ac463db1ffab489abe",
+      "report_id": "ARM-05-item22-2026-08-05T04:41:14Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item23/report.json",
+      "sha256": "c1db5b484ad821e0929a28abb353ce914e0e9f800abee84858a0521d10ab8fa3",
+      "report_id": "ARM-05-item23-2026-08-05T04:45:03Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item24/report.json",
+      "sha256": "3aa7e191368c2949e3d66bc28e7e85b4fc6b6459222e0c138b75f89b3372ea16",
+      "report_id": "ARM-05-item24-2026-08-05T04:51:03Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item25/report.json",
+      "sha256": "be0b24b2cab4e4f2e405ba2375380f42b270d272f56554a2899fb1fb87105696",
+      "report_id": "ARM-05-item25-2026-08-05T04:57:32Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item26/report.json",
+      "sha256": "4a075bcca3b8d3d1a81a7622f31456156dbe3616a4c422aa18b2b890ab88bbe1",
+      "report_id": "ARM-05-item26-2026-08-05T05:03:59Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item27/report.json",
+      "sha256": "c8fdbe7d254c0612761889c499f645cedb2e3124bd930c199ecbb64f94777607",
+      "report_id": "ARM-05-item27-2026-08-05T05:11:11Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item28/report.json",
+      "sha256": "9b5e530e25752d89f4a238e90a54a2bee75ecee64cc70a8ad2fbb0dd8ea8dbbd",
+      "report_id": "ARM-05-item28-2026-08-05T05:16:17Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item29/report.json",
+      "sha256": "887563b5bf559304735633346eaf39fd783bfb54b25f1f14aea8c80cfba559f8",
+      "report_id": "ARM-05-item29-2026-08-05T05:21:23Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item3/report.json",
+      "sha256": "a16baaca9bb14180507e1ad75241e7cbd0a6d522798e87b01c1e1f575fa4e6fd",
+      "report_id": "ARM-05-item3-2026-08-05T02:25:37Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item30/report.json",
+      "sha256": "690c2197cd06c902d91655497fcbdbc2f67983574e68e1c4113c144caae517f1",
+      "report_id": "ARM-05-item30-2026-08-05T05:28:52Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item31/report.json",
+      "sha256": "ac77fe0758836bca42738456eba8827b0e0e615ab154b490780a080df4b82016",
+      "report_id": "ARM-05-item31-2026-08-05T05:33:45Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item32/report.json",
+      "sha256": "a6fea17c94968df5ebbf6c9cb5393193e169b345e61e019c5ff7eb93710fe9d9",
+      "report_id": "ARM-05-item32-2026-08-05T05:39:56Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item33/report.json",
+      "sha256": "2a9a2cedb68b9f2bfff183f47c53359222a1e41d03f97f47ae1c0bf4d93af1df",
+      "report_id": "ARM-05-item33-2026-08-05T05:46:02Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item34/report.json",
+      "sha256": "6ab7805f8672ae250ff2459eb9a6c6c03225491acdae72a13bc0d8e8b5e23631",
+      "report_id": "ARM-05-item34-2026-08-05T06:12:40Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item35/report.json",
+      "sha256": "dbb24316677ea1f8984c31c2434a9e2be8eb49c5555d0dc9ffbd2bd4bfdfb6ac",
+      "report_id": "ARM-05-item35-2026-08-05T06:41:18Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item36/report.json",
+      "sha256": "33269801aaa6df82cb413ef0d233624d8a9222a2d47f378a95bfef6b45a3c9a6",
+      "report_id": "ARM-05-item36-2026-08-05T07:04:55Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item37/report.json",
+      "sha256": "1995a1363b23f6a3f96d121766c322d93eb2118e19bde9136f2204930d196c44",
+      "report_id": "ARM-05-item37-2026-08-05T07:28:33Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item38/report.json",
+      "sha256": "7f84cbd89eb703184098bcb0b8ac0943672d303568c7732563d4f91a0cbe2700",
+      "report_id": "ARM-05-item38-2026-08-05T07:52:10Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item39/report.json",
+      "sha256": "715c0abbc4e6fac276eb36938c4f5b8c6cd39dd550923d17c3af382f81e9999b",
+      "report_id": "ARM-05-item39-2026-08-05T08:19:44Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item4/report.json",
+      "sha256": "5cc674c194ae4243712df6c7530d0d5a81b2cd4e3c2feedb77723fe7891c0c67",
+      "report_id": "ARM-05-item4-2026-08-05T02:25:37Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item40/report.json",
+      "sha256": "dc5dd2f6551530600a9f591423e29d396529914968e0308c5e5dc2d294c0cf1e",
+      "report_id": "ARM-05-item40-2026-08-05T08:47:26Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item41/report.json",
+      "sha256": "ee9cf69c8fc75c108e9369a7ced84f0c041deb2d9538c2f80c9978713a1e4d25",
+      "report_id": "ARM-05-item41-2026-08-05T09:14:52Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item42/report.json",
+      "sha256": "d98b1b4c685345bf3f84387c9370bc8a532e251af397910ab7caf016701290ea",
+      "report_id": "ARM-05-item42-2026-08-05T09:41:07Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item43/report.json",
+      "sha256": "bc97fb18aa31f72e7e89bc9dba540f75f0876e28f7d563de9186c0ad05572aea",
+      "report_id": "ARM-05-item43-2026-08-05T10:08:31Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item44/report.json",
+      "sha256": "9907ad28e06befe33ef3aff3e6918caf14de3724941df368e8a3914553b81471",
+      "report_id": "ARM-05-item44-2026-08-05T10:39:18Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item45/report.json",
+      "sha256": "ad1ba743b1e866825ba74aa4312bea55c3eeff6b3d9cbe532f538edeeaa3d8ee",
+      "report_id": "ARM-05-item45-2026-08-05T11:06:44Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item46/report.json",
+      "sha256": "477fcfa45a1890a6aef00b82ac7f3b19a68c65ee43c598ec6b9631ed86c3302e",
+      "report_id": "ARM-05-item46-2026-08-05T11:34:07Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item47/report.json",
+      "sha256": "56561932d2bfcceaa7d1190d8d7d7ee63736105904fa3687a47e3a059d6358da",
+      "report_id": "ARM-05-item47-2026-08-05T12:02:55Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item48/report.json",
+      "sha256": "91b5276d03a7db0eebcf5789b2c17bb921abb01cafcc4db3e8de1017c8deeb62",
+      "report_id": "ARM-05-item48-2026-08-05T12:31:19Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item49/report.json",
+      "sha256": "f7e357fb3828f761382dd6910ce42a5f26a6eb6dca24a02778ace385d027e812",
+      "report_id": "ARM-05-item49-2026-08-05T13:04:37Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item5/report.json",
+      "sha256": "8508c2a6cd61aca43e8c9bfb528a4304103000eda18b3528ebc81b289225d9d7",
+      "report_id": "ARM-05-item5-2026-08-05T02:50:12Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item50/report.json",
+      "sha256": "519e6aed780614fea79cc28d76bee4eb8c0d0e281ce40d774a7785f418298f96",
+      "report_id": "ARM-05-item50-2026-08-05T13:38:52Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item51/report.json",
+      "sha256": "2e085323b757d3da825009a43054a4b98fe931d71ea3ce1ca3cd218bb6fab8c9",
+      "report_id": "ARM-05-item51-2026-08-05T14:11:26Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item52/report.json",
+      "sha256": "ab9f972a857e2a07f2436bab8a2b1beacaf797c63826465e12357b15344b4fac",
+      "report_id": "ARM-05-item52-2026-08-05T14:44:03Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item53/report.json",
+      "sha256": "790f25710d9c431633cb6f3cee788e9452d0edc6da4b2668b433071fb1e69d37",
+      "report_id": "ARM-05-item53-2026-08-05T15:19:44Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item54/report.json",
+      "sha256": "9e8615eca9a1299f9e5b8391f01168d1fe4954d7a947634789ac4a84f74d12ff",
+      "report_id": "ARM-05-item54-2026-08-05T15:52:31Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item6/report.json",
+      "sha256": "e7e0427c15812eaae9242f37f5d531e876a01d51fe25b465b66152bbc6f298ac",
+      "report_id": "ARM-05-item6-2026-08-05T02:59:10Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item7/report.json",
+      "sha256": "7e3814d630bf5ad8499f98195f7d939aa4ece06dad91a5eec35a038620fb1dda",
+      "report_id": "ARM-05-item7-2026-08-05T03:09:00Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item8/report.json",
+      "sha256": "04518d0b99486a7fb1bf057005d4dea707501d2fd7ae0212ef565ea11103a892",
+      "report_id": "ARM-05-item8-2026-08-05T03:16:31Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item9/report.json",
+      "sha256": "fae92587ffc5aaa891de054fdf73547a713953e6c83b323e2dd1a3ee74523089",
+      "report_id": "ARM-05-item9-2026-08-05T03:23:28Z",
+      "arm_id": "ARM-05",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/head07-inference-fable_18c8bea5f96e85d1/fleet_state/arms/HEAD-07/01-effective-config/report.json",
+      "sha256": "502f4bc5d47d13323ebd8600a963a9d90c499dc23d795348379746aa624fc8e4",
+      "report_id": "HEAD-07-01-effective-config-20260804T2330",
+      "arm_id": "HEAD-07",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/head07-inference-fable_18c8bea5f96e85d1/fleet_state/arms/HEAD-07/02-k6-vs-k5/report.json",
+      "sha256": "d82963bd56538c4f49cd1919d7f97a84bcc922c441a8127d75f1ec26c1ca965b",
+      "report_id": "HEAD-07-02-k6-vs-k5-20260805T0000",
+      "arm_id": "HEAD-07",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/head07-inference-fable_18c8bea5f96e85d1/fleet_state/arms/HEAD-07/03-online-fp8/report.json",
+      "sha256": "d28eece6cbaace0b93284fecc80f1ca58efd84e97449a4db4b5ffe168bfcfe76",
+      "report_id": "HEAD-07-03-online-fp8-20260805T0010",
+      "arm_id": "HEAD-07",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/head07-inference-fable_18c8bea5f96e85d1/fleet_state/arms/HEAD-07/04-thinking-default/report.json",
+      "sha256": "ab10549978dca115c290da532b329ffe96fc6298c840228a04b588a854f970ef",
+      "report_id": "HEAD-07-04-thinking-default-20260805T0005",
+      "arm_id": "HEAD-07",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/head07-inference-fable_18c8bea5f96e85d1/fleet_state/arms/HEAD-07/05-ddr5-kv-offload/report.json",
+      "sha256": "db05d57d3e65dd3d046e816be5b322700ff89a5b61c8124a9b2c197c9a4e57ec",
+      "report_id": "HEAD-07-05-ddr5-kv-offload-20260805T0020",
+      "arm_id": "HEAD-07",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/head07-inference-fable_18c8bea5f96e85d1/fleet_state/arms/HEAD-07/06-controlled-failure/report.json",
+      "sha256": "6752c47ade5746c369bf6506f5899ba7464f002fdbc75c285c34d5f1e4f6b3c0",
+      "report_id": "HEAD-07-06-controlled-failure-20260805T0012",
+      "arm_id": "HEAD-07",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/head07-inference-fable_18c8bea5f96e85d1/fleet_state/arms/HEAD-07/07-yarn-1m/report.json",
+      "sha256": "21d68aa56ebaeb63146bd8a5e4308eb46d8f0d68afc659693e9dbc25e041142e",
+      "report_id": "HEAD-07-07-yarn-1m-20260805T0025",
+      "arm_id": "HEAD-07",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/head07-inference-fable_18c8bea5f96e85d1/fleet_state/arms/HEAD-07/08-baseline-reconciliation/report.json",
+      "sha256": "5e322d2febc10df07b663d6d30c464296a0942a8ae5a339d74f4d0abf87c964c",
+      "report_id": "HEAD-07-08-baseline-reconciliation-20260805T0020",
+      "arm_id": "HEAD-07",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/head07-inference-fable_18c8bea5f96e85d1/fleet_state/arms/HEAD-07/09-yarn-1m-verified/report.json",
+      "sha256": "a306f8834880321257c3dc24b69f8429b72d542288a1bb2b27a9bf7b6ecda3dd",
+      "report_id": "HEAD-07-09-yarn-1m-verified-20260805T0810",
+      "arm_id": "HEAD-07",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/product-verification-v1_18c8af42232fea3a/fleet_state/arms/ARM-06/A_e11_replay/report.json",
+      "sha256": "77f68fd5bb79d2859ff49e14661940eac0ba7158f96d62f19ab0d131d0cbc28a",
+      "report_id": "ARM-06-20260804T2054Z-CHECKPOINT-01",
+      "arm_id": "ARM-06",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/product-verification-v1_18c8af42232fea3a/fleet_state/arms/ARM-06/B_oracle_discrimination/report.json",
+      "sha256": "b0efb3024e91c83303e3dd3b3eef56a80f2ec962f0fab06a51cae4e766fad03c",
+      "report_id": "ARM-06-20260804T2115Z-CHECKPOINT-02",
+      "arm_id": "ARM-06",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/product-verification-v1_18c8af42232fea3a/fleet_state/arms/ARM-06/C_e11_test_repair/report.json",
+      "sha256": "c674ecad19b24d53920b27a675276626aafdf3d9dc498484b834976ff99b9bda",
+      "report_id": "ARM-06-20260804T2210Z-CHECKPOINT-03",
+      "arm_id": "ARM-06",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/product-verification-v1_18c8af42232fea3a/fleet_state/arms/ARM-06/D_admission_path/report.json",
+      "sha256": "04a5f317df8f02f4018fc588b23a1b8aa3d175f0354125731866a4655f25afce",
+      "report_id": "ARM-06-20260804T2340Z-CHECKPOINT-05",
+      "arm_id": "ARM-06",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/product-verification-v1_18c8af42232fea3a/fleet_state/arms/ARM-06/E_registry_drift/report.json",
+      "sha256": "4f857dca2f246d165bbad2dde8af5bcba24753dbe584eaa12ac9f35bf170f46e",
+      "report_id": "ARM-06-20260805T0010Z-CHECKPOINT-06",
+      "arm_id": "ARM-06",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/product-verification-v1_18c8af42232fea3a/fleet_state/arms/ARM-06/F_c10_read_anchors/report.json",
+      "sha256": "486b46c62a63bb6aa69b88d6d02e52f98894f6ca4be1cab583adfe83f447d72d",
+      "report_id": "ARM-06-20260805T0020Z-CHECKPOINT-07",
+      "arm_id": "ARM-06",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/product-verification-v1_18c8af42232fea3a/fleet_state/arms/ARM-06/G_admission_control/report.json",
+      "sha256": "dbcc9acd80e0422e0ffdde25ea1191178ff46a8c39c4f1ee03d7231614aaf9d5",
+      "report_id": "ARM-06-20260805T0030Z-CHECKPOINT-08",
+      "arm_id": "ARM-06",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/product-verification-v1_18c8af42232fea3a/fleet_state/arms/ARM-06/H_suite_runner/report.json",
+      "sha256": "9ac8e8dc9dddf76cd551fa1defb7b4c7d234a9832958bece15a13c390ae7a27a",
+      "report_id": "ARM-06-20260805T0040Z-CHECKPOINT-09",
+      "arm_id": "ARM-06",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/product-verification-v1_18c8af42232fea3a/fleet_state/arms/ARM-06/I_per_tick/report.json",
+      "sha256": "f5c930e5f33efcc9cb41214d6869e10aa2a8ea7b08db4cf31adee2bb87509804",
+      "report_id": "ARM-06-20260805T0050Z-CHECKPOINT-10",
+      "arm_id": "ARM-06",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/product-verification-v1_18c8af42232fea3a/fleet_state/arms/ARM-06/J_redistribution/report.json",
+      "sha256": "de5edde0023a5ee55649b343b0456bd79e8bb3ec4df31c7864a0e16f6ff95c90",
+      "report_id": "ARM-06-20260805T0100Z-CHECKPOINT-11",
+      "arm_id": "ARM-06",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/product-verification-v1_18c8af42232fea3a/fleet_state/arms/ARM-06/K_anchor_fix/report.json",
+      "sha256": "4a1b26425b4c369b375ed6ab4a84f812b757b2cecb2bbef1b96fd236d18d0f3f",
+      "report_id": "ARM-06-20260805T0110Z-CHECKPOINT-12",
+      "arm_id": "ARM-06",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/product-verification-v1_18c8af42232fea3a/fleet_state/arms/ARM-06/L_envelope_validator/report.json",
+      "sha256": "a8ce9c10e3ea27e6a8d9855ea25420583434e822bd76dafc273cbcb3e58026cc",
+      "report_id": "ARM-06-20260805T0120Z-CHECKPOINT-13",
+      "arm_id": "ARM-06",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/product-verification-v1_18c8af42232fea3a/fleet_state/arms/ARM-06/M_head_channel/report.json",
+      "sha256": "ab674fd05c21cfbef42148013376f8ae85a2f4d87101443c23129bf6c298c599",
+      "report_id": "ARM-06-20260805T0130Z-CHECKPOINT-14",
+      "arm_id": "ARM-06",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/product-verification-v1_18c8af42232fea3a/fleet_state/arms/ARM-06/N_stability/report.json",
+      "sha256": "c12619bf0e025345affbd5e1023d8c7da8767cecae91cdb2c9a0333f317b3b15",
+      "report_id": "ARM-06-20260805T0200Z-CHECKPOINT-15",
+      "arm_id": "ARM-06",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/product-verification-v1_18c8af42232fea3a/fleet_state/arms/ARM-06/O_authoritative_validation/report.json",
+      "sha256": "2887b1e51157878e8b7a38bbb6853a5216a765b85167461e9f479a330e57cb47",
+      "report_id": "ARM-06-20260805T0230Z-CHECKPOINT-16",
+      "arm_id": "ARM-06",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/product-verification-v1_18c8af42232fea3a/fleet_state/arms/ARM-06/P_arm_status/report.json",
+      "sha256": "08abb6b382688ae470e166d19881396d0527f34a12aad6019d3fbe3c77043e48",
+      "report_id": "ARM-06-20260805T0300Z-STATUS-01",
+      "arm_id": "ARM-06",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/product-verification-v1_18c8af42232fea3a/fleet_state/arms/ARM-06/Q_frozen_hash_audit/report.json",
+      "sha256": "3f56e51b9faa82df687f47922bd4d96fe99071f5cdac7bf7f9b05594fe7cd88a",
+      "report_id": "ARM-06-20260805T0330Z-CHECKPOINT-17",
+      "arm_id": "ARM-06",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/product-verification-v1_18c8af42232fea3a/fleet_state/arms/ARM-06/R_m2_replay/report.json",
+      "sha256": "87e007f4137bd5de232f761c657d65c63646fa9a801edee24464da5b24972bd6",
+      "report_id": "ARM-06-20260805T1330Z-M2REPLAY-01",
+      "arm_id": "ARM-06",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/product-verification-v1_18c8af42232fea3a/fleet_state/arms/ARM-06/S_head_delivery/report.json",
+      "sha256": "502a17dc130aa6e05ff372347b375913124616ebafc3c20d7c394d23e8069cdb",
+      "report_id": "ARM-06-20260805T1400Z-CHECKPOINT-18",
+      "arm_id": "ARM-06",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/product-verification-v1_18c8af42232fea3a/fleet_state/arms/ARM-06/T_k03b_trajectory/report.json",
+      "sha256": "c9e54dec9b6d305abdd4f97f1f716ddf4644334a3f31b545f4d82f89b1376105",
+      "report_id": "ARM-06-20260805T1430Z-CHECKPOINT-19",
+      "arm_id": "ARM-06",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/product-verification-v1_18c8af42232fea3a/fleet_state/arms/ARM-06/U_canary2_decrease/report.json",
+      "sha256": "dfe4104bd86884c861349da22cff8a4efb71e977ec8d925e2d065fa812ab3308",
+      "report_id": "ARM-06-20260805T1445Z-CHECKPOINT-20",
+      "arm_id": "ARM-06",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/product-verification-v1_18c8af42232fea3a/fleet_state/arms/ARM-06/V_shipped_oracle_blindness/report.json",
+      "sha256": "14267abb40ad197f7a408ace5dd525f86a8b1c5acedce18d98129cdfbd65fb02",
+      "report_id": "ARM-06-20260805T1500Z-CHECKPOINT-21",
+      "arm_id": "ARM-06",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/product-verification-v1_18c8af42232fea3a/fleet_state/arms/ARM-06/W_risk_audit/report.json",
+      "sha256": "6b517b958279e714a4f7204b47aba0d7ef2803a703894673daa238c925038bf9",
+      "report_id": "ARM-06-20260805T1520Z-CHECKPOINT-22",
+      "arm_id": "ARM-06",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/product-verification-v1_18c8af42232fea3a/fleet_state/arms/ARM-06/X_trust_claims/report.json",
+      "sha256": "869edbf3b6c6edacfa42a39cd5bc0feb5dbc1c3d19f32664730dc920465bbb91",
+      "report_id": "ARM-06-20260805T1540Z-CHECKPOINT-23",
+      "arm_id": "ARM-06",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/product-verification-v1_18c8af42232fea3a/fleet_state/arms/ARM-06/Y_push_state_correction/report.json",
+      "sha256": "702d4b45a0db67dd540a7499730a0b488b77e309d32c3e3808fc643a0e9d50ef",
+      "report_id": "ARM-06-20260805T1600Z-CHECKPOINT-24",
+      "arm_id": "ARM-06",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/product-verification-v1_18c8af42232fea3a/fleet_state/arms/ARM-06/Z_ckpt03_delivery/report.json",
+      "sha256": "49a7cb218f9e5497996aeb2875f726a5a5a0e191050e01693064144322a76fe9",
+      "report_id": "ARM-06-20260805T1620Z-CHECKPOINT-25",
+      "arm_id": "ARM-06",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/ue-playability-v1_18c8af39d3ffe92e/fleet_state/arms/ARM-04/item1/report.json",
+      "sha256": "8ae5c99183eb28e66698633c468b0d7a8aee728d9e0b66c31a80d3eee255c38a",
+      "report_id": "ARM-04-ITEM1-20260805T0949140300",
+      "arm_id": "ARM-04",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/ue-playability-v1_18c8af39d3ffe92e/fleet_state/arms/ARM-04/item10_freeze/report.json",
+      "sha256": "fcc409577e954372076d2fdcdd4359f1340ded4ea50c72e984ec780b378e6c63",
+      "report_id": "ARM-04-ITEM10_FREEZE-20260805T0949140300",
+      "arm_id": "ARM-04",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/ue-playability-v1_18c8af39d3ffe92e/fleet_state/arms/ARM-04/item2/report.json",
+      "sha256": "b924247e998e80f40ef062179d0b24eb5b22f5794a6eb9735f3c433a78db6f10",
+      "report_id": "ARM-04-ITEM2-20260805T0949140300",
+      "arm_id": "ARM-04",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/ue-playability-v1_18c8af39d3ffe92e/fleet_state/arms/ARM-04/item3/report.json",
+      "sha256": "35a1352f6fa9dd2783093a504561e0ccfff924c506f573d0527e456ee36d4450",
+      "report_id": "ARM-04-ITEM3-20260805T0949140300",
+      "arm_id": "ARM-04",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/ue-playability-v1_18c8af39d3ffe92e/fleet_state/arms/ARM-04/item4/report.json",
+      "sha256": "7b74d626928ce68a4f57d17d74037aa0c3a77e706d5705043a5f0c50ffa98272",
+      "report_id": "ARM-04-ITEM4-20260805T0949140300",
+      "arm_id": "ARM-04",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/ue-playability-v1_18c8af39d3ffe92e/fleet_state/arms/ARM-04/item5/report.json",
+      "sha256": "afe29b966fe88252daef97ca452249fa9545f8b77718106b61b93858fa51f133",
+      "report_id": "ARM-04-ITEM5-20260805T0949140300",
+      "arm_id": "ARM-04",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/ue-playability-v1_18c8af39d3ffe92e/fleet_state/arms/ARM-04/item6/report.json",
+      "sha256": "ec8351fcb83f763a7272f64e2da19919a4341af053312cb6a60551e5b9528326",
+      "report_id": "ARM-04-ITEM6-20260805T0949140300",
+      "arm_id": "ARM-04",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/ue-playability-v1_18c8af39d3ffe92e/fleet_state/arms/ARM-04/item7/report.json",
+      "sha256": "150be38b25d9ec5dd811216c3f1151e615f6ee47d59ba843b5ffe02775ee49f7",
+      "report_id": "ARM-04-ITEM7-20260805T0949140300",
+      "arm_id": "ARM-04",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/ue-playability-v1_18c8af39d3ffe92e/fleet_state/arms/ARM-04/item8/report.json",
+      "sha256": "5fe67481edfa706a9f4dad2e955ed2f45ef49be01995aef147213002e7a29225",
+      "report_id": "ARM-04-ITEM8-20260805T0949140300",
+      "arm_id": "ARM-04",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/.claude-squad/worktrees/arm/ue-playability-v1_18c8af39d3ffe92e/fleet_state/arms/ARM-04/item9_mcp/report.json",
+      "sha256": "8c6dbcccd46a8d0d9001e5504b4f7f9332a6c35be13245a7a693476eb2ed3444",
+      "report_id": "ARM-04-ITEM9_MCP-20260805T0949140300",
+      "arm_id": "ARM-04",
+      "validator_exit": 0
+    },
+    {
+      "path": "/home/shax/Projects/core-tech/PentaCLI/.claude/worktrees/arm-00-fleet-foundry/fleet_state/arms/ARM-06/reports/R_m2_replay/report.json",
+      "sha256": "87e007f4137bd5de232f761c657d65c63646fa9a801edee24464da5b24972bd6",
+      "report_id": "ARM-06-20260805T1330Z-M2REPLAY-01",
+      "arm_id": "ARM-06",
+      "validator_exit": 1
+    }
+  ]
+}

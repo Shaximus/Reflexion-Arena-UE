@@ -1,0 +1,29 @@
+HEAD 06 RULING: 'An exact M2 census requires a frozen manifest of envelope
+paths and hashes. Otherwise two correct counters can disagree because they
+measured different sets. Do not build a census platform. Write one manifest
+before the next count.'
+
+envelope files in the frozen set : 143
+  ADMITTED (exit 0)              : 129
+  REJECTED (exit 1)              : 14
+  OTHER                          : 0
+  by arm                         : {'ARM-04': 10, 'ARM-05': 54, 'ARM-06': 27, 'ARM-08': 43, 'HEAD-07': 9}
+
+REJECTED members of the frozen set:
+  exit=1  ARM-08-E11-AUTH-20260804-01-ITEM11  /home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-11/report.json
+  exit=1  ARM-08-E11-AUTH-20260804-01-ITEM24  /home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-24/report.json
+  exit=1  ARM-08-E11-AUTH-20260804-01-ITEM28  /home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-28/report.json
+  exit=1  ARM-08-E11-AUTH-20260804-01-ITEM29  /home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-29/report.json
+  exit=1  ARM-08-E11-AUTH-20260804-01-ITEM30  /home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-30/report.json
+  exit=1  ARM-08-E11-AUTH-20260804-01-ITEM31  /home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-31/report.json
+  exit=1  ARM-08-E11-AUTH-20260804-01-ITEM32  /home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-32/report.json
+  exit=1  ARM-08-E11-AUTH-20260804-01-ITEM33  /home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-33/report.json
+  exit=1  ARM-08-E11-AUTH-20260804-01-ITEM34  /home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-34/report.json
+  exit=1  ARM-08-E11-AUTH-20260804-01-ITEM35  /home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-35/report.json
+  exit=1  ARM-08-E11-AUTH-20260804-01-ITEM36  /home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-36/report.json
+  exit=1  ARM-08-E11-AUTH-20260804-01-ITEM42  /home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-42/report.json
+  exit=1  ARM-08-E11-AUTH-20260804-01-ITEM9-NEGATIVE-CONTROL  /home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-9/report.NEGATIVE_CONTROL.json
+  exit=1  ARM-06-20260805T1330Z-M2REPLAY-01  /home/shax/Projects/core-tech/PentaCLI/.claude/worktrees/arm-00-fleet-foundry/fleet_state/arms/ARM-06/reports/R_m2_replay/report.json
+
+wrote census_manifest.json with 143 entries, each carrying path + sha256
+Two counters using THIS file cannot disagree by measuring different sets.

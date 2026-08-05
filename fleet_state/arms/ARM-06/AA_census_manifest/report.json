@@ -1,0 +1,91 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-06-20260805T1640Z-CHECKPOINT-26",
+  "arm_id": "ARM-06",
+  "goal_id": "HN-20260805-OPT-03-frozen-census-manifest",
+  "generated_at": "2026-08-05T16:40:00Z",
+  "state": "CHECKPOINT",
+  "chat_url": "https://chatgpt.com/g/g-p-6a46a73f024481918cf7a4c4ce131766-the-board-room/c/6a72276b-1b18-83ea-9617-54360924c769",
+  "authority_ceiling": "L2",
+  "evidence_root": "fleet_state/arms/ARM-06/AA_census_manifest",
+  "claims": [
+    {
+      "claim_id": "aa.manifest-frozen",
+      "text": "Head 06's instruction executed: one frozen manifest, not a census platform. census_manifest.json pins 143 envelope files by path AND sha256 at a single instant, each with its validator exit code. Two counters using this file cannot disagree by measuring different sets, which was the stated cause of the M2 census disagreement.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "aa.cohort-moved-fast",
+      "text": "The Head's diagnosis confirmed quantitatively. My earlier census found 120 envelopes, 116 ADMITTED / 4 REJECTED. Roughly two hours later the same sweep finds 143, 129 ADMITTED / 14 REJECTED — the cohort grew by 23 and rejections by 10 while ARM-08 was writing. An exact census without a frozen manifest is not reproducible even by the same counter.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "aa.envelopes-are-not-portable",
+      "text": "NEW FLEET-LEVEL DEFECT: report envelopes are NOT portable between worktrees, and relocating one silently converts an ADMITTED report into a REJECTED one. A byte-identical copy of my own M2 replay envelope — same sha256 87e007f4..., same report_id ARM-06-20260805T1330Z-M2REPLAY-01 — sits in the ARM-00 foundry worktree. Mine: ADMITTED exit 0. The copy: REJECTED exit 1, 'evidence_root does not exist or is not a directory'. evidence_root is worktree-relative and the evidence does not travel with the file; all 7 evidence files are missing at the copy's location.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "aa.explains-census-disagreement",
+      "text": "This explains part of the M2 census disagreement Head 06 asked about. A census walking both worktrees counts my one report twice — ADMITTED at home, REJECTED as a relocated copy — so two correct counters disagree without either being wrong about what it actually resolved. The frozen manifest records the copy explicitly rather than silently double-counting it.",
+      "status": "MACHINE_VERIFIED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "manifest_build.txt",
+      "sha256": "41e120a1f4021a26300a8e105dc17ec817afd2acd123978bc7723549f874f656",
+      "claim_ids": [
+        "aa.manifest-frozen",
+        "aa.cohort-moved-fast"
+      ]
+    },
+    {
+      "path": "census_manifest.json",
+      "sha256": "c96fb75356676fd67e8a10d8d4b0b6eae6b590650435dea5c3aeb1cee9dd274f",
+      "claim_ids": [
+        "aa.manifest-frozen",
+        "aa.explains-census-disagreement"
+      ]
+    },
+    {
+      "path": "portability_finding.txt",
+      "sha256": "67a57c2c2286a34770003d249af344a9c75650c4db94a1f6a3b9227935905865",
+      "claim_ids": [
+        "aa.envelopes-are-not-portable",
+        "aa.explains-census-disagreement"
+      ]
+    }
+  ],
+  "artifacts": [
+    "manifest_build.txt",
+    "census_manifest.json",
+    "portability_finding.txt"
+  ],
+  "tests": [
+    {
+      "command": "python3 validate_arm_report.py <143 envelopes>  # frozen cohort",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "manifest_build.txt",
+      "stderr_artifact": "manifest_build.txt",
+      "negative_control": false
+    },
+    {
+      "command": "python3 validate_arm_report.py <mine> vs <relocated copy>",
+      "producer_exit_code": 1,
+      "result": "FAIL",
+      "stdout_artifact": "portability_finding.txt",
+      "stderr_artifact": "portability_finding.txt",
+      "negative_control": true
+    }
+  ],
+  "decisions_requested": [
+    "ENVELOPE PORTABILITY: decide whether collecting arm reports into a central worktree is supported. Today it silently converts ADMITTED to REJECTED. Options: copy the evidence tree alongside the report; make evidence_root resolvable from a recorded origin worktree; or forbid relocation and reference reports by their home path.",
+    "The 12 ARM-08 envelopes rejected in the frozen set are ARM-08's to triage. I report the count, not a diagnosis of another arm's reports."
+  ],
+  "risks": [
+    "The manifest pins absolute paths, so it is itself non-portable — consistent with the defect it documents, but valid only on this machine.",
+    "I did not diagnose why the 12 ARM-08 envelopes reject. Counting is not understanding, and attributing a cause without reading them would be the exact error I have spent this cycle finding in others."
+  ],
+  "next_action": "Await Head 06 on CKPT-03. K-01C PENDING on ARM-08."
+}

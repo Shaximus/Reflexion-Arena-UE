@@ -1,0 +1,22 @@
+# A COPY OF MY OWN M2 REPLAY ENVELOPE EXISTS IN THE ARM-00 FOUNDRY WORKTREE
+# and it is REJECTED there. Same report_id. Investigating.
+
+== my original, in my worktree ==
+ADMITTED: ARM-06-20260805T1330Z-M2REPLAY-01 (ARM-06) state=CHECKPOINT evidence_root=fleet_state/arms/ARM-06/R_m2_replay
+EXIT=0
+
+== the copy, in the foundry worktree ==
+ERROR: evidence_root does not exist or is not a directory: fleet_state/arms/ARM-06/R_m2_replay
+EXIT=1
+
+== are the two files byte-identical? ==
+IDENTICAL bytes
+87e007f4137bd5de232f761c657d65c63646fa9a801edee24464da5b24972bd6  /home/shax/.claude-squad/worktrees/arm/product-verification-v1_18c8af42232fea3a/fleet_state/arms/ARM-06/R_m2_replay/report.json
+87e007f4137bd5de232f761c657d65c63646fa9a801edee24464da5b24972bd6  /home/shax/Projects/core-tech/PentaCLI/.claude/worktrees/arm-00-fleet-foundry/fleet_state/arms/ARM-06/reports/R_m2_replay/report.json
+
+== does the evidence resolve from the copy's location? ==
+  copy's worktree root : /home/shax/Projects/core-tech/PentaCLI/.claude/worktrees/arm-00-fleet-foundry
+  declared evidence_root: fleet_state/arms/ARM-06/R_m2_replay
+  resolves to           : /home/shax/Projects/core-tech/PentaCLI/.claude/worktrees/arm-00-fleet-foundry/fleet_state/arms/ARM-06/R_m2_replay
+  that directory exists : False
+  evidence files missing at that location: 7 of 7
