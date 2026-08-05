@@ -1,2 +1,11 @@
 LOCK_ACQUIRED pid=518983
 WINDOW_RECORD_WRITTEN
+[receipt] 10_needlewin_restart.json
+[receipt] 10_needlewin_5b_config.json
+[docs] rebuilding (deterministic seeds)
+[receipt] 10_5b_needle_corrected.json
+[receipt] 10_needlewin_restore.json
+NEEDLE_CORRECTED positive_ok= False  negative_clean= False
+DRIVER_EXIT=0
+WINDOW_CLOSED 2026-08-05T16:02:03-03:00
+needlewin2_exit=0

@@ -1,0 +1,22 @@
+{
+ "code": "ORCA-983-BASALT-7810",
+ "depth_tokens": 265210,
+ "beyond_native": true,
+ "haystack_tokens": 301437,
+ "max_tokens": 2000,
+ "note": "corrected re-run: run-2 needle used max_tokens=800, fully consumed by reasoning; both outputs were empty strings (receipt 10_5b_needle.json)",
+ "positive": {
+  "out": "",
+  "finish": "length",
+  "completion_tokens": 2000,
+  "wall_s": 637.8
+ },
+ "negative": {
+  "out": "",
+  "finish": "length",
+  "completion_tokens": 2000,
+  "wall_s": 106.8
+ },
+ "positive_ok": false,
+ "negative_clean": false
+}

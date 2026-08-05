@@ -1,14 +1,14 @@
 {
   "owner_arm": "ARM-07",
-  "operator_session": "claude-fable5 session_01MKVDwN2gqiQwUF3ascheib, lock holder pid 212216",
+  "operator_session": "claude-fable5 session_01MKVDwN2gqiQwUF3ascheib, lock holder pid 518983",
   "purpose": "Corrected beyond-native needle pair on 5b (run-2 leg was instrument-invalid: 800-token budget consumed by reasoning)",
   "exclusive_or_shared_load": "exclusive",
   "baseline_config_sha256": "5d8cb66f685e5bc741e266cd2f983f4994b0e57aa8e147d28da97bfd9dd4ff5c",
   "candidate_config_sha256": "5b patch applied in-window; receipts 10_needlewin_*",
   "model_and_build": "Qwen3.5-27B fp8_per_channel, vLLM 0.24.0, YaRN 1048576",
-  "main_pid_at_entry": "204864",
-  "window_started_at": "2026-08-05T14:57:20-03:00",
-  "planned_release_at": "2026-08-05T15:42:20-03:00",
+  "main_pid_at_entry": "483634",
+  "window_started_at": "2026-08-05T15:47:23-03:00",
+  "planned_release_at": "2026-08-05T16:32:23-03:00",
   "expected_artifacts": "10_5b_needle_corrected.json, 10_needlewin_restart.json, 10_needlewin_restore.json",
   "rollback_command_or_profile": "cp evidence/10_hook_backup_prewindow.py.needlewin $HOOK && kill -9 MainPID"
 }
