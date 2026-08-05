@@ -1,0 +1,31 @@
+# TESTING A PUBLISHED RISK: T_k03b_trajectory/report.json risk[0]
+#   'a normal oracle run still cannot see a transient'
+# Method: patch the canary INTO the sim, then run the SHIPPED
+# behavioural_oracle.py unmodified. Exit 0 would CONFIRM the risk.
+
+== 1. SHIPPED behavioural_oracle.py on the canary-infected sim ==
+BEHAVIOURAL ORACLE — magnitudes, not fingerprints
+Diagnostic specificity: names WHICH quantity moved. Detection is the hash's job.
+
+  PASS           final_tick               expected 11901 (±0), got 11901
+  PASS           player_hp                expected 840 (±0), got 840
+  PASS           companion_hp             expected 900 (±0), got 900
+  PASS           boss_stability           expected 0 (±0), got 0
+  PASS           total_hp_lost            expected 560 (±0), got 560
+  PASS           outcome_flags            {'boss_defeated': True, 'transfer_success': True, 'receipt_emitted': True} — REDUNDANT: observed failing only under N3, where boss_stability already fails. Cheap cross-check, not independent evidence.
+
+RESULT: PASS
+SHIPPED_ORACLE_EXIT=0
+
+== 2. K-03B per-tick audit on the SAME infected sim ==
+=== K-03B CANONICAL ===
+  ticks traced            : 11902
+  final                   : {'world_tick': 11901, 'boss_stability': 0, 'boss_release_delay': 20}
+  forbidden transients    : 1
+      tick_idx=3500 boss_stability 300 -> 340  protected field INCREASED
+  boss_release_delay observable: True  distinct_values=2 e.g. [0, 20]
+  counter_threshold (C10) : NOT IMPLEMENTED — 0 occurrences on every implementation surface; nothing to trace. Reported, not simulated.
+  determinism (two runs)  : IDENTICAL  8f1bf61c06be1ee9
+
+  EXPECTED: canonical MUST be clean -> violations == 0
+TRAJECTORY_AUDIT_EXIT=1

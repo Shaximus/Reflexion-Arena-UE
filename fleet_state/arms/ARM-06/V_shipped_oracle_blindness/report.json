@@ -1,0 +1,68 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-06-20260805T1500Z-CHECKPOINT-21",
+  "arm_id": "ARM-06",
+  "goal_id": "K-03B-transient-authority-trajectory",
+  "generated_at": "2026-08-05T15:00:00Z",
+  "state": "CHECKPOINT",
+  "chat_url": "https://chatgpt.com/g/g-p-6a46a73f024481918cf7a4c4ce131766-the-board-room/c/6a72276b-1b18-83ea-9617-54360924c769",
+  "authority_ceiling": "L2",
+  "evidence_root": "fleet_state/arms/ARM-06/V_shipped_oracle_blindness",
+  "claims": [
+    {
+      "claim_id": "v.published-risk-CONFIRMED",
+      "text": "A risk I published in T_k03b_trajectory (CHECKPOINT-19) — 'a normal oracle run still cannot see a transient' — is now MEASURED against the shipped instrument rather than asserted. The canary was patched INTO the sim (SimWorld.step wrapper, boss_stability +40 at tick 3500, restored at 3560) and the UNMODIFIED behavioural_oracle.py was run on it: RESULT PASS, exit 0, all six assertions green including boss_stability itself at 'expected 0 (+/-0), got 0'. The shipped oracle genuinely cannot see a protected-field transient.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "v.audit-detects-uninstructed",
+      "text": "STRONGER THAN THE DESIGNED TEST: the K-03B audit was run in CANONICAL mode against the same infected sim — it was NOT told a canary existed and had no canary logic of its own active. It still caught the transient at tick_idx=3500 (boss_stability 300 -> 340) and exited 1. The audit therefore DETECTS an unknown transient; it does not merely confirm one it planted itself, which is the difference between a check and a rehearsal.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "v.gap-quantified-same-input",
+      "text": "The two instruments disagree on identical input, which is the whole finding: same sim, same seed, same 11,901 ticks. Shipped oracle exit 0 PASS. Trajectory audit exit 1 with a named tick and a named field. End-state verification and trajectory verification are not stronger and weaker versions of each other — they are blind to different things, and the fleet was relying only on the one that is blind here.",
+      "status": "MACHINE_VERIFIED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "shipped_vs_trajectory.txt",
+      "sha256": "250b88af4fad2e7e6b27311bec3d76718444fe2c3c1be65e9bc50a760011f43b",
+      "claim_ids": [
+        "v.published-risk-CONFIRMED",
+        "v.audit-detects-uninstructed",
+        "v.gap-quantified-same-input"
+      ]
+    }
+  ],
+  "artifacts": [
+    "shipped_vs_trajectory.txt"
+  ],
+  "tests": [
+    {
+      "command": "python3 behavioural_oracle.py  # SHIPPED, on canary-infected sim",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "shipped_vs_trajectory.txt",
+      "stderr_artifact": "shipped_vs_trajectory.txt",
+      "negative_control": true
+    },
+    {
+      "command": "python3 k03b_trajectory.py <infected sandbox>  # no --canary flag",
+      "producer_exit_code": 1,
+      "result": "FAIL",
+      "stdout_artifact": "shipped_vs_trajectory.txt",
+      "stderr_artifact": "shipped_vs_trajectory.txt",
+      "negative_control": true
+    }
+  ],
+  "decisions_requested": [
+    "Head 06 R3 disposition, now with the measurement it asked for: the shipped oracle returns a clean PASS on a sim containing a mutated-and-restored protected authority field. If CONTINUOUS TRAJECTORY CLAIMS are to close, the audit must run somewhere a normal verification run reaches. It currently does not."
+  ],
+  "risks": [
+    "The canary is injected by patching the sandbox sim, not by any product code path. It demonstrates that the oracle cannot SEE such a transient; it does not demonstrate that the product can PRODUCE one. Whether a real skill or effect could cause it is exactly K-01B, which ARM-08 owns and has not landed.",
+    "I audited 48 published risk statements to find this one. The other 47 remain a mix of measured facts, judgments, and untested assertions, and I have not classified them individually. Two of the ones I did test turned out false."
+  ],
+  "next_action": "K-01C PENDING on ARM-08. BLOCKED on push: 'Bash(git push:*)' in the settings deny array."
+}
