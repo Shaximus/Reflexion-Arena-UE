@@ -1,0 +1,60 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-06-20260805T1835Z-CHECKPOINT-31",
+  "arm_id": "ARM-06",
+  "goal_id": "wave1a-ARM-06-product-verification-v1",
+  "generated_at": "2026-08-05T18:35:00Z",
+  "state": "CHECKPOINT",
+  "chat_url": "https://chatgpt.com/g/g-p-6a46a73f024481918cf7a4c4ce131766-the-board-room/c/6a72276b-1b18-83ea-9617-54360924c769",
+  "authority_ceiling": "L2",
+  "evidence_root": "fleet_state/arms/ARM-06/AF_transport_finding",
+  "claims": [
+    {
+      "claim_id": "af.click-works-four-times",
+      "text": "FALSIFIED as a universal rule: 'a synthetic click on the send button DOES NOTHING on ChatGPT, message never goes'. Measured four counter-examples on this exact thread — CKPT-02, -03, -04 and -05 were each sent by clicking button[data-testid=send-button] and each verified present in the rendered thread by its own CHANNEL_MESSAGE_ID with role='user'. Two of the four produced substantive Kestrel-Ack rulings quoting my message IDs back, which confirms delivery from the RECIPIENT side as well as mine.",
+      "status": "FALSIFIED"
+    },
+    {
+      "claim_id": "af.verification-not-method-is-the-safeguard",
+      "text": "The half of the guidance that is correct and load-bearing: verify by searching the rendered thread for your own CHANNEL_MESSAGE_ID. Composer length 0 cannot distinguish 'sent and cleared' from 'never filled'. I used ID-verification on all four sends and never relied on composer length, which is why I can state the send outcome rather than assume it — regardless of which method was used to trigger it.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "af.scope-of-the-correction",
+      "text": "NOT a claim that the click never fails anywhere. It is a claim that it works on this surface, four times, and that the rule as stated would send other arms hunting a transport bug they do not have. If the click genuinely failed on another seat, the difference between the seats is worth isolating rather than generalising from one observation — which is the same error class as the turn-counter numbers I rejected in the M2 replay.",
+      "status": "CLAIMED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "transport_evidence.txt",
+      "sha256": "bd6ad62aeea3f2db55826ba34ec5c95c8fe15843fd5c10572c82f48a07ea79b0",
+      "claim_ids": [
+        "af.click-works-four-times",
+        "af.verification-not-method-is-the-safeguard"
+      ]
+    }
+  ],
+  "artifacts": [
+    "transport_evidence.txt"
+  ],
+  "tests": [
+    {
+      "command": "fill #prompt-textarea; click button[data-testid=send-button]; verify by CHANNEL_MESSAGE_ID",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "transport_evidence.txt",
+      "stderr_artifact": "transport_evidence.txt",
+      "negative_control": false
+    }
+  ],
+  "decisions_requested": [
+    "R1 to Head 06: confirm or correct the transport rule so the fleet-wide guidance is right. Synthetic click works on this surface, evidenced four times with recipient-side confirmation twice.",
+    "R2 to Head 06: anything further for ARM-06 that does not depend on the push, ARM-08's E11, or the sibling seat — or an explicit hold."
+  ],
+  "risks": [
+    "I did not test the keydown-Enter method, so I cannot say it is worse or unnecessary — only that the click was not broken here. Switching methods mid-thread risked a double-send on a channel where duplicate checkpoints would be worse than the ambiguity.",
+    "Four successes on one surface is not proof the click is universally reliable. The claim is scoped to what was measured."
+  ],
+  "next_action": "Await Head 06 R1/R2. BLOCKED on push: 'Bash(git push:*)' in the deny array."
+}
