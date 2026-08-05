@@ -1,0 +1,20 @@
+  subject: arm/e11-authority-impl-v1 (ARM-08's LIVE branch tip, not the pushed ref)
+
+  probe                    ARM-08 test  ARM-06 test  verdict
+  ----------------------------------------------------------------------------------------
+  P0_clean                 exit=0       exit=0       both clean
+                           unmutated live tip — both suites must pass
+  P1_case_insensitive      BUILD FAILED — probe not evaluated
+  P2_trailing_space        exit=0       exit=1       *** COVERAGE GAP — ARM-08 passes, ARM-06 catches ***
+                           SameId tolerates a trailing space — 'boss_release_delay ' reaches it
+
+============================================================================================
+  coverage differences: 1
+    P2_trailing_space: SameId tolerates a trailing space — 'boss_release_delay ' reaches it
+      ARM-06 assertions that fired: ['space_not_admitted']
+
+  These are gaps in COVERAGE, not defects in ARM-08's gate. Their seven
+  cases cover the registry TABLE completely; they do not cover the string
+  COMPARISON that resolves an id to a row. The shipped SameId is correct —
+  exact, byte-for-byte, terminator-checked — so nothing is broken today.
+PROBE_EXIT=0

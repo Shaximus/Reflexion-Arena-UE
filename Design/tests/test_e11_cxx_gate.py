@@ -71,28 +71,54 @@ def inconclusive(reason, detail=""):
     sys.exit(2)
 
 
-def fetch(name, dest):
-    """Prefer the working tree; fall back to reading the ref out of git."""
-    live = REPO / SIM / name
-    if live.is_file():
-        shutil.copy(live, dest / name)
-        return f"worktree {SIM}/{name}"
-    p = subprocess.run(["git", "show", f"{REF}:{SIM}/{name}"],
-                       cwd=REPO, capture_output=True, text=True)
-    if p.returncode != 0:
-        return None
-    (dest / name).write_text(p.stdout)
-    return f"{REF}:{SIM}/{name}"
+def choose_tree():
+    """Pick ONE tree for every file this test reads, and say which.
+
+    DEFECT FOUND IN THIS FILE 2026-08-05, one checkpoint after it was written.
+    Resolution used to be per-file: worktree if present, else the ref. Run in a
+    worktree that carries RxSimWorld.cpp but not RxCounterAuthority.cpp — which
+    is exactly ARM-06's tree — the gate was read from ARM-08's branch while the
+    parser was read from the local stale copy. The reachability verdict then
+    described a tree that does not exist: ARM-08's gate joined to ARM-06's
+    parser. It reported the gate UNREACHABLE against a ref where ARM-08 had
+    already made it reachable.
+
+    That is the same 'two surfaces disagree and the answer is neither one's'
+    failure this test was built to detect, reproduced inside the detector. So
+    the tree is now chosen ONCE, up front, and every read honours it.
+
+    Returns (ref_or_None, why). None means read from the working tree.
+    """
+    if "RX_E11_REF" in os.environ:
+        return REF, "RX_E11_REF set explicitly — reading every file from the ref"
+    missing = [f for f in GATE_FILES + (PARSER_FILE, SPEC_HEADER)
+               if not (REPO / SIM / f).is_file()]
+    if not missing:
+        return None, "all sources present in the working tree"
+    return REF, (f"working tree is missing {missing} — reading every file from "
+                 f"{REF} so one tree answers every question")
+
+
+TREE, TREE_WHY = choose_tree()
 
 
 def read_source(name):
-    """Text of a sim file from the worktree or the ref; None if absent."""
-    live = REPO / SIM / name
-    if live.is_file():
-        return live.read_text(errors="replace")
-    p = subprocess.run(["git", "show", f"{REF}:{SIM}/{name}"],
+    """Text of a sim file from the ONE chosen tree; None if absent there."""
+    if TREE is None:
+        p = REPO / SIM / name
+        return p.read_text(errors="replace") if p.is_file() else None
+    r = subprocess.run(["git", "show", f"{TREE}:{SIM}/{name}"],
                        cwd=REPO, capture_output=True, text=True)
-    return p.stdout if p.returncode == 0 else None
+    return r.stdout if r.returncode == 0 else None
+
+
+def fetch(name, dest):
+    """Materialise a source file from the chosen tree; None if absent."""
+    text = read_source(name)
+    if text is None:
+        return None
+    (dest / name).write_text(text)
+    return f"{'worktree' if TREE is None else TREE}:{SIM}/{name}"
 
 
 def check_reachable():
@@ -200,7 +226,8 @@ def check_cites(registry, hdr_cache):
 
 def main():
     print("  E11 C++ WRITE-SCOPE GATE — real product TU on the host toolchain")
-    print(f"  gate source ref : {REF} (worktree preferred)")
+    print(f"  source tree     : {'working tree' if TREE is None else TREE}")
+    print(f"  chosen because  : {TREE_WHY}")
 
     cxx = shutil.which("g++") or shutil.which("clang++")
     if cxx is None:

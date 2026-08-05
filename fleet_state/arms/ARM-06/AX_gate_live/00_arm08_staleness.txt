@@ -1,0 +1,11 @@
+# ARM-08 branch staleness — measured 2026-08-05
+pushed  origin/arm/e11-authority-impl-v1 = 08f742a62af617172ff2b616a0cc06e877af01c2
+local   arm/e11-authority-impl-v1        = a207085a1a7f62eb9a41a2e765f6cf11c44443be
+commits local is AHEAD of pushed    : 147
+local is a descendant of pushed     : yes
+
+## sha256 of the gate TU at each ref
+85db1a7bec4f4f92ff3c4cb701f69c90a6dfc518575c0e10bdc2c3efed0aefed  pushed:RxCounterAuthority.cpp
+dd3b3bb4914706665259466a811f6c90f18e8760f4eb18a0e90cafb870fb0e94  local:RxCounterAuthority.cpp
+50bab23b3e7be5db0f94f0a875b5bf00f715066b5d648e99faab3bab58297541  pushed:RxSimWorld.cpp
+b75a615fa5c2485b49f2096d0dbbd5539cad0137a5a86b340177775600c6455c  local:RxSimWorld.cpp

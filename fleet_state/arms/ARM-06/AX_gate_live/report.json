@@ -1,0 +1,132 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-06-20260806T0020Z-CHECKPOINT-43",
+  "arm_id": "ARM-06",
+  "goal_id": "K-01C",
+  "generated_at": "2026-08-06T00:20:00Z",
+  "state": "CHECKPOINT",
+  "chat_url": "local://claude-squad/arm-product-verification-v1",
+  "authority_ceiling": "L2",
+  "evidence_root": "fleet_state/arms/ARM-06/AX_gate_live",
+  "claims": [
+    {
+      "claim_id": "D1",
+      "text": "The E11 write-scope gate is now REACHABLE end-to-end at ARM-08's live branch tip. Design/tests/test_e11_cxx_gate.py exits 0 GATE LIVE: FRxSimWorld::ParseSkillSpec reads ten fields including `effects`, `effect_id`, `counter_id` and `delta`, so FRxSkillSpec::Effects is populated from player-submitted JSON, ValidateSpec's gate loop executes and AdmitCounterWrite is consulted on the real player path. The exploit is GATED, not merely unreachable. This is the first exit-0 on the product-authority path in this cycle.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "D2",
+      "text": "CHECKPOINT-42 verified a stale tree. ARM-08's local branch arm/e11-authority-impl-v1 is a descendant of origin/arm/e11-authority-impl-v1 and is 147 commits ahead of it. CHECKPOINT-42's claims remain true of the sha it pinned in provenance (08f742a) and the envelope is not invalidated, but they described ARM-08's work as it stood many hours earlier. In particular its F2 (gate unreachable) and F3 (stale RxBossEarthquake.h:81 cite) were both already fixed upstream when that report was written; the live tip resolves 6/6 cites.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "D3",
+      "text": "Design/tests/test_e11_cxx_gate.py contained a cross-tree defect that made its first run against the live tip report `writes Spec.Effects: False` — the gate still unreachable — which was wrong. Source resolution was per-file (working tree if present, else the ref), so in ARM-06's worktree the gate was read from ARM-08's branch while the parser was read from ARM-06's stale local copy, and the verdict described a tree that does not exist. This is the same 'two surfaces disagree' failure the test was built to detect, reproduced inside the detector.",
+      "status": "FALSIFIED"
+    },
+    {
+      "claim_id": "D4",
+      "text": "The cross-tree defect is fixed: the tree is chosen once, up front, and every read honours it — RX_E11_REF set means read every file from the ref, otherwise the working tree, falling back to the ref for ALL files if ANY are missing locally. The chosen tree and the reason are printed on every run. Verified by running the corrected test at both refs from the same worktree: exit 3 UNREACHABLE at the pushed ref, exit 0 GATE LIVE at the live tip, each naming the single tree it describes.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "D5",
+      "text": "ARM-08's run_mutation_controls.sh concludes 'ALL 4 CONTROLS OK — the test is falsifiable on a live build'. That is an overclaim. The controls compile with `g++ -std=c++17 -Wall -Wextra` on the host toolchain and never invoke UBT; no mutated UE build was ever produced. The controls ARE falsifiable and a live build DOES exist, but the test was not falsified on it. This is claim wording, not a defect in the controls, which are sound and include an explicit guard that scores a non-applying mutation as a failed control.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "D6",
+      "text": "A suspicion that ARM-08's code had never been compiled by the UE toolchain is REFUTED. evidence/08_ue_build.log shows `Result: Succeeded` after `Target is up to date` with 0 actions executed, which reads like a build that compiled nothing; but logs/ue_build.log is the real build and shows 18 actions including `[9/18] Compile RxCounterAuthority.cpp` and `[14/18] Compile RxSkillSystem.cpp`, `Result: Succeeded`. The 0-action log is a later no-op re-run. Stopping at the first file would have published a false accusation about another Arm's work.",
+      "status": "FALSIFIED"
+    },
+    {
+      "claim_id": "D7",
+      "text": "ARM-08's test_e11_admission.cpp has a coverage gap: its seven cases cover the registry TABLE completely but not the string COMPARISON that resolves an id to a row. Demonstrated on the live tip by mutating SameId to tolerate a trailing space, after which `boss_release_delay ` reaches the one writable counter: ARM-08's test exits 0 and misses it, ARM-06's exits 1 with `space_not_admitted` firing. This is a gap in coverage and NOT a defect — the shipped SameId is exact, byte-for-byte and terminator-checked, and the two suites together are complete.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "D8",
+      "text": "A third coverage probe (case-folding SameId) could NOT be evaluated: ARM-08's live TU carries static_assert(RegistryTargetsWired()), and every form of the mutation attempted broke constexpr evaluation rather than the gate, so the mutated TU did not compile. Reported as NOT EVALUATED rather than dropped or counted as a pass, because a mutation that fails to compile tests nothing.",
+      "status": "UNKNOWN"
+    },
+    {
+      "claim_id": "D9",
+      "text": "Commit 775004e added .claude/settings.json to this branch. ARM-06 did not author it — the claude-squad daemon auto-stages on a 1000 ms poll and `git add -A` swept it in — and ARM-04, ARM-05 and ARM-08 have committed it on their branches too, so it is tracked fleet-wide by convention. Its permissions.allow grants Bash(python3:*), Bash(sed:*), Bash(awk:*), Bash(tee:*), Bash(cp:*) and Bash(mv:*), and defaultMode is acceptEdits. That an allow-list containing Bash(python3:*) does not constrain what the deny-list denies is stated as reasoning and NOT as a measurement: it was not tested, because testing it would mean routing around a denial. The file has not been modified — fleet permission policy is above an L2 ceiling.",
+      "status": "CLAIMED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "00_arm08_staleness.txt",
+      "sha256": "3c5805505c568bef9a50e1afc2ddd00b6fd61a82e7b1ffb800acacc100f5f158",
+      "claim_ids": ["D2"]
+    },
+    {
+      "path": "01_at_pushed_ref.txt",
+      "sha256": "c4cff36ab05636a36c62e6556c4f63dce7c3e7d7a53ffd646c7ea78c0ea775fe",
+      "claim_ids": ["D4"]
+    },
+    {
+      "path": "02_at_live_tip.txt",
+      "sha256": "c743a366b83663148c6b644cbb18624f2383340532a03cc8e277e4ae3621d20e",
+      "claim_ids": ["D1", "D2", "D4"]
+    },
+    {
+      "path": "03_coverage_probe.txt",
+      "sha256": "ce5fb34ee8d9ff2a9e5361693c3d56fdfff41693466feedc5e6edb232fa5bab9",
+      "claim_ids": ["D7", "D8"]
+    },
+    {
+      "path": "04_findings.md",
+      "sha256": "f4fd443d2dacd5da9811c4368d3c34a4fc9063eeeb48de3ab311d004a0fca51e",
+      "claim_ids": ["D1", "D2", "D3", "D4", "D5", "D6", "D7", "D8", "D9"]
+    },
+    {
+      "path": "coverage_probe.py",
+      "sha256": "f6eaa7536952ecd4a4acad2aabe55cadaefd80f222059e340004ea6b8c6a91b2",
+      "claim_ids": ["D7", "D8"]
+    }
+  ],
+  "artifacts": [
+    "Design/tests/test_e11_cxx_gate.py",
+    "Design/tests/e11_gate_driver.cpp",
+    "fleet_state/arms/ARM-06/AX_gate_live/04_findings.md",
+    "fleet_state/arms/ARM-06/AX_gate_live/coverage_probe.py"
+  ],
+  "tests": [
+    {
+      "name": "Design/tests/test_e11_cxx_gate.py at ARM-08's live tip",
+      "command": "RX_E11_REF=arm/e11-authority-impl-v1 python3 Design/tests/test_e11_cxx_gate.py",
+      "producer_exit_code": 0,
+      "result": "exit 0 GATE LIVE — predicate correct (18/18), cites 6/6, ParseSkillSpec populates Effects, gate reachable end-to-end",
+      "exit_code": 0
+    },
+    {
+      "name": "Design/tests/test_e11_cxx_gate.py at the pushed ref",
+      "command": "python3 Design/tests/test_e11_cxx_gate.py",
+      "producer_exit_code": 3,
+      "result": "exit 3 UNEXERCISED — predicate correct at 08f742a but gate unreachable there; both runs now name the single tree they describe",
+      "exit_code": 3
+    },
+    {
+      "name": "fleet_state/arms/ARM-06/AX_gate_live/coverage_probe.py",
+      "command": "python3 fleet_state/arms/ARM-06/AX_gate_live/coverage_probe.py",
+      "producer_exit_code": 0,
+      "result": "P0 both suites clean; P2 trailing-space mutation missed by ARM-08's test and caught by ARM-06's; P1 not evaluated (mutation broke constexpr, did not compile)",
+      "exit_code": 0
+    }
+  ],
+  "decisions_requested": [
+    "ARM-08's branch is 147 commits ahead of its pushed ref, and ARM-06 cannot push at all. Two Arms are verifying and being verified across trees that only exist locally on one machine. ARM-06 recommends the fleet decide whether Arms push on a cadence, because cross-Arm verification against stale remote refs produces reports that are true of a pinned sha and misleading about the present.",
+    "The permission config at .claude/settings.json grants Bash(python3:*) alongside a deny list for git push, rm and sudo. ARM-06 has not modified it and will not — fleet permission policy is above L2 and is Curtis's gate. Flagging that the deny entries do not constrain anything able to execute arbitrary code, and that this file is committed on at least four Arm branches.",
+    "CHECKPOINT-42's F2 and F3 were both already fixed upstream before that report was written. No action is needed on them; recorded so the Head does not route work that is already done."
+  ],
+  "risks": [
+    "D1 verifies reachability by parsing ParseSkillSpec's body and confirming it writes Spec.Effects. It does not execute the parser. ARM-08 measured the pre-fix behaviour directly (author_skill returning ok=1 code=OK while naming boss_stability); ARM-06 has not run the equivalent post-fix measurement, which would need the built editor. GATE LIVE is a static claim about a path, not an observed refusal.",
+    "The gate has still never been observed refusing a player-submitted spec at runtime. RX_SKILL_ENUMS_V1.md 4.0 is explicit that 'a gate that has never been observed refusing is not a gate'. That standard is not yet met end-to-end, by ARM-06 or ARM-08.",
+    "test_e11_cxx_gate.py reads a moving target by design. Its default is the pushed ref, which is 147 commits stale, so an operator running it with no environment set gets the OLD answer — exit 3 — while the product is at exit 0. The run now prints which tree it read, but the default is still the stale one and that is a trap for anyone who does not read the header line.",
+    "ARM-06's own tooling has now been wrong nine times in this cycle, each time caught by comparison against a known-good reading rather than by the tool itself. The cross-tree defect in D3 was introduced and shipped inside the very checkpoint that verified another Arm's instruments.",
+    "ARM-06 has 35 commits unpushed. Every artifact in this and the previous checkpoint exists in exactly one worktree on one machine."
+  ],
+  "next_action": "Report CHECKPOINT-42's correction and CHECKPOINT-43 to Head 06 as a file, the channel stand-down being unchanged. The remaining product-authority work is the runtime observation: exercising the now-live gate inside a built editor so it is observed refusing a player-submitted adjust_counter{boss_stability}. ARM-08's worktree carries a fresh libUnrealEditor-ReflexionArena.so built 2026-08-05, so the binary exists — but it is in another Arm's worktree and running a commandlet there would write into their tree, which ARM-06 will not do unbidden. Requesting either the authority to run it read-only or a handoff to ARM-08."
+}

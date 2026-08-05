@@ -1,0 +1,31 @@
+  E11 C++ WRITE-SCOPE GATE — real product TU on the host toolchain
+  source tree     : origin/arm/e11-authority-impl-v1
+  chosen because  : working tree is missing ['RxCounterAuthority.h', 'RxCounterAuthority.cpp'] — reading every file from origin/arm/e11-authority-impl-v1 so one tree answers every question
+    <- origin/arm/e11-authority-impl-v1:Source/ReflexionArena/Sim/RxCounterAuthority.h
+    <- origin/arm/e11-authority-impl-v1:Source/ReflexionArena/Sim/RxCounterAuthority.cpp
+
+  registry rows      : 6 (1 A2-writable)
+  assertions         : 18 pass, 0 fail
+
+  PREDICATE CONFIRMED — the discriminating pair splits: boss_stability
+  is refused as authority-owned, boss_release_delay is admitted, and the
+  two rejection reasons stay distinguishable.
+
+  registry cite check: 5/6 resolve
+      STALE boss_tremor_stage        RxBossEarthquake.h:81 does not mention TremorStage — FRxBossEarthquake::TremorStage is at :80
+  A stale cite is a documentation defect, not an authority breach:
+  it does not change any admission decision. Reported, not fatal.
+
+  reachability: ParseSkillSpec reads 6 field(s): ['commit_window', 'cooldown', 'cost', 'effect', 'name', 'trigger']; writes Spec.Effects: False
+
+  PRODUCT_AUTHORITY_GATE_UNREACHABLE — the predicate is correct and
+  nothing on the player-facing path can reach it. author_skill ->
+  ParseSkillSpec never reads `effects`, so FRxSkillSpec::Effects is
+  always empty and the gate loop iterates nothing. A spec carrying an
+  effects array is not REFUSED, it is SILENTLY DROPPED.
+  boss_stability is safe today because the parser cannot express the
+  attack — not because the gate refuses it. That is UNREACHABLE, not
+  GATED, and the two must not be recorded as the same result.
+
+  exit 3 — correct but not load-bearing. NOT a pass, NOT a breach.
+TEST_EXIT=3

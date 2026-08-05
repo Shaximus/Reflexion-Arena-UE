@@ -1,0 +1,20 @@
+  E11 C++ WRITE-SCOPE GATE — real product TU on the host toolchain
+  source tree     : arm/e11-authority-impl-v1
+  chosen because  : RX_E11_REF set explicitly — reading every file from the ref
+    <- arm/e11-authority-impl-v1:Source/ReflexionArena/Sim/RxCounterAuthority.h
+    <- arm/e11-authority-impl-v1:Source/ReflexionArena/Sim/RxCounterAuthority.cpp
+
+  registry rows      : 6 (1 A2-writable)
+  assertions         : 18 pass, 0 fail
+
+  PREDICATE CONFIRMED — the discriminating pair splits: boss_stability
+  is refused as authority-owned, boss_release_delay is admitted, and the
+  two rejection reasons stay distinguishable.
+
+  registry cite check: 6/6 resolve
+
+  reachability: ParseSkillSpec reads 10 field(s): ['commit_window', 'cooldown', 'cost', 'counter_id', 'delta', 'effect', 'effect_id', 'effects', 'name', 'trigger']; writes Spec.Effects: True
+
+  GATE LIVE — the predicate is correct and the player-facing parser
+  can reach it. The exploit is GATED, not merely unreachable.
+TEST_EXIT=0
