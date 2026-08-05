@@ -1,0 +1,66 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-06-20260805T1445Z-CHECKPOINT-20",
+  "arm_id": "ARM-06",
+  "goal_id": "K-03B-transient-authority-trajectory",
+  "generated_at": "2026-08-05T14:45:00Z",
+  "state": "CHECKPOINT",
+  "chat_url": "https://chatgpt.com/g/g-p-6a46a73f024481918cf7a4c4ce131766-the-board-room/c/6a72276b-1b18-83ea-9617-54360924c769",
+  "authority_ceiling": "L2",
+  "evidence_root": "fleet_state/arms/ARM-06/U_canary2_decrease",
+  "claims": [
+    {
+      "claim_id": "u.my-published-risk-was-wrong",
+      "text": "FALSIFIED — a risk I published in T_k03b_trajectory/report.json (ARM-06-20260805T1430Z-CHECKPOINT-19) stated: 'a transient that only DECREASES a protected field and restores it would evade it'. Measured with a second canary that decreases boss_stability by 40 at tick 3500 and restores it at 3560: the detector CATCHES it, at tick_idx=3560, boss_stability 260 -> 300, 'protected field INCREASED'. The restore step is itself an increase, so raise-and-restore and decrease-and-restore are both caught by the same rule. I asserted a limitation instead of measuring it, and the assertion was false.",
+      "status": "FALSIFIED"
+    },
+    {
+      "claim_id": "u.detector-covers-both-directions",
+      "text": "MEASURED REPLACEMENT for the falsified claim: the 'protected field must never increase' rule catches a transient in EITHER direction, because any restoration of a protected field to a higher prior value is an increase. Canonical remains clean, boss_release_delay remains observable at 2 distinct values, and the trace is deterministic across two runs (5d81474f5b6956d2). The residual gap is a change that is never restored — which is not a transient at all, and end-state verification catches it.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "u.no-in-place-edit",
+      "text": "The earlier envelope was NOT edited. CHECKPOINT-19 is admitted and its evidence hashes are published, so correcting it in place would silently invalidate an already-admitted report. This is a NEW envelope for the corrected state, per the frozen-hash rule. CHECKPOINT-19 remains admissible and now reads as the state of knowledge at the time it was written.",
+      "status": "MACHINE_VERIFIED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "decrease_canary.txt",
+      "sha256": "eb9e0d99096b77e8cc4ec51abb533fb0deac669d002b0a8d503daa9cbf14aea7",
+      "claim_ids": [
+        "u.my-published-risk-was-wrong",
+        "u.detector-covers-both-directions",
+        "u.no-in-place-edit"
+      ]
+    },
+    {
+      "path": "k03b_decrease.py",
+      "sha256": "047e7957a8ba6bf58d31d68bdc4437a37dc2ea69a00b1145f37b0cd3c92c13f8",
+      "claim_ids": [
+        "u.detector-covers-both-directions"
+      ]
+    }
+  ],
+  "artifacts": [
+    "decrease_canary.txt",
+    "k03b_decrease.py"
+  ],
+  "tests": [
+    {
+      "command": "python3 k03b_decrease.py <sandbox> --canary  # decrease-then-restore",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "decrease_canary.txt",
+      "stderr_artifact": "decrease_canary.txt",
+      "negative_control": true
+    }
+  ],
+  "decisions_requested": [],
+  "risks": [
+    "This is the second time in this cycle that a limitation I recorded in good faith turned out to be untrue when measured. A stated risk is a claim like any other, and shipping one unmeasured is the same defect as shipping an unmeasured assertion — it just looks like humility instead of overconfidence.",
+    "The detector still only covers the three fields that exist. counter_threshold remains uninstrumented because it remains unimplemented."
+  ],
+  "next_action": "K-01C independent replay PENDING on ARM-08. BLOCKED on push: 'Bash(git push:*)' is in the settings deny array."
+}
