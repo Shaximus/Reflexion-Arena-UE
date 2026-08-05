@@ -1,0 +1,12 @@
+TESTING J_redistribution risk[0]:
+  'the oracle asserts player and companion HP individually but not boss HP
+   directly. boss_stability covers the boss as its HP analogue.'
+
+entities carrying max_hp (these are what total_hp_lost sums):
+  world ids: {'player': 1, 'companion': 2, 'boss': 3}
+  id=1 role=['player'] max_hp=1000 hp=840 counted_by_total_hp_lost=True
+  id=2 role=['companion'] max_hp=1000 hp=900 counted_by_total_hp_lost=True
+  id=3 role=['boss'] max_hp=300 hp=0 counted_by_total_hp_lost=True
+
+  boss object stability=0 (asserted exactly by the oracle)
+  is the boss present in world.entities as an hp-bearing entity? True

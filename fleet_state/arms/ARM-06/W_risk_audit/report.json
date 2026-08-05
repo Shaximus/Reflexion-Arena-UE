@@ -1,0 +1,94 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-06-20260805T1520Z-CHECKPOINT-22",
+  "arm_id": "ARM-06",
+  "goal_id": "wave1a-ARM-06-product-verification-v1",
+  "generated_at": "2026-08-05T15:20:00Z",
+  "state": "CHECKPOINT",
+  "chat_url": "https://chatgpt.com/g/g-p-6a46a73f024481918cf7a4c4ce131766-the-board-room/c/6a72276b-1b18-83ea-9617-54360924c769",
+  "authority_ceiling": "L2",
+  "evidence_root": "fleet_state/arms/ARM-06/W_risk_audit",
+  "claims": [
+    {
+      "claim_id": "w.risk-ledger-classified",
+      "text": "All 48 risk statements ARM-06 has published this cycle are classified against my own ledger: 14 MEASURED, 14 PROCESS (historical self-reports), 10 JUDGEMENT (not falsifiable), 7 TESTED (measured later, verdict recorded), and 5 TESTABLE-BUT-UNTESTED. The last category is the honest exposure: falsifiable factual claims I published without measuring.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "w.j0-literally-true-gap-closed",
+      "text": "TESTABLE risk J_redistribution[0] resolved by measurement. It is literally TRUE that the oracle never asserts boss HP directly — there is no boss_hp entry in EXPECT. But the implied coverage gap is CLOSED: the boss is an hp-bearing entity (id=3, max_hp=300) summed by total_hp_lost, and a boss-HP change that survives to end state is caught exactly — total_hp_lost FAIL, expected 560, got 567, OFF BY 7. The exact bound set in Task B covers the boss transitively.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "w.first-attempt-was-inconclusive",
+      "text": "MY FIRST TEST OF THAT RISK PROVED NOTHING, and is reported rather than discarded. Mutating boss entity hp by -7 mid-run left the shipped oracle PASSING — but not because boss HP is uncovered. The boss reaches 0 either way, so the mutation was ABSORBED before end state, the same class as the N4/N5 dampen mutations. Reading that PASS as 'boss HP is uncovered' would have been a false finding built on a test that never exercised what it claimed to.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "w.four-testable-risks-remain",
+      "text": "Four TESTABLE-but-untested risks remain in the ledger and are named rather than quietly retired: A_e11_replay[4] (the claude-squad staging poll, the only claim in this ledger I accepted on another party's word rather than measuring), G_admission_control[0], H_suite_runner[0], and N_stability[2]. They are lower-value than the ones tested but they are still unmeasured assertions carrying the authority of a published envelope.",
+      "status": "MACHINE_VERIFIED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "risk_classification.txt",
+      "sha256": "adbc30bfeca0bcea70f9f1f5947a93a52668fd39b3057483849c1a6d379fda8d",
+      "claim_ids": [
+        "w.risk-ledger-classified",
+        "w.four-testable-risks-remain"
+      ]
+    },
+    {
+      "path": "boss_hp_probe.txt",
+      "sha256": "35eaa9bbe4a62dff0dbb4d71366765412966043048dc2374f187ce9fec18a744",
+      "claim_ids": [
+        "w.j0-literally-true-gap-closed"
+      ]
+    },
+    {
+      "path": "boss_hp_mutation2.txt",
+      "sha256": "22bbf314d50d16821510feed86155e72c8b9509ead740c4e365e11ad3d7bb9b7",
+      "claim_ids": [
+        "w.j0-literally-true-gap-closed"
+      ]
+    },
+    {
+      "path": "boss_hp_mutation.txt",
+      "sha256": "c3571ac57049ab90686400479ad1f104976da6e6ef3215379d48b8a970ef29d5",
+      "claim_ids": [
+        "w.first-attempt-was-inconclusive"
+      ]
+    }
+  ],
+  "artifacts": [
+    "risk_classification.txt",
+    "boss_hp_probe.txt",
+    "boss_hp_mutation2.txt",
+    "boss_hp_mutation.txt"
+  ],
+  "tests": [
+    {
+      "command": "python3 behavioural_oracle.py  # boss entity hp -7 at tick 5000",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "boss_hp_mutation.txt",
+      "stderr_artifact": "boss_hp_mutation.txt",
+      "negative_control": true
+    },
+    {
+      "command": "python3 behavioural_oracle.py  # boss max_hp +7 at tick 5000",
+      "producer_exit_code": 1,
+      "result": "FAIL",
+      "stdout_artifact": "boss_hp_mutation2.txt",
+      "stderr_artifact": "boss_hp_mutation2.txt",
+      "negative_control": true
+    }
+  ],
+  "decisions_requested": [],
+  "risks": [
+    "Of the risks I have now tested, the running tally is: 2 FALSIFIED, 2 CONFIRMED, 1 refined (literally true, implied gap closed). A published risk has been wrong roughly as often as it has been right in this ledger, which is a poor record for statements that carry an envelope's authority.",
+    "The classification itself is MY judgement applied to MY text. A statement I filed as JUDGEMENT to avoid testing it would be invisible to this audit. An independent reader should re-classify the 10 JUDGEMENT entries before trusting that count."
+  ],
+  "next_action": "K-01C PENDING on ARM-08. BLOCKED on push: 'Bash(git push:*)' is in the settings deny array."
+}

@@ -1,0 +1,16 @@
+# Second attempt. The first (-7 hp) was ABSORBED: the boss reaches 0 either way,
+# so end state was unchanged and the test proved nothing about coverage.
+# This mutation changes (max_hp - hp), which total_hp_lost actually sums.
+
+BEHAVIOURAL ORACLE — magnitudes, not fingerprints
+Diagnostic specificity: names WHICH quantity moved. Detection is the hash's job.
+
+  PASS           final_tick               expected 11901 (±0), got 11901
+  PASS           player_hp                expected 840 (±0), got 840
+  PASS           companion_hp             expected 900 (±0), got 900
+  PASS           boss_stability           expected 0 (±0), got 0
+  *** FAIL ***   total_hp_lost            expected 560 (±0), got 567  <-- OFF BY 7
+  PASS           outcome_flags            {'boss_defeated': True, 'transfer_success': True, 'receipt_emitted': True} — REDUNDANT: observed failing only under N3, where boss_stability already fails. Cheap cross-check, not independent evidence.
+
+RESULT: FAIL
+SHIPPED_ORACLE_EXIT=1
