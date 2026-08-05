@@ -1,0 +1,13 @@
+# A_e11_replay risk[4] — 'claude-squad stages files on a 1000ms git add poll'
+# Accepted on PRIME's word in CHECKPOINT-01. Measured now.
+
+at creation : ?? (untracked, NOT staged)  — captured in the previous observation
+index mtime before creation : 2026-08-05 11:00:21.294147554 -0300
+
+observation now, some seconds later:
+  index mtime : 2026-08-05 11:01:01.309291323 -0300
+  status      :  A fleet_state/arms/ARM-06/X_trust_claims/staging_probe_marker.txt
+
+interpretation:
+  ' A ' = an external process ran git add  -> claim CONFIRMED
+  '?? ' = still untracked                  -> claim NOT confirmed on this timescale

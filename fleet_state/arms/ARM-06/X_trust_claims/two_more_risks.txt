@@ -1,0 +1,23 @@
+# G_admission_control risk[0]: 'Any runner treating non-zero as failure or
+#   zero as success will misread this test'
+
+  real exit code                     : 2  (2 = INCONCLUSIVE, nothing to exercise)
+  two-value runner would report      : FAIL
+  correct label                      : INCONCLUSIVE — the check did not run
+  misread?                           : YES
+  -> a two-value runner reports a DEFECT where none was found, and a
+     zero-means-success runner would report a PASS if the exit were 0.
+
+# H_suite_runner risk[0]: 'The suite cannot reach exit 0 while
+#   test_e11_admission_path.py is INCONCLUSIVE'
+
+  test_c10_read_anchors.py               0     MET            ALL READ ANCHORS RESOLVE
+  test_e11_admission_path.py             2     INCONCLUSIVE   exit 2 — nothing to exercise. This is NOT a pass and
+  test_e11_authority_gate.py             0     MET            ALL GATE CONDITIONS MET
+  ---- test_e11_admission_path.py (exit 2, INCONCLUSIVE) ----
+  met          : 2
+  DEFECT   (1) : 0  []
+  INCONCL. (2) : 1  ['test_e11_admission_path.py']
+  suite exit code                    : 2
+  admission test contributes         : 2 (INCONCLUSIVE)
+  suite reached 0?                   : NO
