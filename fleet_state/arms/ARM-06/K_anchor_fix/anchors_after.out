@@ -1,0 +1,11 @@
+  §4.1 read anchors — 6 counters, resolved against Sim/
+  counter                  field                            anchor                     verdict
+  ------------------------------------------------------------------------------------------------
+  boss_stability           Stability                        RxBossEarthquake.h:75                 PASS
+  boss_tremor_stage        TremorStage                      RxBossEarthquake.h:80                 PASS
+  boss_release_delay       ReleaseDelay                     RxBossEarthquake.h:78                 PASS
+  boss_prev_anchor_stress  PrevAnchorStress                 RxBossEarthquake.h:79                 PASS
+  boss_state_ticks         StateTicks                       RxBossEarthquake.h:73                 PASS
+  world_tick               Tick                             RxSimWorld.h:54                 PASS
+
+  ALL READ ANCHORS RESOLVE

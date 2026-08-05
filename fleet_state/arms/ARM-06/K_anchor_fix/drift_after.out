@@ -1,0 +1,7 @@
+control                    expected  actual  verdict
+------------------------------------------------------------------------------
+D0_baseline                0         0       as designed   unmutated registry
+D1_new_writable_counter    1         1       as designed   an UNGOVERNED counter appears, marked A2-WRITABLE
+D2_new_denied_counter      1         1       as designed   an ungoverned counter appears, marked denied (lower risk, still ungoverned)
+
+controls not behaving as designed: 0  []

@@ -289,7 +289,7 @@ Counters that exist in the sim today (**LIVE**):
 | `counter_id` | Reads | **A2-writable via E11** | Cite |
 |---|---|---|---|
 | `boss_stability` | `FRxBossEarthquake::Stability` | ❌ **NO** — authority-owned | `RxBossEarthquake.h:75` |
-| `boss_tremor_stage` | `FRxBossEarthquake::TremorStage` (0..3) | ❌ **NO** — authority-owned | `RxBossEarthquake.h:81` |
+| `boss_tremor_stage` | `FRxBossEarthquake::TremorStage` (0..3) | ❌ **NO** — authority-owned | `RxBossEarthquake.h:80` |
 | `boss_release_delay` | `FRxBossEarthquake::ReleaseDelay` | ✅ **YES** — strike-interrupt (canon) | `RxBossEarthquake.h:78` |
 | `boss_prev_anchor_stress` | `FRxBossEarthquake::PrevAnchorStress` | ❌ **NO** — authority-owned | `RxBossEarthquake.h:79` |
 | `boss_state_ticks` | `FRxBossEarthquake::StateTicks` | ❌ **NO** — authority-owned | `RxBossEarthquake.h:73` |
