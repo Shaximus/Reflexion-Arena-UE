@@ -1,0 +1,83 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-06-20260805T1700Z-CHECKPOINT-27",
+  "arm_id": "ARM-06",
+  "goal_id": "K-03B-mandatory-verification-step",
+  "generated_at": "2026-08-05T17:00:00Z",
+  "state": "CHECKPOINT",
+  "chat_url": "https://chatgpt.com/g/g-p-6a46a73f024481918cf7a4c4ce131766-the-board-room/c/6a72276b-1b18-83ea-9617-54360924c769",
+  "authority_ceiling": "L2",
+  "evidence_root": "fleet_state/arms/ARM-06/AB_mandatory_trajectory",
+  "claims": [
+    {
+      "claim_id": "ab.a1-executed-mandatory-step",
+      "text": "Head 06 ruling 02, item A1 executed: the K-03B audit is now a MANDATORY, NORMALLY REACHED verification step. It lives at Design/tests/test_k03b_trajectory.py, and run_tests.py globs test_*.py, so a plain suite run now traverses endpoint checks AND the trajectory audit. The suite reports 4 tests where it previously reported 3, with test_k03b_trajectory.py at exit 0 MET. Nothing was wired by hand and the audit was NOT embedded in behavioural_oracle.py, exactly as the ruling permitted.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "ab.still-refuses-inside-the-suite",
+      "text": "The audit did not become decorative by being promoted. Inside the mandatory step it still catches its canary at tick_idx=3500 (boss_stability 300->340), still reports canonical clean across 11,902 ticks, still shows boss_release_delay observable at 2 distinct values, and still confirms determinism by full-trace sha256 across two runs. A check that stops refusing when it becomes mandatory would be worse than no check.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "ab.bounded-design-preserved",
+      "text": "No generalized tracing system was built — that was explicitly not authorized. The design stays bounded at four fields and one canary. counter_threshold is reported as ABSENT / NOT TESTED rather than passing, per the ruling's insistence that the absent field is not a pass. Three of four fields execute because the fourth implementation surface does not exist.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "ab.systemic-claim-still-open",
+      "text": "The ruling's SYSTEMIC CONTINUOUS-TRAJECTORY CLAIM condition is now met on my side — K-03B is mandatory in the normal verification path — but the claim itself does NOT close here. Head 06 requires sibling replay for M2 promotion because I authored and ran the audit, and SHIPPED_ORACLE_CONTINUOUS_TRAJECTORY_COVERAGE remains M2_REJECTED regardless. I am reporting the precondition satisfied, not the claim closed.",
+      "status": "CLAIMED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "mandatory_step.txt",
+      "sha256": "23c31de6c5fc0bfd1c211e4e0d0f0307df736153488bd88ffaaabf8dffba570d",
+      "claim_ids": [
+        "ab.a1-executed-mandatory-step",
+        "ab.still-refuses-inside-the-suite",
+        "ab.bounded-design-preserved"
+      ]
+    },
+    {
+      "path": "test_k03b_trajectory.py",
+      "sha256": "90330a878f01578e3ba5f867c08e07c8c70949f29c069b7f5129031bc1cad297",
+      "claim_ids": [
+        "ab.a1-executed-mandatory-step",
+        "ab.bounded-design-preserved"
+      ]
+    }
+  ],
+  "artifacts": [
+    "mandatory_step.txt",
+    "test_k03b_trajectory.py"
+  ],
+  "tests": [
+    {
+      "command": "python3 Design/tests/test_k03b_trajectory.py",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "mandatory_step.txt",
+      "stderr_artifact": "mandatory_step.txt",
+      "negative_control": false
+    },
+    {
+      "command": "python3 Design/tests/run_tests.py  # 4 tests now, was 3",
+      "producer_exit_code": 2,
+      "result": "FAIL",
+      "stdout_artifact": "mandatory_step.txt",
+      "stderr_artifact": "mandatory_step.txt",
+      "negative_control": false
+    }
+  ],
+  "decisions_requested": [
+    "Ruling 02 A3 assigns three minimal replays to a SIBLING seat, not to me: my self-row streak from raw JSONL with a separately written parser, the K-03B decisive pair with raw records inspected around tick 3500, and the preservation state before/after the push. None of these are mine to perform and I have not attempted them.",
+    "A2 remains with Hannah Prime: push HEAD to refs/heads/arm/product-verification-v1, no force, no master. Expected remote SHA is my current HEAD."
+  ],
+  "risks": [
+    "The suite still exits 2 because the E11 admission control is INCONCLUSIVE. Adding a mandatory passing step did not and must not mask that.",
+    "The audit depends on a sim mirror outside this worktree, located via RX_ORACLE_DIR. On a seat without it the step exits 2 CANNOT EVALUATE rather than silently passing — but it also means the mandatory step is only as reachable as that dependency."
+  ],
+  "next_action": "Report ruling-02 execution to Head 06. Sibling replays A3.1-A3.3 are not mine. K-01C PENDING on ARM-08."
+}

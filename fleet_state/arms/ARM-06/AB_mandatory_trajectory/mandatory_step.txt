@@ -1,0 +1,23 @@
+== 1. the audit standalone ==
+  K-03B bounded trajectory audit — mirror oracle/
+  PASS           canonical clean            0 forbidden transient(s) across 11902 ticks
+  PASS           canary caught              caught at tick_idx=3500 boss_stability 300->340
+  PASS           boss_release_delay observable 2 distinct values [0, 20]
+  PASS           deterministic              two canonical runs, full-trace sha256
+  ABSENT         counter_threshold          C10 unimplemented on every surface — NOT TESTED, not passing
+
+  TRAJECTORY AUDIT CLEAN
+STANDALONE_EXIT=0
+
+== 2. is it now reached by a NORMAL verification run? ==
+  Design/tests — 4 test(s), run from /home/shax/.claude-squad/worktrees/arm/product-verification-v1_18c8af42232fea3a
+  test                                   exit  meaning        summary
+  ----------------------------------------------------------------------------------------------------
+  test_c10_read_anchors.py               0     MET            ALL READ ANCHORS RESOLVE
+  test_e11_admission_path.py             2     INCONCLUSIVE   exit 2 — nothing to exercise. This is NOT a pass and
+  test_e11_authority_gate.py             0     MET            ALL GATE CONDITIONS MET
+  test_k03b_trajectory.py                0     MET            TRAJECTORY AUDIT CLEAN
+
+  ---- test_e11_admission_path.py (exit 2, INCONCLUSIVE) ----
+  |   E11 ADMISSION PATH — end-to-end authority control (Kestrel item 5)
+SUITE_EXIT=2
