@@ -1,0 +1,46 @@
+{
+ "tag": "baseline",
+ "nll": {
+  "p0": 13.320597512381417,
+  "p1": 13.344656998770578,
+  "p2": 11.016202831268311,
+  "mean": 12.560485780806767,
+  "n_valid": 3
+ },
+ "quality_score": 1.0,
+ "quality_detail": {
+  "What is 847 multiplied by 63? Reply with only the number.": {
+   "ok": true,
+   "truncated": false
+  },
+  "List exactly three primary colors, comma separated, nothing ": {
+   "ok": true,
+   "truncated": false
+  },
+  "What is the capital city of Australia? One word answer.": {
+   "ok": true,
+   "truncated": false
+  },
+  "Complete the sequence with the next number only: 2, 4, 8, 16": {
+   "ok": true,
+   "truncated": false
+  },
+  "In Python, what does len([1,2,3]) return? Reply with only th": {
+   "ok": true,
+   "truncated": false
+  },
+  "Which is larger, 9.11 or 9.9? Reply with only the number.": {
+   "ok": true,
+   "truncated": false
+  },
+  "How many sides does a hexagon have? Reply with only the numb": {
+   "ok": true,
+   "truncated": false
+  },
+  "Name the chemical symbol for gold. Reply with only the symbo": {
+   "ok": true,
+   "truncated": false
+  }
+ },
+ "at": "2026-08-05T17:06:38-0300"
+}

@@ -1,0 +1,14 @@
+{
+  "owner_arm": "ARM-07",
+  "operator_session": "claude-fable5 session_01MKVDwN2gqiQwUF3ascheib, lock holder pid 1213089",
+  "purpose": "V11 NLL characterization of 5b per HEAD07 dual-verdict ruling",
+  "exclusive_or_shared_load": "exclusive",
+  "baseline_config_sha256": "5d8cb66f685e5bc741e266cd2f983f4994b0e57aa8e147d28da97bfd9dd4ff5c",
+  "candidate_config_sha256": "patched in-window; transactional restore armed at /home/shax/.claude-squad/worktrees/arm/head07-inference-fable_18c8bea5f96e85d1/fleet_state/arms/ARM-07/evidence/txn_hook_backup_1213089.py",
+  "model_and_build": "Qwen3.5-27B fp8_per_channel, vLLM 0.24.0, YaRN 1048576 canonical",
+  "main_pid_at_entry": "826598",
+  "window_started_at": "2026-08-05T17:06:18-03:00",
+  "planned_release_at": "2026-08-05T18:06:18-03:00",
+  "expected_artifacts": "per driver: /home/shax/.claude-squad/worktrees/arm/head07-inference-fable_18c8bea5f96e85d1/fleet_state/arms/ARM-07/tools/arm07_v11_qual.py",
+  "rollback_command_or_profile": "automatic: EXIT trap restores /home/shax/.claude-squad/worktrees/arm/head07-inference-fable_18c8bea5f96e85d1/fleet_state/arms/ARM-07/evidence/txn_hook_backup_1213089.py and reboots; manual same"
+}
