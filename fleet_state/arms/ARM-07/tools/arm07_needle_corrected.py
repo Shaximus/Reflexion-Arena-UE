@@ -266,11 +266,11 @@ def needle_corrected(docs):
     depth_tokens = tokenize_len(" ".join(words[:pos]))
     q = "\n\nWhat is the recovery codeword stated in the document above? Reply with only the codeword, or NONE if there is none."
     out = {"code": code, "depth_tokens": depth_tokens, "beyond_native": depth_tokens > NATIVE,
-           "haystack_tokens": tl, "max_tokens": 12000, "note": "corrected re-run: run-2 needle used max_tokens=800, fully consumed by reasoning; both outputs were empty strings (receipt 10_5b_needle.json)"}
+           "haystack_tokens": tl, "max_tokens": 2000, "note": "corrected re-run: run-2 needle used max_tokens=800, fully consumed by reasoning; both outputs were empty strings (receipt 10_5b_needle.json)"}
     for tag, prompt in (("positive", with_needle + q), ("negative", doc + q)):
         t0 = time.monotonic()
         r = api("/v1/chat/completions", {"model": MODEL, "messages": [
-            {"role": "user", "content": prompt}], "max_tokens": 12000, "temperature": 0,
+            {"role": "user", "content": prompt}], "max_tokens": 2000, "temperature": 0,
             "chat_template_kwargs": {"enable_thinking": True}}, timeout=2400)
         ch = r["choices"][0]
         txt = (ch["message"].get("content") or "").strip()
@@ -295,13 +295,18 @@ def main():
         kill_and_wait("needlewin-abort-restore")
         receipt("10_5b_needle_corrected.json", {"FAIL": "5b did not come up; aborted", "cfg": cfg})
         return 1
-    print("[docs] rebuilding (deterministic seeds)", flush=True)
-    p300k, t300k = build_doc(300000, 202)
-    q = "\n\nRead the document above, then reply with exactly one word: DONE."
-    docs = {"p300k": p300k + q, "p300k_tokens": t300k}
-    n = needle_corrected(docs)
-    shutil.copy(HOOK_BACKUP + ".needlewin", HOOK)
-    rrec, rok = kill_and_wait("needlewin-restore")
+    n = {}
+    try:
+        print("[docs] rebuilding (deterministic seeds)", flush=True)
+        p300k, t300k = build_doc(300000, 202)
+        q = "\n\nRead the document above, then reply with exactly one word: DONE."
+        docs = {"p300k": p300k + q, "p300k_tokens": t300k}
+        n = needle_corrected(docs)
+    finally:
+        # Restore MUST survive any exception — the first needle window crashed
+        # mid-leg and left production on the 5b profile with the lock released.
+        shutil.copy(HOOK_BACKUP + ".needlewin", HOOK)
+        rrec, rok = kill_and_wait("needlewin-restore")
     receipt("10_needlewin_restore.json", {"restart": rrec, "ok": rok,
              "cfg": effective_config()})
     print("NEEDLE_CORRECTED positive_ok=", n.get("positive_ok"), " negative_clean=", n.get("negative_clean"), flush=True)

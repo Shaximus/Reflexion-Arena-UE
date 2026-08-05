@@ -1,0 +1,9 @@
+{
+ "profile": "baseline (K6/FP8/YaRN, prefix caching off)",
+ "doc_tokens": 301437,
+ "ttft_s": 216.9,
+ "total_s": 268.3,
+ "completion_tokens": 256,
+ "decode_tok_s_at_300k": 4.98,
+ "purpose": "attribution control for the 4.6 tok/s decode observed on 5b at ~300k depth during the timed-out needle request"
+}
