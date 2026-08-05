@@ -1,0 +1,249 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-06-20260804T2115Z-CHECKPOINT-02",
+  "arm_id": "ARM-06",
+  "goal_id": "wave1a-ARM-06-product-verification-v1",
+  "generated_at": "2026-08-04T21:15:00Z",
+  "state": "CHECKPOINT",
+  "chat_url": "https://claude.ai/code/session_01Qy2Sxm1r9VZPewmoMV6N8k",
+  "authority_ceiling": "L2",
+  "evidence_root": "fleet_state/arms/ARM-06/B_oracle_discrimination",
+  "claims": [
+    {
+      "claim_id": "b.sandbox-fidelity",
+      "text": "The isolated sandbox reproduces canonical exactly: state_hash b36ad6d028e1b5452629df480c537adc7ce85e1b4b5b0fab4c95067506261cfa, final_tick 11901, receipts 776, total_hp_lost 560 — identical to the prime-constraint anchor in RX_DATA_BOUNDARY_CONTRACT.md. Every mutation result below is measured against a faithful baseline, not an approximation.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "b.controls-are-live",
+      "text": "Every mutated constant is genuinely READ during the acceptance replay — WAVE_DAMAGE_DIV 6 reads, STRIKE_DAMAGE 10, SKILL_DAMPEN 2, STRIKE_DAMPEN 14 — measured with a counting proxy installed over C in all four sim modules. The negative controls exercise live code paths; a null result from one is therefore about the oracle or the semantics, never about an unreached constant.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "b.total-hp-lost-cannot-fail",
+      "text": "CHECKLIST B, carried defect CONFIRMED BY MEASUREMENT — as shipped, total_hp_lost bounds [1, 10_000_000] never fail under any sim-rule negative control. Measured passing at 428 (halved wave damage, 0.76x canonical) and at 2045 (halved strike damage, 3.65x canonical) against a canonical 560. It fails under 0 of 5 sim-rule controls. A check that cannot fail proves nothing.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "b.repair-verified",
+      "text": "REPAIR MEASURED — replacing the bounds with an exact expectation (560, tol 0) takes total_hp_lost from 0 of 5 sim-rule controls to 3 of 5: it now fails under N1 (428), N2 (820) and N3 (2045), while the canonical fixture still PASSES at exit 0. Verified by running every control twice, once against the shipped oracle and once against the repair.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "b.every-assertion-fails-somewhere",
+      "text": "CHECKLIST B item 1+2 SATISFIED for the repaired oracle: every retained assertion was observed FAILING under at least one negative control and PASSING under the canonical fixture. final_tick<-N6; player_hp<-N1,N2,N3,N6; companion_hp<-N1,N2,N3,N6; boss_stability<-N3,N6; total_hp_lost<-N1,N2,N3,N6; outcome_flags<-N3,N6. Harness exit 0 means zero non-discriminating assertions remain.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "b.final-tick-is-not-behavioural",
+      "text": "final_tick fails under ZERO sim-rule controls and only under N6 (fixture truncation). The replay loop runs until the scripted agent is exhausted, so the final tick is pinned by the fixture, not by sim rules. It is a RUN-COMPLETENESS guard and must not be counted as behavioural coverage. Retained with that label rather than deleted.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "b.n4n5-are-not-an-oracle-gap",
+      "text": "CORRECTION TO AN IN-FLIGHT READING OF MY OWN. N4 (SKILL_DAMPEN halved) and N5 (STRIKE_DAMPEN halved) change state_hash, so they first appeared to be oracle blind spots. Full snapshot diff shows EXACTLY ONE divergent field in each: receipts_head. Every end-state behavioural quantity — entity HP, all ten region stress values, boss state, tick, flags — is identical to canonical. The oracle passes them CORRECTLY: there is no end-state behavioural difference to report. Reporting these as oracle gaps would have been a false accusation.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "b.characterisation-hash-dominates",
+      "text": "CHECKLIST B item 4 — correct characterisation, measured. The oracle does NOT detect defects the integrity hash misses and cannot: state_hash diverged from the anchor under every one of the 6 negative controls, INCLUDING the two the oracle passes. The hash strictly dominates the oracle as a DETECTOR. The oracle earns its place on DIAGNOSTIC SPECIFICITY alone — the hash says \"not the canonical run\", the oracle says \"player_hp 922, expected 840, OFF BY 82\". The docstring now states this and refuses the stronger claim.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "b.outcome-flags-correction",
+      "text": "CORRECTION TO INHERITED ASSUMPTION — the cycle-00 note that outcome_flags \"passed by confirming its own warning text\" is too strong. Measured, it FAILS under N3 with all three flags False. It is capable of failing and is retained. It is however fully REDUNDANT: it fails only where boss_stability already fails, so it is a cheap cross-check, not independent evidence. Kept with the redundancy stated rather than dropped or overclaimed.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "b.install-blocked",
+      "text": "BLOCKED — the verified repair was NOT installed. Reflexion-Arena/tools/oracle is on my writable list, but the Claude Code auto-mode classifier denied the write via both Bash cp and the file-write tool. Per fleet standing rule I stopped and reported rather than routing around the denial. The target file is byte-identical to its pre-task hash (c64d6f23...), confirming nothing was written. The verified replacement is staged at behavioural_oracle.PROPOSED.py and needs one human action to install.",
+      "status": "MACHINE_VERIFIED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "state_divergence.txt",
+      "sha256": "04fce659369a7a8bc70e82f6118bd10ff9712d57a9fc3e2019fcc6fd3c7231d5",
+      "claim_ids": [
+        "b.sandbox-fidelity",
+        "b.n4n5-are-not-an-oracle-gap",
+        "b.characterisation-hash-dominates"
+      ]
+    },
+    {
+      "path": "const_reach.out",
+      "sha256": "1ba40855b1af7d3f6c08c7520c3afda72cf63f07e57d3d0a1f46698d00243228",
+      "claim_ids": [
+        "b.controls-are-live"
+      ]
+    },
+    {
+      "path": "const_reach.exit",
+      "sha256": "c0432ef7100a560310f3a8e28f9f18c100d404b5591498706121db68d4b11939",
+      "claim_ids": [
+        "b.controls-are-live"
+      ]
+    },
+    {
+      "path": "lab_baseline.out",
+      "sha256": "cbeb18f0188442f0167171ee744ffaf2bc790f30c89119996c1c9afadc4bfcce",
+      "claim_ids": [
+        "b.total-hp-lost-cannot-fail",
+        "b.outcome-flags-correction"
+      ]
+    },
+    {
+      "path": "lab_baseline.exit",
+      "sha256": "90c792416c21040d153daa3cd7533333f325174f7cda6f3acf7f0bec6678fd5a",
+      "claim_ids": [
+        "b.total-hp-lost-cannot-fail"
+      ]
+    },
+    {
+      "path": "lab_repaired.out",
+      "sha256": "2b96e6c459f17ce91ee397e3fd2270816d8b849b3102d1e2f2b87b8fe65eac18",
+      "claim_ids": [
+        "b.repair-verified",
+        "b.every-assertion-fails-somewhere",
+        "b.final-tick-is-not-behavioural",
+        "b.outcome-flags-correction"
+      ]
+    },
+    {
+      "path": "lab_repaired.exit",
+      "sha256": "9e3a2b671a6660e4feb38d599c1d6a86f7d3160fac208f78849db88e12c8825c",
+      "claim_ids": [
+        "b.repair-verified",
+        "b.every-assertion-fails-somewhere"
+      ]
+    },
+    {
+      "path": "behavioural_oracle.PROPOSED.py",
+      "sha256": "720c9ef8dd9720757bfdbd6c7a2615bf9daf578f2e4d0e61d436693d30d88d77",
+      "claim_ids": [
+        "b.repair-verified",
+        "b.characterisation-hash-dominates",
+        "b.install-blocked"
+      ]
+    },
+    {
+      "path": "snapshot_divergence.txt",
+      "sha256": "fe00512c6c8cc8445c9f807694a07cfd71a05b2d699b340020451b5016e516c6",
+      "claim_ids": [
+        "b.n4n5-are-not-an-oracle-gap"
+      ]
+    },
+    {
+      "path": "target_unchanged.sha256",
+      "sha256": "97ee4f474b792a79ec855ec37d275672e7ba84c1bba04501f43d8c35b1bcb0a4",
+      "claim_ids": [
+        "b.install-blocked"
+      ]
+    },
+    {
+      "path": "lab_baseline.err",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "claim_ids": []
+    },
+    {
+      "path": "lab_repaired.err",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "claim_ids": []
+    },
+    {
+      "path": "const_reach.err",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "claim_ids": []
+    },
+    {
+      "path": "oracle_lab.py",
+      "sha256": "a8a996ed0ee4896c09889a81f9e4d0737ae9b37ed4a0c071f5efd2d3b7241a54",
+      "claim_ids": []
+    },
+    {
+      "path": "oracle_lab2.py",
+      "sha256": "67ba8ef2138350de5a8c12806f37751a2136cfa1bb81247f05e47cc4b02df4c6",
+      "claim_ids": []
+    },
+    {
+      "path": "const_reach.py",
+      "sha256": "702fb5e44fe985ec363706a2510e8dfa53ce6ffceb3ebdb45d34e6015ea4745a",
+      "claim_ids": []
+    },
+    {
+      "path": "state_probe.py",
+      "sha256": "8c7058cd0eaca00c15751966715819aad35cae852d00a6c135f0cd83946d60db",
+      "claim_ids": []
+    },
+    {
+      "path": "snap_diff.py",
+      "sha256": "d6971e13afa1c80ed1a794512e8cc4a521cf641e39b2b0b04f33be561b5054cb",
+      "claim_ids": []
+    }
+  ],
+  "artifacts": [
+    "state_divergence.txt",
+    "const_reach.out",
+    "const_reach.exit",
+    "lab_baseline.out",
+    "lab_baseline.exit",
+    "lab_repaired.out",
+    "lab_repaired.exit",
+    "behavioural_oracle.PROPOSED.py",
+    "snapshot_divergence.txt",
+    "target_unchanged.sha256",
+    "lab_baseline.err",
+    "lab_repaired.err",
+    "const_reach.err",
+    "oracle_lab.py",
+    "oracle_lab2.py",
+    "const_reach.py",
+    "state_probe.py",
+    "snap_diff.py"
+  ],
+  "tests": [
+    {
+      "command": "python3 oracle_lab.py <scratch>   # 6 sim mutations vs the SHIPPED oracle",
+      "producer_exit_code": 1,
+      "result": "FAIL",
+      "stdout_artifact": "lab_baseline.out",
+      "stderr_artifact": "lab_baseline.err",
+      "negative_control": true
+    },
+    {
+      "command": "python3 oracle_lab2.py <scratch> behavioural_oracle.PROPOSED.py   # 7 controls x {shipped, repaired}",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "lab_repaired.out",
+      "stderr_artifact": "lab_repaired.err",
+      "negative_control": true
+    },
+    {
+      "command": "python3 const_reach.py   # counting proxy over C: are mutated constants read?",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "const_reach.out",
+      "stderr_artifact": "const_reach.err",
+      "negative_control": false
+    },
+    {
+      "command": "python3 snap_diff.py N0_canonical N4_skill_dampen_halved   # INERT vs BLIND classification",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "snapshot_divergence.txt",
+      "stderr_artifact": "snapshot_divergence.txt",
+      "negative_control": false
+    }
+  ],
+  "decisions_requested": [
+    "INSTALL APPROVAL — behavioural_oracle.PROPOSED.py is verified but the write to Reflexion-Arena/tools/oracle/behavioural_oracle.py was denied by the auto-mode classifier. Either grant a Bash/Write permission rule for that path, or install it by hand from the staged copy. ARM-06 will not route around the denial.",
+    "total_hp_lost is now exact (560, tol 0). That is consistent with the four existing tol-0 assertions and is what makes it discriminating, but it means any deliberate balance change must update the expected value. Confirm that trade is wanted, or specify a tight non-zero tolerance instead."
+  ],
+  "risks": [
+    "N6 (script truncation) breaks EVERY assertion, so it proves liveness but not specificity. Only the sim-rule controls are evidence of discrimination. If a future reader counts N6 as coverage, every assertion will look stronger than it is.",
+    "PROCESS NOTE, self-reported: my first N6 implementation looked for fixture keys (commands/stream/plan/script) that do not exist — the real key is \"ticks\" — so it rewrote the file unchanged and silently proved nothing. It was caught by noticing final_tick still passed, then fixed and re-run; the lab now asserts the truncation actually changed the file. The broken run output was overwritten by the corrected run, so that specific artifact is not preserved.",
+    "The oracle covers END-STATE only. N4/N5 show a mutation can perturb the run and reconverge; per-tick divergence is not measured by this oracle or by this task.",
+    "total_hp_lost sums across all entities, so a defect that moves damage BETWEEN entities while preserving the total is invisible to it. The per-entity HP assertions cover the player and companion, but not the boss."
+  ],
+  "next_action": "BLOCKED on install approval for the oracle repair. Meanwhile: checklist item A.5 (C10 reads) remains OPEN by ruling, and no further in-scope work remains on B without the write permission."
+}

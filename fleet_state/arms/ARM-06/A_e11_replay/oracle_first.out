@@ -1,0 +1,10 @@
+BEHAVIOURAL ORACLE — magnitudes, not fingerprints
+
+  PASS           final_tick               expected 11901 (±0), got 11901
+  PASS           player_hp                expected 840 (±0), got 840
+  PASS           companion_hp             expected 900 (±0), got 900
+  PASS           boss_stability           expected 0 (±0), got 0
+  PASS           total_hp_lost            560 in [1, 10000000] — catches halved/doubled damage that end-state alone cannot see
+  PASS           outcome_flags            {'boss_defeated': True, 'transfer_success': True, 'receipt_emitted': True} — NOTE: all three are True in the 150-of-300 case; they cannot catch a magnitude defect
+
+RESULT: PASS

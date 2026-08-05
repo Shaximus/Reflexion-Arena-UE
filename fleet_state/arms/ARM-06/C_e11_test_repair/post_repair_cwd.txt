@@ -1,0 +1,5 @@
+cwd=/home/shax/.claude-squad/worktrees/arm/product-verification-v1_18c8af42232fea3a exit=0 stderr_bytes=0
+cwd=/home/shax/.claude-squad/worktrees/arm/product-verification-v1_18c8af42232fea3a/Design exit=0 stderr_bytes=0
+cwd=/home/shax/.claude-squad/worktrees/arm/product-verification-v1_18c8af42232fea3a/Design/tests exit=0 stderr_bytes=0
+cwd=/home/shax/.claude-squad/worktrees/arm/product-verification-v1_18c8af42232fea3a/Source exit=0 stderr_bytes=0
+cwd=/tmp                                                                     exit=0 stderr_bytes=0

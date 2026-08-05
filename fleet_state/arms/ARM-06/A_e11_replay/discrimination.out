@@ -1,0 +1,29 @@
+[M0_baseline_unmutated] expected_exit=0 actual_exit=0 stderr_bytes=0  DISCRIMINATES
+    control: unmutated doc must PASS (exit 0)
+    | ALL GATE CONDITIONS MET
+
+[M1_boss_stability_writable] expected_exit=1 actual_exit=1 stderr_bytes=0  DISCRIMINATES
+    THE EXPLOIT reintroduced: boss_stability marked A2-writable
+    | boss_stability           False   True    *** FAIL ***   THE EXPLOIT — A3 world-state via an A2 effect
+    | 1 FAILURE(S)
+
+[M2_release_delay_revoked] expected_exit=1 actual_exit=1 stderr_bytes=0  DISCRIMINATES
+    canon writability revoked: boss_release_delay marked NO
+    | boss_release_delay       True    False   *** FAIL ***   CANON — strike-interrupt / Tokenweave window
+    | 1 FAILURE(S)
+
+[M3_world_tick_writable] expected_exit=1 actual_exit=1 stderr_bytes=0  DISCRIMINATES
+    sim clock made writable: world_tick marked YES
+    | world_tick               False   True    *** FAIL ***   sim clock — would let a skill move time
+    | 1 FAILURE(S)
+
+[M4_boss_stability_row_deleted] expected_exit=1 actual_exit=0 stderr_bytes=0  *** DOES NOT DISCRIMINATE ***
+    boss_stability row removed from the registry entirely
+    | ALL GATE CONDITIONS MET
+
+[M5_column_inserted] expected_exit=1 actual_exit=1 stderr_bytes=0  DISCRIMINATES
+    a 3rd column added to the table; A2-writable cell shifts right
+    | boss_release_delay       True    False   *** FAIL ***   CANON — strike-interrupt / Tokenweave window
+    | 1 FAILURE(S)
+
+non-discriminating mutations: 1  ['M4_boss_stability_row_deleted']

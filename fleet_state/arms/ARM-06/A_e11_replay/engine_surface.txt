@@ -1,0 +1,23 @@
+# ARM-06 — engine presence, corrected search surface (PRIME ruling 2026-08-04)
+$ cat /home/shax/Projects/UnrealEngine/UE-5.8/Engine/Build/Build.version
+{
+	"MajorVersion": 5,
+	"MinorVersion": 8,
+	"PatchVersion": 1,
+	"Changelist": 0,
+	"CompatibleChangelist": 55116800,
+	"IsLicenseeVersion": 0,
+	"IsPromotedBuild": 0,
+	"BranchName": "UE5"
+}
+
+cat_exit=0
+$ test -x .../Engine/Build/BatchFiles/Linux/Build.sh
+executable_test_exit=0
+$ ls -l .../Engine/Binaries/Linux/UnrealEditor-Cmd
+-rwxrwxr-x 1 shax shax 450848 Jul 27 21:36 /home/shax/Projects/UnrealEngine/UE-5.8/Engine/Binaries/Linux/UnrealEditor-Cmd
+$ ls -d Binaries Intermediate Saved   # in worktree: module never built here
+ls: cannot access 'Binaries': No such file or directory
+ls: cannot access 'Intermediate': No such file or directory
+ls: cannot access 'Saved': No such file or directory
+ls_exit=2   # 2 = absent -> blocker is 'not built in this worktree', NOT 'no engine'

@@ -1,0 +1,249 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-06-20260804T2054Z-CHECKPOINT-01",
+  "arm_id": "ARM-06",
+  "goal_id": "wave1a-ARM-06-product-verification-v1",
+  "generated_at": "2026-08-04T20:54:00Z",
+  "state": "CHECKPOINT",
+  "chat_url": "https://claude.ai/code/session_01Qy2Sxm1r9VZPewmoMV6N8k",
+  "authority_ceiling": "L2",
+  "evidence_root": "fleet_state/arms/ARM-06/A_e11_replay",
+  "claims": [
+    {
+      "claim_id": "a.replay-1",
+      "text": "Independent replay of Design/tests/test_e11_authority_gate.py at the canonical cwd (worktree root, HEAD c5fa2f8) exits 0 with 7/7 cases PASS and 0 bytes on stderr. Run by ARM-06, not by the author of 032d900.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "a.A2-boss-stability",
+      "text": "CHECKLIST A.2 — the boss_stability deny assertion is discriminating: it FAILS (exit 1, named \"*** FAIL ***\" line) under negative control M1, which marks boss_stability A2-writable in a scratch copy of the registry, and PASSES under the canonical fixture (M0).",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "a.A3-world-tick",
+      "text": "CHECKLIST A.3 — the world_tick deny assertion is discriminating: it FAILS under negative control M3 (world_tick marked YES) and PASSES under the canonical fixture.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "a.A4-release-delay",
+      "text": "CHECKLIST A.4 — boss_release_delay remains legitimately writable and the assertion is discriminating: it FAILS under negative control M2 (writability revoked) and PASSES under the canonical fixture.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "a.defect-1-absent-reads-as-denied",
+      "text": "DEFECT-1 — a2_writable() (test_e11_authority_gate.py:15-18) returns False on regex miss, so \"explicitly denied in the registry\" and \"absent from the registry\" are indistinguishable. Negative control M4 deletes the boss_stability row entirely and the gate still reports ALL GATE CONDITIONS MET at exit 0 — expected exit 1, actual exit 0.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "a.defect-2-positional-column-capture",
+      "text": "DEFECT-2 — the regex captures the A2-writable cell by column POSITION. Negative control M5 inserts a third column into the §4.1 table; every cell then reads not-writable, so all five deny assertions pass VACUOUSLY and only the single boss_release_delay positive assertion fails. The deny assertions are load-bearing only while that one positive assertion sits beside them.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "a.defect-3-cwd-exit-code-collision",
+      "text": "DEFECT-3 — test_e11_authority_gate.py:11 uses a cwd-relative path. Measured: exit 0 from the worktree root; exit 1 with 799 bytes of FileNotFoundError from Design/, Design/tests/, Source/ and /tmp. A breached gate at the canonical cwd ALSO exits 1. A runner reading only the exit code cannot distinguish a missing file from a breached authority gate.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "a.scope-registry-not-validator",
+      "text": "SCOPE — the suite parses the markdown table at RX_SKILL_ENUMS_V1.md:289-296 and never executes product code. No E11 admission path exists in this worktree: rg over Source/ Schemas/ Data/ for adjust_counter, AdjustCounter, counter_threshold, CounterThreshold, AllowList and A2Writable exits 1 with no matches, and FRxSkillSpec (RxSkillSystem.h:77-85) is a six-field fixed-choice spec with no effect list. A.2/A.3/A.4 therefore prove THE REGISTRY DOCUMENT IS CORRECT AND ITS ASSERTIONS CAN FAIL. They do NOT prove that a validator rejects a player-authored E11 mutation, because there is no admission path to reject anything. The enforcement requirement at RX_SKILL_ENUMS_V1.md:261-266 is UNMET IN CODE.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "a.A5-c10-reads",
+      "text": "CHECKLIST A.5 — whether C10 reads are unaffected is UNVERIFIED. No test exercising counter_threshold / C10 exists anywhere in this worktree, and per PRIME ruling no test was invented for it. This claim is OPEN, not satisfied.",
+      "status": "UNKNOWN"
+    },
+    {
+      "claim_id": "a.oracle-first-disposition",
+      "text": "Behavioural oracle first disposition: behavioural_oracle.py exits 0, RESULT PASS, 0 bytes on stderr. Canonical total_hp_lost measured at 560. The cycle-00 defect is confirmed by measurement: the bounds [1, 10_000_000] (behavioural_oracle.py:80-81) are ~17,857x the canonical value on the high side and admit the halved-damage value 428.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "a.engine-blocker-restated",
+      "text": "CORRECTION per PRIME ruling — the engine IS installed at /home/shax/Projects/UnrealEngine/UE-5.8 (Build.version 5.8.1, Build.sh executable, UnrealEditor-Cmd present). The RxOracleCommandlet blocker is therefore \"the ReflexionArena module has never been built in this worktree\" (no Binaries/, Intermediate/, Saved/), NOT \"no usable engine on this box\". My earlier claim named a search surface of /home/shax/UnrealEngine, /opt/UnrealEngine*, ~/Epic* and was stated more broadly than that surface supported.",
+      "status": "MACHINE_VERIFIED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "replay_root.out",
+      "sha256": "76c2fbd6827ab3cd12744f636ca50ad82d7a07682b3db5858a20caee24ff3e02",
+      "claim_ids": [
+        "a.replay-1"
+      ]
+    },
+    {
+      "path": "replay_root.exit",
+      "sha256": "c1878d07c636cd37631dc02c63f0c580708d78de1f2bc05c1a3b607dabb60bb7",
+      "claim_ids": [
+        "a.replay-1"
+      ]
+    },
+    {
+      "path": "inputs.sha256",
+      "sha256": "54b81eef4079b1e2cf9e761e995594a2a84e9189a85878611767ba0b1ae1b990",
+      "claim_ids": [
+        "a.replay-1"
+      ]
+    },
+    {
+      "path": "head.txt",
+      "sha256": "f009ff6c6f6380b3687c601cc063a700b16b362f36968547f2d2b1f0af21b261",
+      "claim_ids": [
+        "a.replay-1"
+      ]
+    },
+    {
+      "path": "discrimination.out",
+      "sha256": "1c63708f72eb23ebfef92b16f68fad33e047c5f23fb50cd4acb15b1f244d31e8",
+      "claim_ids": [
+        "a.A2-boss-stability",
+        "a.A3-world-tick",
+        "a.A4-release-delay",
+        "a.defect-1-absent-reads-as-denied",
+        "a.defect-2-positional-column-capture"
+      ]
+    },
+    {
+      "path": "discrimination.exit",
+      "sha256": "bd46e8e8f27c901f951921a05bc212ff8c7166c89c20c144788873aae346bf8d",
+      "claim_ids": [
+        "a.A2-boss-stability",
+        "a.A3-world-tick",
+        "a.A4-release-delay"
+      ]
+    },
+    {
+      "path": "cwd_sensitivity.txt",
+      "sha256": "dfd3f7ccbdef7c9455dc8358952210d0c21b19cdc372e34825495cbe80091b51",
+      "claim_ids": [
+        "a.defect-3-cwd-exit-code-collision"
+      ]
+    },
+    {
+      "path": "no_admission_path.txt",
+      "sha256": "86e18292146b5f1ae5162fc0831009f161f6e870b649e1ad96d28fb201d8cbeb",
+      "claim_ids": [
+        "a.scope-registry-not-validator"
+      ]
+    },
+    {
+      "path": "oracle_first.out",
+      "sha256": "055d31bd0a30cec26181a7c7ee52b07fe641d7ea1ceffb0343c34144c159befb",
+      "claim_ids": [
+        "a.oracle-first-disposition"
+      ]
+    },
+    {
+      "path": "oracle_first.exit",
+      "sha256": "c1878d07c636cd37631dc02c63f0c580708d78de1f2bc05c1a3b607dabb60bb7",
+      "claim_ids": [
+        "a.oracle-first-disposition"
+      ]
+    },
+    {
+      "path": "oracle_input.sha256",
+      "sha256": "1ff7764ad8f82105d7492f5dbfdc1a5303f2446fbbf86548fcddb63f5a7c0ba8",
+      "claim_ids": [
+        "a.oracle-first-disposition"
+      ]
+    },
+    {
+      "path": "engine_surface.txt",
+      "sha256": "3aaaf87de8b7dbccabe084a98356b175c5c0c4a2ac4ae63d7f4de3d1b6c09cbf",
+      "claim_ids": [
+        "a.engine-blocker-restated"
+      ]
+    },
+    {
+      "path": "replay_root.err",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "claim_ids": []
+    },
+    {
+      "path": "discrimination.err",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "claim_ids": []
+    },
+    {
+      "path": "oracle_first.err",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "claim_ids": []
+    },
+    {
+      "path": "status_before.txt",
+      "sha256": "bc61c8d167986c8761c0e87dd9fd8155ac6ed4244b30ce5ec69284dbf54825f5",
+      "claim_ids": []
+    },
+    {
+      "path": "SUMMARY.md",
+      "sha256": "8da0c57ebd752090b1d657c362124e9d1974427cd5377416d538875229f94e69",
+      "claim_ids": []
+    }
+  ],
+  "artifacts": [
+    "replay_root.out",
+    "replay_root.exit",
+    "inputs.sha256",
+    "head.txt",
+    "discrimination.out",
+    "discrimination.exit",
+    "cwd_sensitivity.txt",
+    "no_admission_path.txt",
+    "oracle_first.out",
+    "oracle_first.exit",
+    "oracle_input.sha256",
+    "engine_surface.txt",
+    "replay_root.err",
+    "discrimination.err",
+    "oracle_first.err",
+    "status_before.txt",
+    "SUMMARY.md"
+  ],
+  "tests": [
+    {
+      "command": "python3 Design/tests/test_e11_authority_gate.py",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "replay_root.out",
+      "stderr_artifact": "replay_root.err",
+      "negative_control": false
+    },
+    {
+      "command": "python3 scratchpad/probe_e11.py <scratch>   # 6 mutations of a scratch copy of RX_SKILL_ENUMS_V1.md; tracked doc never written",
+      "producer_exit_code": 1,
+      "result": "FAIL",
+      "stdout_artifact": "discrimination.out",
+      "stderr_artifact": "discrimination.err",
+      "negative_control": true
+    },
+    {
+      "command": "for d in <root> Design Design/tests Source /tmp; do (cd $d && python3 <abs>/test_e11_authority_gate.py); echo $?; done",
+      "producer_exit_code": 1,
+      "result": "FAIL",
+      "stdout_artifact": "cwd_sensitivity.txt",
+      "stderr_artifact": "cwd_sensitivity.txt",
+      "negative_control": true
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 Reflexion-Arena/tools/oracle/behavioural_oracle.py",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "oracle_first.out",
+      "stderr_artifact": "oracle_first.err",
+      "negative_control": false
+    }
+  ],
+  "decisions_requested": [
+    "CHECKLIST A.2/A.3/A.4 are satisfied against the registry DOCUMENT with demonstrated failure modes, but the validator negative control the repair called for (RX_SKILL_ENUMS_V1.md:261-266) cannot exist until an E11 admission path exists in code. L4/L5 disposition requested: does A close on document evidence, or does it stay OPEN pending a validator? ARM-06 is not making that call unilaterally."
+  ],
+  "risks": [
+    "DEFECT-1: deleting a counter row from the §4.1 registry silently keeps the gate green. A routine documentation edit can disarm the authority check with no signal.",
+    "DEFECT-2: inserting a column into the §4.1 table makes all five deny assertions pass vacuously. Only the single boss_release_delay positive assertion would notice.",
+    "DEFECT-3: exit 1 means both \"missing file\" and \"breached gate\". Any CI wrapper invoking this test from its own directory reports a permanent, meaningless failure — or, if it inverts the check, a permanent meaningless pass.",
+    "A.5 (C10 reads) has no test and remains OPEN.",
+    "claude-squad stages files in this worktree on a 1000ms git add poll (PRIME-confirmed, benign). Evidence files show as staged; no product file is modified or staged."
+  ],
+  "next_action": "Task B — make the behavioural oracle discriminating. In progress: mutation lab built, 6 negative controls run against the sim mirror in an isolated sandbox."
+}

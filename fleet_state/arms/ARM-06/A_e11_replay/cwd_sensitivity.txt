@@ -1,0 +1,12 @@
+=== A.6 cwd-SENSITIVITY PROBE — test_e11_authority_gate.py:11 uses a cwd-relative path ===
+cwd=/home/shax/.claude-squad/worktrees/arm/product-verification-v1_18c8af42232fea3a exit=0 stderr_bytes=0 last_stderr=<none>
+cwd=/home/shax/.claude-squad/worktrees/arm/product-verification-v1_18c8af42232fea3a/Design exit=1 stderr_bytes=799 last_stderr=FileNotFoundError: [Errno 2] No such file or directory: 'Design/RX_SKILL_ENUMS_V1.md'
+cwd=/home/shax/.claude-squad/worktrees/arm/product-verification-v1_18c8af42232fea3a/Design/tests exit=1 stderr_bytes=799 last_stderr=FileNotFoundError: [Errno 2] No such file or directory: 'Design/RX_SKILL_ENUMS_V1.md'
+cwd=/home/shax/.claude-squad/worktrees/arm/product-verification-v1_18c8af42232fea3a/Source exit=1 stderr_bytes=799 last_stderr=FileNotFoundError: [Errno 2] No such file or directory: 'Design/RX_SKILL_ENUMS_V1.md'
+cwd=/tmp                                                                   exit=1 stderr_bytes=799 last_stderr=FileNotFoundError: [Errno 2] No such file or directory: 'Design/RX_SKILL_ENUMS_V1.md'
+
+--- the defect, stated as an exit-code collision ---
+canonical cwd, honest doc      -> exit=0
+wrong cwd,     honest doc      -> exit=1
+canonical cwd, EXPLOIT present -> exit=1
+  (rows 2 and 3 are the same exit code for opposite meanings: missing file vs breached gate)

@@ -1,0 +1,4 @@
+  CANNOT EVALUATE: counter 'boss_release_delay': A2-writable cell is not a clear YES/NO: '✅ **YES** — strike-interrupt (canon)'
+
+  exit 2 — this is NOT a gate breach; the gate was not testable.
+proof: "NO" in "CANON".upper() -> True

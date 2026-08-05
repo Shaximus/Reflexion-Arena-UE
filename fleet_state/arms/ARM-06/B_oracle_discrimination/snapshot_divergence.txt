@@ -1,0 +1,9 @@
+N0_canonical  vs  N4_skill_dampen_halved
+divergent snapshot fields: 1
+  .receipts_head                                           '94090edffdc3f30a7b58d22420832063d2ced17ae8d9962ac39ae4fdf96933c6' -> '3e874520b816f186ce8b5e14a8c43e7b329d1a3bd08a887fa8ad8f07d70ab625'
+exit=0
+
+N0_canonical  vs  N5_strike_dampen_halved
+divergent snapshot fields: 1
+  .receipts_head                                           '94090edffdc3f30a7b58d22420832063d2ced17ae8d9962ac39ae4fdf96933c6' -> 'e62fe04dcad73d6c111cacf9c1b996623b67dbebf74537e491e2cd3ef5e91231'
+exit=0

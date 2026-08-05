@@ -1,0 +1,1 @@
+producer_exit=0 (0 = all watched constants are read; 2 = at least one never read)

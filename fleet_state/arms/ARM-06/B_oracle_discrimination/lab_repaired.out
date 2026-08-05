@@ -1,0 +1,39 @@
+[shipped ] N0_canonical             exit=0 stderr=0B  fina:P play:P comp:P boss:P tota:P outc:P
+[shipped ] N1_wave_damage_halved    exit=1 stderr=0B  fina:P play:F comp:F boss:P tota:P outc:P
+[shipped ] N2_wave_damage_doubled   exit=1 stderr=0B  fina:P play:F comp:F boss:P tota:P outc:P
+[shipped ] N3_strike_damage_halved  exit=1 stderr=0B  fina:P play:F comp:F boss:F tota:P outc:F
+[shipped ] N4_skill_dampen_halved   exit=0 stderr=0B  fina:P play:P comp:P boss:P tota:P outc:P
+[shipped ] N5_strike_dampen_halved  exit=0 stderr=0B  fina:P play:P comp:P boss:P tota:P outc:P
+[shipped ] N6_script_truncated      exit=1 stderr=0B  fina:F play:F comp:F boss:F tota:F outc:F
+[repaired] N0_canonical             exit=0 stderr=0B  fina:P play:P comp:P boss:P tota:P outc:P
+[repaired] N1_wave_damage_halved    exit=1 stderr=0B  fina:P play:F comp:F boss:P tota:F outc:P
+[repaired] N2_wave_damage_doubled   exit=1 stderr=0B  fina:P play:F comp:F boss:P tota:F outc:P
+[repaired] N3_strike_damage_halved  exit=1 stderr=0B  fina:P play:F comp:F boss:F tota:F outc:F
+[repaired] N4_skill_dampen_halved   exit=0 stderr=0B  fina:P play:P comp:P boss:P tota:P outc:P
+[repaired] N5_strike_dampen_halved  exit=0 stderr=0B  fina:P play:P comp:P boss:P tota:P outc:P
+[repaired] N6_script_truncated      exit=1 stderr=0B  fina:F play:F comp:F boss:F tota:F outc:F
+
+==============================================================================
+PER-ASSERTION DISCRIMINATION — shipped vs repaired
+==============================================================================
+  final_tick
+      shipped :  canonical=PASS  fails_under=1  ['N6_script_truncated']
+      repaired:  canonical=PASS  fails_under=1  ['N6_script_truncated']
+  player_hp
+      shipped :  canonical=PASS  fails_under=4  ['N1_wave_damage_halved', 'N2_wave_damage_doubled', 'N3_strike_damage_halved', 'N6_script_truncated']
+      repaired:  canonical=PASS  fails_under=4  ['N1_wave_damage_halved', 'N2_wave_damage_doubled', 'N3_strike_damage_halved', 'N6_script_truncated']
+  companion_hp
+      shipped :  canonical=PASS  fails_under=4  ['N1_wave_damage_halved', 'N2_wave_damage_doubled', 'N3_strike_damage_halved', 'N6_script_truncated']
+      repaired:  canonical=PASS  fails_under=4  ['N1_wave_damage_halved', 'N2_wave_damage_doubled', 'N3_strike_damage_halved', 'N6_script_truncated']
+  boss_stability
+      shipped :  canonical=PASS  fails_under=2  ['N3_strike_damage_halved', 'N6_script_truncated']
+      repaired:  canonical=PASS  fails_under=2  ['N3_strike_damage_halved', 'N6_script_truncated']
+  total_hp_lost
+      shipped :  canonical=PASS  fails_under=1  ['N6_script_truncated']
+      repaired:  canonical=PASS  fails_under=4  ['N1_wave_damage_halved', 'N2_wave_damage_doubled', 'N3_strike_damage_halved', 'N6_script_truncated']
+  outcome_flags
+      shipped :  canonical=PASS  fails_under=2  ['N3_strike_damage_halved', 'N6_script_truncated']
+      repaired:  canonical=PASS  fails_under=2  ['N3_strike_damage_halved', 'N6_script_truncated']
+
+non-discriminating  shipped : []
+non-discriminating  repaired: []

@@ -1,0 +1,16 @@
+# ARM-06 — no E11 admission path exists in product code (search surface named)
+# surface: Source/ Schemas/ Data/ in worktree /home/shax/.claude-squad/worktrees/arm/product-verification-v1_18c8af42232fea3a at HEAD c5fa2f8965fb9eb908bdcbcbc7f89db4fd467ad5
+
+$ rg -n -e 'adjust_counter' -e 'AdjustCounter' -e 'counter_threshold' -e 'CounterThreshold' -e 'AllowList' -e 'A2Writable' Source/ Schemas/ Data/
+rg_exit=1   # 1 = no matches anywhere on that surface
+
+$ sed -n '77,85p' Source/ReflexionArena/Sim/RxSkillSystem.h   # FRxSkillSpec: six fixed fields, no effect list
+struct FRxSkillSpec
+{
+	FString Name;                            // must be "FAULTLINE INTERRUPT"
+	FString Trigger;                         // must be "committed_ground_propagation"
+	FString Effect;                          // must be "destabilize_anchor"
+	int32 Cost = -1;                         // must be SkillCost (30)
+	int32 Cooldown = -1;                     // must be SkillCooldown (240)
+	int32 CommitWindow = -1;                 // must be SkillCommitWindow (20)
+};

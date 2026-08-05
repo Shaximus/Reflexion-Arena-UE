@@ -1,0 +1,221 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-06-20260804T2210Z-CHECKPOINT-03",
+  "arm_id": "ARM-06",
+  "goal_id": "wave1a-ARM-06-product-verification-v1",
+  "generated_at": "2026-08-04T22:10:00Z",
+  "state": "CHECKPOINT",
+  "chat_url": "https://claude.ai/code/session_01Qy2Sxm1r9VZPewmoMV6N8k",
+  "authority_ceiling": "L2",
+  "evidence_root": "fleet_state/arms/ARM-06/C_e11_test_repair",
+  "claims": [
+    {
+      "claim_id": "c.repair-verified",
+      "text": "All 10 controls behave exactly as designed against BOTH the pre-repair and post-repair gate — harness exit 0, zero deviations. Six behaviours changed, every one in the intended direction: M4 0->1, M5 1->0, M6 1->2, M7 1->0, M8 0->2, M9 0->2.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "c.defect-1-fixed",
+      "text": "DEFECT-1 CLOSED — deleting the boss_stability row from the registry (M4) previously left the gate green at exit 0. The repaired gate now requires every governed counter to be PRESENT and exits 1 with \"NOT IN REGISTRY — governed counter went missing\". Absence is no longer indistinguishable from denial.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "c.defect-2-fixed",
+      "text": "DEFECT-2 CLOSED — the A2-writable column is now located BY HEADER NAME, not by position. Inserting a benign third column (M5) previously caused a false alarm at exit 1 while making all five deny assertions pass vacuously; it now correctly exits 0 with every assertion still evaluated against the real verdict cell.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "c.defect-3-fixed",
+      "text": "DEFECT-3 CLOSED — the exit-code collision is gone. The doc path is now __file__-relative: measured exit 0 from all five working directories that previously produced exit 1 with 799 bytes of FileNotFoundError. A missing registry (M6) now exits 2 (\"could not evaluate\"), which no longer collides with exit 1 (\"gate violated\").",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "c.defect-4-new-garbled-verdict",
+      "text": "NEW DEFECT FOUND AND CLOSED — DEFECT-4. Replacing the boss_stability verdict cell with unparseable text (M8: \"TBD\") made the ORIGINAL gate exit 0. A cell it could not read was silently treated as \"denied\", so a registry that no longer states an authority verdict still reported ALL GATE CONDITIONS MET. The repaired gate exits 2. This defect was not in my Task A report; it was found by extending the control set during the repair.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "c.defect-5-new-column-removed",
+      "text": "NEW DEFECT FOUND AND CLOSED — DEFECT-5. Renaming the \"**A2-writable via E11**\" column header away (M9) made the ORIGINAL gate exit 0. The write-scope column IS the authority repair; deleting it is a document regression that the gate reported as fully compliant. The repaired gate exits 2 and names the missing column.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "c.canonical-still-passes",
+      "text": "The repaired gate passes the canonical registry in place: exit 0, 0 bytes stderr, 6 counters parsed from §4.1, all 7 cases PASS. Registry document is byte-identical after the repair (747ad8742419ead63b5435e0dee0d60d717849124e0e17a6332bf215e05aec5b) — the repair touched only the test.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "c.self-inflicted-bug-found-and-fixed",
+      "text": "SELF-REPORTED, REPRODUCED — my first repair shipped the same defect class it was fixing. The verdict parser used a bare substring test, and \"NO\" occurs inside \"CANON\", which appears in the boss_release_delay justification text. The cell parsed as both YES and NO and the gate exited 2 on the HONEST registry. Caught by the M0 unmutated control, then fixed to match the document's bold **YES**/**NO** marker via regex. The broken form is reconstructed and its failure captured rather than described.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "c.scope-unchanged",
+      "text": "The SCOPE limit from Task A is preserved verbatim in the repaired file's docstring: this checks the REGISTRY DOCUMENT, not product code; there is still no E11 admission path in the UE tree; the enforcement requirement at RX_SKILL_ENUMS_V1.md:261-266 remains UNMET IN CODE. A stronger gate over a document is still a gate over a document, and the file now says so at the top.",
+      "status": "MACHINE_VERIFIED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "repair_matrix.out",
+      "sha256": "d21281bde459a434b9829599f5c3555653b2b6ab68115ba304ef68eb63024223",
+      "claim_ids": [
+        "c.repair-verified",
+        "c.defect-1-fixed",
+        "c.defect-2-fixed",
+        "c.defect-3-fixed",
+        "c.defect-4-new-garbled-verdict",
+        "c.defect-5-new-column-removed"
+      ]
+    },
+    {
+      "path": "repair_matrix.exit",
+      "sha256": "4bec864db787d14fa4dbc5a1c32fa53d8d59861411da27edbd2f676496e94b24",
+      "claim_ids": [
+        "c.repair-verified"
+      ]
+    },
+    {
+      "path": "probe_e11_v2.py",
+      "sha256": "f689b4d6ad346eee97f4e4c3905bb6eb7b018c296b2f1a1003c6ecc2fe290a60",
+      "claim_ids": [
+        "c.repair-verified"
+      ]
+    },
+    {
+      "path": "post_repair_cwd.txt",
+      "sha256": "57b569a002a66087ba87f0c94c778c4da97ad5388270dd9ee0e844e724825f42",
+      "claim_ids": [
+        "c.defect-3-fixed"
+      ]
+    },
+    {
+      "path": "post_repair_root.out",
+      "sha256": "bc0c120de23793aabf042d1ea362218bbffc94ea15d53f17c0d440877a8c3edd",
+      "claim_ids": [
+        "c.canonical-still-passes"
+      ]
+    },
+    {
+      "path": "post_repair_root.exit",
+      "sha256": "c1878d07c636cd37631dc02c63f0c580708d78de1f2bc05c1a3b607dabb60bb7",
+      "claim_ids": [
+        "c.canonical-still-passes"
+      ]
+    },
+    {
+      "path": "test_e11_authority_gate.py.post-ARM06",
+      "sha256": "033a8f70a0b486832d59b9bb1a070910b6f8120c3262e8873256a2341b1e6297",
+      "claim_ids": [
+        "c.canonical-still-passes",
+        "c.scope-unchanged"
+      ]
+    },
+    {
+      "path": "post_repair.sha256",
+      "sha256": "91cb98999e8d2e4ab7d6fbf86905fb2ab4f9309ba625396dee14b4fe3c5b207d",
+      "claim_ids": [
+        "c.canonical-still-passes"
+      ]
+    },
+    {
+      "path": "self_inflicted_bug.out",
+      "sha256": "2871e6b37e7e726ea16176809f3e84573a0f08732d95f4a5c40752ea22cd3a00",
+      "claim_ids": [
+        "c.self-inflicted-bug-found-and-fixed"
+      ]
+    },
+    {
+      "path": "self_inflicted_bug.exit",
+      "sha256": "11740dfbfc80415cdd5c65ccf63e68716c0272be926a0ee657051cc1ba40cd84",
+      "claim_ids": [
+        "c.self-inflicted-bug-found-and-fixed"
+      ]
+    },
+    {
+      "path": "repair_matrix.err",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "claim_ids": []
+    },
+    {
+      "path": "post_repair_root.err",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "claim_ids": []
+    },
+    {
+      "path": "self_inflicted_bug.err",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "claim_ids": []
+    },
+    {
+      "path": "test_e11_authority_gate.py.pre-ARM06",
+      "sha256": "5c15b9457d282d7f2db06963a2c67410fba93cd69371acf3e2be3be2a4ecd0d3",
+      "claim_ids": []
+    },
+    {
+      "path": "pre_repair.sha256",
+      "sha256": "4d972a40690926c0b6e364ccb4ce0aa6cb1f3c03120a10ad8688e257dc83a094",
+      "claim_ids": []
+    }
+  ],
+  "artifacts": [
+    "repair_matrix.out",
+    "repair_matrix.exit",
+    "probe_e11_v2.py",
+    "post_repair_cwd.txt",
+    "post_repair_root.out",
+    "post_repair_root.exit",
+    "test_e11_authority_gate.py.post-ARM06",
+    "post_repair.sha256",
+    "self_inflicted_bug.out",
+    "self_inflicted_bug.exit",
+    "repair_matrix.err",
+    "post_repair_root.err",
+    "self_inflicted_bug.err",
+    "test_e11_authority_gate.py.pre-ARM06",
+    "pre_repair.sha256"
+  ],
+  "tests": [
+    {
+      "command": "python3 Design/tests/test_e11_authority_gate.py   # repaired, canonical",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "post_repair_root.out",
+      "stderr_artifact": "post_repair_root.err",
+      "negative_control": false
+    },
+    {
+      "command": "python3 probe_e11_v2.py <scratch>   # 10 controls x {pre-repair, post-repair}",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "repair_matrix.out",
+      "stderr_artifact": "repair_matrix.err",
+      "negative_control": true
+    },
+    {
+      "command": "for d in <root> Design Design/tests Source /tmp; do (cd $d && python3 <abs>/test_e11_authority_gate.py); done   # cwd independence",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "post_repair_cwd.txt",
+      "stderr_artifact": "post_repair_cwd.txt",
+      "negative_control": true
+    },
+    {
+      "command": "python3 test_e11_authority_gate.py   # my first repair, substring parser",
+      "producer_exit_code": 2,
+      "result": "FAIL",
+      "stdout_artifact": "self_inflicted_bug.out",
+      "stderr_artifact": "self_inflicted_bug.err",
+      "negative_control": true
+    }
+  ],
+  "decisions_requested": [
+    "The repaired gate adds exit code 2 (\"could not evaluate\") alongside 0 and 1. Any CI wrapper that treats non-zero as breach will now report a harness fault as a breach — better than the old collision, but wrappers should branch on 1 vs 2. Confirm no existing runner depends on the old two-value contract."
+  ],
+  "risks": [
+    "The gate is stronger but still checks a DOCUMENT. DEFECT-1..5 were all failures to read the registry honestly; none of them, fixed, brings an E11 validator into existence. A.5 and the missing admission path are unchanged by this work.",
+    "PROCESS DEFECT, REPEATED: I overwrote the failing repair_matrix.out with the passing rerun before preserving it — the same artifact-loss mistake I reported for N6 in Task B. I caught it this time and reconstructed the broken parser to capture its failure as evidence, but the correct habit is to write failing runs to a distinct filename FIRST. Two occurrences in one cycle makes this a habit defect, not a slip.",
+    "My first repair reproduced the exact defect class under repair (substring matching). That it was caught only by the unmutated M0 control is the argument for always carrying a canonical-fixture control alongside the negative ones."
+  ],
+  "next_action": "Checklist A and B complete; A.5 OPEN by ruling. E11 gate defects 1-5 closed and verified. Awaiting next assignment or L4/L5 disposition on whether A closes on document evidence."
+}

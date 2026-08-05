@@ -1,0 +1,11 @@
+# state divergence vs canonical — separates INERT mutation from ORACLE BLIND SPOT
+N0_canonical                 exit=0 stderr_bytes=0
+  {"final_tick": 11901, "receipts": 776, "region_stress": {"0": 38, "1": 19, "2": 0, "3": 0, "4": 38, "5": 0, "6": 57, "7": 38, "8": 19, "9": 76}, "state_hash": "b36ad6d028e1b5452629df480c537adc7ce85e1b4b5b0fab4c95067506261cfa", "total_hp_lost": 560}
+N1_wave_damage_halved        exit=0 stderr_bytes=0
+  {"final_tick": 11901, "receipts": 776, "region_stress": {"0": 38, "1": 19, "2": 0, "3": 0, "4": 38, "5": 0, "6": 57, "7": 38, "8": 19, "9": 76}, "state_hash": "dfac8f32701096ebf7c164e0a04195782b5284de497837fc2d89520c947dd8ae", "total_hp_lost": 428}
+N3_strike_damage_halved      exit=0 stderr_bytes=0
+  {"final_tick": 11901, "receipts": 773, "region_stress": {"0": 38, "1": 19, "2": 0, "3": 0, "4": 34, "5": 0, "6": 53, "7": 34, "8": 16, "9": 72}, "state_hash": "2d088092475eee774fcf68b52960846329d13c7cc01c9f50091db8a22b55dfc7", "total_hp_lost": 2045}
+N4_skill_dampen_halved       exit=0 stderr_bytes=0
+  {"final_tick": 11901, "receipts": 776, "region_stress": {"0": 38, "1": 19, "2": 0, "3": 0, "4": 38, "5": 0, "6": 57, "7": 38, "8": 19, "9": 76}, "state_hash": "704d92cab7deacbd10eb625e5af4abc6aba4a49b131e0727b34acf7cdc03d25c", "total_hp_lost": 560}
+N5_strike_dampen_halved      exit=0 stderr_bytes=0
+  {"final_tick": 11901, "receipts": 776, "region_stress": {"0": 38, "1": 19, "2": 0, "3": 0, "4": 38, "5": 0, "6": 57, "7": 38, "8": 19, "9": 76}, "state_hash": "2cbb326a5c44c37a38d108c4a247c9b80d393f628444520bfaeb6bac6b37fb7c", "total_hp_lost": 560}

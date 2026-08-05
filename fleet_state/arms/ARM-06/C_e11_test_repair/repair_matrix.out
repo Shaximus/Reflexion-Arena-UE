@@ -1,0 +1,18 @@
+control                      why                                                    pre  post
+----------------------------------------------------------------------------------------------------
+M0_unmutated                 control: honest registry                               0    0   
+M1_boss_stability_writable   THE EXPLOIT reintroduced                               1    1   
+M2_release_delay_revoked     canon writability revoked                              1    1   
+M3_world_tick_writable       sim clock made writable                                1    1   
+M4_row_deleted               DEFECT-1: governed counter removed from the registry   0    1   
+M5_column_inserted           DEFECT-2: benign column added — must NOT be a false al 1    0   
+M6_doc_deleted               DEFECT-3: registry unreadable — must not look like a b 1    2   
+M7_wrong_cwd                 DEFECT-3: run from another directory                   1    0   
+M8_verdict_garbled           verdict cell unparseable — must not be silently read a 0    2   
+M9_write_column_renamed      the A2-writable column header is gone — document regre 0    2   
+
+exit codes: 0=met 1=GATE VIOLATED 2=cannot evaluate   ! = not as designed
+
+
+controls not behaving as designed: 0
+behaviour changed by the repair (6): ['M4_row_deleted', 'M5_column_inserted', 'M6_doc_deleted', 'M7_wrong_cwd', 'M8_verdict_garbled', 'M9_write_column_renamed']

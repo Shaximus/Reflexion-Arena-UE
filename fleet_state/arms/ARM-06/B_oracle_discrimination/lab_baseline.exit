@@ -1,0 +1,1 @@
+lab_harness_exit=1 (0 = every assertion discriminates; 1 = at least one never fails)

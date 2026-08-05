@@ -1,0 +1,23 @@
+patched modules: ['sim_mirror', 'sim_mirror_core', 'sim_mirror_rules', 'sim_mirror_companion']
+final tick=11901
+
+  WAVE_DAMAGE_DIV    reads=6        READ — mutating it is a live negative control
+  STRIKE_DAMAGE      reads=10       READ — mutating it is a live negative control
+  SKILL_DAMPEN       reads=2        READ — mutating it is a live negative control
+  STRIKE_DAMPEN      reads=14       READ — mutating it is a live negative control
+
+top 12 constants by read count:
+  STRESS_THRESHOLD         135181
+  DIFFUSION_RATE           70559
+  DAMP_CANCEL              66262
+  FOCUS_MAX                11902
+  FOCUS_REGEN              11901
+  ANCHOR_DRAIN             1794
+  MOVE_SPEED               958
+  ACCUMULATE_RATE          818
+  WEAVE_DURATION_TICKS     488
+  AFTERSHOCK_TICKS         162
+  RECOVER_TICKS            160
+  TRANSFER_STRESS_RATE     69
+
+watched-but-never-read: []

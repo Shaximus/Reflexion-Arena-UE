@@ -1,0 +1,1 @@
+probe_harness_exit=1 (0 = every mutation was caught; 1 = at least one was not)

@@ -1,0 +1,73 @@
+[N0_canonical] exit=0 stderr_bytes=0 
+    unmutated control — every assertion must PASS
+    final_tick       pass             expected 11901 (±0), got 11901
+    player_hp        pass             expected 840 (±0), got 840
+    companion_hp     pass             expected 900 (±0), got 900
+    boss_stability   pass             expected 0 (±0), got 0
+    total_hp_lost    pass             560 in [1, 10000000] — catches halved/doubled damage that end-state alone cannot see
+    outcome_flags    pass             {'boss_defeated': True, 'transfer_success': True, 'receipt_emitted': True} — NOTE: all t
+
+[N1_wave_damage_halved] exit=1 stderr_bytes=0 
+    THE KNOWN BLIND SPOT: release waves deal half damage
+    final_tick       pass             expected 11901 (±0), got 11901
+    player_hp        FAIL <-- caught  expected 840 (±0), got 922  <-- OFF BY 82
+    companion_hp     FAIL <-- caught  expected 900 (±0), got 950  <-- OFF BY 50
+    boss_stability   pass             expected 0 (±0), got 0
+    total_hp_lost    pass             428 in [1, 10000000] — catches halved/doubled damage that end-state alone cannot see
+    outcome_flags    pass             {'boss_defeated': True, 'transfer_success': True, 'receipt_emitted': True} — NOTE: all t
+
+[N2_wave_damage_doubled] exit=1 stderr_bytes=0 
+    release waves deal double damage
+    final_tick       pass             expected 11901 (±0), got 11901
+    player_hp        FAIL <-- caught  expected 840 (±0), got 680  <-- OFF BY -160
+    companion_hp     FAIL <-- caught  expected 900 (±0), got 800  <-- OFF BY -100
+    boss_stability   pass             expected 0 (±0), got 0
+    total_hp_lost    pass             820 in [1, 10000000] — catches halved/doubled damage that end-state alone cannot see
+    outcome_flags    pass             {'boss_defeated': True, 'transfer_success': True, 'receipt_emitted': True} — NOTE: all t
+
+[N3_strike_damage_halved] exit=1 stderr_bytes=0 
+    melee strike deals half damage
+    final_tick       pass             expected 11901 (±0), got 11901
+    player_hp        FAIL <-- caught  expected 840 (±0), got 215  <-- OFF BY -625
+    companion_hp     FAIL <-- caught  expected 900 (±0), got -110  <-- OFF BY -1010
+    boss_stability   FAIL <-- caught  expected 0 (±0), got 150  <-- OFF BY 150
+    total_hp_lost    pass             2045 in [1, 10000000] — catches halved/doubled damage that end-state alone cannot see
+    outcome_flags    FAIL <-- caught  {'boss_defeated': False, 'transfer_success': False, 'receipt_emitted': False} — NOTE: al
+
+[N4_skill_dampen_halved] exit=0 stderr_bytes=0 
+    the authored skill bleeds half the stress — counterplay weakened
+    final_tick       pass             expected 11901 (±0), got 11901
+    player_hp        pass             expected 840 (±0), got 840
+    companion_hp     pass             expected 900 (±0), got 900
+    boss_stability   pass             expected 0 (±0), got 0
+    total_hp_lost    pass             560 in [1, 10000000] — catches halved/doubled damage that end-state alone cannot see
+    outcome_flags    pass             {'boss_defeated': True, 'transfer_success': True, 'receipt_emitted': True} — NOTE: all t
+
+[N5_strike_dampen_halved] exit=0 stderr_bytes=0 
+    anchor strike bleeds half the stress
+    final_tick       pass             expected 11901 (±0), got 11901
+    player_hp        pass             expected 840 (±0), got 840
+    companion_hp     pass             expected 900 (±0), got 900
+    boss_stability   pass             expected 0 (±0), got 0
+    total_hp_lost    pass             560 in [1, 10000000] — catches halved/doubled damage that end-state alone cannot see
+    outcome_flags    pass             {'boss_defeated': True, 'transfer_success': True, 'receipt_emitted': True} — NOTE: all t
+
+==============================================================================
+DISCRIMINATION MATRIX — which control makes each assertion fail
+==============================================================================
+  final_tick       canonical=PASS  failed_under=0/5  *** NEVER FAILS — PROVES NOTHING ***
+  player_hp        canonical=PASS  failed_under=3/5  DISCRIMINATING
+      <- N1_wave_damage_halved
+      <- N2_wave_damage_doubled
+      <- N3_strike_damage_halved
+  companion_hp     canonical=PASS  failed_under=3/5  DISCRIMINATING
+      <- N1_wave_damage_halved
+      <- N2_wave_damage_doubled
+      <- N3_strike_damage_halved
+  boss_stability   canonical=PASS  failed_under=1/5  DISCRIMINATING
+      <- N3_strike_damage_halved
+  total_hp_lost    canonical=PASS  failed_under=0/5  *** NEVER FAILS — PROVES NOTHING ***
+  outcome_flags    canonical=PASS  failed_under=1/5  DISCRIMINATING
+      <- N3_strike_damage_halved
+
+non-discriminating assertions: 2  ['final_tick', 'total_hp_lost']
