@@ -1,0 +1,1 @@
+28151:(EngineCore pid=195411) INFO 08-04 23:50:16 [core.py:114] Initializing a V1 LLM engine (v0.24.0) with config: model='/home/shax/mnt_data/models/Qwen/Qwen3.5-27B', speculative_config=SpeculativeConfig(method='mtp', model='/home/shax/mnt_data/models/Qwen/Qwen3.5-27B', num_spec_tokens=6), tokenizer='/home/shax/mnt_d

@@ -1,0 +1,8 @@
+== controlled failure 'offload-plus-prefix' ==
+old_mainpid=238822
+kill_exit=0 t_kill=2026-08-05T00:02:05-03:00 t0=1785898925.572723659
+api_ready_after_s=143.6
+first_completion_after_s=146.8
+completion_body={"id":"chatcmpl-90a3ddbd8a9f341f","object":"chat.completion","created":1785899069,"model":"qwen27-mtp","choices":[{"index":0,"message":{"role":"assistant","content":"RECOVERED","refusal":null,"annotations":null,"audio":null,"function_call":null,"reasoning":null},"logprobs":null,"finish_reason":"stop","stop_reason":null,"token_ids":null,"routed_experts":null}],"service_tier":null,"system_fingerprint":"vllm-0.24.0-3eb87989","usage":{"prompt_tokens":19,"total_tokens":23,"completion_tokens":4,"prompt_tokens_details":null},"prompt_logprobs":null,"prompt_token_ids":null,"prompt_text":null,"kv_transfer_params":null}
+new_mainpid=250074 (old was 238822)
+restart_counter=11

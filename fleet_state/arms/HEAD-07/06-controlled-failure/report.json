@@ -1,0 +1,57 @@
+{
+  "report_version": "1.0",
+  "report_id": "HEAD-07-06-controlled-failure-20260805T0012",
+  "arm_id": "HEAD-07",
+  "goal_id": "head07-local-inference-gpu-execution",
+  "generated_at": "2026-08-05T00:12:00-03:00",
+  "state": "CHECKPOINT",
+  "chat_url": "UNKNOWN \u2014 not provided in brief; locator: worktree branch arm/head07-inference-fable",
+  "authority_ceiling": "local user shax; root/systemd mutations require interactive sudo escalation to founder",
+  "evidence_root": "fleet_state/arms/HEAD-07/evidence",
+  "claims": [
+    {
+      "status": "MACHINE_VERIFIED",
+      "text": "Two controlled failures executed this session, both recovered fully automatically with zero human action. Failure 1 (23:46:30 ADT, SIGKILL of MainPID 3864): API-ready in 117.0s, first real completion in 118.7s (cold caches). Failure 2 (23:49:51 ADT, SIGKILL of MainPID 178290): API-ready in 47.2s, first completion in 47.4s (warm caches). Both completions returned the exact requested token ('RECOVERED') with HTTP 200 and kill exit code 0 captured.",
+      "claim_id": "C1"
+    },
+    {
+      "status": "MACHINE_VERIFIED",
+      "text": "Recovery time is cache-state dependent: 117s cold vs 47s warm, a 2.5x spread. The briefing's '26 seconds' recovery claim was not reproduced by either measurement; treat 47-120s as the honest recovery envelope until a measurement with defined cache state says otherwise.",
+      "claim_id": "C2"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "06_controlled_failure_1_k5switch.txt",
+      "sha256": "6e3044a9e1fe9bdb3af172cc6b9d13d7cc61f6bf38030e639b5f72ccf408f9f0",
+      "claim_ids": [
+        "C1",
+        "C2"
+      ]
+    },
+    {
+      "path": "06_controlled_failure_2_k6restore.txt",
+      "sha256": "8bc0d5484125d81cae4979abad2ea24b6c0e325c5b54808af4666c479c18ece0",
+      "claim_ids": [
+        "C1",
+        "C2"
+      ]
+    }
+  ],
+  "artifacts": [
+    "Timer script preserved at evidence sibling 04_think_bench_script.py's directory; kill_recover.sh copied on request \u2014 timings and bodies are in the two evidence files"
+  ],
+  "tests": [
+    {
+      "name": "controlled_failure_x2",
+      "command": "kill -9 <MainPID>; poll /v1/models then /v1/chat/completions (script exit=0 both times)",
+      "result": "auto-restart by systemd Restart policy both times; new PIDs 178290 then 194692; per-boot restart counter 2",
+      "producer_exit_code": 0
+    }
+  ],
+  "decisions_requested": [],
+  "risks": [
+    "litellm-fronted consumers see 47-120s of connection-refused during any restart; anything with <2min timeouts should retry."
+  ],
+  "next_action": "DDR5 KV-offload experiment (item 5), YaRN escalation packet (item 7)."
+}

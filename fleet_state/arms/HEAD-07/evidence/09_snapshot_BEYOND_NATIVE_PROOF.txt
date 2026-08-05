@@ -1,0 +1,15 @@
+target http://127.0.0.1:8010  model qwen27-mtp  native 262,144
+building a haystack whose needle lands PAST native — measured, not assumed
+  haystack 336,410 tokens, needle at depth ~296,833
+  depth 296,833 > native 262,144  -> genuinely beyond-native
+
+POSITIVE  HTTP 200 in 270s -> 'ORCHID-SEVEN-LANTERN-8823'   retrieved=True
+
+NEGATIVE CONTROL: same size, NO needle. A codeword here would mean confabulation.
+NEGATIVE  HTTP 200 in 268s (336,481 tokens) -> 'NONE'   control_clean=True
+
+==========================================================================
+needle depth 296,833 > native 262,144 : True
+retrieved from beyond native            : True
+negative control did NOT confabulate    : True
+RESULT: 1M ATTENDED BEYOND NATIVE — PROVEN

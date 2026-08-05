@@ -1,0 +1,89 @@
+{
+  "report_version": "1.0",
+  "report_id": "HEAD-07-04-thinking-default-20260805T0005",
+  "arm_id": "HEAD-07",
+  "goal_id": "head07-local-inference-gpu-execution",
+  "generated_at": "2026-08-05T00:05:00-03:00",
+  "state": "CHECKPOINT",
+  "chat_url": "UNKNOWN \u2014 not provided in brief; locator: worktree branch arm/head07-inference-fable",
+  "authority_ceiling": "local user shax; root/systemd mutations require interactive sudo escalation to founder",
+  "evidence_root": "fleet_state/arms/HEAD-07/evidence",
+  "claims": [
+    {
+      "status": "MACHINE_VERIFIED",
+      "text": "Thinking OFF fails on CONTENT, not format: on a short rigid-contract selection task (10 seeded variants, temperature 0), enable_thinking=false scored 3/10 exactly-correct vs 10/10 with thinking on (Fisher exact one-sided p=0.0015). On a ~24k-char log-comprehension extraction task (8 variants): 5/8 off vs 8/8 on. Combined 8/18 vs 18/18, p=0.00017.",
+      "claim_id": "C1"
+    },
+    {
+      "status": "MACHINE_VERIFIED",
+      "text": "All 36 trials in BOTH modes produced strictly parseable bare JSON meeting the output contract format. The predecessor's framing (thinking off chosen for parse convenience; failures attributed to format at 24k chars) is not reproduced: format compliance was 100% everywhere; the off-mode failures are wrong selections/counts/extractions, including internally inconsistent outputs (count field contradicting ids length).",
+      "claim_id": "C2"
+    },
+    {
+      "status": "MACHINE_VERIFIED",
+      "text": "Measured cost of thinking ON at temperature 0 on the live K6/fp8_per_channel server: mean wall 0.29s -> 4.46s (short task) and 2.88s -> 27.58s (24k task); mean completion tokens 22.5 -> 745.9 and 120.8 -> 3485.2.",
+      "claim_id": "C3"
+    },
+    {
+      "status": "MACHINE_VERIFIED",
+      "text": "Corroborating prior receipt: QWEN27_MTP_K6_OPTIMIZATION_2026-07-30.md 'Important workload boundary' independently measured enable_thinking=false reducing MTP acceptance and throughput (61.088 tok/s K6 vs 82.574+ default), so thinking off is not even a raw-throughput win per output token on prose.",
+      "claim_id": "C4"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "04_think_bench_results.json",
+      "sha256": "64b35f5f97cc4521b08129a00b469c7174fb40bb8338731f8d3ef6453238b5df",
+      "claim_ids": [
+        "C1",
+        "C2",
+        "C3"
+      ]
+    },
+    {
+      "path": "04_think_bench_script.py",
+      "sha256": "c7b8790ca1f779c70c3915c461d629e96a1ab7712e6df7dfa3cd761b7aa84190",
+      "claim_ids": [
+        "C1",
+        "C2"
+      ]
+    },
+    {
+      "path": "04_think_bench_stdout.log",
+      "sha256": "12816326c7c43342035f1b1d35e3f7928c026faa3c9f8c2b081033cf6af217e7",
+      "claim_ids": [
+        "C1",
+        "C3"
+      ]
+    },
+    {
+      "path": "04_QWEN27_MTP_K6_OPTIMIZATION_2026-07-30.md",
+      "sha256": "2858564a8602c9bf90f29bed998eb640fdae952b9f4feeb65f4edbc1a0125ab8",
+      "claim_ids": [
+        "C4"
+      ]
+    }
+  ],
+  "artifacts": [
+    "Benchmark: 10 variants short rigid-contract + 8 variants 24k-char extraction, both modes, temp 0, seeded, mechanically scored (strict/lenient JSON, exact ground-truth equality)"
+  ],
+  "tests": [
+    {
+      "name": "think_bench",
+      "command": "python3 think_bench.py <out.json> against http://127.0.0.1:8010 (exit=0, 36/36 requests completed, 0 errors)",
+      "result": "off: 3/10 + 5/8 correct; on: 10/10 + 8/8; all outputs strict-JSON in both modes",
+      "producer_exit_code": 0
+    }
+  ],
+  "decisions_requested": [
+    {
+      "id": "D1",
+      "decision": "DEFAULT DECIDED BY MEASUREMENT: enable_thinking=true is the fleet default for any correctness-bearing task. enable_thinking=false is permitted only with an explicit latency justification AND a per-task measured error tolerance, because its measured error rate here was 70% (short contract) and 37.5% (24k extraction). Requesting Hannah Prime propagate this to mechanical-queue configs that inherited the predecessor's thinking=false."
+    }
+  ],
+  "risks": [
+    "Thinking ON costs ~10-15x wall latency and ~30x completion tokens on short tasks; queues sized on off-mode latency will need re-sizing.",
+    "The 24k task here is synthetic extraction; other 24k workloads may differ, but the direction (off-mode content errors) was consistent across both task shapes."
+  ],
+  "next_action": "Fresh K6 vs K5 single-variable measurement via user-owned boot-hook TUNED_K edit + MainPID kill (systemd auto-restart), which also produces item-6 controlled-failure recovery timings."
+}

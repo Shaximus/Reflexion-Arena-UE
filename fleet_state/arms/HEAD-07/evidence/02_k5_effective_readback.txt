@@ -1,0 +1,12 @@
+206134:[qwen-mtp-boot-tuning] online quantization BF16 -> fp8_per_channel (single-stream winner)
+207392:[qwen-mtp-boot-tuning] native MTP K=5 -> K=5 (qualified single-stream width)
+207393:[qwen-mtp-boot-tuning] max-num-seqs 5 -> 4 (protects known fatal MTP batch-5 path)
+207394:[qwen-mtp-boot-tuning] target+MTP attention FLASHINFER -> TRITON_ATTN (qualified full-graph path)
+207395:[qwen-mtp-boot-tuning] disabled CPU KV offload (qualified single-stream resident-KV path)
+207396:[qwen-mtp-boot-tuning] disabled experimental Mamba align prefix cache (qualified single-stream decode path)
+207397:[qwen-mtp-boot-tuning] enabled CUDA 13.2/13.0 CCCL compatibility for FlashInfer JIT
+207398:[qwen-mtp-boot-tuning] online quantization BF16 -> fp8_per_channel (single-stream winner)
+206152:(EngineCore pid=7019) INFO 08-04 22:58:27 [core.py:114] Initializing a V1 LLM engine (v0.24.0) with config: model='/home/shax/mnt_data/models/Qwen/Qwen3.5-27B', speculative_config=SpeculativeConfig(method='mtp', model='/home/shax/mnt_data/models/Qwen/Qwen3.5-27B', num_spec_tokens=6), tokenizer='/home/shax/mnt_data/models/Qwen/Qwen3.5-27B', skip_tokenizer_init=False, tokenizer_mode=auto, rev
+207416:(EngineCore pid=178805) INFO 08-04 23:46:53 [core.py:114] Initializing a V1 LLM engine (v0.24.0) with config: model='/home/shax/mnt_data/models/Qwen/Qwen3.5-27B', speculative_config=SpeculativeConfig(method='mtp', model='/home/shax/mnt_data/models/Qwen/Qwen3.5-27B', num_spec_tokens=5), tokenizer='/home/shax/mnt_data/models/Qwen/Qwen3.5-27B', skip_tokenizer_init=False, tokenizer_mode=auto, r
+207405:(APIServer pid=178290) INFO 08-04 23:46:46 [api_utils.py:273] non-default args: {'enable_auto_tool_choice': True,
+207541:(APIServer pid=178290) INFO 08-04 23:48:37 [metrics.py:120] SpecDecoding metrics: Mean acceptance length: 6.00, Accepted throughput: 0.46 tokens/s, Drafted throughput: 0.46 tokens/s, Accepted: 5 tokens, Drafted: 5 tokens, Per-position acceptance rate: 1.000, 1.000, 1.000, 1.000, 1.000, Avg Draft acceptance rate: 100.0%

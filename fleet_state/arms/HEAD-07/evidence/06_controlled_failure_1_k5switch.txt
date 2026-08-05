@@ -1,0 +1,8 @@
+== controlled failure 'k5-switch' ==
+old_mainpid=3864
+kill_exit=0 t_kill=2026-08-04T23:46:30-03:00 t0=1785897990.432218995
+api_ready_after_s=117.0
+first_completion_after_s=118.7
+completion_body={"id":"chatcmpl-b9488bde8d7c2ea5","object":"chat.completion","created":1785898107,"model":"qwen27-mtp","choices":[{"index":0,"message":{"role":"assistant","content":"RECOVERED","refusal":null,"annotations":null,"audio":null,"function_call":null,"reasoning":null},"logprobs":null,"finish_reason":"stop","stop_reason":null,"token_ids":null,"routed_experts":null}],"service_tier":null,"system_fingerprint":"vllm-0.24.0-6f3a5e15","usage":{"prompt_tokens":19,"total_tokens":23,"completion_tokens":4,"prompt_tokens_details":null},"prompt_logprobs":null,"prompt_token_ids":null,"prompt_text":null,"kv_transfer_params":null}
+new_mainpid=178290 (old was 3864)
+restart_counter=1

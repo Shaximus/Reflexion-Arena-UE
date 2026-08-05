@@ -1,0 +1,155 @@
+{
+  "report_version": "1.0",
+  "report_id": "HEAD-07-05-ddr5-kv-offload-20260805T0020",
+  "arm_id": "HEAD-07",
+  "goal_id": "head07-local-inference-gpu-execution",
+  "generated_at": "2026-08-05T00:20:00-03:00",
+  "state": "CHECKPOINT",
+  "chat_url": "UNKNOWN \u2014 not provided in brief; locator: worktree branch arm/head07-inference-fable",
+  "authority_ceiling": "local user shax; root/systemd mutations require interactive sudo escalation to founder; production architecture changes require L3+ approval \u2014 candidate presented, not promoted",
+  "evidence_root": "fleet_state/arms/HEAD-07/evidence",
+  "claims": [
+    {
+      "status": "MACHINE_VERIFIED",
+      "text": "KV offload WITHOUT prefix caching is impossible on this model: enabling the offloading connector (128 GiB) with prefix caching disabled crashes EngineCore at init \u2014 AssertionError 'gpu_block_size=262144 not divisible by hash_block_size=13369344. Hybrid models (e.g. Mamba+Attention) need --enable-prefix-caching to align block sizes.' The service crash-looped until I restored the hook (recovered automatically after restore, 42.2s).",
+      "claim_id": "C1"
+    },
+    {
+      "status": "MACHINE_VERIFIED",
+      "text": "KV offload WITH prefix caching (experiment 5b: keep --enable-prefix-caching + mamba align + 128 GiB offload) WORKS on this model, overturning the standing 'no KV reuse is possible' premise: engine initialized; 136 GB of DDR5 allocated as pinned CPU KV pool (free -g 21->163 GB used); identical 50k-token prompt TTFT 11.01s -> 1.03s (10.7x); prefix_cache_hits 0 -> 48,960 tokens; 1,864,433,664 bytes physically transferred GPU->CPU in 65ms (~28.7 GB/s); kv_offload metrics live.",
+      "claim_id": "C2"
+    },
+    {
+      "status": "MACHINE_VERIFIED",
+      "text": "Cost of 5b measured: GPU KV pool 1,436,030 -> 1,374,484 tokens (-4.3%); short-prompt decode unchanged (132.201 tok/s vs 131.4-131.6 baseline; output digest byte-identical 95f9d0...8af9, so the standard correctness gate passed); cold start 143.6s vs ~47s warm baseline; 136 GB host RAM committed.",
+      "claim_id": "C3"
+    },
+    {
+      "status": "MACHINE_VERIFIED",
+      "text": "Production was restored to the qualified profile after the experiments and confirmed: hook byte-identical to backup (cmp exit 0), 131.383 tok/s mean (stdev 0.02), same digest, RAM back to 25 GB used. The 5b configuration is presented as a CANDIDATE, not promoted \u2014 promoting it is an architecture decision above this arm's ceiling.",
+      "claim_id": "C4"
+    },
+    {
+      "status": "CLAIMED",
+      "text": "Dragonfly tensor-serving and zero-copy research docs (read: section maps + architecture sections) target 2-4 GB expert-weight tensor serving for the moe-precognition/eBPF-MoE stack \u2014 a different DDR5 consumer that requires standing up that serving stack; not implementable inside the qwen27-mtp lane this session. No number is claimed for it.",
+      "claim_id": "C5"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "05_offload_readback.txt",
+      "sha256": "4464775b68da154e10867869f2f36b70c343e3954a5bb2ee0044462704ea7bda",
+      "claim_ids": [
+        "C1"
+      ]
+    },
+    {
+      "path": "06_controlled_failure_3_offload.txt",
+      "sha256": "c7872c8a52f856d7e87923975abe700322a86c79fa67b2fc8fff86d22035f918",
+      "claim_ids": [
+        "C1"
+      ]
+    },
+    {
+      "path": "06_controlled_failure_4_restore.txt",
+      "sha256": "7087f14e855012dc34d5a2e7dc19146fa3168dc62959f4e3016b091eb4f0d0fd",
+      "claim_ids": [
+        "C1",
+        "C4"
+      ]
+    },
+    {
+      "path": "05_offload_5b_readback.txt",
+      "sha256": "7d7ba8452ec2d3d0f05494c6fb3038b2b9992a6f51314af6655c46e6d3d5f6a7",
+      "claim_ids": [
+        "C2",
+        "C3"
+      ]
+    },
+    {
+      "path": "05_reuse_probe.json",
+      "sha256": "2d86a223094c9530e7f56b692ce15e33f0ddef69dabb5446f7ad753779813808",
+      "claim_ids": [
+        "C2"
+      ]
+    },
+    {
+      "path": "05_ram_before_5b.txt",
+      "sha256": "9cc65cd528b16e78266c9add66113f4f9ea90434ec4b586b93cd59f3d55b996f",
+      "claim_ids": [
+        "C2"
+      ]
+    },
+    {
+      "path": "05_ram_after_5b.txt",
+      "sha256": "e0a59d0dddd08de778c8e12373569b54505bcc5b171fed12b567e67c10ce22e1",
+      "claim_ids": [
+        "C2"
+      ]
+    },
+    {
+      "path": "05_offload_5b_qualify.json",
+      "sha256": "4c8e950e82f92820e3d53d1a760eee500784626be02f151ddcff53fcdf2ed7fa",
+      "claim_ids": [
+        "C3"
+      ]
+    },
+    {
+      "path": "06_controlled_failure_5_offload_prefix.txt",
+      "sha256": "efae2fad2dcffacd96db05050594733f936849609f80f0f47c61c37e7c2bd62a",
+      "claim_ids": [
+        "C2",
+        "C3"
+      ]
+    },
+    {
+      "path": "05_final_production_confirm.json",
+      "sha256": "20dd10ed42c78a36c251845416e415952754dbe1cbf69bd923e63607f30009c7",
+      "claim_ids": [
+        "C4"
+      ]
+    },
+    {
+      "path": "06_controlled_failure_6_final_restore.txt",
+      "sha256": "57b9fbb359824a1cb54c2a27ab202d893cffab8b256afc9002a4a85d4e0e0bd9",
+      "claim_ids": [
+        "C4"
+      ]
+    }
+  ],
+  "artifacts": [
+    "Experiment mechanism: user-owned boot-hook edits + SIGKILL/auto-restart; no sudo; every intermediate state restored from byte-exact backup 02_hook_backup_k6.py",
+    "Before/after numbers for the DONE-WHEN clause: DDR5 0 -> 136 GB allocated; GPU->CPU KV bytes 0 -> 1.86 GB; repeated-50k-prompt TTFT 11.01s -> 1.03s"
+  ],
+  "tests": [
+    {
+      "name": "offload_no_prefix",
+      "command": "hook edit (128 GiB, prefix off) + kill (script exit=1: API never ready in 300s)",
+      "result": "EngineCore AssertionError, crash loop \u2014 REFUSED configuration, with the crash line preserved",
+      "producer_exit_code": 1
+    },
+    {
+      "name": "offload_with_prefix_5b",
+      "command": "hook edit (128 GiB, prefix kept) + kill (script exit=0) + qualify 3-run (exit=0) + reuse probe (exit=0)",
+      "result": "works; numbers in C2/C3",
+      "producer_exit_code": 0
+    },
+    {
+      "name": "final_restore",
+      "command": "cp backup + cmp + kill + qualify 3-run (all exit=0)",
+      "result": "production back at 131.383 tok/s, same digest",
+      "producer_exit_code": 0
+    }
+  ],
+  "decisions_requested": [
+    {
+      "id": "D1",
+      "decision": "Promote-or-not the 5b profile (prefix caching + mamba align + CPU KV offload) for long-context workloads. Measured gains: 10.7x TTFT on repeated long prefixes, 136 GB DDR5 in use, no short-prompt regression, digest-identical output on the standard gate. Measured costs: -4.3% GPU KV pool, ~100s slower cold start, 136 GB RAM commitment, and vLLM labels the offload API experimental. Interacts directly with the 1M YaRN decision (same workloads). This arm recommends qualifying 5b behind the same semantic-gate battery used for FP8 before any promotion."
+    }
+  ],
+  "risks": [
+    "vLLM marks OffloadingSpec experimental; mamba-align prefix cache was previously disabled as 'experimental' by the tuning session \u2014 one digest-identical standard-workload gate is necessary but not sufficient for long-context correctness.",
+    "My crash-loop window (23:53-23:59 ADT) put ~8 failed starts on the service; any consumer during that window saw refused connections."
+  ],
+  "next_action": "Item 7 envelope: YaRN escalation packet including cross-arm coordination flag."
+}

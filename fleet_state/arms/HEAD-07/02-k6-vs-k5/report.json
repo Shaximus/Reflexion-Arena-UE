@@ -1,0 +1,117 @@
+{
+  "report_version": "1.0",
+  "report_id": "HEAD-07-02-k6-vs-k5-20260805T0000",
+  "arm_id": "HEAD-07",
+  "goal_id": "head07-local-inference-gpu-execution",
+  "generated_at": "2026-08-05T00:00:00-03:00",
+  "state": "CHECKPOINT",
+  "chat_url": "UNKNOWN \u2014 not provided in brief; locator: worktree branch arm/head07-inference-fable",
+  "authority_ceiling": "local user shax; root/systemd mutations require interactive sudo escalation to founder",
+  "evidence_root": "fleet_state/arms/HEAD-07/evidence",
+  "claims": [
+    {
+      "status": "MACHINE_VERIFIED",
+      "text": "Fresh single-variable K6 vs K5 measurement on 2026-08-04/05, live production stack (fp8_per_channel, TRITON_ATTN, max_num_seqs=4, all held constant; only num_speculative_tokens changed via the user-owned boot hook): K6 = 131.476 tok/s mean decode (7 runs, stdev 0.053); K5 = 128.566 tok/s mean (7 runs, stdev 0.071). K6 wins by +2.26%. Same output sha256 95f9d0e9...c8af9 in every run of both arms \u2014 pure speed difference, zero output change.",
+      "claim_id": "C1"
+    },
+    {
+      "status": "MACHINE_VERIFIED",
+      "text": "Effective K was proven from the server's own engine-init lines bound to the live PIDs, not from config files: EngineCore pid=178805 shows num_spec_tokens=5 during the K5 arm; EngineCore pid=195411 shows num_spec_tokens=6 after restore; final 3-run confirmation at K6 = 131.590 tok/s, matching baseline within 0.09%.",
+      "claim_id": "C2"
+    },
+    {
+      "status": "MACHINE_VERIFIED",
+      "text": "Production was returned to its exact prior state: hook file byte-identical to backup (cmp exit 0), K6 readback confirmed, throughput confirmed. Prior-session receipts corroborate the same ordering at both precision layers: BF16 K5 82.574 vs K6 90.224 (+9.3%); FP8-per-tensor K5 112.712 vs K6 115.119 (+2.1%); per-channel receipts preserved in evidence.",
+      "claim_id": "C3"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "02_fresh_k6_fp8pc.json",
+      "sha256": "4c7638797089769e865a680e9c1e86bb3eee1b15814d3412bd79c3b639befff4",
+      "claim_ids": [
+        "C1"
+      ]
+    },
+    {
+      "path": "02_fresh_k5_fp8pc.json",
+      "sha256": "efcc87d9fd8d60202433d1f814a2c7dd09891325b6f89fb03deae03005cbd07a",
+      "claim_ids": [
+        "C1"
+      ]
+    },
+    {
+      "path": "02_k5_effective_readback.txt",
+      "sha256": "60b9946b64c3215e7e31297c3ee5a3f63a542c4e4130d91b45698bf8c2a7cb94",
+      "claim_ids": [
+        "C2"
+      ]
+    },
+    {
+      "path": "02_k6_restored_readback.txt",
+      "sha256": "557b6faafe535e35b25285413b39b131a713c85f600bb56feb28716157d87922",
+      "claim_ids": [
+        "C2",
+        "C3"
+      ]
+    },
+    {
+      "path": "02_k6_restored_confirm.json",
+      "sha256": "19891f9905ae8b2db939f661b40c9e1a011c59f13ec88f72b0e7075a393b6ae4",
+      "claim_ids": [
+        "C2",
+        "C3"
+      ]
+    },
+    {
+      "path": "02_hook_backup_k6.py",
+      "sha256": "c585d1be67b70c7179c18fcc06a4a060498008fd0c9324a9c44ae1d239d42976",
+      "claim_ids": [
+        "C3"
+      ]
+    },
+    {
+      "path": "qwen27_mtp_fp8_per_channel_k5_single_20260730.json",
+      "sha256": "12e505b65ce0107c68e0032787cdb3b5ba2c00c6c17a1f54ba2e148424aecc2a",
+      "claim_ids": [
+        "C3"
+      ]
+    },
+    {
+      "path": "qwen27_mtp_fp8_per_channel_k6_single_20260730.json",
+      "sha256": "768490830bd72f5c3ed4be6e439c11b79ff13d9fd153318e35e762aa10fdb7d8",
+      "claim_ids": [
+        "C3"
+      ]
+    }
+  ],
+  "artifacts": [
+    "Harness: /home/shax/Projects/pentarchy/local-inference/scripts/qualify_mtp_endpoint.py (temp 0, seed 424242, 192 tokens, digest-checked)",
+    "Method: TUNED_K edit in user-owned qwen_mtp_boot_tuning.py + SIGKILL of MainPID + systemd auto-restart; no sudo used; no root file touched"
+  ],
+  "tests": [
+    {
+      "name": "k6_fresh",
+      "command": "qualify_mtp_endpoint.py --repeats 7 --warmup-runs 2 (exit=0)",
+      "result": "131.476 tok/s mean, stdev 0.053, digest stable",
+      "producer_exit_code": 0
+    },
+    {
+      "name": "k5_fresh",
+      "command": "qualify_mtp_endpoint.py --repeats 7 --warmup-runs 2 (exit=0)",
+      "result": "128.566 tok/s mean, stdev 0.071, same digest",
+      "producer_exit_code": 0
+    },
+    {
+      "name": "k6_restore_confirm",
+      "command": "qualify_mtp_endpoint.py --repeats 3 (exit=0)",
+      "result": "131.590 tok/s mean",
+      "producer_exit_code": 0
+    }
+  ],
+  "decisions_requested": [],
+  "risks": [
+    "The two extra service restarts caused two brief outages (117s and 47s to API-ready) on the shared endpoint; flagged, in-lane, and both recovered automatically."
+  ],
+  "next_action": "FP8 and controlled-failure envelopes, then DDR5 KV-offload experiment."
+}

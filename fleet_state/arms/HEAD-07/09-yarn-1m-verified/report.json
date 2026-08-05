@@ -1,0 +1,55 @@
+{
+  "report_version": "1.0",
+  "report_id": "HEAD-07-09-yarn-1m-verified-20260805T0810",
+  "arm_id": "HEAD-07",
+  "goal_id": "head07-local-inference-gpu-execution",
+  "generated_at": "2026-08-05T08:10:00-03:00",
+  "state": "CHECKPOINT",
+  "chat_url": "UNKNOWN — not provided in brief; locator: worktree branch arm/head07-inference-fable",
+  "authority_ceiling": "local user shax; the sudo apply was authorized by Curtis at L3 and executed outside this arm; this arm performed independent verification only",
+  "evidence_root": "fleet_state/arms/HEAD-07/evidence",
+  "claims": [
+    {
+      "claim_id": "C1",
+      "status": "MACHINE_VERIFIED",
+      "text": "1M YaRN is LIVE and independently verified against the CURRENT process, closing the final DONE-WHEN item: MainPID 2189666 (started 07:33 ADT, after the foundry arm's verify sequence which ran against the earlier PID 2012457) reads back max_model_len=1048576 from /v1/models, and its engine-init line shows max_seq_len=1048576 with hf_overrides rope_scaling {yarn, factor 4.0, original 262144}, num_spec_tokens=6, fp8_per_channel, gpu-memory-utilization 0.87, GPU KV pool 1,563,388 tokens. A live completion probe returned HTTP 200 with the exact requested token."
+    },
+    {
+      "claim_id": "C2",
+      "status": "INDEPENDENTLY_VERIFIED",
+      "text": "The foundry arm's post-apply gate battery (snapshotted and hashed): 10/11 gates passed including V10 negative control (beyond 1,048,576 still refused HTTP 400 — the ceiling moved, not vanished) and V11 short-context quality (NLL +0.22% vs 5% tolerance, correctness 8/8 unchanged). The one FAIL (V9, needle inside native window — test construction) was subsequently CLOSED by their beyond-native probe: needle at depth 296,833 > native 262,144 retrieved exactly, with a clean no-needle negative control. YaRN cost on their same-method baseline: 101.8 -> 100.8 tok/s (~1%)."
+    },
+    {
+      "claim_id": "C3",
+      "status": "MACHINE_VERIFIED",
+      "text": "This arm's envelope 08 claim C2 ('the 100.5 baseline is contamination, not reproducible in a quiet window') is FALSIFIED and has been so marked in envelope 08: the foundry arm reproduced ~101 tok/s on the restored config with their prompt and A/B'd the methods at -0.9 tok/s — the gap versus this arm's 129.8-131.6 band was measurement METHOD (different prompt, different MTP acceptance), not contamination. The surviving correct part: V7 had to anchor on a same-method engine-fingerprinted baseline, which is what they recorded (101.8) before re-applying."
+    }
+  ],
+  "evidence": [
+    {"path": "09_postapply_readback.txt", "sha256": "77c5ec0e9f7c17e87403358216635ebdadd09306733c7143338391bcf5ddf1eb", "claim_ids": ["C1"]},
+    {"path": "09_live_serve_probe.json", "sha256": "631e6dd0ded61a9607f41252a1548841525dbe2a6744b3eb425ec463fd2361e3", "claim_ids": ["C1"]},
+    {"path": "09_snapshot_APPLIED.md", "sha256": "c249738585e45d24b36afb03d43a34b5ab041224c4c891a791c4f1757be58301", "claim_ids": ["C2", "C3"]},
+    {"path": "09_snapshot_VERIFY_AFTER.txt", "sha256": "9b5c2bb86242dd3e310f0e69519821dee54a31639f5ff6be57968d8f9fc8707c", "claim_ids": ["C2"]},
+    {"path": "09_snapshot_BEYOND_NATIVE_PROOF.txt", "sha256": "b1c388c6f50047bfc0dcfe4977e4f372661c7f9132eaab4524f92e223420b7c0", "claim_ids": ["C2"]},
+    {"path": "08_quiet_baseline.json", "sha256": "562b6ac79627c02a2b73659ae936705879ce7fdd92f15b9c135ca27d7110ca33", "claim_ids": ["C3"]}
+  ],
+  "artifacts": [
+    "Foundry arm originals: .../arm-00-fleet-foundry/fleet_state/foundry/evidence/head07/yarn-1m/{APPLIED.md, VERIFY_AFTER.txt, BEYOND_NATIVE_PROOF.txt, models_after.json, shortprompt_baseline.json, probe_beyond_native.py}",
+    "Envelope 08 amended in place: claim C2 status -> FALSIFIED with dated correction"
+  ],
+  "tests": [
+    {"name": "postapply_readback", "command": "tail /var/log/qwen27-mtp.log | grep engine-init lines for pid 2189666; curl /v1/models", "result": "max_seq_len=1048576, yarn factor 4.0, K=6, fp8_per_channel, KV pool 1,563,388 tokens, bound to live MainPID", "producer_exit_code": 0},
+    {"name": "live_serve_probe", "command": "curl -w %{http_code} POST /v1/chat/completions (exact-token contract)", "result": "HTTP 200, content exactly 'HEAD07-VERIFIED'", "producer_exit_code": 0}
+  ],
+  "decisions_requested": [
+    {
+      "id": "D1",
+      "decision": "Hannah Prime: with 1M live, the 5b candidate (prefix caching + CPU KV offload, envelope 05) becomes materially more valuable — long-context workloads now exist that would hit the 10.7x TTFT reuse win, and the KV-pool arithmetic changes (1M seq now possible vs 1.563M-token pool). Recommend scheduling the 5b semantic-gate qualification as the next HEAD-07 goal."
+    }
+  ],
+  "risks": [
+    "Long-context throughput is prefill-bound with no caching on the current profile (~1,980 tok/s prefill measured by foundry arm; a full 1M prompt is ≥8.8 min).",
+    "FP8 long-context quality beyond the V9/V11 probes has no broader receipt; V11 covered short prompts, V9 one retrieval shape."
+  ],
+  "next_action": "All six DONE-WHEN items complete and machine-proven. Await new tasking; recommend 5b qualification as next goal (D1)."
+}

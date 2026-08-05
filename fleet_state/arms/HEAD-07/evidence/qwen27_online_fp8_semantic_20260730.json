@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "label": "online-fp8-per-tensor-k6",
+  "endpoint": "http://127.0.0.1:8010/v1",
+  "model": "qwen27-mtp",
+  "seed": 424242,
+  "all_semantic_gates_passed": true,
+  "all_baseline_hashes_match": true,
+  "cases": [
+    {
+      "id": "literal",
+      "prompt": "Return exactly KESTREL_OK and nothing else.",
+      "expected": "KESTREL_OK",
+      "content": "KESTREL_OK",
+      "content_sha256": "13d160983288b5f2e40a029dba8fbaa94fd834fc68baa434dc85ac258b55ec3a",
+      "semantic_pass": true,
+      "baseline_hash_match": true
+    },
+    {
+      "id": "arithmetic",
+      "prompt": "Calculate 17 * 23 + 19. Return only the integer.",
+      "expected": "410",
+      "content": "410",
+      "content_sha256": "612111a352a571cbed3927ec6f74948849bcc9fe8489bf4f0d6235afdc0a4ad7",
+      "semantic_pass": true,
+      "baseline_hash_match": true
+    },
+    {
+      "id": "logic",
+      "prompt": "All kestrels are birds. Some birds migrate. Does it logically follow that some kestrels migrate? Return only YES or NO.",
+      "expected": "NO",
+      "content": "NO",
+      "content_sha256": "23794d91c53ae875c8e247d72561e35d9d06ee07c70c9e0dbcc977a6d161504a",
+      "semantic_pass": true,
+      "baseline_hash_match": true
+    },
+    {
+      "id": "sorting",
+      "prompt": "Sort [9, 2, 9, 1] in ascending order. Return only the compact JSON array.",
+      "expected": "[1,2,9,9]",
+      "content": "[1,2,9,9]",
+      "content_sha256": "b81c8303aea7d286058e34303a5d46771efd18d599fe5291676b19a45c2c7926",
+      "semantic_pass": true,
+      "baseline_hash_match": true
+    },
+    {
+      "id": "python",
+      "prompt": "In Python, what does sum(i*i for i in range(5)) evaluate to? Return only the integer.",
+      "expected": "30",
+      "content": "30",
+      "content_sha256": "624b60c58c9d8bfb6ff1886c2fd605d2adeb6ea4da576068201b6c6958ce93f4",
+      "semantic_pass": true,
+      "baseline_hash_match": true
+    },
+    {
+      "id": "causal_intervention",
+      "prompt": "A causes B and B causes C, with no other path from A to C. If an intervention fixes B=0 while A=1, is the A-to-C effect blocked? Return only YES or NO.",
+      "expected": "YES",
+      "content": "YES",
+      "content_sha256": "f9171164593756e56fb197327b529a4955590566560dbe62d586bff41be9d297",
+      "semantic_pass": true,
+      "baseline_hash_match": true
+    }
+  ]
+}

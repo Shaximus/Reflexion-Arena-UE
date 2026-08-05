@@ -1,0 +1,75 @@
+A0 thinking=False wall=0.3s strict_correct=False lenient=False finish=stop
+A0 thinking=True wall=4.01s strict_correct=True lenient=True finish=stop
+A1 thinking=False wall=0.25s strict_correct=False lenient=False finish=stop
+A1 thinking=True wall=3.81s strict_correct=True lenient=True finish=stop
+A2 thinking=False wall=0.29s strict_correct=False lenient=False finish=stop
+A2 thinking=True wall=5.75s strict_correct=True lenient=True finish=stop
+A3 thinking=False wall=0.32s strict_correct=False lenient=False finish=stop
+A3 thinking=True wall=4.21s strict_correct=True lenient=True finish=stop
+A4 thinking=False wall=0.32s strict_correct=True lenient=True finish=stop
+A4 thinking=True wall=4.52s strict_correct=True lenient=True finish=stop
+A5 thinking=False wall=0.29s strict_correct=True lenient=True finish=stop
+A5 thinking=True wall=4.56s strict_correct=True lenient=True finish=stop
+A6 thinking=False wall=0.25s strict_correct=False lenient=False finish=stop
+A6 thinking=True wall=3.93s strict_correct=True lenient=True finish=stop
+A7 thinking=False wall=0.28s strict_correct=True lenient=True finish=stop
+A7 thinking=True wall=5.26s strict_correct=True lenient=True finish=stop
+A8 thinking=False wall=0.28s strict_correct=False lenient=False finish=stop
+A8 thinking=True wall=4.34s strict_correct=True lenient=True finish=stop
+A9 thinking=False wall=0.28s strict_correct=False lenient=False finish=stop
+A9 thinking=True wall=4.24s strict_correct=True lenient=True finish=stop
+B0 thinking=False wall=2.55s strict_correct=False lenient=False finish=stop
+B0 thinking=True wall=24.67s strict_correct=True lenient=True finish=stop
+B1 thinking=False wall=2.81s strict_correct=True lenient=True finish=stop
+B1 thinking=True wall=21.48s strict_correct=True lenient=True finish=stop
+B2 thinking=False wall=3.14s strict_correct=True lenient=True finish=stop
+B2 thinking=True wall=26.99s strict_correct=True lenient=True finish=stop
+B3 thinking=False wall=3.04s strict_correct=False lenient=False finish=stop
+B3 thinking=True wall=33.36s strict_correct=True lenient=True finish=stop
+B4 thinking=False wall=2.99s strict_correct=True lenient=True finish=stop
+B4 thinking=True wall=37.69s strict_correct=True lenient=True finish=stop
+B5 thinking=False wall=2.76s strict_correct=True lenient=True finish=stop
+B5 thinking=True wall=26.63s strict_correct=True lenient=True finish=stop
+B6 thinking=False wall=2.89s strict_correct=True lenient=True finish=stop
+B6 thinking=True wall=24.92s strict_correct=True lenient=True finish=stop
+B7 thinking=False wall=2.9s strict_correct=False lenient=False finish=stop
+B7 thinking=True wall=24.9s strict_correct=True lenient=True finish=stop
+{
+ "A_thinking_False": {
+  "n": 10,
+  "strict_json_parse": 10,
+  "strict_correct": 3,
+  "lenient_correct": 3,
+  "mean_wall_s": 0.29,
+  "mean_completion_tokens": 22.5,
+  "errors": 0
+ },
+ "A_thinking_True": {
+  "n": 10,
+  "strict_json_parse": 10,
+  "strict_correct": 10,
+  "lenient_correct": 10,
+  "mean_wall_s": 4.46,
+  "mean_completion_tokens": 745.9,
+  "errors": 0
+ },
+ "B_thinking_False": {
+  "n": 8,
+  "strict_json_parse": 8,
+  "strict_correct": 5,
+  "lenient_correct": 5,
+  "mean_wall_s": 2.88,
+  "mean_completion_tokens": 120.8,
+  "errors": 0
+ },
+ "B_thinking_True": {
+  "n": 8,
+  "strict_json_parse": 8,
+  "strict_correct": 8,
+  "lenient_correct": 8,
+  "mean_wall_s": 27.58,
+  "mean_completion_tokens": 3485.2,
+  "errors": 0
+ }
+}
+exit=0

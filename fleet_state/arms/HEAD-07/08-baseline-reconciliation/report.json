@@ -1,0 +1,109 @@
+{
+  "report_version": "1.0",
+  "report_id": "HEAD-07-08-baseline-reconciliation-20260805T0020",
+  "arm_id": "HEAD-07",
+  "goal_id": "head07-local-inference-gpu-execution",
+  "generated_at": "2026-08-05T00:20:00-03:00",
+  "state": "CHECKPOINT",
+  "chat_url": "UNKNOWN \u2014 not provided in brief; locator: worktree branch arm/head07-inference-fable",
+  "authority_ceiling": "local user shax; this arm does not edit the foundry arm's staging files \u2014 reconciliation is routed through Hannah Prime",
+  "evidence_root": "fleet_state/arms/HEAD-07/evidence",
+  "claims": [
+    {
+      "status": "MACHINE_VERIFIED",
+      "text": "The service instability named in the foundry arm's APPLY.md BLOCKER has ENDED and its stability precondition is satisfied: MainPID 271094 has run since 2026-08-05 00:06:40 ADT, NRestarts frozen at 12, and journalctl shows ZERO restart/kill/start events since 00:07. The 'another operator editing qwen_mtp_boot_tuning.py and restarting repeatedly' was this arm's authorized single-variable experiments (K5 leg, offload legs), all concluded and restored by 00:06:40 with byte-identical hook and confirmed throughput; no further mutations will originate from this arm without new tasking.",
+      "claim_id": "C1"
+    },
+    {
+      "status": "FALSIFIED",
+      "text": "ORIGINAL CLAIM (falsified 2026-08-05 ~08:00 by the foundry arm's A/B measurement, see envelope 09): that the 100.5 tok/s APPLY.md baseline was contamination from this arm's experiment windows and not reproducible in a quiet window. FALSIFICATION: the foundry arm reproduced 101.4/100.5 tok/s on the restored config in a quiet window with THEIR prompt/method and A/B'd the two methods at -0.9 tok/s difference \u2014 the 100.5-vs-129.8 gap was measurement METHOD (different prompt, different MTP acceptance), not contamination. What survives: the operative prescription (anchor V7 only on a same-method, engine-fingerprinted pre-change baseline) was correct and is exactly what they did (recorded 101.8 same-method); the 129.268-131.590 quiet-window band for the qualify_mtp_endpoint.py prose workload remains real and machine-verified in this envelope's evidence.",
+      "claim_id": "C2"
+    },
+    {
+      "status": "CLAIMED",
+      "text": "The correct sequence per the foundry arm's own procedure is now unblocked: re-run verify_yarn_1m.py --record-baseline in the current quiet window (it self-guards against mid-capture restarts), then the apply escalation stands exactly as staged. This arm holds its measurement windows closed until Hannah assigns coordination.",
+      "claim_id": "C3"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "08_stability_proof.txt",
+      "sha256": "e5cf46985da06b5018d8917543ee7a8c026a3b07cc82999f147ba27c579740ec",
+      "claim_ids": [
+        "C1"
+      ]
+    },
+    {
+      "path": "08_quiet_baseline.json",
+      "sha256": "562b6ac79627c02a2b73659ae936705879ce7fdd92f15b9c135ca27d7110ca33",
+      "claim_ids": [
+        "C2"
+      ]
+    },
+    {
+      "path": "07_snapshot_APPLY.md",
+      "sha256": "cbf51df8cd026d4af7cb69d01e3d7981e9b85b357571b94c2549470f20dc767c",
+      "claim_ids": [
+        "C2"
+      ]
+    },
+    {
+      "path": "05_final_production_confirm.json",
+      "sha256": "20dd10ed42c78a36c251845416e415952754dbe1cbf69bd923e63607f30009c7",
+      "claim_ids": [
+        "C1",
+        "C2"
+      ]
+    },
+    {
+      "path": "02_fresh_k6_fp8pc.json",
+      "sha256": "4c7638797089769e865a680e9c1e86bb3eee1b15814d3412bd79c3b639befff4",
+      "claim_ids": [
+        "C2"
+      ]
+    },
+    {
+      "path": "02_k6_restored_confirm.json",
+      "sha256": "19891f9905ae8b2db939f661b40c9e1a011c59f13ec88f72b0e7075a393b6ae4",
+      "claim_ids": [
+        "C2"
+      ]
+    },
+    {
+      "path": "06_controlled_failure_6_final_restore.txt",
+      "sha256": "57b9fbb359824a1cb54c2a27ab202d893cffab8b256afc9002a4a85d4e0e0bd9",
+      "claim_ids": [
+        "C1"
+      ]
+    }
+  ],
+  "artifacts": [
+    "Foundry arm's updated APPLY.md snapshotted (07_snapshot_APPLY.md); their file is NOT edited by this arm \u2014 correction routed via this envelope",
+    "Tonight's quiet-window throughput band: 131.476 (7-run), 131.590 (3-run), 129.268 (3-run), 131.383 (3-run), 129.800 (5-run) \u2014 all digest-identical"
+  ],
+  "tests": [
+    {
+      "name": "stability_since_0007",
+      "command": "journalctl -u qwen27-mtp --since '2026-08-05 00:07' | grep -c 'Scheduled restart|status=|Started' (captured, count=0)",
+      "result": "0 events; NRestarts=12 unchanged; MainPID 271094 since 00:06:40",
+      "producer_exit_code": 0
+    },
+    {
+      "name": "quiet_baseline",
+      "command": "qualify_mtp_endpoint.py --repeats 5 --warmup-runs 2 (exit=0)",
+      "result": "129.800 tok/s mean, stdev 0.771, digest 95f9d0...8af9",
+      "producer_exit_code": 0
+    }
+  ],
+  "decisions_requested": [
+    {
+      "id": "D1",
+      "decision": "Hannah Prime: relay to the foundry arm that (a) the flapping was HEAD-07's concluded experiments, (b) their APPLY.md BLOCKER is stale and its 100.5 baseline contaminated, (c) verify_yarn_1m.py --record-baseline should be re-run in the current quiet window before the sudo escalation goes to Curtis. This arm will keep the service untouched; a measurement-window lock (even a lockfile convention in fleet_state) is requested for any future concurrent measurement."
+    }
+  ],
+  "risks": [
+    "Until --record-baseline is re-run, any application of the YaRN drop-in inherits a mis-anchored V7 revert threshold (85.4 instead of ~110 tok/s).",
+    "Boot-to-boot MTP drafter variance (129.3-131.6 across restarts, documented in the FP8 receipt too) means single-boot baselines carry ~2% inherent spread; V7's 85% margin absorbs this."
+  ],
+  "next_action": "Hold measurement windows closed; await Hannah's coordination ruling and the interactive-sudo apply authorization (unchanged from envelope 07)."
+}

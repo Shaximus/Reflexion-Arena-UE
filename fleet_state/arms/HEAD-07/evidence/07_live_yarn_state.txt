@@ -1,0 +1,12 @@
+captured 2026-08-05T00:09:54-03:00
+{"object":"list","data":[{"id":"qwen27-mtp","object":"model","created":1785899394,"owned_by":"vllm","root":"/home/shax/mnt_data/models/Qwen/Qwen3.5-27B","parent":null,"max_model_len":262144,"permission":[{"id":"modelperm-b6418a2e4550097a","object":"model_permission","created":1785899394,"allow_create_engine":false,"allow_sampling":true,"allow_logprobs":true,"allow_search_indices":false,"allow_view":true,"allow_fine_tuning":false,"organization":"*","group":null,"is_blocking":false}]}]}
+MainPID=271094
+total 92
+drwxrwxr-x 3 shax shax  4096 Aug  5 00:09 .
+drwxrwxr-x 4 shax shax  4096 Aug  4 23:26 ..
+-rw-rw-r-- 1 shax shax 12732 Aug  4 23:52 30-yarn-1m.conf
+-rw-rw-r-- 1 shax shax  7513 Aug  5 00:09 APPLY.md
+-rwxrwxr-x 1 shax shax 15606 Aug  4 23:51 preflight_yarn_1m.py
+drwxrwxr-x 2 shax shax  4096 Aug  5 00:07 __pycache__
+-rw-r--r-- 1 shax shax  6418 Aug  5 00:09 qwen27-mtp.service.PRIOR
+-rwxrwxr-x 1 shax shax 29473 Aug  5 00:07 verify_yarn_1m.py

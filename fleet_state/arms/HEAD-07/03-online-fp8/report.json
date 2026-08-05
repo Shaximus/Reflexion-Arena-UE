@@ -1,0 +1,75 @@
+{
+  "report_version": "1.0",
+  "report_id": "HEAD-07-03-online-fp8-20260805T0010",
+  "arm_id": "HEAD-07",
+  "goal_id": "head07-local-inference-gpu-execution",
+  "generated_at": "2026-08-05T00:10:00-03:00",
+  "state": "CHECKPOINT",
+  "chat_url": "UNKNOWN \u2014 not provided in brief; locator: worktree branch arm/head07-inference-fable",
+  "authority_ceiling": "local user shax; root/systemd mutations require interactive sudo escalation to founder",
+  "evidence_root": "fleet_state/arms/HEAD-07/evidence",
+  "claims": [
+    {
+      "status": "MACHINE_VERIFIED",
+      "text": "Online FP8 is APPLIED, not pending: the live server runs quantization=fp8_per_channel (engine-init readback bound to live PID; boot-hook transform line present on every boot on 2026-08-04). Model residency 28.06 GiB vs 51.02 GiB BF16; GPU KV pool 1,436,030 tokens. The briefing's gap list treated FP8 as unapplied because it read the systemd unit text.",
+      "claim_id": "C1"
+    },
+    {
+      "status": "MACHINE_VERIFIED",
+      "text": "Fresh measured confirmation on the live FP8-per-channel profile: 131.476 tok/s single-stream mean decode (7 runs, stdev 0.053) vs the preserved BF16 K6 control receipts at 90.224 tok/s \u2014 +45.7% single-stream, with the 2026-07-30 semantic-gate qualification receipts (12/12 gates passed, 6 byte-identical to BF16 control) preserved and hashed in evidence.",
+      "claim_id": "C2"
+    },
+    {
+      "status": "CLAIMED",
+      "text": "No fresh BF16 control was re-run this session. Decision: re-measuring BF16 would require two additional production restarts (~2-4 min outage) to reconfirm receipts that already exist on disk with digests and were fresh 5 days ago. Declined as cost without information. If Hannah wants a fresh BF16 leg it is one marker-file move + one kill away.",
+      "claim_id": "C3"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "01_effective_config_log.txt",
+      "sha256": "34a57b135687d030c47d6a94e95cec88c5a837a54b97008d1878406f53dec72c",
+      "claim_ids": [
+        "C1"
+      ]
+    },
+    {
+      "path": "02_fresh_k6_fp8pc.json",
+      "sha256": "4c7638797089769e865a680e9c1e86bb3eee1b15814d3412bd79c3b639befff4",
+      "claim_ids": [
+        "C2"
+      ]
+    },
+    {
+      "path": "qwen27_online_fp8_semantic_20260730.json",
+      "sha256": "d20fdb6c8d717102622377a8da8b2b39415cf8cb6c87f5ff3889ce9f39723a43",
+      "claim_ids": [
+        "C2"
+      ]
+    },
+    {
+      "path": "qwen27_bf16_semantic_control_20260730.json",
+      "sha256": "c3ab2c2ab10ad5604a8fb16a0e2e09b3541d9188fe35a9f01353301a8161fa3d",
+      "claim_ids": [
+        "C2"
+      ]
+    }
+  ],
+  "artifacts": [
+    "Verdict: APPLIED (fp8_per_channel, live), with fresh throughput confirmation and preserved correctness qualification",
+    "Rollback: remove /home/shax/Projects/pentarchy/local-inference/runtime/qwen27-mtp-online-fp8.enabled and restart (documented in marker file)"
+  ],
+  "tests": [
+    {
+      "name": "fp8_live_confirmation",
+      "command": "qualify_mtp_endpoint.py --repeats 7 (exit=0)",
+      "result": "131.476 tok/s on fp8_per_channel live profile",
+      "producer_exit_code": 0
+    }
+  ],
+  "decisions_requested": [],
+  "risks": [
+    "Semantic gates are a regression gate, not full benchmark equivalence; long-context FP8 quality at >100k tokens has no receipt yet and will matter for the 1M YaRN item."
+  ],
+  "next_action": "DDR5 KV-offload experiment, then YaRN escalation packet."
+}

@@ -1,0 +1,8 @@
+== controlled failure 'k6-restore' ==
+old_mainpid=178290
+kill_exit=0 t_kill=2026-08-04T23:49:51-03:00 t0=1785898191.710295569
+api_ready_after_s=47.2
+first_completion_after_s=47.4
+completion_body={"id":"chatcmpl-a6e6b8397297e7cf","object":"chat.completion","created":1785898238,"model":"qwen27-mtp","choices":[{"index":0,"message":{"role":"assistant","content":"RECOVERED","refusal":null,"annotations":null,"audio":null,"function_call":null,"reasoning":null},"logprobs":null,"finish_reason":"stop","stop_reason":null,"token_ids":null,"routed_experts":null}],"service_tier":null,"system_fingerprint":"vllm-0.24.0-fa66728d","usage":{"prompt_tokens":19,"total_tokens":23,"completion_tokens":4,"prompt_tokens_details":null},"prompt_logprobs":null,"prompt_token_ids":null,"prompt_text":null,"kv_transfer_params":null}
+new_mainpid=194692 (old was 178290)
+restart_counter=2

@@ -1,0 +1,4 @@
+== controlled failure 'offload-128g' ==
+old_mainpid=194692
+kill_exit=0 t_kill=2026-08-04T23:53:54-03:00 t0=1785898434.904710827
+FAIL: API never became ready within 300s; last curl exit=7 http=000

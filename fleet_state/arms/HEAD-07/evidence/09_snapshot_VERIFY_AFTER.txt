@@ -1,0 +1,42 @@
+target: http://127.0.0.1:8010   model: qwen27-mtp   service: qwen27-mtp
+============================================================================
+V1  server reachable
+  [PASS] V1: healthy after 0s
+V2  max_model_len from the server (/v1/models)
+  [PASS] V2: /v1/models reports 1,048,576
+V3  independent second readback (/tokenize)
+  [PASS] V3: /tokenize reports 1,048,576
+V4  the ENFORCED limit (from a refusal, not a reported field)
+  [PASS] V4: HTTP 400, enforced limit = 1048576
+V5  live process argv carries the override
+  [PASS] V5: MainPID=2012457 yarn-override=True max-model-len-1048576=True
+V6  a real completion returns real text
+  [PASS] V6: HTTP 200 -> 'The largest planet in our solar system is **Jupiter**.'
+V7  throughput vs the 126.0 tok/s floor
+  [PASS] V7: mean 99.4 tok/s over 3 runs (floor 126.0, baseline 101.8, need >= 86.5) -- NOTE: the PRE-CHANGE baseline was 101.8 tok/s, already below the 126.0 floor, so a floor breach here is NOT attributable to this change. Judge V7 on the relative test. runs=[{'run': 0, 'wall_s': 5.378, 'completion_tokens': 512, 'finish': 'length', 'tok_per_s': 95.2}, {'run': 1, 'wall_s': 5.214, 'completion_tokens': 512, 'finish': 'length', 'tok_per_s': 98.2}, {'run': 2, 'wall_s': 4.881, 'completion_tokens': 512, 'finish': 'length', 'tok_per_s': 104.9}]
+V8  262,145 tokens -- MEASURED-REJECTED pre-change -- must be ACCEPTED
+  [PASS] V8: HTTP 200 on 262,145 tokens in 170s
+V9  needle retrieval beyond native 262,144 (~300,000-token haystack of REAL text)
+      286,974 tokens, needle at >= 215,205 (NOT BEYOND native). No prefix caching, so this prefills in full: >= 2.4 min PROJECTED from a MEASURED 1,980 tok/s at 200k, and slower in practice.
+  [FAIL] V9: HTTP 200 in 266s, depth>=215,205 (beyond native=False), retrieved=True, out='PLUM-NINE-VERTEX-4417'
+V10 NEGATIVE CONTROL: beyond 1,048,576 must STILL be refused
+  [PASS] V10: HTTP 400 (must be 400), enforced limit=1048576
+V11 short-prompt quality vs the recorded pre-change baseline
+  [PASS] V11: NLL 12.5190 -> 12.5468 (+0.22%, tolerance +5%); quality 1.000 -> 1.000
+============================================================================
+  PASS  V1   healthy after 0s
+  PASS  V2   /v1/models reports 1,048,576
+  PASS  V3   /tokenize reports 1,048,576
+  PASS  V4   HTTP 400, enforced limit = 1048576
+  PASS  V5   MainPID=2012457 yarn-override=True max-model-len-1048576=True
+  PASS  V6   HTTP 200 -> 'The largest planet in our solar system is **Jupiter**.'
+  PASS  V7   mean 99.4 tok/s over 3 runs (floor 126.0, baseline 101.8, need >= 86.5) -- NOTE: the PRE-CHANGE baseline
+  PASS  V8   HTTP 200 on 262,145 tokens in 170s
+  FAIL  V9   HTTP 200 in 266s, depth>=215,205 (beyond native=False), retrieved=True, out='PLUM-NINE-VERTEX-4417'
+  PASS  V10  HTTP 400 (must be 400), enforced limit=1048576
+  PASS  V11  NLL 12.5190 -> 12.5468 (+0.22%, tolerance +5%); quality 1.000 -> 1.000
+============================================================================
+RESULT: FAILED -- 1 gate(s): V9
+Roll back:
+  sudo rm /etc/systemd/system/qwen27-mtp.service.d/30-yarn-1m.conf
+  sudo systemctl daemon-reload && sudo systemctl restart qwen27-mtp

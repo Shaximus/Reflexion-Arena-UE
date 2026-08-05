@@ -1,0 +1,98 @@
+{
+  "report_version": "1.0",
+  "report_id": "HEAD-07-07-yarn-1m-20260805T0025",
+  "arm_id": "HEAD-07",
+  "goal_id": "head07-local-inference-gpu-execution",
+  "generated_at": "2026-08-05T00:25:00-03:00",
+  "state": "CHECKPOINT",
+  "chat_url": "UNKNOWN \u2014 not provided in brief; locator: worktree branch arm/head07-inference-fable",
+  "authority_ceiling": "local user shax; the apply step requires interactive sudo (password) \u2014 BLOCKED on founder authority for exactly that step",
+  "evidence_root": "fleet_state/arms/HEAD-07/evidence",
+  "claims": [
+    {
+      "status": "MACHINE_VERIFIED",
+      "text": "1M YaRN remains UNAPPLIED: live server readback at 00:20 ADT shows max_model_len=262144 and /etc/systemd/system/qwen27-mtp.service.d/ contains only 20-mem-87.conf. No rope_scaling is configured anywhere in the effective config.",
+      "claim_id": "C1"
+    },
+    {
+      "status": "MACHINE_VERIFIED",
+      "text": "The staging I was briefed on (10-yarn-1m.conf) no longer exists; a concurrent arm replaced it during my session with 30-yarn-1m.conf (mtime 23:52) plus preflight_yarn_1m.py and verify_yarn_1m.py (executed ~00:07 per __pycache__). Their revision fixes a genuine killer defect: the 10- filename sorted BEFORE 20-mem-87.conf, whose bare ExecStart= reset would have silently reverted max-model-len to 262144 \u2014 the briefed staging was a no-op as written. Their revision also correctly keeps gpu-memory-utilization at the founder-authorized 0.87 and corrects max-num-seqs to 4.",
+      "claim_id": "C2"
+    },
+    {
+      "status": "MACHINE_VERIFIED",
+      "text": "CROSS-ARM CONTAMINATION, both directions, must be reconciled before apply: (a) their 30-yarn-1m.conf records 'native MTP K=5 -> K=5 (was K=6 before 23:46 today)' \u2014 that K=5 state was THIS arm's temporary single-variable experiment (23:46-23:50 ADT), not standing production; production is K=6, restored and confirmed at 131.383 tok/s with digest match at 00:07-00:09. (b) Their verify_yarn_1m.py executed ~00:07, inside my final restart window (kill 00:06:19, API ready 00:07:14) \u2014 any timing/liveness numbers it captured are suspect. Two arms measured one live service concurrently without a lock.",
+      "claim_id": "C3"
+    },
+    {
+      "status": "CLAIMED",
+      "text": "This arm's 5b measurement (prefix caching + CPU KV offload works on this model: 10.7x TTFT on repeated 50k-token prefixes, 1.86 GB GPU->CPU offloaded) is directly material to the YaRN decision, because 1M-context workloads are exactly where prefix reuse and CPU spill pay. The 30-yarn-1m.conf inherits the 'no KV reuse possible' premise, which item 05 falsified by measurement.",
+      "claim_id": "C4"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "07_live_yarn_state.txt",
+      "sha256": "f4a54a3e7bc174a8c3e32fc2dbdca3c7a964f9daf1ee239e561074dba6c653b4",
+      "claim_ids": [
+        "C1",
+        "C2"
+      ]
+    },
+    {
+      "path": "07_snapshot_30-yarn-1m.conf",
+      "sha256": "be3afc6914d5efc4a0017f2df1079ed9f6b0b65798ea6203125c6115b9c3b028",
+      "claim_ids": [
+        "C2",
+        "C3"
+      ]
+    },
+    {
+      "path": "07_snapshot_APPLY.md",
+      "sha256": "cbf51df8cd026d4af7cb69d01e3d7981e9b85b357571b94c2549470f20dc767c",
+      "claim_ids": [
+        "C2"
+      ]
+    },
+    {
+      "path": "02_k6_restored_readback.txt",
+      "sha256": "557b6faafe535e35b25285413b39b131a713c85f600bb56feb28716157d87922",
+      "claim_ids": [
+        "C3"
+      ]
+    },
+    {
+      "path": "05_final_production_confirm.json",
+      "sha256": "20dd10ed42c78a36c251845416e415952754dbe1cbf69bd923e63607f30009c7",
+      "claim_ids": [
+        "C3"
+      ]
+    }
+  ],
+  "artifacts": [
+    "Concurrent arm's staging (not mine, snapshotted read-only): .../arm-00-fleet-foundry/fleet_state/foundry/evidence/head07/yarn-1m/{30-yarn-1m.conf, preflight_yarn_1m.py, verify_yarn_1m.py, APPLY.md}"
+  ],
+  "tests": [
+    {
+      "name": "live_readback",
+      "command": "curl /v1/models + ls /etc/systemd/system/qwen27-mtp.service.d/",
+      "result": "max_model_len=262144; only 20-mem-87.conf installed",
+      "producer_exit_code": 0
+    }
+  ],
+  "decisions_requested": [
+    {
+      "id": "D1",
+      "decision": "BLOCKED on authority for the apply step, exactly: sudo install -D -m644 30-yarn-1m.conf /etc/systemd/system/qwen27-mtp.service.d/30-yarn-1m.conf && sudo systemctl daemon-reload && sudo systemctl restart qwen27-mtp. Interactive sudo password required; shax's sudoers has no NOPASSWD for systemctl on this unit. Founder (or an operator with the password) must run it; verification MUST then be by server readback (curl /v1/models must show max_model_len 1048576) plus the staged kill criteria \u2014 not by trusting the file."
+    },
+    {
+      "id": "D2",
+      "decision": "Hannah Prime should assign single ownership of the yarn-1m staging and of live-service measurement windows: two arms (this one and the arm-00-fleet-foundry occupant) measured and mutated overlapping state tonight. Their 30-yarn-1m.conf needs its K-width comment corrected (production is K=6) and their 00:07 verify run re-executed in a quiet window before the packet goes to Curtis."
+    }
+  ],
+  "risks": [
+    "If applied as-is, the 30- drop-in is sound per its own preflight, but the K=5 annotation could mislead a future operator into 'restoring' K=5, which measurement shows costs 2.26%.",
+    "1M-context FP8 output quality has no receipt at any length beyond the semantic gates; the staged kill criteria cover throughput and short-context regression only."
+  ],
+  "next_action": "Report completion to Hannah Prime; on sudo authorization, re-verify by readback and run the long-context probes (this arm's harnesses are preserved in evidence)."
+}

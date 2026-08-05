@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "label": "head07-post-offload-experiment-confirm",
+  "endpoint": "http://127.0.0.1:8010/v1",
+  "model": "qwen27-mtp",
+  "prompt": "Analyze why a speculative decoding pipeline can become slower when its draft model runs on a second, older GPU. Give a precise causal explanation and a concrete measurement plan.",
+  "max_tokens": 192,
+  "seed": 424242,
+  "warmup_runs": 2,
+  "thinking": "default",
+  "summary": {
+    "runs": 3,
+    "mean_decode_tokens_per_second": 129.268,
+    "median_decode_tokens_per_second": 129.375,
+    "min_decode_tokens_per_second": 128.782,
+    "max_decode_tokens_per_second": 129.648,
+    "stdev_decode_tokens_per_second": 0.443,
+    "all_runs_reached_max_tokens": true,
+    "output_equivalent_across_runs": true,
+    "content_sha256": "95f9d0e944bcb06bfeb13bee10865ec07c9f6ab2815ddf0f4f65a9c2a63c8af9",
+    "mean_draft_acceptance_rate": 0.576615
+  },
+  "runs": [
+    {
+      "completion_tokens": 192,
+      "prompt_tokens": 43,
+      "time_to_first_token_seconds": 0.097643,
+      "decode_seconds": 1.483127,
+      "wall_seconds": 1.58077,
+      "decode_tokens_per_second": 128.782,
+      "end_to_end_tokens_per_second": 121.46,
+      "finish_reason": "length",
+      "content_sha256": "95f9d0e944bcb06bfeb13bee10865ec07c9f6ab2815ddf0f4f65a9c2a63c8af9",
+      "draft_rounds": 85,
+      "accepted_draft_tokens": 338,
+      "draft_tokens": 510,
+      "draft_acceptance_rate": 0.662745,
+      "run": 1
+    },
+    {
+      "completion_tokens": 192,
+      "prompt_tokens": 43,
+      "time_to_first_token_seconds": 0.09972,
+      "decode_seconds": 1.476327,
+      "wall_seconds": 1.576047,
+      "decode_tokens_per_second": 129.375,
+      "end_to_end_tokens_per_second": 121.824,
+      "finish_reason": "length",
+      "content_sha256": "95f9d0e944bcb06bfeb13bee10865ec07c9f6ab2815ddf0f4f65a9c2a63c8af9",
+      "draft_rounds": 88,
+      "accepted_draft_tokens": 312,
+      "draft_tokens": 528,
+      "draft_acceptance_rate": 0.590909,
+      "run": 2
+    },
+    {
+      "completion_tokens": 192,
+      "prompt_tokens": 43,
+      "time_to_first_token_seconds": 0.100596,
+      "decode_seconds": 1.473216,
+      "wall_seconds": 1.573812,
+      "decode_tokens_per_second": 129.648,
+      "end_to_end_tokens_per_second": 121.997,
+      "finish_reason": "length",
+      "content_sha256": "95f9d0e944bcb06bfeb13bee10865ec07c9f6ab2815ddf0f4f65a9c2a63c8af9",
+      "draft_rounds": 91,
+      "accepted_draft_tokens": 260,
+      "draft_tokens": 546,
+      "draft_acceptance_rate": 0.47619,
+      "run": 3
+    }
+  ]
+}

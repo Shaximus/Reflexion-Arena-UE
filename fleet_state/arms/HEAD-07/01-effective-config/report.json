@@ -1,0 +1,71 @@
+{
+  "report_version": "1.0",
+  "report_id": "HEAD-07-01-effective-config-20260804T2330",
+  "arm_id": "HEAD-07",
+  "goal_id": "head07-local-inference-gpu-execution",
+  "generated_at": "2026-08-04T23:30:00-03:00",
+  "state": "CHECKPOINT",
+  "chat_url": "UNKNOWN \u2014 not provided in brief and no HEAD-07 entry found in foundry fleet_state registry; locator: worktree branch arm/head07-inference-fable",
+  "authority_ceiling": "local user shax; root/systemd mutations require interactive sudo (password) \u2014 escalation to founder, per staged APLY route",
+  "evidence_root": "fleet_state/arms/HEAD-07/evidence",
+  "claims": [
+    {
+      "status": "MACHINE_VERIFIED",
+      "text": "The live qwen27-mtp server (MainPID 3864, started 2026-08-04 22:58:15 ADT) is running MTP K=6, online fp8_per_channel quantization, max_num_seqs=4, TRITON_ATTN attention, max_seq_len 262144 with no rope_scaling, enable_prefix_caching=False, GPU KV pool 1,436,030 tokens, model residency 28.06 GiB. Read back from the server's own startup log for APIServer pid=3864, matching systemd MainPID=3864.",
+      "claim_id": "C1"
+    },
+    {
+      "status": "MACHINE_VERIFIED",
+      "text": "The briefing's machine-truth claim 'MTP K=5 IS live' is FALSE. The systemd ExecStart text (K=5, FLASHINFER, BF16) is rewritten at interpreter startup by qwen_mtp_boot_tuning.pth -> deploy/python_startup/qwen_mtp_boot_tuning.py, gated on runtime/qwen27-mtp-online-fp8.enabled. All three hook files exist and the transform fired on all three most recent boots (15:21, 20:36, 22:58 on 2026-08-04). Unit-file text is not effective config on this host.",
+      "claim_id": "C2"
+    },
+    {
+      "status": "MACHINE_VERIFIED",
+      "text": "Three flags present on the displayed command line are absent/disabled in the effective config: prefix caching disabled (enable_prefix_caching=False in engine init), kv_offloading and mamba-cache args not present in the server's non-default-args listing. The DDR5 KV-offload item therefore starts from zero offload, not from 64 GB.",
+      "claim_id": "C3"
+    },
+    {
+      "status": "CLAIMED",
+      "text": "The briefing's 150.8 tok/s 'K=5' measurement was actually taken against the K=6 + fp8_per_channel profile (its runs occurred while that profile was live per C1/C2 boot evidence); label, not number, was wrong. Prior 2026-07-31 auto-boot receipt in the .enabled marker: 131.139 tok/s single-stream, stdev 0.049, 10 runs.",
+      "claim_id": "C4"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "01_effective_config_log.txt",
+      "sha256": "34a57b135687d030c47d6a94e95cec88c5a837a54b97008d1878406f53dec72c",
+      "claim_ids": [
+        "C1",
+        "C2",
+        "C3"
+      ]
+    },
+    {
+      "path": "01_boot_hook_provenance.txt",
+      "sha256": "48aa93bf76364916b9229848a9aa59bd12d75b69ac334886eae62be7fb2e7f56",
+      "claim_ids": [
+        "C2",
+        "C4"
+      ]
+    }
+  ],
+  "artifacts": [
+    "/var/log/qwen27-mtp.log (root-owned source of record; extracted lines preserved in evidence)",
+    "/home/shax/Projects/pentarchy/local-inference/deploy/python_startup/qwen_mtp_boot_tuning.py sha256 c585d1be67b70c7179c18fcc06a4a060498008fd0c9324a9c44ae1d239d42976",
+    "/home/shax/Projects/pentarchy/local-inference/runtime/qwen27-mtp-online-fp8.enabled sha256 6af4a07f33ae99d7a3e2666f0d2b587b055e2eb9f1719d132112b781aa6436c3"
+  ],
+  "tests": [
+    {
+      "name": "MainPID-to-log binding",
+      "command": "systemctl show qwen27-mtp -p MainPID && grep 'APIServer pid=3864' extract",
+      "result": "MainPID=3864 == APIServer pid=3864 in the 22:58 startup block; effective config is bound to the live process, not inferred from files",
+      "producer_exit_code": 0
+    }
+  ],
+  "decisions_requested": [],
+  "risks": [
+    "Any observer reading systemctl status or the unit file will misreport production config (this already happened in my own briefing). Recommend a one-line comment in the unit file pointing at the boot hook.",
+    "Restart counter 8579 on this unit; 20:36 restart was predecessor's controlled SIGKILL, 22:58 was host reboot. High counter not yet explained; logged as open."
+  ],
+  "next_action": "Measure thinking on/off (no restart required), then fresh K6/FP8 throughput confirmation against documented receipts."
+}

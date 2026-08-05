@@ -1,0 +1,16 @@
+== boot hook provenance, captured 2026-08-04T23:28:20-03:00 ==
+MainPID=3864
+-rw-rw-r-- 1 shax shax 9530 Jul 31 01:07 /home/shax/Projects/pentarchy/local-inference/deploy/python_startup/qwen_mtp_boot_tuning.py
+-rw-rw-r-- 1 shax shax  443 Jul 31 01:08 /home/shax/Projects/pentarchy/local-inference/runtime/qwen27-mtp-online-fp8.enabled
+-rw-rw-r-- 1 shax shax  131 Jul 30 16:22 /home/shax/Projects/pentarchy/local-inference/vllm-stock-venv/lib/python3.12/site-packages/qwen_mtp_boot_tuning.pth
+58966a1beb415e954ed667a0151fac693df83e608688ea10097b071dc5f884dd  /home/shax/Projects/pentarchy/local-inference/vllm-stock-venv/lib/python3.12/site-packages/qwen_mtp_boot_tuning.pth
+c585d1be67b70c7179c18fcc06a4a060498008fd0c9324a9c44ae1d239d42976  /home/shax/Projects/pentarchy/local-inference/deploy/python_startup/qwen_mtp_boot_tuning.py
+6af4a07f33ae99d7a3e2666f0d2b587b055e2eb9f1719d132112b781aa6436c3  /home/shax/Projects/pentarchy/local-inference/runtime/qwen27-mtp-online-fp8.enabled
+== .enabled content ==
+Qualified production speed profile: online per-channel FP8 quantization of the
+complete BF16 checkpoint at load time, native MTP K=6, Triton target/drafter
+attention, resident GPU KV, and Mamba prefix-cache bookkeeping disabled.
+Fresh auto-boot receipt: 131.139 output tok/s for exactly one request on
+2026-07-31 (10 measured runs after 3 warmups; stdev 0.049 tok/s).
+
+Rollback: remove this marker and restart qwen27-mtp.service to load BF16.
