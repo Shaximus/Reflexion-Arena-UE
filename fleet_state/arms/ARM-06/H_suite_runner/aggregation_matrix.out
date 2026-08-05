@@ -1,0 +1,11 @@
+case                     stub exits     expected  actual  verdict
+--------------------------------------------------------------------------------------------
+C0_all_met               [0, 0, 0]      0         0       as designed   every test met
+C1_one_defect            [0, 1, 0]      1         1       as designed   a defect outranks everything
+C2_one_inconclusive      [0, 2, 0]      2         2       as designed   inconclusive is NOT a pass
+C3_defect_and_inconcl    [1, 2, 0]      1         1       as designed   defect must not be masked by inconclusive
+C4_inconcl_and_met       [2, 0, 0]      2         2       as designed   one unrun check taints the suite
+C5_unexpected_code       [0, 5, 0]      3         3       as designed   an unrecognised code is not a pass
+C6_empty_suite           []             2         2       as designed   an empty suite is not a passing suite
+
+aggregation cases not behaving as designed: 0  []

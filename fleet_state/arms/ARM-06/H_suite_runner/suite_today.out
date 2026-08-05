@@ -1,0 +1,51 @@
+  Design/tests — 3 test(s), run from /home/shax/.claude-squad/worktrees/arm/product-verification-v1_18c8af42232fea3a
+  test                                   exit  meaning        summary
+  ----------------------------------------------------------------------------------------------------
+  test_c10_read_anchors.py               1     DEFECT         1 STALE ANCHOR(S)
+  test_e11_admission_path.py             2     INCONCLUSIVE   exit 2 — nothing to exercise. This is NOT a pass and
+  test_e11_authority_gate.py             0     MET            ALL GATE CONDITIONS MET
+
+  ---- test_c10_read_anchors.py (exit 1, DEFECT) ----
+  |   §4.1 read anchors — 6 counters, resolved against Sim/
+  |   counter                  field                            anchor                     verdict
+  |   ------------------------------------------------------------------------------------------------
+  |   boss_stability           Stability                        RxBossEarthquake.h:75                 PASS
+  |   boss_tremor_stage        TremorStage                      RxBossEarthquake.h:81                 *** FAIL *** not at cited line; found at [64, 80]
+  |   boss_release_delay       ReleaseDelay                     RxBossEarthquake.h:78                 PASS
+  |   boss_prev_anchor_stress  PrevAnchorStress                 RxBossEarthquake.h:79                 PASS
+  |   boss_state_ticks         StateTicks                       RxBossEarthquake.h:73                 PASS
+  |   world_tick               Tick                             RxSimWorld.h:54                 PASS
+  | 
+  |   1 STALE ANCHOR(S)
+
+  ---- test_e11_admission_path.py (exit 2, INCONCLUSIVE) ----
+  |   E11 ADMISSION PATH — end-to-end authority control (Kestrel item 5)
+  |   UE sim  : /home/shax/.claude-squad/worktrees/arm/product-verification-v1_18c8af42232fea3a/Source/ReflexionArena/Sim
+  |   mirror  : /home/shax/Projects/core-tech/Reflexion-Arena/tools/oracle
+  | 
+  |   UE static scan: 0 occurrence(s) of ('adjust_counter', 'AdjustCounter')
+  | 
+  |   positive control — canonical spec admitted: True
+  |   effect vocabulary: ['destabilize_anchor']
+  | 
+  |   case                                         admitted  detail
+  |   ------------------------------------------------------------------------------------------------
+  |   adjust_counter{boss_stability}  THE EXPLOIT  False     effect must be one of ['destabilize_anchor']
+  |   adjust_counter{boss_release_delay}  CANON    False     effect must be one of ['destabilize_anchor']
+  | 
+  | 
+  |   PRODUCT_AUTHORITY_PATH_ABSENT — the exploit and the canon-legitimate case are refused IDENTICALLY
+  |   Same rule, same message. That is the effect VOCABULARY, not a counter allow-list.
+  |   A gate that also refuses the legitimate case is not a gate: the exploit is
+  |   UNREACHABLE, not GATED.
+  |   'adjust_counter' is not in LEGAL_EFFECTS (['destabilize_anchor']).
+  | 
+  |   exit 2 — nothing to exercise. This is NOT a pass and NOT a breach.
+
+  ====================================================================================================
+  met          : 1
+  DEFECT   (1) : 1  ['test_c10_read_anchors.py']
+  INCONCL. (2) : 1  ['test_e11_admission_path.py']
+  ====================================================================================================
+  1 and 2 are NOT the same result and are not summed. A defect is a
+  finding about the product; inconclusive means the check did not run.
