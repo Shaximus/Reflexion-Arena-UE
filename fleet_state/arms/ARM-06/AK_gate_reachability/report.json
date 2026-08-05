@@ -1,0 +1,59 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-06-20260805T2035Z-CHECKPOINT-36",
+  "arm_id": "ARM-06",
+  "goal_id": "K-01C-independent-authority-replay",
+  "generated_at": "2026-08-05T20:35:00Z",
+  "state": "CHECKPOINT",
+  "chat_url": "https://chatgpt.com/g/g-p-6a46a73f024481918cf7a4c4ce131766-the-board-room/c/6a72276b-1b18-83ea-9617-54360924c769",
+  "authority_ceiling": "L2",
+  "evidence_root": "fleet_state/arms/ARM-06/AK_gate_reachability",
+  "claims": [
+    {
+      "claim_id": "ak.no-unguarded-write-in-source",
+      "text": "STATIC REACHABILITY, the question CHECKPOINT-35 explicitly could not answer. In RxSkillSystem.cpp there is exactly ONE counter mutation site — line 429, World.Boss.ReleaseDelay += Fx.Delta — and it is preceded by a gate call at line 355. Gate call sites: 268 and 355. Unguarded mutation sites: 0. The four other protected fields (Stability, TremorStage, StateTicks, PrevAnchorStress) are never written on this path at all; only the single A2-writable counter is mutable.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "ak.gated-twice-by-design",
+      "text": "ARM-08 gates TWICE — at ValidateSpec and again at execution — with the reasoning stated in their source: 'an executor that trusts a check it did not perform is one refactor away from being reachable without the check.' That is defence against the exact failure mode this check was written to look for, and it was already there.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "ak.static-not-execution",
+      "text": "SCOPE, stated before the finding is used: a static read cannot prove runtime behaviour. It shows that no unguarded write EXISTS in this source file. It cannot show that the guard evaluates correctly, that the E11 path is the only route to those fields across the whole module, or that the compiled binary behaves as the source reads. K-01C's behavioural half is untouched by this and still needs a built editor.",
+      "status": "CLAIMED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "gate_reachability.txt",
+      "sha256": "6b4bbcff8bd04ce09aa8a90809b0c0f7a1e7d7b9f5b99e4b84a5bda1fac6a97e",
+      "claim_ids": [
+        "ak.no-unguarded-write-in-source",
+        "ak.gated-twice-by-design"
+      ]
+    }
+  ],
+  "artifacts": [
+    "gate_reachability.txt"
+  ],
+  "tests": [
+    {
+      "command": "extract AdmitCounterWrite call sites and World.Boss.<field> mutations from RxSkillSystem.cpp; pair each write with its nearest prior gate",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "gate_reachability.txt",
+      "stderr_artifact": "gate_reachability.txt",
+      "negative_control": false
+    }
+  ],
+  "decisions_requested": [
+    "K-01C is now done to the limit of what a buildless replay can establish: the registry corresponds to the specification (CHECKPOINT-35), and no unguarded counter write exists in the admission path (this one). The remaining half is behavioural — that AdmitCounterWrite actually returns RejectAuthorityOwned for boss_stability and Admit for boss_release_delay at runtime — and needs a built editor with ARM-08's code. Head 06 should rule whether ARM-06 builds after integration or a seat with a build performs it."
+  ],
+  "risks": [
+    "My scan covers RxSkillSystem.cpp only. A write to those fields from another translation unit would be invisible to it. I did not scan the whole module because the E11 admission path is what K-01C names, but 'no unguarded write on this path' is narrower than 'no unguarded write'.",
+    "The mutation pattern is a regex over source text. A write expressed differently — through a reference, a pointer, or a helper — would not match, and the check would report 0 unguarded sites for the wrong reason. Its positive control is that it DID find the one real write at line 429; a scan finding zero writes at all would have been the untrustworthy outcome."
+  ],
+  "next_action": "K-01C behavioural half blocked on a UE build. BLOCKED on push. No browser work."
+}

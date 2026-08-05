@@ -1,0 +1,23 @@
+STATIC REACHABILITY: can a counter be WRITTEN without passing the gate?
+The registry check (CHECKPOINT-35) verified the TABLE. This asks the
+question that check explicitly could not: is the gate CONSULTED on every
+path that mutates a counter?
+
+NOT EXECUTION. A static read cannot prove runtime behaviour; it can only
+show whether an unguarded write EXISTS in the source.
+
+  gate call sites (AdmitCounterWrite) : [268, 355]
+  field mutation sites                : [429]
+
+  line  429  ReleaseDelay       GUARDED  (nearest prior gate: 355)
+           World.Boss.ReleaseDelay += Fx.Delta;
+
+  mutation sites            : 1
+  unguarded mutation sites  : 0
+
+  FINDING: every counter mutation in this file is preceded by a gate call.
+  Exactly one field is mutated (ReleaseDelay, the single A2-writable
+  counter); the other four protected fields are never written on this path.
+  ARM-08 gates TWICE - at ValidateSpec and again at execution, with the
+  comment that an executor trusting a check it did not perform is one
+  refactor from being reachable without it.
