@@ -1,0 +1,22 @@
+BASELINE
+  test_c10_read_anchors.py         0
+  test_e11_admission_path.py       2
+  test_e11_authority_gate.py       0
+  test_k03b_trajectory.py          0
+
+mutation             target                           changed
+------------------------------------------------------------------------------------------------
+D1_gate_exploit      test_e11_authority_gate.py       e11_authority_:0->1
+                                                      DIAGONAL   (boss_stability marked A2-writable)
+D2_anchor_stale      test_c10_read_anchors.py         c10_read_ancho:0->1
+                                                      DIAGONAL   (one sim cite points at a nonexistent line)
+D3_transient         test_k03b_trajectory.py          k03b_trajector:0->1
+                                                      DIAGONAL   (permanent protected-field violation at tick 4000)
+D4_broken_gate       test_e11_admission_path.py       e11_admission_:2->1
+                                                      DIAGONAL   (mirror admits adjust_counter with no counter allow-list)
+
+================================================================================================
+mutations that are NOT diagonal: 0
+
+DIAGONAL: every mutation moved exactly its own test and left the other
+three at their clean verdicts. Each check is a diagnostic, not an alarm.

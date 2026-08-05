@@ -1,0 +1,67 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-06-20260806T0200Z-CHECKPOINT-40",
+  "arm_id": "ARM-06",
+  "goal_id": "wave1a-ARM-06-product-verification-v1",
+  "generated_at": "2026-08-06T02:00:00Z",
+  "state": "CHECKPOINT",
+  "chat_url": "https://chatgpt.com/g/g-p-6a46a73f024481918cf7a4c4ce131766-the-board-room/c/6a72276b-1b18-83ea-9617-54360924c769",
+  "authority_ceiling": "L2",
+  "evidence_root": "fleet_state/arms/ARM-06/AU_diagonal_matrix",
+  "claims": [
+    {
+      "claim_id": "au.suite-is-diagonal",
+      "text": "ARM-06's Design/tests suite is DIAGONAL, the bar Prime named and ARM-05 cleared. Four mutations, one aimed at each test, full suite run for every one: D1 (boss_stability marked A2-writable) moved ONLY the gate 0->1; D2 (a sim cite pointing at a nonexistent line) moved ONLY the anchors test 0->1; D3 (permanent protected-field violation at tick 4000) moved ONLY the trajectory audit 0->1; D4 (mirror admits adjust_counter with no counter allow-list) moved ONLY the admission control 2->1. Zero off-diagonal movements. Each check is a diagnostic that localises its own defect, not an alarm that fires whenever anything breaks.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "au.shared-input-decoupled-verdicts",
+      "text": "The strongest single result: test_e11_authority_gate and test_c10_read_anchors read the SAME file, RX_SKILL_ENUMS_V1.md, and the same §4.1 table — yet a mutation of the WRITE-SCOPE column moves only the gate, and a mutation of the CITE column moves only the anchors test. Shared input did not produce coupled verdicts, which is the failure mode I would have expected and which would have made a §4.1 edit unattributable between the two.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "au.admission-breach-branch-fired-for-real",
+      "text": "D4 drove the admission control from 2 INCONCLUSIVE to 1 BREACH against a mirror that genuinely admits adjust_counter for any counter. Its exit-1 branch had previously only fired against fake stub modules I wrote in CHECKPOINT-08; this is the first time it has refused a simulated real implementation. The control correctly identified that admitting the exploit is a breach rather than reporting the path merely present.",
+      "status": "MACHINE_VERIFIED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "diagonal.txt",
+      "sha256": "3cee60444d024af2069d144343726a855a77b3742284f234eda652a6434bf8e8",
+      "claim_ids": [
+        "au.suite-is-diagonal",
+        "au.shared-input-decoupled-verdicts",
+        "au.admission-breach-branch-fired-for-real"
+      ]
+    },
+    {
+      "path": "diagonal.py",
+      "sha256": "cb7d25e0901b87e6c2428655dd81bc4b83e505c8fbac7b4042c31d0701737c1e",
+      "claim_ids": [
+        "au.suite-is-diagonal"
+      ]
+    }
+  ],
+  "artifacts": [
+    "diagonal.txt",
+    "diagonal.py"
+  ],
+  "tests": [
+    {
+      "command": "python3 diagonal.py  # 4 aimed mutations x full 4-test suite, scratch tree only",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "diagonal.txt",
+      "stderr_artifact": "diagonal.txt",
+      "negative_control": true
+    }
+  ],
+  "decisions_requested": [],
+  "risks": [
+    "Diagonal on FOUR mutations I chose and aimed. That is evidence of independence, not proof of it. A mutation I did not think of could still move two tests at once, and the mutations were designed by the same person who wrote the tests — the structural weakness ARM-05's sibling replay exists to cover.",
+    "The admission control has three branches: ABSENT (2), PRESENT_BUT_UNEXERCISED (2) and BREACH (1). D4 exercised BREACH. PRESENT_BUT_UNEXERCISED was exercised separately in CHECKPOINT-33 against ARM-08's real C++ tree, but not inside this diagonal, so the matrix covers two of its three outcomes.",
+    "Every mutation ran against a SCRATCH copy. The real Design/tests and RX_SKILL_ENUMS_V1.md were never written, verified by the fact that the live suite still reports its baseline verdicts."
+  ],
+  "next_action": "Head report written to file; Kestrel down for rulings. BLOCKED on push."
+}
