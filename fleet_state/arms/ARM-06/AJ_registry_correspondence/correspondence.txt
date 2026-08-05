@@ -1,0 +1,22 @@
+REGISTRY CORRESPONDENCE: ARM-08's CODE registry vs §4.1's DOCUMENT registry
+Nobody else checks this. ARM-08 verifies their code; I verify the document;
+the CORRESPONDENCE between them is the seam where a divergence would hide.
+
+  code registry : 6 counters
+  doc  registry : 6 counters
+
+  counter                    code W  doc W  code cite                  doc cite                   verdict
+  ----------------------------------------------------------------------------------------------------------------------
+  boss_prev_anchor_stress    False   False  RxBossEarthquake.h:79      RxBossEarthquake.h:79      match
+  boss_release_delay         True    True   RxBossEarthquake.h:78      RxBossEarthquake.h:78      match
+  boss_stability             False   False  RxBossEarthquake.h:75      RxBossEarthquake.h:75      match
+  boss_state_ticks           False   False  RxBossEarthquake.h:73      RxBossEarthquake.h:73      match
+  boss_tremor_stage          False   False  RxBossEarthquake.h:80      RxBossEarthquake.h:80      match
+  world_tick                 False   False  RxSimWorld.h:54            RxSimWorld.h:54            match
+
+  membership equal : True
+  divergences      : 0
+
+  CODE AND DOCUMENT AGREE on all six counters: same membership, same
+  write-scope, same sim cite. The §4.1 repair and the C++ gate are the
+  same registry expressed twice.

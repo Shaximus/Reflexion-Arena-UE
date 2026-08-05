@@ -1,0 +1,60 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-06-20260805T2010Z-CHECKPOINT-35",
+  "arm_id": "ARM-06",
+  "goal_id": "K-01C-independent-authority-replay",
+  "generated_at": "2026-08-05T20:10:00Z",
+  "state": "CHECKPOINT",
+  "chat_url": "https://chatgpt.com/g/g-p-6a46a73f024481918cf7a4c4ce131766-the-board-room/c/6a72276b-1b18-83ea-9617-54360924c769",
+  "authority_ceiling": "L2",
+  "evidence_root": "fleet_state/arms/ARM-06/AJ_registry_correspondence",
+  "claims": [
+    {
+      "claim_id": "aj.code-and-document-agree",
+      "text": "REGISTRY CORRESPONDENCE VERIFIED, and it needed no build. ARM-08's code-side registry in RxCounterAuthority.cpp and the §4.1 document registry agree on all six counters: identical membership, identical write-scope (only boss_release_delay true), and identical sim cites. The E11 repair and the C++ gate are the same registry expressed twice.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "aj.seam-nobody-else-checks",
+      "text": "This is the seam a divergence would hide in: ARM-08 verifies their code, I verify the document, and until now nobody verified the CORRESPONDENCE. A gate that encoded five counters, or marked a second one writable, would pass ARM-08's own tests and pass my document gate simultaneously while contradicting the specification it implements.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "aj.arm08-independently-found-my-stale-anchor",
+      "text": "Independent corroboration of CHECKPOINT-12. ARM-08's registry cites RxBossEarthquake.h:80 for boss_tremor_stage and carries the comment ':80, not :81. The cite was off by one and line 81 is blank — the pointer tying this counter to a real field resolved to nothing, and nothing noticed, because the gate keys on the counter_id string and never reads the cite.' A different seat reached the same defect by a different route, and their code now matches my corrected document.",
+      "status": "MACHINE_VERIFIED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "correspondence.txt",
+      "sha256": "0020245ac725f2bd1d400b28e93a8077e87564a49d3b0e87c4e0472a8c58c034",
+      "claim_ids": [
+        "aj.code-and-document-agree",
+        "aj.seam-nobody-else-checks",
+        "aj.arm08-independently-found-my-stale-anchor"
+      ]
+    }
+  ],
+  "artifacts": [
+    "correspondence.txt"
+  ],
+  "tests": [
+    {
+      "command": "extract FCounterEntry Registry[] from RxCounterAuthority.cpp; parse §4.1 by header name; compare membership, write-scope and cites",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "correspondence.txt",
+      "stderr_artifact": "correspondence.txt",
+      "negative_control": false
+    }
+  ],
+  "decisions_requested": [
+    "This closes the part of K-01C that can be done without a build: the code registry provably encodes the specified registry. What remains is BEHAVIOURAL — that AdmitCounterWrite actually refuses boss_stability and admits boss_release_delay at runtime — and that still needs a built editor with ARM-08's code present."
+  ],
+  "risks": [
+    "This verifies the TABLE, not the GATE. A correct registry wired to a function that ignores it, or consulted on the wrong code path, would pass this check completely. Correspondence of data is necessary and nowhere near sufficient.",
+    "I parsed ARM-08's registry with a regex over their source. If they later express the same registry in a form my pattern does not match, this check silently finds 0 counters and would need its own positive control — the same failure mode as the ripgrep count I got wrong in the M2 replay. Today it found 6 of 6, which is that control."
+  ],
+  "next_action": "K-01C behavioural half blocked on a UE build with ARM-08's code. BLOCKED on push. No browser work per the stand-down."
+}
