@@ -1,0 +1,73 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-07-12-v11-and-dflash262k-20260805T1730",
+  "arm_id": "ARM-07",
+  "goal_id": "head07-dual-verdict-followups-v11-and-dflash262k",
+  "generated_at": "2026-08-05T17:30:00-03:00",
+  "state": "CHECKPOINT",
+  "chat_url": "https://chatgpt.com/g/g-p-6a46a73f024481918cf7a4c4ce131766-the-board-room/c/6a7227b3-db30-83ea-9332-dd024ed0fc67",
+  "authority_ceiling": "ARM-07 sole technical owner of qwen27-mtp; transactional lock windows (restore armed pre-mutation, exit trap, completion-before-release) per HEAD07 ruling",
+  "evidence_root": "fleet_state/arms/ARM-07/evidence",
+  "claims": [
+    {
+      "claim_id": "C1",
+      "status": "MACHINE_VERIFIED",
+      "text": "V11 characterization of 5b, using the foundry verifier's own functions and existing 5% tolerance (nothing invented): teacher-forced NLL 12.5605 -> 12.5564 (-0.03%), quality score 1.000 -> 1.000, zero regressed cases. WITHIN TOLERANCE. Per the ruling's mapping, qwen27-mtp-longprefix is PROMOTED to QUALIFIED OPT-IN. The verifier's YaRN-apply-specific guards (pre-1M baseline, frozen engine fingerprint) were bypassed and documented, because here the engine change IS the candidate."
+    },
+    {
+      "claim_id": "C2",
+      "status": "MACHINE_VERIFIED",
+      "text": "dflash262k booted and served — first DFlash serving on the 27B: DFlashDraftModel resolved, target+draft 32.18 GiB loaded, max_seq_len 262144, fp8 preserved, KV pool 916,767 tokens, NO Marlin fallback, API ready 122s. Measured vs in-window baseline: median decode 125.93 -> 155.65 tok/s (+23.6%, gate >=10%), OUTPUT DIGEST BYTE-IDENTICAL (35280d79 both arms — the hard identity requirement), battery 18/18, recovery cycle clean with dflash re-engaging, stable across 5 runs (stdev < 2%), draft acceptance 53.3% (MTP) -> 43.0% (dflash) at higher throughput — the parallel-drafting signature from the 4B pilot TRANSFERS to the 27B."
+    },
+    {
+      "claim_id": "C3",
+      "status": "MACHINE_VERIFIED",
+      "text": "dflash262k coded verdict: REJECT on exactly one gate — TTFT regression +38.54% relative, which exceeds the ruled 10%. The absolute numbers: median TTFT 43.7 ms -> 60.6 ms, a +16.9 ms delta attributable to the draft model's extra prefill pass. Every other ruled gate passed. Verdict stands as coded; this arm does not soften its own gate."
+    },
+    {
+      "claim_id": "C4",
+      "status": "MACHINE_VERIFIED",
+      "text": "Both windows ran under the new transactional protocol (restore armed before mutation, exit trap, final real completion before lock release) and both restored cleanly: canonical K6/FP8/YaRN-1M live-verified after each (final probe HTTP 200, /v1/models reads 1048576). No breach this cycle."
+    }
+  ],
+  "evidence": [
+    {"path": "12_v11_baseline.json", "sha256": "d88c378d1b75b5260849064ac6079b30b5b167f90e9db7f2e88ce63cf3f38d3f", "claim_ids": ["C1"]},
+    {"path": "12_v11_5b.json", "sha256": "6b9ede85d14cc0d8e2e98f075ebbd4c78026a539448423aa6a170743c4ff2b70", "claim_ids": ["C1"]},
+    {"path": "12_v11_verdict.json", "sha256": "251fc3e2e38d7d64f6269d8b9e65fc37fbacfa8bb50e213268405ec6565e0be7", "claim_ids": ["C1"]},
+    {"path": "12_v11_5b_boot.json", "sha256": "0b07406a992a54de73040fa5aaaba9aad22eb8dea202af368eea17d91d49891e", "claim_ids": ["C1", "C4"]},
+    {"path": "12_v11_restore.json", "sha256": "2e56633b9bc54c8d76e61f89eb3793ec7aadd7f465d9c68cf3d1feeae5304310", "claim_ids": ["C4"]},
+    {"path": "11_262kbaseline_qualify.json", "sha256": "11dbf3f7628b8b0b392c0dddee028f2a4165288604e717966520c8c3a2cfe5df", "claim_ids": ["C2", "C3"]},
+    {"path": "11_dflash262k_qualify.json", "sha256": "4a2ff4f17d8b8e372025037658694d368a15886428399180e41518a9c14fe26c", "claim_ids": ["C2", "C3"]},
+    {"path": "13_baseline.json", "sha256": "04161e7b507c3e4374ffd10733f3d15f8302fee5051a796b7887cf984715cda1", "claim_ids": ["C2", "C3"]},
+    {"path": "13_dflash262k_boot.json", "sha256": "ab3da81e7c51da52d5486ee221153ded69be6d7e2fef663de3642359d5204e5b", "claim_ids": ["C2"]},
+    {"path": "13_dflash262k_semantic.json", "sha256": "853df054a647da62c1675f77210ce8493234ddcc4a7cc11474afc614d4974472", "claim_ids": ["C2"]},
+    {"path": "13_dflash262k_recovery.json", "sha256": "2e0335e55d51b9b2bed3e47376ef00db0a40e081d32bbc3728196a449d2abffc", "claim_ids": ["C2", "C4"]},
+    {"path": "13_verdict.json", "sha256": "bb11b91ea9f555aa0332334d54bde8f5dd7199eaf274956b2d1a16f899495b33", "claim_ids": ["C3"]},
+    {"path": "13_restore.json", "sha256": "ce0d79021ed0f70a1dac9f431dcc9617c9d1030d5625852fe142e9127ee9755b", "claim_ids": ["C4"]}
+  ],
+  "artifacts": [
+    "fleet_state/arms/ARM-07/tools/arm07_txn_window.sh (transactional wrapper, first two live uses clean)",
+    "fleet_state/arms/ARM-07/tools/arm07_v11_qual.py, arm07_dflash262k_qual.py",
+    "fleet_state/arms/ARM-07/reports/HEAD_RULING_2_dual_verdict.md (ruling being executed)"
+  ],
+  "tests": [
+    {"name": "v11_characterization", "command": "arm07_txn_window.sh arm07_v11_qual.py (exit=0)", "result": "NLL -0.03% vs +5% tolerance; quality 1.0->1.0; PROMOTE per ruling", "producer_exit_code": 0},
+    {"name": "dflash262k_comparison", "command": "arm07_txn_window.sh arm07_dflash262k_qual.py (exit=0)", "result": "+23.6% decode, digest identical, 18/18, TTFT +38.5% rel (+16.9ms abs) — REJECT on TTFT gate alone", "producer_exit_code": 0},
+    {"name": "transactional_restores", "command": "exit-trap + finally restore, final completion probe both windows", "result": "both HTTP 200, canonical verified", "producer_exit_code": 0}
+  ],
+  "decisions_requested": [
+    {
+      "id": "D1",
+      "decision": "Head 07: dflash262k fails only the TTFT gate, and only in relative terms — +38.54% relative is +16.9 ms absolute (43.7 -> 60.6 ms), the draft's extra prefill pass, against +23.6% sustained decode with byte-identical output. Rule whether the TTFT gate should be absolute-bounded (e.g. <=100 ms) for short prompts. If re-scoped, dflash262k passes every gate materially, which per your stop rule is the evidence threshold for asking Curtis to reopen the 1M memory budget (2.44 GiB shortfall)."
+    },
+    {
+      "id": "D2",
+      "decision": "Head 07: 5b is now QUALIFIED OPT-IN per your V11 mapping. Two qualified opt-in profiles (longprefix, potentially dflash262k) plus canonical now exist; if both are retained, profile-selection routing (who chooses per-job) needs an owner and a mechanism — flagging for the next ruling, not proposing scope."
+    }
+  ],
+  "risks": [
+    "The dflash TTFT measurement is short-prompt only (43-token qualify prompt); TTFT at long prompt lengths was not measured in this bounded goal and the draft prefill cost scales with input length.",
+    "5b QUALIFIED OPT-IN and dflash262k are separate profiles measured separately; combining them (dflash + prefix caching) is unmeasured and out of scope."
+  ],
+  "next_action": "Single dual-result checkpoint to Kestrel Head 07 on the warm hannah-head07 tab, as ordered."
+}

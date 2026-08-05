@@ -1,0 +1,42 @@
+{
+ "rc": 0,
+ "summary": {
+  "A_thinking_False": {
+   "n": 10,
+   "strict_json_parse": 10,
+   "strict_correct": 2,
+   "lenient_correct": 2,
+   "mean_wall_s": 0.21,
+   "mean_completion_tokens": 22.2,
+   "errors": 0
+  },
+  "A_thinking_True": {
+   "n": 10,
+   "strict_json_parse": 10,
+   "strict_correct": 10,
+   "lenient_correct": 10,
+   "mean_wall_s": 3.84,
+   "mean_completion_tokens": 917.4,
+   "errors": 0
+  },
+  "B_thinking_False": {
+   "n": 8,
+   "strict_json_parse": 8,
+   "strict_correct": 6,
+   "lenient_correct": 6,
+   "mean_wall_s": 3.72,
+   "mean_completion_tokens": 119.0,
+   "errors": 0
+  },
+  "B_thinking_True": {
+   "n": 8,
+   "strict_json_parse": 8,
+   "strict_correct": 8,
+   "lenient_correct": 8,
+   "mean_wall_s": 66.26,
+   "mean_completion_tokens": 3264.6,
+   "errors": 0
+  }
+ },
+ "thinking_true_18_of_18": true
+}

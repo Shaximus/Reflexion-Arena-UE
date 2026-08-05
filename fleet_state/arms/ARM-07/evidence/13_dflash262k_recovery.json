@@ -1,0 +1,29 @@
+{
+ "restart": {
+  "tag": "dflash262k-recovery-cycle",
+  "old_pid": "1277563",
+  "kill_rc": 0,
+  "log_offset": 216888167,
+  "api_ready_s": 48.0,
+  "new_pid": "1373841"
+ },
+ "recovered": true,
+ "boot": {
+  "init_found": true,
+  "spec_config": "speculative_config=SpeculativeConfig(method='dflash', model='/home/shax/mnt_data/models/z-lab/Qwen3.5-27B-DFlash', num_spec_tokens=8)",
+  "num_spec": "8",
+  "max_seq_len": "262144",
+  "fp8": true,
+  "dflash_lines": [
+   "(APIServer pid=1373841) INFO 08-05 17:22:45 [api_utils.py:273] non-default args: {'enable_auto_tool_choice': True, 'tool_call_parser': 'qwen3_coder', 'host': '1",
+   "(APIServer pid=1373841) INFO 08-05 17:22:45 [model.py:598] Resolved architecture: DFlashDraftModel",
+   "(EngineCore pid=1374378) INFO 08-05 17:22:52 [core.py:114] Initializing a V1 LLM engine (v0.24.0) with config: model='/home/shax/mnt_data/models/Qwen/Qwen3.5-27"
+  ],
+  "marlin_lines": [],
+  "kv_pool": "(EngineCore pid=1374378) INFO 08-05 17:23:12 [kv_cache_utils.py:2146] GPU KV cache size: 938,490 tokens",
+  "model_residency": "(EngineCore pid=1374378) INFO 08-05 17:22:58 [gpu_model_runner.py:5255] Model loading took 32.18 GiB memory and 4.293999",
+  "expected_dflash": true,
+  "dflash_engaged": true,
+  "marlin_fallback": false
+ }
+}

@@ -1,0 +1,25 @@
+{
+ "restart": {
+  "tag": "restore-canonical",
+  "old_pid": "1373841",
+  "kill_rc": 0,
+  "log_offset": 216918296,
+  "api_ready_s": 48.0,
+  "new_pid": "1379790"
+ },
+ "ok": true,
+ "boot": {
+  "init_found": true,
+  "spec_config": "speculative_config=SpeculativeConfig(method='mtp', model='/home/shax/mnt_data/models/Qwen/Qwen3.5-27B', num_spec_tokens=6)",
+  "num_spec": "6",
+  "max_seq_len": "1048576",
+  "fp8": true,
+  "dflash_lines": [],
+  "marlin_lines": [],
+  "kv_pool": "(EngineCore pid=1380493) INFO 08-05 17:24:09 [kv_cache_utils.py:2146] GPU KV cache size: 1,563,388 tokens",
+  "model_residency": "(EngineCore pid=1380493) INFO 08-05 17:23:56 [gpu_model_runner.py:5255] Model loading took 28.44 GiB memory and 4.522543",
+  "expected_dflash": false,
+  "dflash_engaged": null,
+  "marlin_fallback": false
+ }
+}

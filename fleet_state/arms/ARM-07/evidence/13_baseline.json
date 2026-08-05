@@ -1,0 +1,37 @@
+{
+ "rc": 0,
+ "stderr_tail": "",
+ "summary": {
+  "runs": 5,
+  "mean_decode_tokens_per_second": 125.923,
+  "median_decode_tokens_per_second": 125.927,
+  "min_decode_tokens_per_second": 125.87,
+  "max_decode_tokens_per_second": 125.976,
+  "stdev_decode_tokens_per_second": 0.049,
+  "all_runs_reached_max_tokens": true,
+  "output_equivalent_across_runs": true,
+  "content_sha256": "35280d79f3e7fa87af9b9a5ab94a7798d6e684168048662fc49cfb2ccfa0f067",
+  "mean_draft_acceptance_rate": 0.532609
+ },
+ "warmups_discarded": 2,
+ "spec_decode_delta": {
+  "spec_decode_num_drafts_total": 322.0,
+  "spec_decode_num_draft_tokens_total": 1932.0,
+  "spec_decode_num_accepted_tokens_total": 1029.0
+ },
+ "acceptance_rate": 0.5326,
+ "ttfts": [
+  0.04348,
+  0.043731,
+  0.044292,
+  0.043423,
+  0.044237
+ ],
+ "decode_rates": [
+  125.927,
+  125.965,
+  125.976,
+  125.876,
+  125.87
+ ]
+}

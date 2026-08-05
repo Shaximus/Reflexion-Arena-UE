@@ -1,0 +1,26 @@
+{
+ "verdict": "REJECT \u2014 gate combination not met",
+ "gates": {
+  "digest_identity": true,
+  "battery_18_18": true,
+  "median_decode_uplift_pct": 23.6,
+  "uplift_gate_10pct": true,
+  "ttft_regression_pct": 38.54,
+  "ttft_gate_10pct": false,
+  "recovery_ok": true,
+  "restore_ok": true,
+  "stable_5_runs": true,
+  "acceptance_stats": {
+   "baseline": 0.5326,
+   "dflash": 0.4302,
+   "dflash_delta": {
+    "spec_decode_num_drafts_total": 301.0,
+    "spec_decode_num_draft_tokens_total": 2408.0,
+    "spec_decode_num_accepted_tokens_total": 1036.0
+   }
+  },
+  "marlin_fallback": false,
+  "baseline_mean": 125.923,
+  "dflash_mean": 155.649
+ }
+}
