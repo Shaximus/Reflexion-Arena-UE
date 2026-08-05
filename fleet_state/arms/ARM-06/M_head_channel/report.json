@@ -1,0 +1,76 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-06-20260805T0130Z-CHECKPOINT-14",
+  "arm_id": "ARM-06",
+  "goal_id": "wave1a-ARM-06-product-verification-v1",
+  "generated_at": "2026-08-05T01:30:00Z",
+  "state": "CHECKPOINT",
+  "chat_url": "https://chatgpt.com/g/g-p-6a46a73f024481918cf7a4c4ce131766-the-board-room/c/6a72276b-1b18-83ea-9617-54360924c769",
+  "authority_ceiling": "L2",
+  "evidence_root": "fleet_state/arms/ARM-06/M_head_channel",
+  "claims": [
+    {
+      "claim_id": "m.checkpoint-staged",
+      "text": "The Head 06 checkpoint is written and durable: CHANNEL_MESSAGE_ID ARM-06-20260805T0105Z-CKPT-01, REQUIRES_RESPONSE true, evidence_root fleet_state/arms/ARM-06. It carries the exact commands run, their real exit codes, file paths and sha256s for all five test files plus the oracle and the envelope validator, and separates PROVEN from CLAIMED from OPEN. Committed at 06aaabb.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "m.marked-undelivered",
+      "text": "The staged file declares its own delivery state in its header — line 10 reads 'STATUS: undelivered by ARM-06. See BLOCKED-2. This file is staged, not sent.' A staged file therefore cannot be mistaken for a sent message by anyone reading it, including a future session of mine.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "m.channel-blocked",
+      "text": "CLAIMED, NOT MACHINE_VERIFIED, and the distinction is deliberate. Every POST to the Kimi WebBridge daemon at http://127.0.0.1:10086/command was denied by the Claude Code permission layer — both the inline -d form and the --data-binary @file form, session name arm06-verification. Because the denial came from the harness rather than from a command that ran, there is NO captured stdout/stderr/exit-code artifact to point at. An assertion with no machine artifact behind it is CLAIMED, whatever my confidence in it. Two attempts were made and then stopped; no other channel was used.",
+      "status": "CLAIMED"
+    },
+    {
+      "claim_id": "m.daemon-state-unknown",
+      "text": "UNKNOWN whether the WebBridge daemon is running. The binary exists at ~/.kimi-webbridge/bin/kimi-webbridge, but no request ever reached the daemon, so its state was never observed. `kimi-webbridge start` was NOT run: starting a daemon I still could not send commands to would have produced a second unverifiable state rather than information.",
+      "status": "UNKNOWN"
+    },
+    {
+      "claim_id": "m.no-false-delivery",
+      "text": "No delivery was reported. The specific failure Head 06 flagged as costly — reporting a send on evidence that cannot distinguish 'sent and cleared' from 'never filled' — was avoided by never claiming a send at all. Verification by CHANNEL_MESSAGE_ID search in the rendered thread remains the standard for when the channel opens; it was not reached.",
+      "status": "CLAIMED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "CKPT-01_TO_HEAD06.md",
+      "sha256": "a128823332212454f3a1fd21882d5a77d86d63b4131bc8d0bffff58450f744f0",
+      "claim_ids": ["m.checkpoint-staged", "m.marked-undelivered"]
+    }
+  ],
+  "artifacts": [
+    "CKPT-01_TO_HEAD06.md"
+  ],
+  "tests": [
+    {
+      "command": "curl -s -X POST http://127.0.0.1:10086/command -H 'Content-Type: application/json' -d '{\"action\":\"list_tabs\",\"args\":{},\"session\":\"arm06-verification\"}'",
+      "producer_exit_code": -1,
+      "result": "BLOCKED",
+      "stdout_artifact": "",
+      "stderr_artifact": "",
+      "negative_control": false
+    },
+    {
+      "command": "curl -s -X POST http://127.0.0.1:10086/command -H 'Content-Type: application/json' --data-binary @wb_list.json",
+      "producer_exit_code": -1,
+      "result": "BLOCKED",
+      "stdout_artifact": "",
+      "stderr_artifact": "",
+      "negative_control": false
+    }
+  ],
+  "decisions_requested": [
+    "CHANNEL AUTHORITY: ARM-06 cannot reach Head 06. Needed is a Bash(curl:*) permission rule scoped to 127.0.0.1:10086, or a human pastes fleet_state/arms/ARM-06/reports/CKPT-01_TO_HEAD06.md into the Head 06 thread. Until one of those happens the direct-reporting topology does not function for this arm, and the three rulings requested in CKPT-01 (K-01 closure, E1-E16 roadmap-or-contract, oracle blind-window disposition) remain unanswered.",
+    "PUSH AUTHORITY, still open: 21 commits on arm/product-verification-v1 with no upstream configured. `git push -u origin arm/product-verification-v1` is denied by the permission layer despite an explicit standing grant. Needed is a Bash(git push:*) rule or `! git push -u origin arm/product-verification-v1` run in-session."
+  ],
+  "risks": [
+    "TWO channel-level blocks now stand against explicit authority grants — the push and the Head channel. Both are harness permission denials, not authority refusals, so granting more authority does not clear them; only a permission rule or a human action does. An arm that responded to these by finding another route would be reproducing the failure mode that killed a mandate four times in this fleet.",
+    "The entire cycle's output — 21 commits, 13 report envelopes, 130+ evidence files, the staged Head checkpoint — is reachable only from this worktree. If it is deleted, all of it is lost. This is the same condition that already destroyed one version of the behavioural oracle.",
+    "The three DOM failure modes Head 06 supplied (composer by role not position, newTab:true then find_tab, verify sends by CHANNEL_MESSAGE_ID) are recorded but UNAPPLIED, because no browser command was ever executed. They are untested guidance in this arm's hands, not proven procedure."
+  ],
+  "next_action": "BLOCKED on channel authority. On unblock: navigate newTab:true to the Head 06 /c/ URL under session arm06-verification, identify the composer by role with exactly one survivor asserted, send CKPT-01, verify by searching the rendered thread for CHANNEL_MESSAGE_ID ARM-06-20260805T0105Z-CKPT-01, then copy the reply to fleet_state/arms/ARM-06/reports/HEAD_RULING.md and execute the ruling."
+}
