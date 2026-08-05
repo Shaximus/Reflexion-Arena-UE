@@ -1,0 +1,66 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-06-20260805T1745Z-CHECKPOINT-29",
+  "arm_id": "ARM-06",
+  "goal_id": "K-03B-mandatory-verification-step",
+  "generated_at": "2026-08-05T17:45:00Z",
+  "state": "CHECKPOINT",
+  "chat_url": "https://chatgpt.com/g/g-p-6a46a73f024481918cf7a4c4ce131766-the-board-room/c/6a72276b-1b18-83ea-9617-54360924c769",
+  "authority_ceiling": "L2",
+  "evidence_root": "fleet_state/arms/ARM-06/AD_mandatory_negative_control",
+  "claims": [
+    {
+      "claim_id": "ad.mandatory-step-propagates-failure",
+      "text": "The mandatory step is not mandatory-and-ignored. Against a sim carrying a PERMANENT protected-field violation at tick 4000, the audit fails standalone (exit 1, '1 forbidden transient across 11902 ticks') AND the suite surfaces it: test_k03b_trajectory.py reported as '1 DEFECT — TRAJECTORY AUDIT FAILED'. Promoting a check to mandatory did not make it decorative.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "ad.defect-outranks-inconclusive-under-real-failure",
+      "text": "The suite exit code flipped from 2 to 1. With the admission control still INCONCLUSIVE and the trajectory audit now failing, the suite reports exit 1 DEFECT rather than 2 — a real defect outranks an unrun check, exactly as the aggregation rule specifies. That rule was previously only exercised against synthetic stub tests; this is the first time it has been confirmed with a genuine failing check inside the real suite.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "ad.canary-still-fires-in-a-dirty-world",
+      "text": "Under the dirty sim the canary check still passed — the audit caught its own planted transient at tick 3500 while separately reporting the permanent violation as a canonical failure. The two conditions are independent: a broken world does not disable the detector's self-test, and the detector reports both facts rather than collapsing them into one verdict.",
+      "status": "MACHINE_VERIFIED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "mandatory_negative_control.txt",
+      "sha256": "6df2a343b7bfe92b87b60f0ec72b4a41b0c00f4eb3ca49971bfbddf76b88319f",
+      "claim_ids": [
+        "ad.mandatory-step-propagates-failure",
+        "ad.defect-outranks-inconclusive-under-real-failure",
+        "ad.canary-still-fires-in-a-dirty-world"
+      ]
+    }
+  ],
+  "artifacts": [
+    "mandatory_negative_control.txt"
+  ],
+  "tests": [
+    {
+      "command": "RX_ORACLE_DIR=<dirty> python3 Design/tests/test_k03b_trajectory.py",
+      "producer_exit_code": 1,
+      "result": "FAIL",
+      "stdout_artifact": "mandatory_negative_control.txt",
+      "stderr_artifact": "mandatory_negative_control.txt",
+      "negative_control": true
+    },
+    {
+      "command": "RX_ORACLE_DIR=<dirty> python3 Design/tests/run_tests.py",
+      "producer_exit_code": 1,
+      "result": "FAIL",
+      "stdout_artifact": "mandatory_negative_control.txt",
+      "stderr_artifact": "mandatory_negative_control.txt",
+      "negative_control": true
+    }
+  ],
+  "decisions_requested": [],
+  "risks": [
+    "The violation is injected by patching a sandbox copy of the sim mirror, not by product code. This verifies the VERIFICATION PATH propagates a failure; it says nothing about whether the product can produce such a violation.",
+    "RX_ORACLE_DIR made this test easy, which also means a seat that sets it wrong gets a silently different sim. The audit exits 2 CANNOT EVALUATE when the mirror is missing, but it cannot detect a mirror that is present and wrong."
+  ],
+  "next_action": "A2 push remains with Hannah Prime and gates the A3 sibling replay. K-01C PENDING on ARM-08."
+}
