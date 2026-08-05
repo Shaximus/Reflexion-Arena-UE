@@ -1,0 +1,81 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-06-20260805T2300Z-M2ATTEST-04",
+  "arm_id": "ARM-06",
+  "goal_id": "kestrel-v2-attest-independent-verification",
+  "generated_at": "2026-08-05T23:00:00Z",
+  "state": "CHECKPOINT",
+  "chat_url": "https://chatgpt.com/g/g-p-6a46a73f024481918cf7a4c4ce131766-the-board-room/c/6a72276b-1b18-83ea-9617-54360924c769",
+  "authority_ceiling": "L2",
+  "evidence_root": "fleet_state/arms/ARM-06/AP_control_audit",
+  "claims": [
+    {
+      "claim_id": "ap.10of10-confirmed-as-shipped",
+      "text": "Prime's control suite does pass 10/10 as shipped, reproduced independently: positive attested injection, chain intact, human-typed bytes UNRESOLVED, near-miss payload UNRESOLVED, tampered receipt TAMPERED, tamper blocks attestation, deleted middle receipt TAMPERED, and no-chain UNRESOLVED. Exit 0.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "ap.control4-is-decorative",
+      "text": "FALSIFIED, narrowly — the suite's claim that 'each control was OBSERVED FAILING the case it exists to reject' does not hold for one of them. Control #4, named \"and does NOT claim 'human'\", asserts that the string 'human' appears in the response AND that the note 'NOT evidence of a human' is present. It checks its own explanatory prose, never the verdict. Mutation: I changed attest()'s absence verdict to the literal string 'HUMAN_TYPED_ORIGIN_UNRESOLVED' and left the note untouched. Control #4 PASSED. It cannot fail for the claim it is named after.",
+      "status": "FALSIFIED"
+    },
+    {
+      "claim_id": "ap.suite-nevertheless-holds",
+      "text": "IMPORTANT QUALIFICATION, and it is in Prime's favour: the suite as a whole still caught that mutation. Controls #3 (human-typed bytes -> UNRESOLVED) and #5 (near-miss payload -> UNRESOLVED) compare the verdict EXACTLY and both failed, taking the suite to 8/10 and exit 1. So the '10/10' is 9 real controls plus 1 that asserts its own prose — the suite is weaker than advertised by exactly one control, not compromised.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "ap.same-defect-as-my-own-oracle",
+      "text": "This is precisely the defect I found in my own behavioural oracle at CHECKPOINT-02: outcome_flags asserted three booleans while its detail string stated they were all True in the failing case — a check confirming its own warning text. Two independent seats, same failure mode: an assertion written about the explanation rather than about the behaviour. The minimum fix here is one line — assert r['verdict'] == 'ORIGIN_UNRESOLVED' and 'human' not in r['verdict'].lower(), instead of searching the serialised blob for a substring.",
+      "status": "MACHINE_VERIFIED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "controls.txt",
+      "sha256": "0a6ef2f5569aaccdc46f1656bb6fe02c774842729e31b551931c3d1bc788808d",
+      "claim_ids": [
+        "ap.10of10-confirmed-as-shipped"
+      ]
+    },
+    {
+      "path": "mutation.txt",
+      "sha256": "a2067e846ce0099a4a035390356b7ab0e5286369abffb703cfb2a413eb68bd21",
+      "claim_ids": [
+        "ap.control4-is-decorative",
+        "ap.suite-nevertheless-holds",
+        "ap.same-defect-as-my-own-oracle"
+      ]
+    }
+  ],
+  "artifacts": [
+    "controls.txt",
+    "mutation.txt"
+  ],
+  "tests": [
+    {
+      "command": "python3 test_attest_controls.py  # as shipped",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "controls.txt",
+      "stderr_artifact": "controls.txt",
+      "negative_control": false
+    },
+    {
+      "command": "python3 test_attest_controls.py  # against attest() mutated to return HUMAN_TYPED_ORIGIN_UNRESOLVED",
+      "producer_exit_code": 1,
+      "result": "FAIL",
+      "stdout_artifact": "mutation.txt",
+      "stderr_artifact": "mutation.txt",
+      "negative_control": true
+    }
+  ],
+  "decisions_requested": [
+    "One-line fix to control #4: assert r['verdict'] == 'ORIGIN_UNRESOLVED' and 'human' not in r['verdict'].lower(), rather than substring-searching the serialised response. The control's intent is right and its implementation cannot fail; nothing else in the suite needs changing."
+  ],
+  "risks": [
+    "I mutation-tested ONE control, the one whose implementation looked like prose-matching. The other nine were run but not individually mutation-tested, so I can say 9 of them compare verdicts or statuses exactly — which is structurally discriminating — but I have not demonstrated each one failing under a mutation aimed specifically at it.",
+    "My mutation targeted the absence path only. A mutation of the ATTESTED path might reveal a different weak control, and I did not attempt it."
+  ],
+  "next_action": "Return the control finding to Prime. BLOCKED on push. No browser work."
+}

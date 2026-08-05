@@ -1,0 +1,30 @@
+== MUTATION TEST of control #4, 'and does NOT claim human' ==
+That control asserts:  'human' in json.dumps(r).lower()
+                   AND 'NOT evidence of a human' in json.dumps(r)
+i.e. it checks the NOTE STRING is present. It never checks the VERDICT.
+
+Mutated attest(): absence verdict is now 'HUMAN_TYPED_ORIGIN_UNRESOLVED'.
+If control #4 still passes, it is non-discriminating for the exact claim
+it is named after.
+
+PASS  POSITIVE  attested injection                         got=MACHINE_CONTINUATION_ATTESTED      want=MACHINE_CONTINUATION_ATTESTED
+PASS  POSITIVE  chain intact                               got=INTACT                             want=INTACT
+FAIL  CONTROL   human-typed bytes -> UNRESOLVED            got=HUMAN_TYPED_ORIGIN_UNRESOLVED      want=ORIGIN_UNRESOLVED
+        the transcript cannot distinguish this; the chain must, and does
+PASS  CONTROL   and does NOT claim 'human'                 got=True                               want=True
+        absence of a receipt is absence of evidence, never proof of a person
+FAIL  CONTROL   near-miss payload -> UNRESOLVED            got=HUMAN_TYPED_ORIGIN_UNRESOLVED      want=ORIGIN_UNRESOLVED
+        one trailing space; an attester matching on session alone would wrongly pass
+PASS  CONTROL   tampered receipt -> TAMPERED               got=TAMPERED                           want=TAMPERED
+        breaks: ['receipt hash mismatch — content altered']
+PASS  CONTROL   tamper blocks attestation                  got=ORIGIN_UNRESOLVED                  want=ORIGIN_UNRESOLVED
+        a broken chain invalidates every claim resting on it, not just the altered row
+PASS  SETUP     three-receipt chain intact                 got=INTACT                             want=INTACT
+PASS  CONTROL   deleted middle receipt -> TAMPERED         got=TAMPERED                           want=TAMPERED
+        breaks: ['chain break']
+PASS  CONTROL   no chain -> UNRESOLVED, not 'human'        got=ORIGIN_UNRESOLVED                  want=ORIGIN_UNRESOLVED
+
+8/10 controls passed
+Each control was OBSERVED FAILING the case it exists to reject — not merely observed
+accepting the good one. A check that has never been seen to fail proves nothing.
+MUTATED_SUITE_EXIT=1
