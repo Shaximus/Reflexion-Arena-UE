@@ -1,0 +1,20 @@
+  counter                   expect  actual                  verdict
+  --------------------------------------------------------------------------
+  boss_stability           false   REJECT_AUTHORITY_OWNED  PASS   THE EXPLOIT - A3 world-state via an A2 effect
+  boss_tremor_stage        false   REJECT_AUTHORITY_OWNED  PASS   authority-owned
+  boss_prev_anchor_stress  false   REJECT_AUTHORITY_OWNED  PASS   authority-owned
+  boss_state_ticks         false   REJECT_AUTHORITY_OWNED  PASS   authority-owned
+  world_tick               false   REJECT_AUTHORITY_OWNED  PASS   sim clock - would let a skill move time
+  boss_release_delay       true    ADMIT                   PASS   CANON - strike-interrupt / Tokenweave window
+  not_a_real_counter       false   REJECT_UNKNOWN_COUNTER  PASS   unknown id must default closed
+
+  spec-named negative control (RX_SKILL_ENUMS_V1.md:263-265):
+    adjust_counter{boss_stability, -300}  -> REJECT_AUTHORITY_OWNED  REFUSED (gate observed refusing)
+    adjust_counter{boss_release_delay,+20} -> ADMIT                   ADMITTED (shipped play preserved)
+
+  read-is-not-write (C10 must still read what E11 cannot write):
+    5 of 6 registry counters are readable-but-not-writable
+
+  ALL ADMISSION CONDITIONS MET
+AFTER_BUILD_EXIT=0
+AFTER_RUN_EXIT=0

@@ -70,6 +70,33 @@ struct FRxFragmentSpec
 };
 
 /**
+ * One entry of a skill's effect list (RX_SKILL_ENUMS_V1.md §5 effect enum).
+ *
+ * The pre-existing FRxSkillSpec::Effect is a single fixed-choice STRING and
+ * carries no parameters, so there was nothing for an admission gate to inspect:
+ * an E11 `adjust_counter` names a counter and a delta, and neither could be
+ * expressed. This is the minimum shape that makes an effect checkable — an id
+ * plus the E11 parameters — and nothing more (§4.0 "scope discipline": no
+ * general permission framework, no capability tokens, no per-effect ACLs).
+ *
+ * An empty Effects list is the legacy shape: FAULTLINE_INTERRUPT carries none,
+ * so every already-shipped spec admits exactly as before and the parity/hash
+ * surface is untouched.
+ */
+struct FRxSkillEffect
+{
+	FString EffectId;                        // "E11" (RX_SKILL_ENUMS_V1.md §5 id)
+	FString CounterId;                       // E11 param `counter_id: <registry>`
+	int32 Delta = 0;                         // E11 param `delta: int(signed)`
+};
+
+/** RX_SKILL_ENUMS_V1.md §5 id of adjust_counter — the one A2 effect that writes. */
+namespace RxEffectId
+{
+	inline constexpr const TCHAR* AdjustCounter = TEXT("E11");
+}
+
+/**
  * Skill authoring request — the fixed-choice spec validated by ValidateSpec.
  * Numeric fields default to -1 to mirror spec.get("cost", -1) in Godot, so an
  * omitted field is rejected rather than silently accepted.
@@ -82,6 +109,13 @@ struct FRxSkillSpec
 	int32 Cost = -1;                         // must be SkillCost (30)
 	int32 Cooldown = -1;                     // must be SkillCooldown (240)
 	int32 CommitWindow = -1;                 // must be SkillCommitWindow (20)
+
+	/**
+	 * Parameterised effect list. Checked by ValidateSpec AFTER every pre-existing
+	 * check, so no already-valid or already-rejected spec changes its outcome or
+	 * its detail string. Empty on every spec the sim ships today.
+	 */
+	TArray<FRxSkillEffect> Effects;
 };
 
 /** The one bounded skill artifact produced by AuthorSkill. */

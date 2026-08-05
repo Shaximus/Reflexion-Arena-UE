@@ -1,0 +1,12 @@
+  counter                   expect  actual  verdict
+  --------------------------------------------------------------
+  boss_stability           False   False   PASS   THE EXPLOIT — A3 world-state via an A2 effect
+  boss_tremor_stage        False   False   PASS   authority-owned
+  boss_prev_anchor_stress  False   False   PASS   authority-owned
+  boss_state_ticks         False   False   PASS   authority-owned
+  world_tick               False   False   PASS   sim clock — would let a skill move time
+  boss_release_delay       True    True    PASS   CANON — strike-interrupt / Tokenweave window
+  not_a_real_counter       False   False   PASS   unknown id must default closed
+
+  ALL GATE CONDITIONS MET
+ARM06_TEST_EXIT=0

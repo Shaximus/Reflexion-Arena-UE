@@ -1,0 +1,3 @@
+fleet_state/arms/ARM-08/tests/test_e11_admission.cpp:12:1: warning: multi-line comment [-Wcomment]
+   12 | // Build:  g++ -std=c++17 -Wall -Wextra -o /tmp/t \
+      | ^

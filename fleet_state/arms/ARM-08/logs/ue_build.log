@@ -1,0 +1,54 @@
+Setting up bundled DotNet SDK
+Running command : dotnet Engine/Binaries/DotNET/UnrealBuildTool/UnrealBuildTool.dll ReflexionArenaEditor Linux Development -project=/home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/ReflexionArena.uproject -WaitMutex
+Starting shared memory files at 1
+Log file: /home/shax/Projects/UnrealEngine/UE-5.8/Engine/Programs/UnrealBuildTool/Log.txt
+Determining max actions to execute in parallel (16 physical cores, 32 logical cores)
+  Executing up to 16 processes, one per physical core
+Using 'git status' to determine working set for adaptive non-unity build (/home/shax/Projects/UnrealEngine/UE-5.8).
+Using 'git status' to determine working set for adaptive non-unity build (/home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9).
+Creating makefile for ReflexionArenaEditor (no existing makefile)
+UbaStorageServer - FileMapping backing: memfd
+UbaServer - Listening on 0.0.0.0:1345
+UHT compiled-in object format Default
+Building ReflexionArenaEditor...
+===== Toolchain Information =====
+Using ISPC compiler (/home/shax/Projects/UnrealEngine/UE-5.8/Engine/Source/ThirdParty/Intel/ISPC/bin/Linux/ispc)
+  Intel(r) Implicit SPMD Program Compiler (Intel(r) ISPC), 1.24.0 (build commit  @ 20240919, LLVM 18.1.6)
+Using Clang compiler 20.1.8 (/home/shax/Projects/UnrealEngine/UE-5.8/Engine/Extras/ThirdPartyNotUE/SDKs/HostLinux/Linux_x64/v26_clang-20.1.8-rockylinux8/x86_64-unknown-linux-gnu/bin/clang++)
+  clang version 20.1.8 (github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261) Target: x86_64-unknown-linux-gnu Thread model: posix InstalledDir: /home/shax/Projects/UnrealEngine/UE-5.8/Engine/Extras/ThirdPartyNotUE/SDKs/HostLinux/Linux_x64/v26_clang-20.1.8-rockylinux8/x86_64-unknown-linux-gnu/bin
+Using Clang archiver (/home/shax/Projects/UnrealEngine/UE-5.8/Engine/Extras/ThirdPartyNotUE/SDKs/HostLinux/Linux_x64/v26_clang-20.1.8-rockylinux8/x86_64-unknown-linux-gnu/bin/llvm-ar)
+  LLVM (http://llvm.org/):   LLVM version 20.1.8   Optimized build.
+Using toolchain located at '/home/shax/Projects/UnrealEngine/UE-5.8/Engine/Extras/ThirdPartyNotUE/SDKs/HostLinux/Linux_x64/v26_clang-20.1.8-rockylinux8/x86_64-unknown-linux-gnu'
+Using bundled libc++ standard C++ library.
+Compressing debug files
+[Adaptive Build] Excluded from ReflexionArena unity file: RxSkillSystem.cpp, RxCounterAuthority.cpp
+=================================
+Using Unreal Build Accelerator local executor to run 18 action(s)
+  CPU 16 physical cores, 32 logical cores
+  Memory 249.36 GB physical, 89.88 GB/132.68 GB committed
+  UBA Storage capacity 40 GB
+[1/18] Compile RxIntent.cpp
+[2/18] Compile Module.ReflexionArena.gen.cpp
+[3/18] Compile PerModuleInline.gen.cpp
+[4/18] Compile RxTerrain.cpp
+[5/18] Compile RxCommands.cpp
+[6/18] Compile ReflexionArena.cpp
+[7/18] Compile RxEncounters.cpp
+[8/18] Compile RxBossEarthquake.cpp
+[9/18] Compile RxCounterAuthority.cpp
+[10/18] Compile RxCanonJson.cpp
+[11/18] Compile RxReceipts.cpp
+[12/18] Compile RxCompanionAI.cpp
+[13/18] Compile RxDataSource.cpp
+[14/18] Compile RxSkillSystem.cpp
+[15/18] Compile RxSimWorld.cpp
+[16/18] Compile RxOracleCommandlet.cpp
+[17/18] Link libUnrealEditor-ReflexionArena.so
+[18/18] WriteMetadata ReflexionArenaEditor.target [NoUba]
+
+Total time in Unreal Build Accelerator local executor: 3.61 seconds
+Output binary: /home/shax/Projects/UnrealEngine/UE-5.8/Engine/Binaries/Linux/UnrealEditor
+
+Result: Succeeded
+Total execution time: 174.51 seconds
+Trace written to file /home/shax/Projects/UnrealEngine/UE-5.8/Engine/Programs/UnrealBuildTool/Trace.uba with size 16.9kb

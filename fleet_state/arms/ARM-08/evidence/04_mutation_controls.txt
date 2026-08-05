@@ -1,0 +1,122 @@
+=== MUTATION [A]: boss_stability -> A2-writable (reopens the hole) ===
+--- diff vs shipped registry ---
+18c18
+< 	{ "boss_stability",          false, "FRxBossEarthquake::Stability        RxBossEarthquake.h:75" },
+---
+> 	{ "boss_stability",          true , "FRxBossEarthquake::Stability        RxBossEarthquake.h:75" },
+  counter                   expect  actual                  verdict
+  --------------------------------------------------------------------------
+  boss_stability           false   ADMIT                   *** FAIL ***   THE EXPLOIT - A3 world-state via an A2 effect
+  boss_tremor_stage        false   REJECT_AUTHORITY_OWNED  PASS   authority-owned
+  boss_prev_anchor_stress  false   REJECT_AUTHORITY_OWNED  PASS   authority-owned
+  boss_state_ticks         false   REJECT_AUTHORITY_OWNED  PASS   authority-owned
+  world_tick               false   REJECT_AUTHORITY_OWNED  PASS   sim clock - would let a skill move time
+  boss_release_delay       true    ADMIT                   PASS   CANON - strike-interrupt / Tokenweave window
+  not_a_real_counter       false   REJECT_UNKNOWN_COUNTER  PASS   unknown id must default closed
+
+  spec-named negative control (RX_SKILL_ENUMS_V1.md:263-265):
+    adjust_counter{boss_stability, -300}  -> ADMIT                   *** ADMITTED - HOLE OPEN ***
+    adjust_counter{boss_release_delay,+20} -> ADMIT                   ADMITTED (shipped play preserved)
+
+  read-is-not-write (C10 must still read what E11 cannot write):
+    4 of 6 registry counters are readable-but-not-writable
+
+  FAILURE(S) PRESENT
+MUTATED_RUN_EXIT=1  (expected 1)
+MUTATION CONTROL OK — the test detected the break
+
+=== MUTATION [B]: boss_release_delay -> NOT writable (breaks the strike-interrupt window) ===
+--- diff vs shipped registry ---
+20c20
+< 	{ "boss_release_delay",      true,  "FRxBossEarthquake::ReleaseDelay     RxBossEarthquake.h:78" },
+---
+> 	{ "boss_release_delay",      false,  "FRxBossEarthquake::ReleaseDelay     RxBossEarthquake.h:78" },
+  counter                   expect  actual                  verdict
+  --------------------------------------------------------------------------
+  boss_stability           false   REJECT_AUTHORITY_OWNED  PASS   THE EXPLOIT - A3 world-state via an A2 effect
+  boss_tremor_stage        false   REJECT_AUTHORITY_OWNED  PASS   authority-owned
+  boss_prev_anchor_stress  false   REJECT_AUTHORITY_OWNED  PASS   authority-owned
+  boss_state_ticks         false   REJECT_AUTHORITY_OWNED  PASS   authority-owned
+  world_tick               false   REJECT_AUTHORITY_OWNED  PASS   sim clock - would let a skill move time
+  boss_release_delay       true    REJECT_AUTHORITY_OWNED  *** FAIL ***   CANON - strike-interrupt / Tokenweave window
+  not_a_real_counter       false   REJECT_UNKNOWN_COUNTER  PASS   unknown id must default closed
+
+  spec-named negative control (RX_SKILL_ENUMS_V1.md:263-265):
+    adjust_counter{boss_stability, -300}  -> REJECT_AUTHORITY_OWNED  REFUSED (gate observed refusing)
+    adjust_counter{boss_release_delay,+20} -> REJECT_AUTHORITY_OWNED  *** REFUSED - CANON BROKEN ***
+
+  read-is-not-write (C10 must still read what E11 cannot write):
+    6 of 6 registry counters are readable-but-not-writable
+
+  FAILURE(S) PRESENT
+MUTATED_RUN_EXIT=1  (expected 1)
+MUTATION CONTROL OK — the test detected the break
+
+=== MUTATION [C]: every counter A2-writable (allow-list that allows everything) ===
+--- diff vs shipped registry ---
+18,19c18,19
+< 	{ "boss_stability",          false, "FRxBossEarthquake::Stability        RxBossEarthquake.h:75" },
+< 	{ "boss_tremor_stage",       false, "FRxBossEarthquake::TremorStage      RxBossEarthquake.h:81" },
+---
+> 	{ "boss_stability",          true , "FRxBossEarthquake::Stability        RxBossEarthquake.h:75" },
+> 	{ "boss_tremor_stage",       true , "FRxBossEarthquake::TremorStage      RxBossEarthquake.h:81" },
+21,23c21,23
+< 	{ "boss_prev_anchor_stress", false, "FRxBossEarthquake::PrevAnchorStress RxBossEarthquake.h:79" },
+< 	{ "boss_state_ticks",        false, "FRxBossEarthquake::StateTicks       RxBossEarthquake.h:73" },
+< 	{ "world_tick",              false, "FRxSimWorld::Tick                   RxSimWorld.h:54" },
+---
+> 	{ "boss_prev_anchor_stress", true , "FRxBossEarthquake::PrevAnchorStress RxBossEarthquake.h:79" },
+> 	{ "boss_state_ticks", true , "FRxBossEarthquake::StateTicks       RxBossEarthquake.h:73" },
+> 	{ "world_tick", true , "FRxSimWorld::Tick                   RxSimWorld.h:54" },
+  counter                   expect  actual                  verdict
+  --------------------------------------------------------------------------
+  boss_stability           false   ADMIT                   *** FAIL ***   THE EXPLOIT - A3 world-state via an A2 effect
+  boss_tremor_stage        false   ADMIT                   *** FAIL ***   authority-owned
+  boss_prev_anchor_stress  false   ADMIT                   *** FAIL ***   authority-owned
+  boss_state_ticks         false   ADMIT                   *** FAIL ***   authority-owned
+  world_tick               false   ADMIT                   *** FAIL ***   sim clock - would let a skill move time
+  boss_release_delay       true    ADMIT                   PASS   CANON - strike-interrupt / Tokenweave window
+  not_a_real_counter       false   REJECT_UNKNOWN_COUNTER  PASS   unknown id must default closed
+
+  spec-named negative control (RX_SKILL_ENUMS_V1.md:263-265):
+    adjust_counter{boss_stability, -300}  -> ADMIT                   *** ADMITTED - HOLE OPEN ***
+    adjust_counter{boss_release_delay,+20} -> ADMIT                   ADMITTED (shipped play preserved)
+
+  read-is-not-write (C10 must still read what E11 cannot write):
+    0 of 6 registry counters are readable-but-not-writable
+    *** FAIL *** the allow-list grants write to everything - no scope at all
+
+  FAILURE(S) PRESENT
+MUTATED_RUN_EXIT=1  (expected 1)
+MUTATION CONTROL OK — the test detected the break
+
+=== MUTATION [D]: unknown counter_id admitted (deny-by-default removed) ===
+--- diff vs shipped registry ---
+80c80
+< 		return EAdmission::RejectUnknownCounter;   // deny-by-default: unknown id
+---
+> 		return EAdmission::Admit;   // deny-by-default: unknown id
+  counter                   expect  actual                  verdict
+  --------------------------------------------------------------------------
+  boss_stability           false   REJECT_AUTHORITY_OWNED  PASS   THE EXPLOIT - A3 world-state via an A2 effect
+  boss_tremor_stage        false   REJECT_AUTHORITY_OWNED  PASS   authority-owned
+  boss_prev_anchor_stress  false   REJECT_AUTHORITY_OWNED  PASS   authority-owned
+  boss_state_ticks         false   REJECT_AUTHORITY_OWNED  PASS   authority-owned
+  world_tick               false   REJECT_AUTHORITY_OWNED  PASS   sim clock - would let a skill move time
+  boss_release_delay       true    ADMIT                   PASS   CANON - strike-interrupt / Tokenweave window
+  not_a_real_counter       false   ADMIT                   *** FAIL ***   unknown id must default closed
+
+  spec-named negative control (RX_SKILL_ENUMS_V1.md:263-265):
+    adjust_counter{boss_stability, -300}  -> REJECT_AUTHORITY_OWNED  REFUSED (gate observed refusing)
+    adjust_counter{boss_release_delay,+20} -> ADMIT                   ADMITTED (shipped play preserved)
+
+  read-is-not-write (C10 must still read what E11 cannot write):
+    5 of 6 registry counters are readable-but-not-writable
+
+  FAILURE(S) PRESENT
+MUTATED_RUN_EXIT=1  (expected 1)
+MUTATION CONTROL OK — the test detected the break
+
+====================================================================
+MUTATION CONTROLS FAILED: 0 of 4
+ALL 4 CONTROLS OK — the test is falsifiable on a live build

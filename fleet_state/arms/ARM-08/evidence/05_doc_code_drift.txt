@@ -1,0 +1,14 @@
+  doc  §4.1 rows parsed : 6  from Design/RX_SKILL_ENUMS_V1.md
+  code registry rows    : 6  from Source/ReflexionArena/Sim/RxCounterAuthority.cpp
+
+  counter                       doc   code  verdict
+  --------------------------------------------------------
+  boss_prev_anchor_stress        NO     NO  PASS
+  boss_release_delay            YES    YES  PASS
+  boss_stability                 NO     NO  PASS
+  boss_state_ticks               NO     NO  PASS
+  boss_tremor_stage              NO     NO  PASS
+  world_tick                     NO     NO  PASS
+
+  DOC AND CODE AGREE
+DRIFT_CHECK_EXIT=0

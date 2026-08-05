@@ -4,6 +4,8 @@
 // assumed signatures this translation unit depends on).
 #include "RxSimWorld.h"    // FRxSimWorld, FRxTerrain, FRxCommandEnvelope
 #include "RxCanonJson.h"   // FRxCanonJson::HashValue (UE port of canon_json.gd)
+#include "RxTypes.h"       // RxCode::ErrAuthority
+#include "RxCounterAuthority.h" // E11 write-scope gate (RX_SKILL_ENUMS_V1.md §4.0)
 
 #include "Dom/JsonObject.h"
 #include "Dom/JsonValue.h"
@@ -203,6 +205,34 @@ FRxSkillResult FRxSkillSystem::ValidateSpec(const FRxSkillSpec& Spec)
 		return FRxSkillResult::Err(TEXT("ERR_STATE"),
 			FString::Printf(TEXT("commit_window must be %d"), SkillCommitWindow));
 	}
+
+	// ---- E11 write-scope admission (RX_SKILL_ENUMS_V1.md §4.0 :261-266) ----
+	// "The validator that admits player-authored skills MUST reject an E11 whose
+	//  counter_id is not A2-writable."
+	// Placed LAST on purpose: every pre-existing check above keeps its original
+	// order and detail string, so no spec that validated (or failed) before this
+	// gate existed changes its outcome. Specs carry no effects today, so this
+	// loop does not execute on any shipped path — it exists for the moment a
+	// player-authored spec first names a counter.
+	for (const FRxSkillEffect& Fx : Spec.Effects)
+	{
+		if (Fx.EffectId != RxEffectId::AdjustCounter)
+		{
+			continue; // only E11 carries a counter write
+		}
+		const RxCounterAuthority::EAdmission Admission =
+			RxCounterAuthority::AdmitCounterWrite(TCHAR_TO_UTF8(*Fx.CounterId));
+		if (Admission != RxCounterAuthority::EAdmission::Admit)
+		{
+			// ERR_AUTHORITY, not ERR_STATE: this is a tier violation (an A3
+			// world-mutation attempted through an A2 effect), the same class the
+			// command pipeline reports at RxCommands.cpp:264.
+			return FRxSkillResult::Err(RxCode::ErrAuthority,
+				FString::Printf(TEXT("%s (counter_id '%s')"),
+					ANSI_TO_TCHAR(RxCounterAuthority::AdmissionDetail(Admission)),
+					*Fx.CounterId));
+		}
+	}
 	return FRxSkillResult::Ok();
 }
 // NOTE: ValidateSpec returns bOk/Detail; the Godot original returns {ok,detail}
@@ -238,7 +268,11 @@ FRxSkillResult FRxSkillSystem::AuthorSkill(FRxSimWorld& World, const FRxSkillSpe
 	const FRxSkillResult Check = ValidateSpec(Spec);
 	if (!Check.bOk)
 	{
-		return FRxSkillResult::Err(TEXT("ERR_STATE"), Check.Detail);
+		// Byte-identical to the previous hardcoded ERR_STATE for every pre-existing
+		// rejection (all of ValidateSpec's original errors ARE ERR_STATE); the code
+		// is now propagated so the new E11 ERR_AUTHORITY is not flattened into a
+		// state error and lost.
+		return FRxSkillResult::Err(Check.Code, Check.Detail);
 	}
 
 	FRxSkillArtifact Artifact;

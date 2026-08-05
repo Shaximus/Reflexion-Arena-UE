@@ -1,0 +1,85 @@
+
+--- POSITIVE CONTROL (synthetic E11 impl fixture) (1 files) ---
+  [DECISIVE]
+    effect_id_E11             2   e.g. /tmp/tmpmrv9okv3/RxCounterRegistry_FIXTURE.h:3
+    effect_verb               1   e.g. /tmp/tmpmrv9okv3/RxCounterRegistry_FIXTURE.h:11
+    counter_param             2   e.g. /tmp/tmpmrv9okv3/RxCounterRegistry_FIXTURE.h:5
+    condition_C10             1   e.g. /tmp/tmpmrv9okv3/RxCounterRegistry_FIXTURE.h:11
+    write_scope               3   e.g. /tmp/tmpmrv9okv3/RxCounterRegistry_FIXTURE.h:5
+    counter_registry          1   e.g. /tmp/tmpmrv9okv3/RxCounterRegistry_FIXTURE.h:12
+    canon_writable_ctr        1   e.g. /tmp/tmpmrv9okv3/RxCounterRegistry_FIXTURE.h:9
+  [ADJACENT (not part of verdict)]
+    generic_authority         1   e.g. /tmp/tmpmrv9okv3/RxCounterRegistry_FIXTURE.h:12
+    stability_field           1   e.g. /tmp/tmpmrv9okv3/RxCounterRegistry_FIXTURE.h:8
+  POSITIVE CONTROL FIRED: all 9 token classes matched (11 decisive hits).
+
+=== SEARCH SURFACE (worktree root: /home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9) ===
+globs: Source/**/*.h, Source/**/*.cpp, Source/**/*.cs
+  Source/ReflexionArena/ReflexionArena.Build.cs
+  Source/ReflexionArena/ReflexionArena.cpp
+  Source/ReflexionArena/ReflexionArena.h
+  Source/ReflexionArena/RxOracleCommandlet.cpp
+  Source/ReflexionArena/RxOracleCommandlet.h
+  Source/ReflexionArena/Sim/RxBossEarthquake.cpp
+  Source/ReflexionArena/Sim/RxBossEarthquake.h
+  Source/ReflexionArena/Sim/RxCanonJson.cpp
+  Source/ReflexionArena/Sim/RxCanonJson.h
+  Source/ReflexionArena/Sim/RxCommands.cpp
+  Source/ReflexionArena/Sim/RxCommands.h
+  Source/ReflexionArena/Sim/RxCompanionAI.cpp
+  Source/ReflexionArena/Sim/RxCompanionAI.h
+  Source/ReflexionArena/Sim/RxDataSource.cpp
+  Source/ReflexionArena/Sim/RxDataSource.h
+  Source/ReflexionArena/Sim/RxEncounters.cpp
+  Source/ReflexionArena/Sim/RxEncounters.h
+  Source/ReflexionArena/Sim/RxIntent.cpp
+  Source/ReflexionArena/Sim/RxIntent.h
+  Source/ReflexionArena/Sim/RxReceipts.cpp
+  Source/ReflexionArena/Sim/RxReceipts.h
+  Source/ReflexionArena/Sim/RxRng.h
+  Source/ReflexionArena/Sim/RxSimWorld.cpp
+  Source/ReflexionArena/Sim/RxSimWorld.h
+  Source/ReflexionArena/Sim/RxSkillSystem.cpp
+  Source/ReflexionArena/Sim/RxSkillSystem.h
+  Source/ReflexionArena/Sim/RxTerrain.cpp
+  Source/ReflexionArena/Sim/RxTerrain.h
+  Source/ReflexionArena/Sim/RxTypes.h
+  Source/ReflexionArena.Target.cs
+  Source/ReflexionArenaEditor.Target.cs
+
+--- REAL IMPLEMENTATION SURFACE (Source/) (31 files) ---
+  [DECISIVE]
+    effect_id_E11             0
+    effect_verb               0
+    counter_param             0
+    condition_C10             0
+    write_scope               0
+    counter_registry          0
+    canon_writable_ctr        0
+  [ADJACENT (not part of verdict)]
+    generic_authority         9   e.g. /home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/Source/ReflexionArena/RxOracleCommandlet.cpp:551
+    stability_field          10   e.g. /home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/Source/ReflexionArena/RxOracleCommandlet.cpp:198
+    [ADJACENT] generic_authority: Source/ReflexionArena/RxOracleCommandlet.cpp:551: //     T2 envelope WITHOUT approved -> ERR_AUTHORITY.
+    [ADJACENT] generic_authority: Source/ReflexionArena/RxOracleCommandlet.cpp:640: const FString Layer = Rr.Code == FString(RxCode::ErrAuthority) ? TEXT("authority")
+    [ADJACENT] generic_authority: Source/ReflexionArena/RxOracleCommandlet.cpp:731: // companion T2 without approval -> ERR_AUTHORITY (all 5 T2 types)
+    [ADJACENT] generic_authority: Source/ReflexionArena/RxOracleCommandlet.cpp:753: (!R.bOk) && R.Code == FString(RxCode::ErrAuthority), R.Code);
+    [ADJACENT] generic_authority: Source/ReflexionArena/Sim/RxCommands.cpp:254: // ---- authority (ERR_AUTHORITY) ----
+    [ADJACENT] generic_authority: Source/ReflexionArena/Sim/RxCommands.cpp:264: return FRxCmdResult::Err(RxCode::ErrAuthority,
+    [ADJACENT] generic_authority: Source/ReflexionArena/Sim/RxCommands.h:21: *   4. authority tier / gate -> ERR_UNKNOWN_TYPE | ERR_AUTHORITY
+    [ADJACENT] generic_authority: Source/ReflexionArena/Sim/RxCommands.h:90: * Code carries the verbatim RxCode string (OK / ERR_MALFORMED / ERR_AUTHORITY /
+    [ADJACENT] generic_authority: Source/ReflexionArena/Sim/RxTypes.h:192: inline constexpr const TCHAR* ErrAuthority = TEXT("ERR_AUTHORITY");
+    [ADJACENT] stability_field: Source/ReflexionArena/RxOracleCommandlet.cpp:198: int32 BossStability = 0;
+    [ADJACENT] stability_field: Source/ReflexionArena/RxOracleCommandlet.cpp:268: R.BossStability = World.Boss.Stability;
+    [ADJACENT] stability_field: Source/ReflexionArena/RxOracleCommandlet.cpp:332: UE_LOG(LogRxOracle, Display, TEXT("ORACLE final: tick=%d player_hp=%d companion_hp=%d boss_stability=%d"),
+    [ADJACENT] stability_field: Source/ReflexionArena/RxOracleCommandlet.cpp:333: R1.FinalTick, R1.PlayerHp, R1.CompanionHp, R1.BossStability);
+    [ADJACENT] stability_field: Source/ReflexionArena/RxOracleCommandlet.cpp:1044: D.Eq(TEXT("boss.stability"), L.BossStability, B.BossStability);
+    [ADJACENT] stability_field: Source/ReflexionArena/RxOracleCommandlet.cpp:1059: L.BossAnchorRegion, L.BossStability, L.BossArenaRegions.Num())));
+    [ADJACENT] stability_field: Source/ReflexionArena/Sim/RxDataSource.cpp:500: if (!ReqInt(Path, Boss, TEXT("stability"), TEXT("boss.stability"), Cfg.BossStability, OutError)) { return fals
+    [ADJACENT] stability_field: Source/ReflexionArena/Sim/RxEncounters.cpp:42: World.Boss.Configure(Def.BossAnchorRegion, Def.BossStability, Def.BossArenaRegions);
+    [ADJACENT] stability_field: Source/ReflexionArena/Sim/RxEncounters.cpp:162: Cfg.BossStability    = 300;
+    [ADJACENT] stability_field: Source/ReflexionArena/Sim/RxEncounters.h:74: int32 BossStability = 300;                       // def.boss.stability     (default 300)
+
+  RESULT: PRODUCT_AUTHORITY_PATH_ABSENT — 0 DECISIVE E11 hits across
+          31 implementation files, with a detector proven able to fire.
+          (ADJACENT hits exist and are NOT an E11 gate — see report.)
+DETECTOR_EXIT=1

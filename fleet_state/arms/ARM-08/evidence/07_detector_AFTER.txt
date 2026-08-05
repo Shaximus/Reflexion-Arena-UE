@@ -1,0 +1,153 @@
+
+--- POSITIVE CONTROL (synthetic E11 impl fixture) (1 files) ---
+  [DECISIVE]
+    effect_id_E11             2   e.g. /tmp/tmpmwlhsc0p/RxCounterRegistry_FIXTURE.h:3
+    effect_verb               1   e.g. /tmp/tmpmwlhsc0p/RxCounterRegistry_FIXTURE.h:11
+    counter_param             2   e.g. /tmp/tmpmwlhsc0p/RxCounterRegistry_FIXTURE.h:5
+    condition_C10             1   e.g. /tmp/tmpmwlhsc0p/RxCounterRegistry_FIXTURE.h:11
+    write_scope               3   e.g. /tmp/tmpmwlhsc0p/RxCounterRegistry_FIXTURE.h:5
+    counter_registry          1   e.g. /tmp/tmpmwlhsc0p/RxCounterRegistry_FIXTURE.h:12
+    canon_writable_ctr        1   e.g. /tmp/tmpmwlhsc0p/RxCounterRegistry_FIXTURE.h:9
+  [ADJACENT (not part of verdict)]
+    generic_authority         1   e.g. /tmp/tmpmwlhsc0p/RxCounterRegistry_FIXTURE.h:12
+    stability_field           1   e.g. /tmp/tmpmwlhsc0p/RxCounterRegistry_FIXTURE.h:8
+  POSITIVE CONTROL FIRED: all 9 token classes matched (11 decisive hits).
+
+=== SEARCH SURFACE (worktree root: /home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9) ===
+globs: Source/**/*.h, Source/**/*.cpp, Source/**/*.cs
+  Source/ReflexionArena/ReflexionArena.Build.cs
+  Source/ReflexionArena/ReflexionArena.cpp
+  Source/ReflexionArena/ReflexionArena.h
+  Source/ReflexionArena/RxOracleCommandlet.cpp
+  Source/ReflexionArena/RxOracleCommandlet.h
+  Source/ReflexionArena/Sim/RxBossEarthquake.cpp
+  Source/ReflexionArena/Sim/RxBossEarthquake.h
+  Source/ReflexionArena/Sim/RxCanonJson.cpp
+  Source/ReflexionArena/Sim/RxCanonJson.h
+  Source/ReflexionArena/Sim/RxCommands.cpp
+  Source/ReflexionArena/Sim/RxCommands.h
+  Source/ReflexionArena/Sim/RxCompanionAI.cpp
+  Source/ReflexionArena/Sim/RxCompanionAI.h
+  Source/ReflexionArena/Sim/RxCounterAuthority.cpp
+  Source/ReflexionArena/Sim/RxCounterAuthority.h
+  Source/ReflexionArena/Sim/RxDataSource.cpp
+  Source/ReflexionArena/Sim/RxDataSource.h
+  Source/ReflexionArena/Sim/RxEncounters.cpp
+  Source/ReflexionArena/Sim/RxEncounters.h
+  Source/ReflexionArena/Sim/RxIntent.cpp
+  Source/ReflexionArena/Sim/RxIntent.h
+  Source/ReflexionArena/Sim/RxReceipts.cpp
+  Source/ReflexionArena/Sim/RxReceipts.h
+  Source/ReflexionArena/Sim/RxRng.h
+  Source/ReflexionArena/Sim/RxSimWorld.cpp
+  Source/ReflexionArena/Sim/RxSimWorld.h
+  Source/ReflexionArena/Sim/RxSkillSystem.cpp
+  Source/ReflexionArena/Sim/RxSkillSystem.h
+  Source/ReflexionArena/Sim/RxTerrain.cpp
+  Source/ReflexionArena/Sim/RxTerrain.h
+  Source/ReflexionArena/Sim/RxTypes.h
+  Source/ReflexionArena.Target.cs
+  Source/ReflexionArenaEditor.Target.cs
+
+--- REAL IMPLEMENTATION SURFACE (Source/) (33 files) ---
+  [DECISIVE]
+    effect_id_E11            19   e.g. /home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/Source/ReflexionArena/Sim/RxCounterAuthority.cpp:84
+    effect_verb               5   e.g. /home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/Source/ReflexionArena/Sim/RxCounterAuthority.cpp:96
+    counter_param            21   e.g. /home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/Source/ReflexionArena/Sim/RxCounterAuthority.cpp:44
+    condition_C10             8   e.g. /home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/Source/ReflexionArena/Sim/RxCounterAuthority.cpp:8
+    write_scope               5   e.g. /home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/Source/ReflexionArena/Sim/RxCounterAuthority.cpp:82
+    counter_registry          3   e.g. /home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/Source/ReflexionArena/Sim/RxCounterAuthority.cpp:75
+    canon_writable_ctr        1   e.g. /home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/Source/ReflexionArena/Sim/RxCounterAuthority.cpp:20
+  [ADJACENT (not part of verdict)]
+    generic_authority        13   e.g. /home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/Source/ReflexionArena/RxOracleCommandlet.cpp:551
+    stability_field          12   e.g. /home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/Source/ReflexionArena/RxOracleCommandlet.cpp:198
+    [DECISIVE] effect_id_E11: Source/ReflexionArena/Sim/RxCounterAuthority.cpp:84: return EAdmission::RejectAuthorityOwned;   // readable via C10, not writable via E11
+    [DECISIVE] effect_id_E11: Source/ReflexionArena/Sim/RxCounterAuthority.cpp:96: return "E11 adjust_counter: counter_id is not in the C10 registry";
+    [DECISIVE] effect_id_E11: Source/ReflexionArena/Sim/RxCounterAuthority.cpp:98: return "E11 adjust_counter: counter_id is authority-owned and not A2-writable";
+    [DECISIVE] effect_id_E11: Source/ReflexionArena/Sim/RxCounterAuthority.h:4: * RxCounterAuthority.h — the E11 write-scope gate.
+    [DECISIVE] effect_id_E11: Source/ReflexionArena/Sim/RxCounterAuthority.h:7: * counter registry was defined as a READ mapping with no write column, and E11
+    [DECISIVE] effect_id_E11: Source/ReflexionArena/Sim/RxCounterAuthority.h:16: *    skills MUST reject an E11 whose `counter_id` is not A2-writable ... A gate
+    [DECISIVE] effect_id_E11: Source/ReflexionArena/Sim/RxCounterAuthority.h:40: /** Outcome of an E11 write-scope decision. Deny-by-default: only Admit passes. */
+    [DECISIVE] effect_id_E11: Source/ReflexionArena/Sim/RxCounterAuthority.h:52: bool        bA2Writable;  // §4.1 "A2-writable via E11" column
+    [DECISIVE] effect_id_E11: Source/ReflexionArena/Sim/RxSkillSystem.cpp:8: #include "RxCounterAuthority.h" // E11 write-scope gate (RX_SKILL_ENUMS_V1.md §4.0)
+    [DECISIVE] effect_id_E11: Source/ReflexionArena/Sim/RxSkillSystem.cpp:209: // ---- E11 write-scope admission (RX_SKILL_ENUMS_V1.md §4.0 :261-266) ----
+    [DECISIVE] effect_id_E11: Source/ReflexionArena/Sim/RxSkillSystem.cpp:210: // "The validator that admits player-authored skills MUST reject an E11 whose
+    [DECISIVE] effect_id_E11: Source/ReflexionArena/Sim/RxSkillSystem.cpp:221: continue; // only E11 carries a counter write
+    [DECISIVE] effect_id_E11: Source/ReflexionArena/Sim/RxSkillSystem.cpp:273: // is now propagated so the new E11 ERR_AUTHORITY is not flattened into a
+    [DECISIVE] effect_id_E11: Source/ReflexionArena/Sim/RxSkillSystem.h:77: * an E11 `adjust_counter` names a counter and a delta, and neither could be
+    [DECISIVE] effect_id_E11: Source/ReflexionArena/Sim/RxSkillSystem.h:79: * plus the E11 parameters — and nothing more (§4.0 "scope discipline": no
+    [DECISIVE] effect_id_E11: Source/ReflexionArena/Sim/RxSkillSystem.h:88: FString EffectId;                        // "E11" (RX_SKILL_ENUMS_V1.md §5 id)
+    [DECISIVE] effect_id_E11: Source/ReflexionArena/Sim/RxSkillSystem.h:89: FString CounterId;                       // E11 param `counter_id: <registry>`
+    [DECISIVE] effect_id_E11: Source/ReflexionArena/Sim/RxSkillSystem.h:90: int32 Delta = 0;                         // E11 param `delta: int(signed)`
+    [DECISIVE] effect_id_E11: Source/ReflexionArena/Sim/RxSkillSystem.h:96: inline constexpr const TCHAR* AdjustCounter = TEXT("E11");
+    [DECISIVE] effect_verb: Source/ReflexionArena/Sim/RxCounterAuthority.cpp:96: return "E11 adjust_counter: counter_id is not in the C10 registry";
+    [DECISIVE] effect_verb: Source/ReflexionArena/Sim/RxCounterAuthority.cpp:98: return "E11 adjust_counter: counter_id is authority-owned and not A2-writable";
+    [DECISIVE] effect_verb: Source/ReflexionArena/Sim/RxCounterAuthority.h:8: * `adjust_counter` (A2, player-authorable, allow-listed) took `counter_id:
+    [DECISIVE] effect_verb: Source/ReflexionArena/Sim/RxSkillSystem.h:77: * an E11 `adjust_counter` names a counter and a delta, and neither could be
+    [DECISIVE] effect_verb: Source/ReflexionArena/Sim/RxSkillSystem.h:93: /** RX_SKILL_ENUMS_V1.md §5 id of adjust_counter — the one A2 effect that writes. */
+    [DECISIVE] counter_param: Source/ReflexionArena/Sim/RxCounterAuthority.cpp:44: const FCounterEntry* Find(const char* CounterId)
+    [DECISIVE] counter_param: Source/ReflexionArena/Sim/RxCounterAuthority.cpp:48: if (SameId(Registry[i].CounterId, CounterId))
+    [DECISIVE] counter_param: Source/ReflexionArena/Sim/RxCounterAuthority.cpp:70: bool IsKnownCounter(const char* CounterId)
+    [DECISIVE] counter_param: Source/ReflexionArena/Sim/RxCounterAuthority.cpp:72: return Find(CounterId) != nullptr;
+    [DECISIVE] counter_param: Source/ReflexionArena/Sim/RxCounterAuthority.cpp:75: EAdmission AdmitCounterWrite(const char* CounterId)
+    [DECISIVE] counter_param: Source/ReflexionArena/Sim/RxCounterAuthority.cpp:77: const FCounterEntry* Entry = Find(CounterId);
+    [DECISIVE] counter_param: Source/ReflexionArena/Sim/RxCounterAuthority.cpp:96: return "E11 adjust_counter: counter_id is not in the C10 registry";
+    [DECISIVE] counter_param: Source/ReflexionArena/Sim/RxCounterAuthority.cpp:98: return "E11 adjust_counter: counter_id is authority-owned and not A2-writable";
+    [DECISIVE] counter_param: Source/ReflexionArena/Sim/RxCounterAuthority.h:8: * `adjust_counter` (A2, player-authorable, allow-listed) took `counter_id:
+    [DECISIVE] counter_param: Source/ReflexionArena/Sim/RxCounterAuthority.h:16: *    skills MUST reject an E11 whose `counter_id` is not A2-writable ... A gate
+    [DECISIVE] counter_param: Source/ReflexionArena/Sim/RxCounterAuthority.h:20: * DENY-BY-DEFAULT in two directions: an unknown `counter_id` is rejected, and a
+    [DECISIVE] counter_param: Source/ReflexionArena/Sim/RxCounterAuthority.h:44: RejectUnknownCounter,   // counter_id is not in the registry at all
+    [DECISIVE] counter_param: Source/ReflexionArena/Sim/RxCounterAuthority.h:51: const char* CounterId;    // the `counter_id: <registry>` token
+    [DECISIVE] counter_param: Source/ReflexionArena/Sim/RxCounterAuthority.h:62: /** True when `CounterId` names a counter C10 `counter_threshold` can READ. */
+    [DECISIVE] counter_param: Source/ReflexionArena/Sim/RxCounterAuthority.h:63: bool IsKnownCounter(const char* CounterId);
+    [DECISIVE] counter_param: Source/ReflexionArena/Sim/RxCounterAuthority.h:69: EAdmission AdmitCounterWrite(const char* CounterId);
+    [DECISIVE] counter_param: Source/ReflexionArena/Sim/RxSkillSystem.cpp:211: //  counter_id is not A2-writable."
+    [DECISIVE] counter_param: Source/ReflexionArena/Sim/RxSkillSystem.cpp:224: RxCounterAuthority::AdmitCounterWrite(TCHAR_TO_UTF8(*Fx.CounterId));
+    [DECISIVE] counter_param: Source/ReflexionArena/Sim/RxSkillSystem.cpp:231: FString::Printf(TEXT("%s (counter_id '%s')"),
+    [DECISIVE] counter_param: Source/ReflexionArena/Sim/RxSkillSystem.cpp:233: *Fx.CounterId));
+    [DECISIVE] counter_param: Source/ReflexionArena/Sim/RxSkillSystem.h:89: FString CounterId;                       // E11 param `counter_id: <registry>`
+    [DECISIVE] condition_C10: Source/ReflexionArena/Sim/RxCounterAuthority.cpp:8: * The C10 counter registry — code-side counterpart of RX_SKILL_ENUMS_V1.md §4.1.
+    [DECISIVE] condition_C10: Source/ReflexionArena/Sim/RxCounterAuthority.cpp:84: return EAdmission::RejectAuthorityOwned;   // readable via C10, not writable via E11
+    [DECISIVE] condition_C10: Source/ReflexionArena/Sim/RxCounterAuthority.cpp:96: return "E11 adjust_counter: counter_id is not in the C10 registry";
+    [DECISIVE] condition_C10: Source/ReflexionArena/Sim/RxCounterAuthority.h:6: * Design/RX_SKILL_ENUMS_V1.md §4.0 "AUTHORITY REPAIR" states the defect: the C10
+    [DECISIVE] condition_C10: Source/ReflexionArena/Sim/RxCounterAuthority.h:23: * READ IS NOT WRITE. Every entry here stays fully readable through C10
+    [DECISIVE] condition_C10: Source/ReflexionArena/Sim/RxCounterAuthority.h:24: * `counter_threshold` — the boss must stay legible to the player, which is the
+    [DECISIVE] condition_C10: Source/ReflexionArena/Sim/RxCounterAuthority.h:45: RejectAuthorityOwned,   // counter exists, is readable via C10, but is NOT A2-writable
+    [DECISIVE] condition_C10: Source/ReflexionArena/Sim/RxCounterAuthority.h:62: /** True when `CounterId` names a counter C10 `counter_threshold` can READ. */
+    [DECISIVE] write_scope: Source/ReflexionArena/Sim/RxCounterAuthority.cpp:82: if (!Entry->bA2Writable)
+    [DECISIVE] write_scope: Source/ReflexionArena/Sim/RxCounterAuthority.h:8: * `adjust_counter` (A2, player-authorable, allow-listed) took `counter_id:
+    [DECISIVE] write_scope: Source/ReflexionArena/Sim/RxCounterAuthority.h:21: * known counter is authority-owned unless bA2Writable is explicitly true.
+    [DECISIVE] write_scope: Source/ReflexionArena/Sim/RxCounterAuthority.h:27: * Scope discipline (§4.0): this is one registry and one allow-list. It is
+    [DECISIVE] write_scope: Source/ReflexionArena/Sim/RxCounterAuthority.h:52: bool        bA2Writable;  // §4.1 "A2-writable via E11" column
+    [DECISIVE] counter_registry: Source/ReflexionArena/Sim/RxCounterAuthority.cpp:75: EAdmission AdmitCounterWrite(const char* CounterId)
+    [DECISIVE] counter_registry: Source/ReflexionArena/Sim/RxCounterAuthority.h:69: EAdmission AdmitCounterWrite(const char* CounterId);
+    [DECISIVE] counter_registry: Source/ReflexionArena/Sim/RxSkillSystem.cpp:224: RxCounterAuthority::AdmitCounterWrite(TCHAR_TO_UTF8(*Fx.CounterId));
+    [DECISIVE] canon_writable_ctr: Source/ReflexionArena/Sim/RxCounterAuthority.cpp:20: { "boss_release_delay",      true,  "FRxBossEarthquake::ReleaseDelay     RxBossEarthquake.h:78" },
+    [ADJACENT] generic_authority: Source/ReflexionArena/RxOracleCommandlet.cpp:551: //     T2 envelope WITHOUT approved -> ERR_AUTHORITY.
+    [ADJACENT] generic_authority: Source/ReflexionArena/RxOracleCommandlet.cpp:640: const FString Layer = Rr.Code == FString(RxCode::ErrAuthority) ? TEXT("authority")
+    [ADJACENT] generic_authority: Source/ReflexionArena/RxOracleCommandlet.cpp:731: // companion T2 without approval -> ERR_AUTHORITY (all 5 T2 types)
+    [ADJACENT] generic_authority: Source/ReflexionArena/RxOracleCommandlet.cpp:753: (!R.bOk) && R.Code == FString(RxCode::ErrAuthority), R.Code);
+    [ADJACENT] generic_authority: Source/ReflexionArena/Sim/RxCommands.cpp:254: // ---- authority (ERR_AUTHORITY) ----
+    [ADJACENT] generic_authority: Source/ReflexionArena/Sim/RxCommands.cpp:264: return FRxCmdResult::Err(RxCode::ErrAuthority,
+    [ADJACENT] generic_authority: Source/ReflexionArena/Sim/RxCommands.h:21: *   4. authority tier / gate -> ERR_UNKNOWN_TYPE | ERR_AUTHORITY
+    [ADJACENT] generic_authority: Source/ReflexionArena/Sim/RxCommands.h:90: * Code carries the verbatim RxCode string (OK / ERR_MALFORMED / ERR_AUTHORITY /
+    [ADJACENT] generic_authority: Source/ReflexionArena/Sim/RxSkillSystem.cpp:7: #include "RxTypes.h"       // RxCode::ErrAuthority
+    [ADJACENT] generic_authority: Source/ReflexionArena/Sim/RxSkillSystem.cpp:227: // ERR_AUTHORITY, not ERR_STATE: this is a tier violation (an A3
+    [ADJACENT] generic_authority: Source/ReflexionArena/Sim/RxSkillSystem.cpp:230: return FRxSkillResult::Err(RxCode::ErrAuthority,
+    [ADJACENT] generic_authority: Source/ReflexionArena/Sim/RxSkillSystem.cpp:273: // is now propagated so the new E11 ERR_AUTHORITY is not flattened into a
+    [ADJACENT] generic_authority: Source/ReflexionArena/Sim/RxTypes.h:192: inline constexpr const TCHAR* ErrAuthority = TEXT("ERR_AUTHORITY");
+    [ADJACENT] stability_field: Source/ReflexionArena/RxOracleCommandlet.cpp:198: int32 BossStability = 0;
+    [ADJACENT] stability_field: Source/ReflexionArena/RxOracleCommandlet.cpp:268: R.BossStability = World.Boss.Stability;
+    [ADJACENT] stability_field: Source/ReflexionArena/RxOracleCommandlet.cpp:332: UE_LOG(LogRxOracle, Display, TEXT("ORACLE final: tick=%d player_hp=%d companion_hp=%d boss_stability=%d"),
+    [ADJACENT] stability_field: Source/ReflexionArena/RxOracleCommandlet.cpp:333: R1.FinalTick, R1.PlayerHp, R1.CompanionHp, R1.BossStability);
+    [ADJACENT] stability_field: Source/ReflexionArena/RxOracleCommandlet.cpp:1044: D.Eq(TEXT("boss.stability"), L.BossStability, B.BossStability);
+    [ADJACENT] stability_field: Source/ReflexionArena/RxOracleCommandlet.cpp:1059: L.BossAnchorRegion, L.BossStability, L.BossArenaRegions.Num())));
+    [ADJACENT] stability_field: Source/ReflexionArena/Sim/RxCounterAuthority.cpp:18: { "boss_stability",          false, "FRxBossEarthquake::Stability        RxBossEarthquake.h:75" },
+    [ADJACENT] stability_field: Source/ReflexionArena/Sim/RxCounterAuthority.h:10: * the registry and mutate it, including `boss_stability`. That is an A3
+    [ADJACENT] stability_field: Source/ReflexionArena/Sim/RxDataSource.cpp:500: if (!ReqInt(Path, Boss, TEXT("stability"), TEXT("boss.stability"), Cfg.BossStability, OutError)) { return fals
+    [ADJACENT] stability_field: Source/ReflexionArena/Sim/RxEncounters.cpp:42: World.Boss.Configure(Def.BossAnchorRegion, Def.BossStability, Def.BossArenaRegions);
+    [ADJACENT] stability_field: Source/ReflexionArena/Sim/RxEncounters.cpp:162: Cfg.BossStability    = 300;
+    [ADJACENT] stability_field: Source/ReflexionArena/Sim/RxEncounters.h:74: int32 BossStability = 300;                       // def.boss.stability     (default 300)
+
+  RESULT: E11 implementation surface PRESENT — 62 decisive hits.
+DETECTOR_AFTER_EXIT=0
