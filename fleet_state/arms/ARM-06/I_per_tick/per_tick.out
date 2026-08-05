@@ -1,0 +1,21 @@
+N5 STRIKE_DAMPEN halved: N0_canonical vs N5_strike_dampen_halved
+  ticks: 11901 vs 11901
+  DIVERGES at tick index 3425 (tick=3426)
+  last differing tick index 3655 (tick=3656)
+  differing ticks: 231 of 11901
+  end state identical: True
+  RECONVERGED: True
+
+    first divergence in 'stress': [88, 18, 15, 1, 47, 0, 66, 47, 28, 84] -> [89, 48, 16, 1, 47, 0, 66, 47, 28, 84]
+exit=1
+
+N4 SKILL_DAMPEN halved: N0_canonical vs N4_skill_dampen_halved
+  ticks: 11901 vs 11901
+  DIVERGES at tick index 6901 (tick=6902)
+  last differing tick index 7217 (tick=7218)
+  differing ticks: 317 of 11901
+  end state identical: True
+  RECONVERGED: True
+
+    first divergence in 'stress': [38, 19, 0, 5, 192, 0, 281, 189, 117, 14] -> [38, 19, 0, 5, 192, 0, 293, 189, 117, 241]
+exit=1
