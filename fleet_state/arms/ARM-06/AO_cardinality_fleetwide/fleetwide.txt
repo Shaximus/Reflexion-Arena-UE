@@ -1,0 +1,32 @@
+FLEET-WIDE CARDINALITY — testing the check I told Prime to escalate.
+
+TWO FAILED ATTEMPTS FIRST, BOTH MINE, BOTH BY GUESSING AT A STRING FORMAT:
+  attempt 1: matched worktree leaf vs dir name — leaf has '_18c8af42',
+             dir has '-18c8af42'. All 5 sessions unresolved.
+  attempt 2: normalised '_' and '/' — still unresolved, because the dir
+             encoding also turns '.' into '-': '.claude-squad' becomes
+             '-claude-squad', giving '-home-shax--claude-squad-...'.
+Both times I nearly reported the CHECK unsafe on the strength of MY mapper.
+Fixed by printing the two strings side by side instead of guessing a third
+time — every non-alphanumeric maps to '-'.
+
+receipts in chain: 19
+transports present: ['tmux send-keys -l']
+
+  session                                 rcpt   arrv  verdict
+  ------------------------------------------------------------------------------
+  claudesquad_e11-authority-impl-v1          2    141  consistent
+  claudesquad_gem-gameplay-v1                2    138  consistent
+  claudesquad_head07-inference-fable         6     35  consistent
+  claudesquad_product-verification-v1        6    123  consistent
+  claudesquad_ue-playability-v1              3     55  consistent
+
+  receipts exceed arrivals : 0 session(s)
+  unresolved               : 0 session(s)
+
+  CHECK IS SAFE ON TODAY'S DATA across all five sessions in the chain.
+  Every session resolved to a transcript and no honest receipt would be
+  flagged as a forgery. The check is evaluable fleet-wide, so the risk I
+  published — that an unrecorded transport would make honest receipts look
+  forged — does not materialise on the one transport in use,
+  'tmux send-keys -l'.

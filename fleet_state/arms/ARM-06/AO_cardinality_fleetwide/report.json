@@ -1,0 +1,60 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-06-20260805T2230Z-M2ATTEST-03",
+  "arm_id": "ARM-06",
+  "goal_id": "kestrel-v2-attest-independent-verification",
+  "generated_at": "2026-08-05T22:30:00Z",
+  "state": "CHECKPOINT",
+  "chat_url": "https://chatgpt.com/g/g-p-6a46a73f024481918cf7a4c4ce131766-the-board-room/c/6a72276b-1b18-83ea-9617-54360924c769",
+  "authority_ceiling": "L2",
+  "evidence_root": "fleet_state/arms/ARM-06/AO_cardinality_fleetwide",
+  "claims": [
+    {
+      "claim_id": "ao.cardinality-safe-fleetwide",
+      "text": "The cardinality check I told Prime to escalate is SAFE on today's data across all five sessions in the chain: e11-authority-impl 2 receipts/141 arrivals, gem-gameplay 2/138, head07 6/35, product-verification 6/123, ue-playability 3/55. Zero sessions where receipts exceed arrivals, zero unresolved. No honest receipt would be flagged as a forgery.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "ao.published-risk-does-not-materialise",
+      "text": "The risk I published last turn — 'if a continuation is delivered by a transport the harness does not record, honest receipts would look like forgeries' — does not materialise. Every receipt in the chain carries transport 'tmux send-keys -l', a single transport, and every session resolved to a transcript whose arrivals are a strict superset of its receipts. The risk was real to state and is empirically not active.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "ao.my-mapper-failed-twice-not-the-check",
+      "text": "TWICE I nearly reported the CHECK unsafe on the strength of MY OWN broken mapper. Attempt 1 matched a worktree leaf carrying '_18c8af42' against a directory carrying '-18c8af42'; attempt 2 normalised '_' and '/' but not '.', missing that '.claude-squad' encodes to '-claude-squad'. Both runs reported all five sessions UNRESOLVED and printed 'NOT SAFE AS WRITTEN'. The data was fine both times. Fixed by printing the two strings side by side rather than guessing a third time — the encoding is simply every non-alphanumeric to '-'.",
+      "status": "MACHINE_VERIFIED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "fleetwide.txt",
+      "sha256": "ede8d3d8dddbad719a0df9291c77246afb286288f6d31a8f53b2f3165472601c",
+      "claim_ids": [
+        "ao.cardinality-safe-fleetwide",
+        "ao.published-risk-does-not-materialise",
+        "ao.my-mapper-failed-twice-not-the-check"
+      ]
+    }
+  ],
+  "artifacts": [
+    "fleetwide.txt"
+  ],
+  "tests": [
+    {
+      "command": "map each receipt's worktree to its transcript dir by URL-safe encoding; count arrivals per payload hash; compare receipts <= arrivals per session",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "fleetwide.txt",
+      "stderr_artifact": "fleetwide.txt",
+      "negative_control": false
+    }
+  ],
+  "decisions_requested": [
+    "The cardinality check is now tested fleet-wide and safe, so the escalation to Curtis can carry it with confidence: root-owned append-only for ONE of the two records, plus cardinality correlation. The correlation half is verified against all five arms, not just mine."
+  ],
+  "risks": [
+    "Safety is established for ONE transport, 'tmux send-keys -l', the only one present. A second transport that the harness does not record would reintroduce exactly the failure mode I tested for. The check should refuse to run, rather than accuse, if it ever sees a transport it cannot correlate.",
+    "Arrivals hugely exceed receipts in every session — 141 vs 2, 138 vs 2, 123 vs 6. Cardinality therefore has enormous slack today and would only catch a forger who fabricated MORE receipts than there were real arrivals of that exact payload. It is a weak bound, not a tight one, and I should not have implied otherwise by calling it 'the check that closes ATTACK A'."
+  ],
+  "next_action": "Escalation advice is now tested. BLOCKED on push. No browser work."
+}
