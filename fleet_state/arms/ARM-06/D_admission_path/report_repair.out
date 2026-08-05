@@ -1,0 +1,7 @@
+evidence_root      : fleet_state/arms/ARM-06
+evidence entries   : 12
+paths escaping root: none
+hash mismatches    : none
+hashes that CHANGED vs the old report: none (bookkeeping only)
+load-bearing claims: 7  uncovered: none
+UNKNOWN claims     : ['d.item-7-a5-stays-open']

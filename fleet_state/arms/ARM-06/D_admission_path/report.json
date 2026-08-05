@@ -7,7 +7,7 @@
   "state": "CHECKPOINT",
   "chat_url": "https://claude.ai/code/session_01Qy2Sxm1r9VZPewmoMV6N8k",
   "authority_ceiling": "L2",
-  "evidence_root": "fleet_state/arms/ARM-06/D_admission_path",
+  "evidence_root": "fleet_state/arms/ARM-06",
   "claims": [
     {
       "claim_id": "d.items-1-to-4-delivered",
@@ -52,21 +52,21 @@
   ],
   "evidence": [
     {
-      "path": "../C_e11_test_repair/repair_matrix.out",
+      "path": "C_e11_test_repair/repair_matrix.out",
       "sha256": "d21281bde459a434b9829599f5c3555653b2b6ab68115ba304ef68eb63024223",
       "claim_ids": [
         "d.items-1-to-4-delivered"
       ]
     },
     {
-      "path": "../C_e11_test_repair/post_repair_root.out",
+      "path": "C_e11_test_repair/post_repair_root.out",
       "sha256": "bc0c120de23793aabf042d1ea362218bbffc94ea15d53f17c0d440877a8c3edd",
       "claim_ids": [
         "d.items-1-to-4-delivered"
       ]
     },
     {
-      "path": "admission_probe.out",
+      "path": "D_admission_path/admission_probe.out",
       "sha256": "16a175ef004dea16906f76524ea45592f834cf794ea2892be241239d21a974c0",
       "claim_ids": [
         "d.item-5-real-authority-path-exercised",
@@ -76,14 +76,14 @@
       ]
     },
     {
-      "path": "admission_probe.exit",
+      "path": "D_admission_path/admission_probe.exit",
       "sha256": "c1878d07c636cd37631dc02c63f0c580708d78de1f2bc05c1a3b607dabb60bb7",
       "claim_ids": [
         "d.item-5-real-authority-path-exercised"
       ]
     },
     {
-      "path": "admission_results.json",
+      "path": "D_admission_path/admission_results.json",
       "sha256": "376b0f9d9b816cf9089b71bbbd488693644eff99b00035d5852b59409f5434e3",
       "claim_ids": [
         "d.item-5-real-authority-path-exercised",
@@ -92,7 +92,7 @@
       ]
     },
     {
-      "path": "surface_map.out",
+      "path": "D_admission_path/surface_map.out",
       "sha256": "ddaf3db5ae0448e5fe89138045f3647bf185ee806f4bae20301a1c2f0a2fec3e",
       "claim_ids": [
         "d.item-6-surface-map-complete",
@@ -101,21 +101,21 @@
       ]
     },
     {
-      "path": "surface_map.json",
+      "path": "D_admission_path/surface_map.json",
       "sha256": "871076d433d8b2a74aa30955165bdb573a58aa491f17c43cd573873c1c2e20dd",
       "claim_ids": [
         "d.item-6-surface-map-complete"
       ]
     },
     {
-      "path": "surface_map.exit",
+      "path": "D_admission_path/surface_map.exit",
       "sha256": "cb30b1b5b95544ebb251b562ea5b673a27332c5ead6815f21b082e77205284f6",
       "claim_ids": [
         "d.item-6-surface-map-complete"
       ]
     },
     {
-      "path": "surface_map.py",
+      "path": "D_admission_path/surface_map.py",
       "sha256": "0f5e70c5ec6394a36ac07d7e81e8bb41fde2f8a587a39e2f205c755f16d903ee",
       "claim_ids": [
         "d.item-6-surface-map-complete",
@@ -123,50 +123,50 @@
       ]
     },
     {
-      "path": "admission_probe.err",
+      "path": "D_admission_path/admission_probe.err",
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "claim_ids": []
     },
     {
-      "path": "surface_map.err",
+      "path": "D_admission_path/surface_map.err",
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "claim_ids": []
     },
     {
-      "path": "admission_probe.py",
+      "path": "D_admission_path/admission_probe.py",
       "sha256": "f0e9c24bcf78fcd15d988a6a1c226aee86314f13f906c8d95eb486a0e7d66d40",
       "claim_ids": []
     }
   ],
   "artifacts": [
-    "../C_e11_test_repair/repair_matrix.out",
-    "../C_e11_test_repair/post_repair_root.out",
-    "admission_probe.out",
-    "admission_probe.exit",
-    "admission_results.json",
-    "surface_map.out",
-    "surface_map.json",
-    "surface_map.exit",
-    "surface_map.py",
-    "admission_probe.err",
-    "surface_map.err",
-    "admission_probe.py"
+    "C_e11_test_repair/repair_matrix.out",
+    "C_e11_test_repair/post_repair_root.out",
+    "D_admission_path/admission_probe.out",
+    "D_admission_path/admission_probe.exit",
+    "D_admission_path/admission_results.json",
+    "D_admission_path/surface_map.out",
+    "D_admission_path/surface_map.json",
+    "D_admission_path/surface_map.exit",
+    "D_admission_path/surface_map.py",
+    "D_admission_path/admission_probe.err",
+    "D_admission_path/surface_map.err",
+    "D_admission_path/admission_probe.py"
   ],
   "tests": [
     {
       "command": "python3 admission_probe.py   # Commands.validate + SkillSystem.validate_spec",
       "producer_exit_code": 0,
       "result": "PASS",
-      "stdout_artifact": "admission_probe.out",
-      "stderr_artifact": "admission_probe.err",
+      "stdout_artifact": "D_admission_path/admission_probe.out",
+      "stderr_artifact": "D_admission_path/admission_probe.err",
       "negative_control": true
     },
     {
       "command": "python3 surface_map.py surface_map.json   # 12 surfaces x 4 pattern groups",
       "producer_exit_code": 0,
       "result": "PASS",
-      "stdout_artifact": "surface_map.out",
-      "stderr_artifact": "surface_map.err",
+      "stdout_artifact": "D_admission_path/surface_map.out",
+      "stderr_artifact": "D_admission_path/surface_map.err",
       "negative_control": true
     }
   ],
@@ -175,6 +175,7 @@
     "The design specifies 16 effects; the product implements 1. That gap is far larger than the E11 repair and is not ARM-06 scope to close. Someone should own whether E1-E16 is a roadmap or a contract."
   ],
   "risks": [
+    "REPORT REPAIR 2026-08-04: this envelope originally declared evidence_root as fleet_state/arms/ARM-06/D_admission_path while two evidence entries used \"../\" to reach C_e11_test_repair — the only evidence for d.items-1-to-4-delivered. A path that escapes its declared root cannot be resolved, so the report was unadmittable even though every artifact existed and hashed clean. Root widened to fleet_state/arms/ARM-06 and all paths rewritten against it; no evidence was recaptured or restated, and no claim changed status. The finding itself (PRODUCT_AUTHORITY_PATH_ABSENT) is unaffected.",
     "The registry write-scope column is currently unenforced by anything executable. If E11 is implemented later by someone who does not read §4.0, the allow-list will not stop them — the document does not bind the code. The repaired test guards the document only.",
     "My first surface-map run produced a FALSE ABSENCE across every surface because of a ripgrep output-format assumption. It was caught only because the specification files served as an accidental positive control. Any future absence claim in this fleet should carry an explicit known-present case, not rely on one being incidentally in range.",
     "My first admission probe also passed for the wrong reason: it chose author_skill as the T2 exemplar, which fails ERR_MALFORMED on missing params.spec before the tier check is reached, so the \"refusal\" proved nothing about authority. Fixed by supplying well-formed params per type and asserting the refusal code is specifically ERR_AUTHORITY."
