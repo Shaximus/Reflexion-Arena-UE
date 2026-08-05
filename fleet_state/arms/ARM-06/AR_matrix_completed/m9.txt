@@ -1,0 +1,32 @@
+M8 POST-MORTEM: my mutation made the NO_CHAIN branch claim INTACT, so attest()
+walked past the guard and crashed on a file that genuinely does not exist:
+  FileNotFoundError: .../empty/continuation_chain.jsonl
+The control never rendered a verdict — the program raised before it could.
+That is a badly-chosen mutation, not an undetected one, and labelling the
+control DECORATIVE on the strength of it would have been wrong for the THIRD
+time in this matrix.
+
+M9 — coherent replacement: a BROKEN or MISSING chain now returns
+MACHINE_CONTINUATION_ATTESTED instead of ORIGIN_UNRESOLVED. No crash.
+
+PASS  POSITIVE  attested injection                         got=MACHINE_CONTINUATION_ATTESTED      want=MACHINE_CONTINUATION_ATTESTED
+PASS  POSITIVE  chain intact                               got=INTACT                             want=INTACT
+PASS  CONTROL   human-typed bytes -> UNRESOLVED            got=ORIGIN_UNRESOLVED                  want=ORIGIN_UNRESOLVED
+        the transcript cannot distinguish this; the chain must, and does
+PASS  CONTROL   and does NOT claim 'human'                 got=True                               want=True
+        absence of a receipt is absence of evidence, never proof of a person
+PASS  CONTROL   near-miss payload -> UNRESOLVED            got=ORIGIN_UNRESOLVED                  want=ORIGIN_UNRESOLVED
+        one trailing space; an attester matching on session alone would wrongly pass
+PASS  CONTROL   tampered receipt -> TAMPERED               got=TAMPERED                           want=TAMPERED
+        breaks: ['receipt hash mismatch — content altered']
+FAIL  CONTROL   tamper blocks attestation                  got=MACHINE_CONTINUATION_ATTESTED      want=ORIGIN_UNRESOLVED
+        a broken chain invalidates every claim resting on it, not just the altered row
+PASS  SETUP     three-receipt chain intact                 got=INTACT                             want=INTACT
+PASS  CONTROL   deleted middle receipt -> TAMPERED         got=TAMPERED                           want=TAMPERED
+        breaks: ['chain break']
+FAIL  CONTROL   no chain -> UNRESOLVED, not 'human'        got=MACHINE_CONTINUATION_ATTESTED      want=ORIGIN_UNRESOLVED
+
+8/10 controls passed
+Each control was OBSERVED FAILING the case it exists to reject — not merely observed
+accepting the good one. A check that has never been seen to fail proves nothing.
+M9_EXIT=1

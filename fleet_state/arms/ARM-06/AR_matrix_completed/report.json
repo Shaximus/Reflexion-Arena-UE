@@ -1,0 +1,91 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-06-20260806T0000Z-M2ATTEST-06",
+  "arm_id": "ARM-06",
+  "goal_id": "kestrel-v2-attest-independent-verification",
+  "generated_at": "2026-08-06T00:00:00Z",
+  "state": "CHECKPOINT",
+  "chat_url": "https://chatgpt.com/g/g-p-6a46a73f024481918cf7a4c4ce131766-the-board-room/c/6a72276b-1b18-83ea-9617-54360924c769",
+  "authority_ceiling": "L2",
+  "evidence_root": "fleet_state/arms/ARM-06/AR_matrix_completed",
+  "claims": [
+    {
+      "claim_id": "ar.all-ten-controls-observed-failing",
+      "text": "PRIME'S CLAIM IS VERIFIED. All 10 controls have now been OBSERVED FAILING under at least one mutation of attest.py. M6 (happy path never attests) and M7 (a good chain reports TAMPERED) broke the two POSITIVE controls; M9 (a broken or missing chain now ATTESTS) broke 'no chain -> UNRESOLVED' with got=MACHINE_CONTINUATION_ATTESTED. Combined with M1-M5 the suite is fully exercised: every control refuses something.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "ar.control4-caveat-stands",
+      "text": "ONE CAVEAT SURVIVES, unchanged from CHECKPOINT-04: control #4 fails only under COARSE mutations that break the whole attest path. Under M1 — the verdict literally reading HUMAN_TYPED_ORIGIN_UNRESOLVED, the exact case it is named for — it PASSED. It is a live control with a name that overpromises, and the one-line fix stands: assert the verdict rather than substring-search the serialised response.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "ar.my-recommendation-was-nearly-right",
+      "text": "I told Prime 'two cheap additions would take the suite from 7/10 proven to 10/10'. Tested: it took THREE mutations, not two — M6, M7 and M9 — and my first attempt at the third (M8) was badly chosen. The substance was right, the count was wrong, and I only know that because I ran it instead of leaving Prime to act on the estimate.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "ar.m8-was-a-bad-mutation-not-a-blind-control",
+      "text": "M8 POST-MORTEM, and it is the third time this matrix nearly produced a false accusation. My M8 made the NO_CHAIN branch claim INTACT, so attest() walked past its own guard and raised FileNotFoundError on a file that genuinely does not exist. The control never rendered a verdict — the program crashed before it could. My tool printed 'NEVER — DECORATIVE' for it anyway. A mutation that crashes the subject tests nothing, and a matrix that cannot tell 'not caught' from 'never evaluated' will libel whatever it touches.",
+      "status": "MACHINE_VERIFIED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "matrix_full.txt",
+      "sha256": "1a72d9a591b26cfe36ed6d25c1c3f72a456779e828e3df1ffac4904c14eeff82",
+      "claim_ids": [
+        "ar.all-ten-controls-observed-failing",
+        "ar.control4-caveat-stands",
+        "ar.my-recommendation-was-nearly-right"
+      ]
+    },
+    {
+      "path": "m9.txt",
+      "sha256": "4ab1929b887457fd0345fcf61df518964aa7efa2006bb902ae085b74b5b22c70",
+      "claim_ids": [
+        "ar.all-ten-controls-observed-failing",
+        "ar.my-recommendation-was-nearly-right",
+        "ar.m8-was-a-bad-mutation-not-a-blind-control"
+      ]
+    },
+    {
+      "path": "ctl_matrix.py",
+      "sha256": "c79f76495979f0302e62f3059603d7865fbd11008ceca2fff4d170e4a4c5ac44",
+      "claim_ids": [
+        "ar.all-ten-controls-observed-failing"
+      ]
+    }
+  ],
+  "artifacts": [
+    "matrix_full.txt",
+    "m9.txt",
+    "ctl_matrix.py"
+  ],
+  "tests": [
+    {
+      "command": "python3 ctl_matrix.py  # 8 mutations x unmodified control suite",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "matrix_full.txt",
+      "stderr_artifact": "matrix_full.txt",
+      "negative_control": true
+    },
+    {
+      "command": "python3 test_attest_controls.py  # against M9: broken/missing chain ATTESTS",
+      "producer_exit_code": 1,
+      "result": "FAIL",
+      "stdout_artifact": "m9.txt",
+      "stderr_artifact": "m9.txt",
+      "negative_control": true
+    }
+  ],
+  "decisions_requested": [
+    "Prime's suite is verified: 10/10 controls observed failing, with the single caveat that control #4's implementation is coarser than its name. The one-line fix is the only change I would make to it."
+  ],
+  "risks": [
+    "A mutation matrix proves each control CAN fail; it does not prove each fails for the right reason. Control #4 is the standing counter-example — live under coarse mutations, blind to its own subject. 'Observed failing' and 'discriminating for its stated claim' are different properties and I have measured only the first for nine of the ten.",
+    "My own matrix tool still prints 'DECORATIVE' when a control is merely unexercised. It misled me three times in this one exercise. The label should read 'NEVER OBSERVED FAILING — MAY BE UNTESTED', and I am recording that rather than silently fixing the wording after the fact."
+  ],
+  "next_action": "Attack phase complete: all four assigned points answered. BLOCKED on push."
+}
