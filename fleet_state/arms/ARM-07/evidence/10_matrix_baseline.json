@@ -1,0 +1,63 @@
+{
+ "tag": "baseline",
+ "started": "2026-08-05T14:12:53-0300",
+ "short": {
+  "rc": 0,
+  "stderr_tail": "",
+  "summary": {
+   "runs": 5,
+   "mean_decode_tokens_per_second": 125.065,
+   "median_decode_tokens_per_second": 125.119,
+   "min_decode_tokens_per_second": 124.696,
+   "max_decode_tokens_per_second": 125.28,
+   "stdev_decode_tokens_per_second": 0.242,
+   "all_runs_reached_max_tokens": true,
+   "output_equivalent_across_runs": true,
+   "content_sha256": "35280d79f3e7fa87af9b9a5ab94a7798d6e684168048662fc49cfb2ccfa0f067",
+   "mean_draft_acceptance_rate": 0.532609
+  }
+ },
+ "cold_50k": {
+  "ttft_s": 9.896,
+  "total_s": 9.952
+ },
+ "rep_50k": {
+  "ttft_s": 9.973,
+  "total_s": 10.029
+ },
+ "cold_300k": {
+  "ttft_s": 216.985,
+  "total_s": 217.124
+ },
+ "rep_300k": {
+  "ttft_s": 218.718,
+  "total_s": 218.858
+ },
+ "conc4": {
+  "wall_s": 2.07,
+  "aggregate_tok_s": 7.7,
+  "requests": [
+   {
+    "i": 1,
+    "wall_s": 2.07,
+    "completion_tokens": 4
+   },
+   {
+    "i": 2,
+    "wall_s": 2.07,
+    "completion_tokens": 4
+   },
+   {
+    "i": 0,
+    "wall_s": 2.07,
+    "completion_tokens": 4
+   },
+   {
+    "i": 3,
+    "wall_s": 2.07,
+    "completion_tokens": 4
+   }
+  ]
+ },
+ "finished": "2026-08-05T14:20:42-0300"
+}

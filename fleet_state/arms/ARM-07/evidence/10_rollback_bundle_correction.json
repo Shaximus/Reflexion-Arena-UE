@@ -1,0 +1,12 @@
+{
+  "corrects": "10_rollback_bundle.json field effective_config",
+  "written_at": "2026-08-05T14:20:00-03:00",
+  "defect": "S0's effective_config() greps the last 9MB of /var/log/qwen27-mtp.log; that tail is contaminated by vLLM-logged PROMPT TEXT from the foundry arm's V9 needle haystack, which was built from real text containing verbatim copies of old log lines. The parser therefore read an init line from a logged prompt (Aug 4 15:22/20:36 boots: max_seq_len=262144, kv 1,436,030) instead of the current boot's real init line.",
+  "authoritative_state_at_window_start": {
+    "source_1": "curl /v1/models at 14:16 during S1: max_model_len=1048576 (live server, MACHINE_VERIFIED)",
+    "source_2": "grep -n core.py:114 over the FULL log: last real init line is (EngineCore pid=2190505) 08-05 07:33:48, the current boot; independent 08:01 readback (evidence 09_postapply_readback.txt) parsed it: max_seq_len=1048576, yarn factor 4.0, num_spec_tokens=6, fp8_per_channel, GPU KV 1,563,388 tokens",
+    "main_pid": "2189666 (matches bundle)"
+  },
+  "impact_on_window": "None on measurements: all S1 legs ran against the live 1M baseline (confirmed from the server, not the log). S2/S5 invariant checks parse correctly because immediately after a restart the fresh boot's init line is the newest content in the tail and my matrix documents are word-salad that cannot mimic log lines.",
+  "lesson": "Log-grep readback is unforgeable only when the server does not log request payloads; on this box vLLM logs prompts, so any prompt can inject log-shaped text. Prefer /v1/models and /proc/<pid>/cmdline for config readback; use log-grep only anchored immediately after a restart."
+}
