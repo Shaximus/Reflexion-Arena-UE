@@ -1,0 +1,31 @@
+{
+ "restart": {
+  "tag": "to-dflash262k",
+  "old_pid": "2060088",
+  "kill_rc": 0,
+  "kill_err": "",
+  "api_ready_s": 48.0,
+  "completion": "RECOVERED",
+  "first_completion_s": 48.2,
+  "new_pid": "2111237"
+ },
+ "boot": {
+  "init_found": true,
+  "spec_config": "speculative_config=SpeculativeConfig(method='dflash', model='/home/shax/mnt_data/models/z-lab/Qwen3.5-27B-DFlash', num_spec_tokens=8)",
+  "num_spec": "8",
+  "max_seq_len": "262144",
+  "fp8": true,
+  "dflash_lines": [
+   "(APIServer pid=2111237) INFO 08-05 18:48:58 [api_utils.py:273] non-default args: {'enable_auto_tool_choice': True, 'tool_call_parser': 'qwen3_coder', 'host': '1",
+   "(APIServer pid=2111237) INFO 08-05 18:48:58 [model.py:598] Resolved architecture: DFlashDraftModel",
+   "(EngineCore pid=2111828) INFO 08-05 18:49:05 [core.py:114] Initializing a V1 LLM engine (v0.24.0) with config: model='/home/shax/mnt_data/models/Qwen/Qwen3.5-27",
+   "(EngineCore pid=2111828) WARNING 08-05 18:49:30 [jit_monitor.py:106] Triton kernel JIT compilation during inference: copy_and_expand_dflash_inputs_kernel. This "
+  ],
+  "marlin_lines": [],
+  "kv_pool": "(EngineCore pid=2111828) INFO 08-05 18:49:25 [kv_cache_utils.py:2146] GPU KV cache size: 938,490 tokens",
+  "model_residency": "(EngineCore pid=2111828) INFO 08-05 18:49:11 [gpu_model_runner.py:5255] Model loading took 32.18 GiB memory and 4.438517",
+  "expected_dflash": true,
+  "dflash_engaged": true,
+  "marlin_fallback": false
+ }
+}

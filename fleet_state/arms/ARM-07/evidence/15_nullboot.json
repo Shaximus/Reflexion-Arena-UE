@@ -1,0 +1,10 @@
+{
+ "tag": "null-boot-B",
+ "old_pid": "1379790",
+ "kill_rc": 0,
+ "kill_err": "",
+ "api_ready_s": 54.0,
+ "completion": "RECOVERED",
+ "first_completion_s": 54.2,
+ "new_pid": "2060088"
+}

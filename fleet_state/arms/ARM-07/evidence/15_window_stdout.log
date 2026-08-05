@@ -1,0 +1,33 @@
+LOCK_ACQUIRED pid=2036874
+WINDOW_RECORD_WRITTEN (transactional)
+[docs] building
+[receipt] 15_docs_meta.json
+  baselineA L=1000: 0.146s
+  baselineA L=8000: 0.9575s
+  baselineA L=32000: 5.2165s
+  baselineA L=96000: 28.8625s
+  baselineA L=200000: 103.568s
+[receipt] 15_ttft_baselineA.json
+[receipt] 15_nullboot.json
+  baselineB L=1000: 0.1575s
+  baselineB L=8000: 0.9985s
+  baselineB L=32000: 5.4405s
+  baselineB L=96000: 29.727s
+  baselineB L=200000: 103.8005s
+[receipt] 15_ttft_baselineB.json
+[receipt] 15_null_control.json
+[receipt] 15_dflash_boot.json
+  dflash262k L=1000: 0.1515s
+  dflash262k L=8000: 0.9995s
+  dflash262k L=32000: 5.3855s
+  dflash262k L=96000: 28.9555s
+  dflash262k L=200000: 100.39s
+[receipt] 15_ttft_dflash262k.json
+[receipt] 15_restore.json
+[receipt] 15_verdict.json
+SCALING VERDICT written
+DRIVER_EXIT=0
+TXN_TRAP: hook already matches pre-window backup
+final_probe_http=200
+WINDOW_CLOSED 2026-08-05T18:54:50-03:00
+scaling_window_exit=0

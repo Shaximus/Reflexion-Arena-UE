@@ -1,0 +1,11 @@
+{
+ "floors_s": {
+  "1000": 0.0115,
+  "8000": 0.041,
+  "32000": 0.224,
+  "96000": 0.8645,
+  "200000": 0.2325
+ },
+ "detector_failed_to_find_difference": true,
+ "rule": "per-length floor = |A-B| median; dflash delta below 2x floor is noise"
+}

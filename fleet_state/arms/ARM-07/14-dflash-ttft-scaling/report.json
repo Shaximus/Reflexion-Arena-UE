@@ -1,0 +1,65 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-07-14-dflash-ttft-scaling-20260805T1905",
+  "arm_id": "ARM-07",
+  "goal_id": "dflash-ttft-scaling-and-warmup-question",
+  "generated_at": "2026-08-05T19:05:00-03:00",
+  "state": "CHECKPOINT",
+  "chat_url": "https://chatgpt.com/g/g-p-6a46a73f024481918cf7a4c4ce131766-the-board-room/c/6a7227b3-db30-83ea-9332-dd024ed0fc67 (Kestrel down; report queued as file per Prime)",
+  "authority_ceiling": "ARM-07 owns benchmark methodology and profile activation; routing-table changes queue for Head 07; transactional lock windows mandatory",
+  "evidence_root": "fleet_state/arms/ARM-07/evidence",
+  "claims": [
+    {
+      "claim_id": "C1",
+      "status": "MACHINE_VERIFIED",
+      "text": "Prime's warmup-vs-per-request question is settled FROM EXISTING FROZEN RECEIPTS, no new window: envelope 12's per-run dflash TTFT series (5 measured runs after 2 discarded warmups) is FLAT — 60.8/60.8/58.8/60.2/60.6 ms, spread 2.1 ms, no convergence toward the 43.7 ms baseline. The +16.9 ms cost at the 43-token class is per-request steady-state, not amortizable warmup. The envelope-12 rejection-as-measured was architectural at that class; ruling 3's absolute re-scope already resolved its operational meaning."
+    },
+    {
+      "claim_id": "C2",
+      "status": "MACHINE_VERIFIED",
+      "text": "The draft cost does NOT scale with prompt length — it vanishes: transactional window with per-length null pairs (baseline-vs-baseline across two boots) measured dflash-minus-baseline TTFT deltas of -0.3/+21.5/+57.0/-339.2/-3294.2 ms at 1k/8k/32k/97k/200k tokens, every value below its 2x null floor except the 200k value, which is NEGATIVE (dflash faster by 3.3 s, 7x the floor). The ruled <=25 ms absolute gate holds at every tested length up to ~200k."
+    },
+    {
+      "claim_id": "C3",
+      "status": "MACHINE_VERIFIED",
+      "text": "Controls, stated fully: the null pairs failed to find a difference between identical configs at all five lengths (floors 11-864 ms halved as 2x values in receipts). The known-effect positive control did NOT reproduce at this window's smallest class (1k tokens, -0.3 ms) because the receipted +16.9 ms effect belongs to the 43-token class, already absorbed by 1k — a designed-class mismatch documented in the receipt (detector_reproduces_known_effect: false), with envelope 12's frozen series standing as the proof at its own class."
+    },
+    {
+      "claim_id": "C4",
+      "status": "CLAIMED",
+      "text": "The 200k dflash speedup (-3.3 s, beyond floor) is likely the 262k engine geometry (KV pool 916,767 vs 1,563,388 tokens) rather than drafting; precise attribution needs a max-len-262k-without-draft control, deliberately NOT run (outside the bounded scope). The one-sided significance test in the verdict file flags it false by sign convention; the analysis report states this rather than paper over it."
+    }
+  ],
+  "evidence": [
+    {"path": "15_verdict.json", "sha256": "b2138eac8684490564a3cb2988016648bd61b161dcbc25903981ccc09856a1b5", "claim_ids": ["C2", "C3"]},
+    {"path": "15_ttft_baselineA.json", "sha256": "6dac1fce06f9cea2c285374f41e5dba9b0d912d13f0d9bd5feec686aab7ea53c", "claim_ids": ["C2"]},
+    {"path": "15_ttft_baselineB.json", "sha256": "ecae3ab0df19e0b6ec34c5405d8a9a475103b1ff0f415d97a528782653989940", "claim_ids": ["C2", "C3"]},
+    {"path": "15_null_control.json", "sha256": "db038e2fc43a599de68d56038e41743f735db370c80d1c689563203fb768bef6", "claim_ids": ["C3"]},
+    {"path": "15_ttft_dflash262k.json", "sha256": "09a706d8417a9c9b2f0f588426a28bb00fce842f65e72d94cf9101565d4243c3", "claim_ids": ["C2"]},
+    {"path": "15_dflash_boot.json", "sha256": "65e0ed099e681b891936ef9c2566b839c5a3000fb471daa5a84dccf27b98f572", "claim_ids": ["C2"]},
+    {"path": "15_docs_meta.json", "sha256": "02309f2c56447f0b466d834d26f48f24a0c355bc4626842e5e77ae785d090768", "claim_ids": ["C2"]},
+    {"path": "15_restore.json", "sha256": "4d91468b122c79aab888084af203bd0e74e060312d83a4a41f0091710a9aee33", "claim_ids": ["C2"]},
+    {"path": "11_dflash262k_qualify.json", "sha256": "4a2ff4f17d8b8e372025037658694d368a15886428399180e41518a9c14fe26c", "claim_ids": ["C1"]},
+    {"path": "11_262kbaseline_qualify.json", "sha256": "11dbf3f7628b8b0b392c0dddee028f2a4165288604e717966520c8c3a2cfe5df", "claim_ids": ["C1"]},
+    {"path": "15_analysis_report.md", "sha256": "935b1f372c1b78b2e4d8be6b37651309df2d6acc6a64d905e7fb16b8756f32d0", "claim_ids": ["C1", "C2", "C3", "C4"]}
+  ],
+  "artifacts": [
+    "fleet_state/arms/ARM-07/reports/DFLASH_TTFT_ANALYSIS_20260805.md (queued Head report, live copy)",
+    "fleet_state/arms/ARM-07/tools/arm07_dflash_ttft_scaling.py"
+  ],
+  "tests": [
+    {"name": "ttft_scaling_window", "command": "arm07_txn_window.sh arm07_dflash_ttft_scaling.py (exit=0, restore verified 1048576)", "result": "curve measured, null pairs clean at all lengths, canonical restored", "producer_exit_code": 0},
+    {"name": "warmup_question_from_receipts", "command": "per-run series read from frozen envelope-12 evidence (no new measurement)", "result": "flat series after discarded warmups: per-request cost, not warmup", "producer_exit_code": 0}
+  ],
+  "decisions_requested": [
+    {
+      "id": "D1",
+      "decision": "Head 07 (queued, Kestrel down): extend qwen27-mtp-dflash262k routing eligibility from the tested short-prompt class to inputs <= ~200k tokens — the ruled <=25 ms absolute TTFT gate holds at every tested length, decode gains +23.6%. Conservative ruled boundary stands until answered."
+    }
+  ],
+  "risks": [
+    "The 200k prefill speedup is unattributed (geometry vs drafting); routing on it is not proposed, only cost-absence is.",
+    "Lengths tested at one point each per arm (2 measurements/leg); the null floors bound the noise but a per-length distribution was not collected."
+  ],
+  "next_action": "Idle pending: Kestrel recovery (three queued Head items: D1 here, ruling-3 relay confirmations), Curtis's 1M-window answer, first runtime_profile jobs, or new tasking."
+}

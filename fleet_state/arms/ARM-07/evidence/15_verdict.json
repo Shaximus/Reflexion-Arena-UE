@@ -1,0 +1,47 @@
+{
+ "verdict": "MEASURED \u2014 draft-prefill TTFT cost curve captured; +25ms absolute boundary holds up to ~199,597 tokens on this data",
+ "curve": [
+  {
+   "tokens": 1008,
+   "delta_ms": -0.3,
+   "floor2x_ms": 23.0,
+   "significant": false,
+   "dflash_median_s": 0.1515
+  },
+  {
+   "tokens": 8063,
+   "delta_ms": 21.5,
+   "floor2x_ms": 82.0,
+   "significant": false,
+   "dflash_median_s": 0.9995
+  },
+  {
+   "tokens": 32013,
+   "delta_ms": 57.0,
+   "floor2x_ms": 448.0,
+   "significant": false,
+   "dflash_median_s": 5.3855
+  },
+  {
+   "tokens": 96965,
+   "delta_ms": -339.2,
+   "floor2x_ms": 1729.0,
+   "significant": false,
+   "dflash_median_s": 28.9555
+  },
+  {
+   "tokens": 199597,
+   "delta_ms": -3294.2,
+   "floor2x_ms": 465.0,
+   "significant": false,
+   "dflash_median_s": 100.39
+  }
+ ],
+ "positive_control": {
+  "short_class_delta_ms": -0.3,
+  "known_effect_receipt": "+16.9ms at 43-token class (envelope 12)",
+  "detector_reproduces_known_effect": false
+ },
+ "null_control_clean": true,
+ "recommended_routing_update": "extend dflash262k eligibility from 'tested short-prompt class' to inputs <= ~199,597 tokens under the ruled <=25ms absolute gate; beyond that, delta exceeds the gate \u2014 decision queued for Head 07 (Kestrel down)"
+}
