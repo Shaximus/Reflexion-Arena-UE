@@ -1,0 +1,65 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-07-11-dflash-comparison-20260805T1645",
+  "arm_id": "ARM-07",
+  "goal_id": "dflash-vs-mtp-bounded-comparison-prime-dispatch",
+  "generated_at": "2026-08-05T16:45:00-03:00",
+  "state": "CHECKPOINT",
+  "chat_url": "https://chatgpt.com/g/g-p-6a46a73f024481918cf7a4c4ce131766-the-board-room/c/6a7227b3-db30-83ea-9332-dd024ed0fc67",
+  "authority_ceiling": "ARM-07 sole technical owner of qwen27-mtp per HEAD07 R2; all mutations under the flock measurement-window protocol",
+  "evidence_root": "fleet_state/arms/ARM-07/evidence",
+  "claims": [
+    {
+      "claim_id": "C1",
+      "status": "MACHINE_VERIFIED",
+      "text": "VERDICT: REJECT, and it is a decision-quality result with an exact number. dflash8 (z-lab/Qwen3.5-27B-DFlash draft, num_speculative_tokens=8) cannot boot on the production stack alongside 1M YaRN at the authorized gpu-memory-utilization 0.87: vLLM refuses startup with 'To serve at least one request with the model's max seq len (1048576), 49.41 GiB KV cache is needed, which is larger than the available KV cache memory (46.97 GiB)'. Shortfall 2.44 GiB. The draft resolves (DFlashDraftModel) and loads (target+draft 32.18 GiB vs 28.06 target-only); the collision is memory geometry with the 1M context, not method compatibility. Deterministic crash loop across repeated systemd attempts; production auto-restored and verified."
+    },
+    {
+      "claim_id": "C2",
+      "status": "MACHINE_VERIFIED",
+      "text": "The discriminating null control ran and FAILED TO FIND A DIFFERENCE before any delta claim, as dispatched: baseline-vs-baseline across two independent boots through the identical harness measured 125.843 vs 125.871 tok/s (0.02% delta) with byte-identical output digests. Warm arms discarded 2 warmups each (stated in receipts); cold controls 0.16s both boots. The dflash arm never served, so no delta is claimed — the control establishes the harness could have detected one as small as ~2%."
+    },
+    {
+      "claim_id": "C3",
+      "status": "MACHINE_VERIFIED",
+      "text": "The Marlin-fallback/native-path check was NOT REACHED: the engine dies at KV-cache sizing before kernel selection. The driver's own error_tail in 11_verdict.json mis-sliced the restore boot's lines; the true root-cause traceback is preserved separately and the timeline (16:15:38 first dflash attempt, crash 16:17:24, retry 16:17:42, restore boot 16:23:36) is reconstructed from the server log."
+    },
+    {
+      "claim_id": "C4",
+      "status": "CLAIMED",
+      "text": "Paths that would let dflash8 fit — NOT executed per the stop-after-one-result bound, each requiring a ruling: (a) gpu-memory-utilization ~0.90+ (exceeds the founder-authorized 0.87 trim of 2026-07-24); (b) a dedicated dflash profile at reduced max-model-len (at 262,144 it fits with headroom); (c) FP8 KV for the draft. The 4B pilot's +36%-at-lower-acceptance signal remains untested on the 27B; the blocker is 2.44 GiB of memory geometry, not the method."
+    }
+  ],
+  "evidence": [
+    {"path": "11_verdict_final.json", "sha256": "812f8d764afe9f8b2bfba79a532779382124a77f0aae8eeb2d2376be94f9b2be", "claim_ids": ["C1"]},
+    {"path": "11_dflash_root_cause_traceback.txt", "sha256": "5d0ba7449f789dfa08d73aa352060edf052f21f3066f9d153091bf9d3c8cc615", "claim_ids": ["C1", "C3"]},
+    {"path": "11_d3_dflash_boot.json", "sha256": "7f5ea58c3f07680e8519c1306cee2359efe3d62537739a7fba3851b7471df3f1", "claim_ids": ["C1", "C3"]},
+    {"path": "11_verdict.json", "sha256": "5384b71a10359c376af54af26c4f102eb0466785518a413d2e7407f441cd01b5", "claim_ids": ["C1", "C3"]},
+    {"path": "11_d2_null_control.json", "sha256": "59b2659b9c7807deb78599b4d870489bfa0b56c5fed03fed3034dd29dc8a5c53", "claim_ids": ["C2"]},
+    {"path": "11_d1_baselineA.json", "sha256": "de4e9a0ea5f4c1e72e861046558a18801320af49ffbf282aeed36330f7316a41", "claim_ids": ["C2"]},
+    {"path": "11_baselineA_qualify.json", "sha256": "29fbea3fd7064450703070995ad1a2fa88880c43f25edd58bff181db4eb7a2c0", "claim_ids": ["C2"]},
+    {"path": "11_baselineB_qualify.json", "sha256": "c2c8ae197d7dddcce90fed5b8a19b543e8c5bb13e912d10da05fc9e24985dff2", "claim_ids": ["C2"]},
+    {"path": "11_d0_snapshot.json", "sha256": "6bfa2890c25487c2225808c08b1219f8776c2063b4271437f0f8d332b94b0f3b", "claim_ids": ["C1"]},
+    {"path": "11_window_record_closed.json", "sha256": "4c2f53bd00839759f502f9698056c3cdeb0033044c957e9ea6f4cea42e9435ae", "claim_ids": ["C1", "C2"]}
+  ],
+  "artifacts": [
+    "fleet_state/arms/ARM-07/tools/arm07_dflash_qual.py + arm07_dflash_window.sh",
+    "Rollback (executed by driver, verified): cp evidence/11_hook_backup_prewindow.py <hook> && kill -9 MainPID; live server reads back max_model_len=1048576 on the canonical baseline"
+  ],
+  "tests": [
+    {"name": "null_control", "command": "two baseline boots, identical harness, 5 runs + 2 discarded warmups each", "result": "0.02% delta, digest identical — control failed to find a difference", "producer_exit_code": 0},
+    {"name": "dflash8_boot", "command": "hook spec-config patch to dflash8 + kill (auto-restart)", "result": "deterministic crash loop at _initialize_kv_caches: 49.41 GiB needed > 46.97 GiB available at 1M/0.87", "producer_exit_code": 1},
+    {"name": "restore", "command": "driver failure path: restore hook + reboot", "result": "baseline restored, /v1/models reads 1048576, window closed clean", "producer_exit_code": 0}
+  ],
+  "decisions_requested": [
+    {
+      "id": "D1",
+      "decision": "Prime/Head 07: if the 27B DFlash signal is worth chasing, rule on ONE of the fit paths in C4 as a new bounded goal — the cheapest informative variant is a dflash profile at max-model-len 262144 (no memory-budget change, tests the method's 27B transfer directly); the 1M-compatible variant needs the 0.87 budget ruling reopened with Curtis."
+    }
+  ],
+  "risks": [
+    "The reject is specific to the 1M/0.87 geometry; treating it as 'DFlash rejected on 27B' would overclaim — the method was never exercised on this card.",
+    "vLLM 0.24's dflash path remains unproven here past config+load; the 0.26-sidecar pilot is the only serving evidence."
+  ],
+  "next_action": "Report both verdicts (5b envelope 10, DFlash envelope 11) to Kestrel Head 07 on the warm hannah-head07 tab, per Prime's instruction that reporting follows measurement."
+}

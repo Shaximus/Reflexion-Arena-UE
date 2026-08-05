@@ -1,0 +1,45 @@
+{
+ "restart": {
+  "tag": "baseline-boot-A",
+  "old_pid": "666842",
+  "kill_rc": 0,
+  "log_offset": 216394840,
+  "api_ready_s": 48.0,
+  "new_pid": "718053"
+ },
+ "cold": {
+  "wall_s": 0.16,
+  "content": "COLD"
+ },
+ "boot": {
+  "init_found": true,
+  "spec_config": "speculative_config=SpeculativeConfig(method='mtp', model='/home/shax/mnt_data/models/Qwen/Qwen3.5-27B', num_spec_tokens=6)",
+  "num_spec": "6",
+  "max_seq_len": "1048576",
+  "fp8": true,
+  "dflash_lines": [],
+  "marlin_lines": [],
+  "kv_pool": "(EngineCore pid=718618) INFO 08-05 16:14:06 [kv_cache_utils.py:2146] GPU KV cache size: 1,563,388 tokens",
+  "model_residency": "(EngineCore pid=718618) INFO 08-05 16:13:53 [gpu_model_runner.py:5255] Model loading took 28.44 GiB memory and 4.498258 ",
+  "expected_dflash": false,
+  "dflash_engaged": null,
+  "marlin_fallback": false
+ },
+ "warm": {
+  "rc": 0,
+  "stderr_tail": "",
+  "summary": {
+   "runs": 5,
+   "mean_decode_tokens_per_second": 125.843,
+   "median_decode_tokens_per_second": 125.83,
+   "min_decode_tokens_per_second": 125.826,
+   "max_decode_tokens_per_second": 125.884,
+   "stdev_decode_tokens_per_second": 0.024,
+   "all_runs_reached_max_tokens": true,
+   "output_equivalent_across_runs": true,
+   "content_sha256": "35280d79f3e7fa87af9b9a5ab94a7798d6e684168048662fc49cfb2ccfa0f067",
+   "mean_draft_acceptance_rate": 0.532609
+  },
+  "warmups_discarded": 2
+ }
+}

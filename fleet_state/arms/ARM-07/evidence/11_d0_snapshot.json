@@ -1,0 +1,67 @@
+{
+ "started": "2026-08-05T16:13:23-0300",
+ "main_pid": "666842",
+ "vram": "0, 84428 MiB\n1, 1555 MiB",
+ "models": 1048576,
+ "draft_artifact_sha256_first_gb": "8570105feb9b40ffd0ec18b56602ae7204726058870fd541c23b2a879f105832  -",
+ "draft_config": {
+  "architectures": [
+   "DFlashDraftModel"
+  ],
+  "attention_bias": false,
+  "attention_dropout": 0.0,
+  "auto_map": {
+   "AutoModel": "dflash.DFlashDraftModel"
+  },
+  "bos_token_id": null,
+  "dflash_config": {
+   "block_size": 16,
+   "mask_token_id": 248077,
+   "target_layer_ids": [
+    1,
+    10,
+    18,
+    27,
+    35,
+    44,
+    52,
+    61
+   ]
+  },
+  "dtype": "bfloat16",
+  "eos_token_id": 248044,
+  "head_dim": 128,
+  "hidden_act": "silu",
+  "hidden_size": 5120,
+  "initializer_range": 0.02,
+  "intermediate_size": 17408,
+  "layer_types": [
+   "sliding_attention",
+   "sliding_attention",
+   "sliding_attention",
+   "sliding_attention",
+   "sliding_attention",
+   "full_attention"
+  ],
+  "max_position_embeddings": 262144,
+  "max_window_layers": 6,
+  "model_type": "qwen3",
+  "num_attention_heads": 32,
+  "num_hidden_layers": 6,
+  "num_key_value_heads": 8,
+  "num_target_layers": 64,
+  "pad_token_id": null,
+  "rms_norm_eps": 1e-06,
+  "rope_parameters": {
+   "rope_theta": 10000000,
+   "rope_type": "default"
+  },
+  "sliding_window": 4096,
+  "tie_word_embeddings": false,
+  "transformers_version": "5.7.0",
+  "use_cache": true,
+  "use_sliding_window": true,
+  "vocab_size": 248320
+ },
+ "note_position_limit": "draft max_position_embeddings=262144, target serves 1048576 \u2014 clamp/failure beyond native is an expected observation, not tuned around"
+}

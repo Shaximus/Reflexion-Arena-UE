@@ -1,0 +1,9 @@
+LOCK_ACQUIRED pid=717046
+WINDOW_RECORD_WRITTEN /home/shax/.claude-squad/worktrees/arm/head07-inference-fable_18c8bea5f96e85d1/fleet_state/arms/ARM-07/measurement_window_active.json
+[receipt] 11_d0_snapshot.json
+[receipt] 11_d1_baselineA.json
+[receipt] 11_d2_null_control.json
+[receipt] 11_d3_dflash_boot.json
+[receipt] 11_verdict.json
+DRIVER_EXIT=0
+WINDOW_CLOSED 2026-08-05T16:24:06-03:00

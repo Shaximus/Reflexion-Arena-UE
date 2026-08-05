@@ -1,0 +1,13 @@
+{
+  "verdict": "REJECT — dflash8 cannot boot alongside 1M YaRN at the authorized memory budget. Deterministic crash loop, root cause quantitative: vLLM refuses startup because serving one 1,048,576-token request needs 49.41 GiB KV cache while only 46.97 GiB remains after loading target (28.06 GiB) + dflash draft (4.1 GiB, total 32.18 GiB) at gpu-memory-utilization 0.87 on the 96 GB card. Shortfall: 2.44 GiB. The draft model itself loads and resolves correctly (DFlashDraftModel); this is a memory-budget collision with the 1M context, not a kernel or compatibility failure.",
+  "supersedes": "11_verdict.json (driver verdict correct in substance; its error_tail sliced the restore boot's lines instead of the crash — root cause preserved separately in 11_dflash_root_cause_traceback.txt)",
+  "decision_quality_notes": [
+    "The null control PASSED before any claim: baseline-vs-baseline across two boots = 0.02% delta, identical digests — the harness cannot manufacture a difference.",
+    "Native-path/Marlin check: never reached — the engine dies at KV-cache sizing, before kernel selection.",
+    "Cold/warm controls: baseline cold 0.16s both boots, warm 125.843/125.871 tok/s with 2 warmups discarded (stated); dflash arm never served.",
+    "Paths that would make dflash fit, NOT executed per stop-after-one-result: (a) raise gpu-memory-utilization ~0.90 (above the founder-authorized 0.87 trim), (b) a dflash profile at reduced max-model-len (e.g. 262144, where it fits with room to spare), (c) FP8 KV for the draft. Each is a new goal requiring a ruling.",
+    "The 4B pilot's +36% therefore remains untested on the 27B; the blocker is memory geometry, not the method."
+  ],
+  "baseline_restored": true,
+  "generated_at": "2026-08-05T16:40:00-03:00"
+}

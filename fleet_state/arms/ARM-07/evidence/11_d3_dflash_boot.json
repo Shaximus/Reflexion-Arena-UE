@@ -1,0 +1,13 @@
+{
+ "restart": {
+  "tag": "mutate-to-dflash8",
+  "old_pid": "722670",
+  "kill_rc": 0,
+  "log_offset": 216450340,
+  "api_ready_s": null,
+  "new_pid": "823288"
+ },
+ "boot": {
+  "init_found": false
+ }
+}
