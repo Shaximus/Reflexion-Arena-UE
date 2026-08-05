@@ -1,0 +1,44 @@
+==============================================================================
+(1) INDEPENDENT VERIFICATION — recomputed, not re-run
+==============================================================================
+  receipts            : 15
+  linkage/hash faults : 0
+
+  live evidence injection_id cd027a618b1dae52 present: True
+    session          : claudesquad_head07-inference-fable
+    orchestrator_pid : 4026564
+    transport        : tmux send-keys -l
+    recomputed hash matches declared: True
+    NOTE injection_id = sha256(session+prev+PAYLOAD)[:16]; payload is not
+         in the receipt, so injection_id cannot be recomputed from the
+         chain alone. Without the payload it is unverifiable, only
+         self-consistent. (session+prev alone gives 4c99ec4adf268d5c, != stored)
+
+==============================================================================
+(2) ATTACKS
+==============================================================================
+
+  ATTACK A: append a fabricated receipt continuing from the real tail
+    forged receipt appended -> chain faults: 0
+    VERDICT: FORGERY ACCEPTED — verifies clean
+
+  ATTACK B: alter an OLD receipt, then recompute the whole tail
+    history rewritten + re-linked -> chain faults: 0
+    VERDICT: REWRITE ACCEPTED — verifies clean
+
+  ATTACK C: tamper one field, do NOT re-link (the control they claim)
+    naive tamper -> chain faults: 1
+    VERDICT: DETECTED (control holds)
+
+  ATTACK D: is the hash keyed?
+    hmac/secret/signature present in attest.py: False
+    VERDICT: KEYLESS — receipt_hash is a plain sha256, so
+             any process that can WRITE the chain can mint receipts that
+             verify, and can rewrite history consistently.
+
+==============================================================================
+(3) SAME-UID STORAGE
+==============================================================================
+  chain uid=1000 mode=664   my uid=1000
+  I can write it: True
+  parent dir writable by me: True

@@ -1,0 +1,23 @@
+POINT 4 — is MACHINE_CONTINUATION_ATTESTED properly gated?
+Tested against a COPY under a redirected HOME. The real chain is never written.
+
+  a) genuine receipt, intact chain
+     -> MACHINE_CONTINUATION_ATTESTED   (expect MACHINE_CONTINUATION_ATTESTED)
+
+  b) unknown payload hash, intact chain
+     -> ORIGIN_UNRESOLVED  reason=no prior receipt commits to these bytes for this session
+        note=absence of a receipt is NOT evidence of a human — it is absence of evidence
+
+  c) right payload hash but WRONG session
+     -> ORIGIN_UNRESOLVED  reason=no prior receipt commits to these bytes for this session
+
+  d) genuine receipt but chain BROKEN (naive tamper elsewhere)
+     -> ORIGIN_UNRESOLVED  reason=chain TAMPERED
+        (a valid receipt must NOT attest while the chain is broken)
+
+  e) no chain at all
+     -> ORIGIN_UNRESOLVED  reason=chain NO_CHAIN
+
+  f) does the word 'human' ever appear as a VERDICT in attest.py?
+     verdict values in source: ['MACHINE_CONTINUATION_ATTESTED', 'ORIGIN_UNRESOLVED']
+     any verdict meaning 'human': NONE

@@ -1,0 +1,109 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-06-20260805T2130Z-M2ATTEST-01",
+  "arm_id": "ARM-06",
+  "goal_id": "kestrel-v2-attest-independent-verification",
+  "generated_at": "2026-08-05T21:30:00Z",
+  "state": "CHECKPOINT",
+  "chat_url": "https://chatgpt.com/g/g-p-6a46a73f024481918cf7a4c4ce131766-the-board-room/c/6a72276b-1b18-83ea-9617-54360924c769",
+  "authority_ceiling": "L2",
+  "evidence_root": "fleet_state/arms/ARM-06/AM_attest_audit",
+  "claims": [
+    {
+      "claim_id": "am.p1-chain-verifies-independently",
+      "text": "POINT 1 — M2_VERIFIED. I reimplemented the receipt-hash rule from attest.py's source rather than importing verify_chain(), and recomputed every receipt myself: 15 receipts, 0 linkage faults, 0 hash mismatches. The live evidence receipt is present — injection_id cd027a618b1dae52, session claudesquad_head07-inference-fable, orchestrator_pid 4026564, transport 'tmux send-keys -l' — and its recomputed hash matches its declared hash.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "am.p1-injection-id-is-self-consistent-only",
+      "text": "POINT 1, PRECISION. injection_id is sha256(session + prev + PAYLOAD)[:16], but the payload is NOT stored in the receipt — only its hash is. So injection_id cannot be recomputed from the chain alone; it is self-consistent, not independently verifiable. Anyone auditing the chain without the original payload bytes must take injection_id on trust.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "am.p2-forgery-and-rewrite-both-succeed",
+      "text": "POINT 2 — M2_REJECTED. Two attacks on a temp copy both produced a chain my own verifier calls clean. ATTACK A: a fabricated receipt for an injection that never happened, appended from the real tail — 0 faults, FORGERY ACCEPTED. ATTACK B: an old receipt altered and every subsequent receipt re-linked and re-hashed — 0 faults, REWRITE ACCEPTED. ATTACK D: attest.py contains no hmac, secret, key or signature, so receipt_hash is a plain keyless sha256 and the minting rule is public. ATTACK C, their stated control (tamper one field WITHOUT re-linking), IS detected — 1 fault — so their 10/10 is honest for the naive adversary and silent on the author.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "am.p3-same-uid-defeats-the-requirement",
+      "text": "POINT 3 — M2_REJECTED. The requirement is 'a read-only path the loop cannot modify'. The chain is uid 1000 mode 664, the loop's own uid; os.access reports the file AND its parent directory writable by me, a different process at the same uid. Hash linkage defeats PARTIAL tampering only. Against an adversary who can write the file and knows the algorithm — which is precisely the loop and its author — linkage provides no protection at all, as ATTACK A and B demonstrate. Same-uid storage does defeat the purpose.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "am.p3-minimum-fix-is-not-what-was-proposed",
+      "text": "POINT 3, THE MINIMUM CHANGE — and it is NOT the one proposed. 'One root-owned append-only location' fixes ATTACK B (rewrite) and does NOT fix ATTACK A (fabricated append), because append is exactly what append-only permits. Escalating that to Curtis as the fix would buy protection against history rewriting and leave forgery untouched. The minimum that closes BOTH is root-owned append-only PLUS one of: (i) a writer the loop cannot impersonate — a privileged helper or a key the payload-generating process cannot read, so a receipt proves WHO wrote it; or (ii) correlation against an INDEPENDENT record that the injection actually arrived, since a fabricated receipt has no matching arrival. (ii) is cheaper and needs no root: the transcript already records arrivals.",
+      "status": "CLAIMED"
+    },
+    {
+      "claim_id": "am.p4-gating-confirmed",
+      "text": "POINT 4 — M2_VERIFIED, tested on five cases against a copy under a redirected HOME so the real chain was never written. (a) genuine receipt + intact chain -> MACHINE_CONTINUATION_ATTESTED. (b) unknown payload hash -> ORIGIN_UNRESOLVED. (c) correct payload hash but wrong session -> ORIGIN_UNRESOLVED. (d) genuine receipt but chain TAMPERED -> ORIGIN_UNRESOLVED, so a valid receipt does not attest while the chain is broken. (e) no chain -> ORIGIN_UNRESOLVED. The source contains exactly two verdict values, MACHINE_CONTINUATION_ATTESTED and ORIGIN_UNRESOLVED; no verdict means 'human', and the absence path says so explicitly.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "am.p4-correlation-is-caller-supplied",
+      "text": "POINT 4, PRECISION. The 'correlation' is between a stored receipt and a payload_hash the CALLER passes in. attest() does not independently observe that those bytes were delivered. So it answers 'is there a prior commitment to these bytes for this session', which is the right question, but it cannot detect a receipt written for bytes that were never sent — the same gap ATTACK A exploits.",
+      "status": "MACHINE_VERIFIED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "audit.txt",
+      "sha256": "e035f25b310c2a6d7249a29c9d534891656c806ffafd9c798116e75b241826ff",
+      "claim_ids": [
+        "am.p1-chain-verifies-independently",
+        "am.p1-injection-id-is-self-consistent-only",
+        "am.p2-forgery-and-rewrite-both-succeed",
+        "am.p3-same-uid-defeats-the-requirement"
+      ]
+    },
+    {
+      "path": "attest_audit.py",
+      "sha256": "05b43170d035e29c89465e100ab72c5855317c52e56eff4d073a60e3ac7fd5af",
+      "claim_ids": [
+        "am.p1-chain-verifies-independently",
+        "am.p2-forgery-and-rewrite-both-succeed"
+      ]
+    },
+    {
+      "path": "point4.txt",
+      "sha256": "185144af2af12f2829b2803182fea3533180c6dd72821dc9c176bfc566c5cbc2",
+      "claim_ids": [
+        "am.p4-gating-confirmed",
+        "am.p4-correlation-is-caller-supplied"
+      ]
+    }
+  ],
+  "artifacts": [
+    "audit.txt",
+    "attest_audit.py",
+    "point4.txt"
+  ],
+  "tests": [
+    {
+      "command": "python3 attest_audit.py  # reimplemented hash rule, recompute + 4 attacks",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "audit.txt",
+      "stderr_artifact": "audit.txt",
+      "negative_control": true
+    },
+    {
+      "command": "HOME=<tmp> python3 attest.py attest <session> <hash>  # 5 gating cases",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "point4.txt",
+      "stderr_artifact": "point4.txt",
+      "negative_control": true
+    }
+  ],
+  "decisions_requested": [
+    "Do NOT escalate 'one root-owned append-only location' to Curtis as the fix. It closes rewrite and leaves forgery open. Escalate root-owned append-only PLUS correlation against the transcript's record of arrival — the second half needs no root and closes the attack the first half misses.",
+    "The attestation is sound as a MACHINE-CONTINUATION claim and unsound as an ANTI-FORGERY claim. If its purpose is 'prove this continuation came from the orchestrator', it needs the writer authenticated. If its purpose is 'record what the orchestrator sent, tamper-evident against outsiders', it already does that and the requirement wording should change instead."
+  ],
+  "risks": [
+    "The chain grew from 14 to 15 receipts DURING this audit and the file size changed 8080 -> 8646 bytes. It is a live, moving target; my counts are a snapshot, and a second auditor will get different numbers for the same reason the M2 census disagreed.",
+    "All attacks ran on temp copies. I did not write to the real chain, and I verified afterwards that it was untouched. But that self-restraint is exactly the protection the design is missing — I could have written to it, which is the finding.",
+    "I read attest.py to learn the hash rule before reimplementing it. If the documented rule and the executed rule differ, my reimplementation inherits the documented one. The 15/15 agreement with the live chain is the control that says they match today."
+  ],
+  "next_action": "Return M2 verdicts. BLOCKED on push. No browser work per the stand-down."
+}
