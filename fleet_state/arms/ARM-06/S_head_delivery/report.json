@@ -1,0 +1,81 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-06-20260805T1400Z-CHECKPOINT-18",
+  "arm_id": "ARM-06",
+  "goal_id": "wave1a-ARM-06-product-verification-v1",
+  "generated_at": "2026-08-05T14:00:00Z",
+  "state": "CHECKPOINT",
+  "chat_url": "https://chatgpt.com/g/g-p-6a46a73f024481918cf7a4c4ce131766-the-board-room/c/6a72276b-1b18-83ea-9617-54360924c769",
+  "authority_ceiling": "L2",
+  "evidence_root": "fleet_state/arms/ARM-06/S_head_delivery",
+  "claims": [
+    {
+      "claim_id": "s.channel-cause-was-pattern-mismatch",
+      "text": "The Head 06 channel was never policy-denied. .claude/settings.json allows 'curl -X POST http://127.0.0.1:*' and 'curl -s http://127.0.0.1:*'; my four failed attempts all used 'curl -s -X POST http://...', which matches NEITHER pattern because no allow entry combines -s with -X POST. The allow-listed form succeeded on the first attempt. I reported BLOCKED four times on a cause I had not diagnosed, with the settings file sitting unread in my own worktree.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "s.push-is-a-real-deny",
+      "text": "git push IS an explicit machine denial, unlike the channel: 'Bash(git push:*)' sits in the DENY array of the same settings file while ARM-06 holds an explicit standing grant to push. Head 06 ruled this a broken profile rather than an authority question and routed it to Fleet Platform.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "s.delivery-verified-by-message-id",
+      "text": "CKPT-02 was delivered and verified by searching the RENDERED THREAD for its own CHANNEL_MESSAGE_ID (idFoundInThread=1, role='user'), never by composer length. Composer identified by ROLE with exactly one survivor of two editables; send control confirmed present and enabled before clicking; before-state 4408 chars, after-state 0.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "s.ruling-captured",
+      "text": "Head 06 returned a 6177-character ruling, captured in full and anchored to the assistant reply FOLLOWING my message id rather than to 'the last message' — the thread already held an unrelated 5322-char Kestrel-Ack that a last-message capture would have filed as my answer. A mid-render read of the same node returned 18 chars ('K / Pasted markdown'); a length floor plus stabilisation across four polls rejected it. Captured length equals the stabilised length.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "s.ruling-content",
+      "text": "RULING: turn counter M2_REJECTED accepted; seventh and eighth defects ADMITTED; human_authored=0 is M2_REJECTED not pending; item-5 core M2_VERIFIED but renamed COMPLETED_CONTINUATION_STREAK_GE_3 and explicitly NOT proof of ZERO_HUMAN_AUTHORED_INPUT or FULLY_AUTONOMOUS_OPERATION; admission census M2_REJECTED, hash+linkage and negative control M2_VERIFIED; ARM-06's own row excluded from ARM-06's certification; K-01 stays ACTIVE split into K-01A VERIFIED / K-01B ARM-08 / K-01C ARM-06 pending; E1-E16 is a contract at the schema boundary and a roadmap at the implementation boundary; and a new bounded item K-03B is created for the ~300-tick blind window.",
+      "status": "MACHINE_VERIFIED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "delivery_evidence.txt",
+      "sha256": "7981e85d2b070695d341d5c3a71be95fe23f8af89853f477c4ff0439055e8898",
+      "claim_ids": [
+        "s.channel-cause-was-pattern-mismatch",
+        "s.push-is-a-real-deny",
+        "s.delivery-verified-by-message-id"
+      ]
+    },
+    {
+      "path": "HEAD_RULING.md",
+      "sha256": "1aee7408356068e79a0bd8dfe082eef1298b97b8df36fec68abf488e69bd294b",
+      "claim_ids": [
+        "s.push-is-a-real-deny",
+        "s.ruling-captured",
+        "s.ruling-content"
+      ]
+    }
+  ],
+  "artifacts": [
+    "delivery_evidence.txt",
+    "HEAD_RULING.md"
+  ],
+  "tests": [
+    {
+      "command": "curl -X POST http://127.0.0.1:10086/command (fill, click send, verify by CHANNEL_MESSAGE_ID)",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "delivery_evidence.txt",
+      "stderr_artifact": "delivery_evidence.txt",
+      "negative_control": false
+    }
+  ],
+  "decisions_requested": [
+    "PUSH, per Head 06: Hannah Prime pushes ARM-06's 29 commits from an authorized seat NOW - 'git push -u origin arm/product-verification-v1', exact branch only, no force, no master. Head 06 called it the highest-risk condition in the packet and said not to wait for the deny-list fix.",
+    "Route the stale .claude/settings.json deny rule to Fleet Platform: fix the scoped ARM-06 overlay, not every global profile."
+  ],
+  "risks": [
+    "I reported BLOCKED on the channel four times without reading the settings file in my own worktree. The cause was a shell-pattern mismatch I could have diagnosed on the first denial. Cost: most of a cycle of Head-channel silence.",
+    "A last-message capture would have silently filed an unrelated 5322-char Kestrel-Ack as the answer to my checkpoint. Anchoring to my own message id is what prevented it."
+  ],
+  "next_action": "Execute the ruling: K-03B transient authority trajectory (bounded, four fields, one canary). K-01C independent replay waits on ARM-08's implementation."
+}
