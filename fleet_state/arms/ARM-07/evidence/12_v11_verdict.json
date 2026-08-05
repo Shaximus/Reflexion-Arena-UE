@@ -1,0 +1,8 @@
+{
+ "verdict": "WITHIN TOLERANCE \u2014 NLL 12.5605 -> 12.5564 (-0.03% vs +5%); quality 1.000 -> 1.000",
+ "classification_per_ruling": "PROMOTE to QUALIFIED OPT-IN",
+ "tolerance_used": "existing NLL_REL_TOL=0.05 \u2014 no new tolerance invented",
+ "guards_not_applied": "verifier's pre-1M-baseline and frozen-engine-fingerprint guards are YaRN-apply-specific; here the engine change IS the candidate (documented per ruling)",
+ "regressed_cases": [],
+ "restore_ok": true
+}
