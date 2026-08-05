@@ -1,0 +1,67 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-06-20260805T0100Z-CHECKPOINT-11",
+  "arm_id": "ARM-06",
+  "goal_id": "wave1a-ARM-06-product-verification-v1",
+  "generated_at": "2026-08-05T01:00:00Z",
+  "state": "CHECKPOINT",
+  "chat_url": "https://claude.ai/code/session_01Qy2Sxm1r9VZPewmoMV6N8k",
+  "authority_ceiling": "L2",
+  "evidence_root": "fleet_state/arms/ARM-06/J_redistribution",
+  "claims": [
+    {
+      "claim_id": "j.risk-retired-by-measurement",
+      "text": "The last logged oracle risk was measured rather than left as an unverified caveat. Wave damage redirected between player and companion, aggregate preserved by construction: total_hp_lost PASSED at exactly 560 (blind, as reported) while player_hp FAILED at +60 and companion_hp FAILED at -60. The mirrored offsets confirm damage was moved, not changed. Both halves of the logged risk are exactly true: the aggregate is blind to redistribution and the per-entity assertions are what cover it.",
+      "status": "MACHINE_VERIFIED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "redistribution.out",
+      "sha256": "a9b63868946d61708da33a56d05a0a1836774823cae6fe77ffc562cc4c9aa992",
+      "claim_ids": [
+        "j.risk-retired-by-measurement"
+      ]
+    },
+    {
+      "path": "redistribution.exit",
+      "sha256": "c1878d07c636cd37631dc02c63f0c580708d78de1f2bc05c1a3b607dabb60bb7",
+      "claim_ids": [
+        "j.risk-retired-by-measurement"
+      ]
+    },
+    {
+      "path": "redistribution_probe.py",
+      "sha256": "b995170e911da8b49124bdf027d6d78a2172ff775a83dfc90219a5159bab3dc6",
+      "claim_ids": [
+        "j.risk-retired-by-measurement"
+      ]
+    },
+    {
+      "path": "redistribution.err",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "claim_ids": []
+    }
+  ],
+  "artifacts": [
+    "redistribution.out",
+    "redistribution.exit",
+    "redistribution_probe.py",
+    "redistribution.err"
+  ],
+  "tests": [
+    {
+      "command": "python3 redistribution_probe.py <scratch>",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "redistribution.out",
+      "stderr_artifact": "redistribution.err",
+      "negative_control": true
+    }
+  ],
+  "decisions_requested": [],
+  "risks": [
+    "Residual and unchanged: the oracle asserts player and companion HP individually but not boss HP directly. boss_stability covers the boss as its HP analogue and is exact."
+  ],
+  "next_action": "No open oracle risks remain unmeasured."
+}

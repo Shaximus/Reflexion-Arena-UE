@@ -1,0 +1,161 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-06-20260805T0050Z-CHECKPOINT-10",
+  "arm_id": "ARM-06",
+  "goal_id": "wave1a-ARM-06-product-verification-v1",
+  "generated_at": "2026-08-05T00:50:00Z",
+  "state": "CHECKPOINT",
+  "chat_url": "https://claude.ai/code/session_01Qy2Sxm1r9VZPewmoMV6N8k",
+  "authority_ceiling": "L2",
+  "evidence_root": "fleet_state/arms/ARM-06/I_per_tick",
+  "claims": [
+    {
+      "claim_id": "i.self-falsification",
+      "text": "I claimed in the shipped oracle docstring that the dampen mutations were \"the design, not a gap\". Per-tick measurement falsifies it: STRIKE_DAMPEN halved diverges at tick 3426 and reconverges by 3656 (231 ticks); SKILL_DAMPEN halved diverges at 6902 and reconverges by 7218 (317 ticks), first divergence region stress 14 -> 241. Both end identical, so end-state assertions see nothing.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "i.blind-window-recorded",
+      "text": "The oracle is not passing those runs because nothing behavioural happened; it passes because it only samples the last tick and the difference had healed. That is a real ~300-tick BLIND WINDOW, and end-state assertions are structurally blind to any defect that reconverges. Docstring corrected in place (720c9ef8 -> 313b8211) rather than left overclaiming.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "i.no-behavioural-regression",
+      "text": "After the docstring correction the canonical fixture still PASSes at exit 0 with all six assertions, and the discrimination matrix is unchanged (player_hp 3/5, companion_hp 3/5, total_hp_lost 3/5, boss_stability 1/5, outcome_flags 1/5, final_tick 0/5 as documented). A docstring edit should change nothing, and it was checked rather than assumed.",
+      "status": "MACHINE_VERIFIED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "per_tick.out",
+      "sha256": "e9f4d3b2058e135012bc93ca6cb73611ca8486e6a99580e37f10cac43756f1da",
+      "claim_ids": [
+        "i.self-falsification"
+      ]
+    },
+    {
+      "path": "per_tick.exit",
+      "sha256": "93afd5f1295076225dcedf73398ad36898dee5913b91f28709d8591465f1124e",
+      "claim_ids": [
+        "i.self-falsification"
+      ]
+    },
+    {
+      "path": "per_tick_probe.py",
+      "sha256": "c2ff499be390099ab7d358a37aa1724aa38f4759feb137d24a35cdd6ed758db8",
+      "claim_ids": [
+        "i.self-falsification"
+      ]
+    },
+    {
+      "path": "behavioural_oracle.corrected.py",
+      "sha256": "313b821168546a16e8fc1aa5620d8e41a7b389c1c114cd3f90e49ba4abec6396",
+      "claim_ids": [
+        "i.blind-window-recorded"
+      ]
+    },
+    {
+      "path": "oracle_before_correction.sha256",
+      "sha256": "be92c7bd287a3c22bed1c3e09c5139da7cd1b226312e2ea9f463f0ed6fa6e9a2",
+      "claim_ids": [
+        "i.blind-window-recorded"
+      ]
+    },
+    {
+      "path": "oracle_after_correction.sha256",
+      "sha256": "818c8cb573ec9ff5ebe79e6e5e6369661d45d122253a9d84d556eb2b573a0232",
+      "claim_ids": [
+        "i.blind-window-recorded"
+      ]
+    },
+    {
+      "path": "oracle_after.out",
+      "sha256": "71d37596d678a9951cc08d992b6638303284d04f45e015cd64b8b69fbaff0ee1",
+      "claim_ids": [
+        "i.no-behavioural-regression"
+      ]
+    },
+    {
+      "path": "oracle_after.exit",
+      "sha256": "c1878d07c636cd37631dc02c63f0c580708d78de1f2bc05c1a3b607dabb60bb7",
+      "claim_ids": [
+        "i.no-behavioural-regression"
+      ]
+    },
+    {
+      "path": "lab_postfix.out",
+      "sha256": "db593f322c40f17ac5b88fa39d5df7f23c99bd2a625c1cb00fc781a79cd2182d",
+      "claim_ids": [
+        "i.no-behavioural-regression"
+      ]
+    },
+    {
+      "path": "lab_postfix.exit",
+      "sha256": "7b441920940561ddf7cd461c2ee4350edfc46d06a0f175fff58b8d804c100fba",
+      "claim_ids": [
+        "i.no-behavioural-regression"
+      ]
+    },
+    {
+      "path": "lab_postfix.err",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "claim_ids": []
+    },
+    {
+      "path": "oracle_after.err",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "claim_ids": []
+    },
+    {
+      "path": "per_tick.err",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "claim_ids": []
+    }
+  ],
+  "artifacts": [
+    "per_tick.out",
+    "per_tick.exit",
+    "per_tick_probe.py",
+    "behavioural_oracle.corrected.py",
+    "oracle_before_correction.sha256",
+    "oracle_after_correction.sha256",
+    "oracle_after.out",
+    "oracle_after.exit",
+    "lab_postfix.out",
+    "lab_postfix.exit",
+    "lab_postfix.err",
+    "oracle_after.err",
+    "per_tick.err"
+  ],
+  "tests": [
+    {
+      "command": "python3 per_tick_probe.py <a> <b> <label>",
+      "producer_exit_code": 1,
+      "result": "FAIL",
+      "stdout_artifact": "per_tick.out",
+      "stderr_artifact": "per_tick.err",
+      "negative_control": true
+    },
+    {
+      "command": "python3 behavioural_oracle.py",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "oracle_after.out",
+      "stderr_artifact": "oracle_after.err",
+      "negative_control": false
+    },
+    {
+      "command": "python3 oracle_lab.py <scratch>",
+      "producer_exit_code": 1,
+      "result": "FAIL",
+      "stdout_artifact": "lab_postfix.out",
+      "stderr_artifact": "lab_postfix.err",
+      "negative_control": true
+    }
+  ],
+  "decisions_requested": [],
+  "risks": [
+    "Closing the blind window would require sampling the trajectory rather than the end state. That is beyond \"minimum means minimum\" and was NOT done — only recorded, so it is known rather than discovered later by someone trusting a green run."
+  ],
+  "next_action": "Limitation recorded in the shipped file; no further action taken by design."
+}

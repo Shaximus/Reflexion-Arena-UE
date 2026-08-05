@@ -1,0 +1,71 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-06-20260805T0020Z-CHECKPOINT-07",
+  "arm_id": "ARM-06",
+  "goal_id": "wave1a-ARM-06-product-verification-v1",
+  "generated_at": "2026-08-05T00:20:00Z",
+  "state": "CHECKPOINT",
+  "chat_url": "https://claude.ai/code/session_01Qy2Sxm1r9VZPewmoMV6N8k",
+  "authority_ceiling": "L2",
+  "evidence_root": "fleet_state/arms/ARM-06/F_c10_read_anchors",
+  "claims": [
+    {
+      "claim_id": "f.stale-anchor-found",
+      "text": "One §4.1 read anchor was STALE: boss_tremor_stage cited RxBossEarthquake.h:81, but FRxBossEarthquake::TremorStage is declared at :80 (line 81 is blank; line 64 is the same-named field on the snapshot struct). The other 5 anchors resolved exactly at TOLERANCE=0. Verified by reading the header, not by the detector alone.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "f.why-it-matters",
+      "text": "The §4.1 Reads column is the mapping C10 will read through once implemented, so the E11 repair's promise that \"reading them remains fully permitted via C10\" (RX_SKILL_ENUMS_V1.md:257-259) rests on those pointers being true. Same defect class as commit 56c4532.",
+      "status": "MACHINE_VERIFIED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "anchors.out",
+      "sha256": "bb7754a61a607a08296ff73f3f90944af9ebca7df9a21064553edd4627da44b8",
+      "claim_ids": [
+        "f.stale-anchor-found",
+        "f.why-it-matters"
+      ]
+    },
+    {
+      "path": "anchors.exit",
+      "sha256": "7b441920940561ddf7cd461c2ee4350edfc46d06a0f175fff58b8d804c100fba",
+      "claim_ids": [
+        "f.stale-anchor-found"
+      ]
+    },
+    {
+      "path": "anchors.err",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "claim_ids": []
+    },
+    {
+      "path": "inputs.sha256",
+      "sha256": "ce3a35d70c5dbbb4abb3a0557cf474262fa630167c463a1fe8fc8e8770c331cb",
+      "claim_ids": []
+    }
+  ],
+  "artifacts": [
+    "anchors.out",
+    "anchors.exit",
+    "anchors.err",
+    "inputs.sha256"
+  ],
+  "tests": [
+    {
+      "command": "python3 Design/tests/test_c10_read_anchors.py",
+      "producer_exit_code": 1,
+      "result": "FAIL",
+      "stdout_artifact": "anchors.out",
+      "stderr_artifact": "anchors.err",
+      "negative_control": false
+    }
+  ],
+  "decisions_requested": [],
+  "risks": [
+    "This test exits 1 BY DESIGN until the citation is corrected; it reports a real defect and must not be silenced. At the time of this envelope the fix was outside ARM-06 writable scope (Design/tests only) and was reported for disposition, not edited."
+  ],
+  "next_action": "Await authority to correct RX_SKILL_ENUMS_V1.md:292, or a disposition."
+}

@@ -1,0 +1,110 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-06-20260805T0040Z-CHECKPOINT-09",
+  "arm_id": "ARM-06",
+  "goal_id": "wave1a-ARM-06-product-verification-v1",
+  "generated_at": "2026-08-05T00:40:00Z",
+  "state": "CHECKPOINT",
+  "chat_url": "https://claude.ai/code/session_01Qy2Sxm1r9VZPewmoMV6N8k",
+  "authority_ceiling": "L2",
+  "evidence_root": "fleet_state/arms/ARM-06/H_suite_runner",
+  "claims": [
+    {
+      "claim_id": "h.tri-state-preserved",
+      "text": "The suite runner does not collapse exit 1 (a real defect) into exit 2 (the check did not run). DEFECT-3 was exactly that collapse one level down, so a runner reporting \"N failed\" would reintroduce it one level up.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "h.aggregation-controls",
+      "text": "Seven synthetic aggregation combinations, zero deviations: all met -> 0; one defect -> 1; one inconclusive -> 2; defect AND inconclusive -> 1 (a defect must not be masked); inconclusive AND met -> 2 (one unrun check taints the suite); unrecognised exit 5 -> 3; EMPTY suite -> 2 (nothing ran, so nothing passed).",
+      "status": "MACHINE_VERIFIED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "suite_today.out",
+      "sha256": "a1dc4d5fbb0d2ffa22145efd9dda6ed0dbb9143e348f454aa0a4d2032a86333b",
+      "claim_ids": [
+        "h.tri-state-preserved"
+      ]
+    },
+    {
+      "path": "suite_today.exit",
+      "sha256": "7b441920940561ddf7cd461c2ee4350edfc46d06a0f175fff58b8d804c100fba",
+      "claim_ids": [
+        "h.tri-state-preserved"
+      ]
+    },
+    {
+      "path": "inputs.sha256",
+      "sha256": "74c43cdb13bedc3870c135954fce0ea4c3d8a9c0ec3742d897ac58ba669662d2",
+      "claim_ids": [
+        "h.tri-state-preserved"
+      ]
+    },
+    {
+      "path": "aggregation_matrix.out",
+      "sha256": "9b62cd82e74f7ccbc4e7db163905bf11b8ced56379504c509fac8d6a39871a83",
+      "claim_ids": [
+        "h.aggregation-controls"
+      ]
+    },
+    {
+      "path": "aggregation_matrix.exit",
+      "sha256": "c1878d07c636cd37631dc02c63f0c580708d78de1f2bc05c1a3b607dabb60bb7",
+      "claim_ids": [
+        "h.aggregation-controls"
+      ]
+    },
+    {
+      "path": "runner_probe.py",
+      "sha256": "f2a3f4f5b86042cff700714a0360527e9ac70ef5cd8727d30dea026465673787",
+      "claim_ids": [
+        "h.aggregation-controls"
+      ]
+    },
+    {
+      "path": "aggregation_matrix.err",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "claim_ids": []
+    },
+    {
+      "path": "suite_today.err",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "claim_ids": []
+    }
+  ],
+  "artifacts": [
+    "suite_today.out",
+    "suite_today.exit",
+    "inputs.sha256",
+    "aggregation_matrix.out",
+    "aggregation_matrix.exit",
+    "runner_probe.py",
+    "aggregation_matrix.err",
+    "suite_today.err"
+  ],
+  "tests": [
+    {
+      "command": "python3 Design/tests/run_tests.py",
+      "producer_exit_code": 1,
+      "result": "FAIL",
+      "stdout_artifact": "suite_today.out",
+      "stderr_artifact": "suite_today.err",
+      "negative_control": false
+    },
+    {
+      "command": "python3 runner_probe.py <scratch>",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "aggregation_matrix.out",
+      "stderr_artifact": "aggregation_matrix.err",
+      "negative_control": true
+    }
+  ],
+  "decisions_requested": [],
+  "risks": [
+    "The suite cannot reach exit 0 while test_e11_admission_path.py is INCONCLUSIVE. That is intended: a green suite with an unrun check would be a false report."
+  ],
+  "next_action": "Suite reaches 0 only when E11 exists; not before."
+}

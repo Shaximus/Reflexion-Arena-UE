@@ -1,0 +1,178 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-06-20260805T0010Z-CHECKPOINT-06",
+  "arm_id": "ARM-06",
+  "goal_id": "wave1a-ARM-06-product-verification-v1",
+  "generated_at": "2026-08-05T00:10:00Z",
+  "state": "CHECKPOINT",
+  "chat_url": "https://claude.ai/code/session_01Qy2Sxm1r9VZPewmoMV6N8k",
+  "authority_ceiling": "L2",
+  "evidence_root": "fleet_state/arms/ARM-06/E_registry_drift",
+  "claims": [
+    {
+      "claim_id": "e.defect6-measured",
+      "text": "DEFECT-6 registry drift was a FAIL-OPEN, measured before the fix: adding a new counter row to §4.1 marked A2-writable passed at exit 0 (D1), and marked denied also passed at exit 0 (D2). The gate only ever looked up counters it already knew, so the allow-list could be widened silently — the original hole in reverse.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "e.defect6-closed",
+      "text": "DEFECT-6 CLOSED by registry closure: any counter present in §4.1 that no case governs is now a failure naming the counter and its claimed write state. After the fix D1 -> exit 1, D2 -> exit 1, canonical D0 -> exit 0.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "e.schema-not-position",
+      "text": "Kestrel item 2, schema half: the §4.1 header is identified by its write-scope column, exactly one column may claim to be it, and counter_id must be the first column. Two such columns halts rather than picking one.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "e.no-regression",
+      "text": "All 10 prior controls re-run against the hardened gate with zero deviations, so closing DEFECT-6 and adding the schema checks did not weaken any earlier repair.",
+      "status": "MACHINE_VERIFIED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "drift_before.out",
+      "sha256": "887b13cbdc6f20be72c00b60925f2ff110a31b5cac89895a7780cb09bddabee0",
+      "claim_ids": [
+        "e.defect6-measured"
+      ]
+    },
+    {
+      "path": "drift_before.exit",
+      "sha256": "7b441920940561ddf7cd461c2ee4350edfc46d06a0f175fff58b8d804c100fba",
+      "claim_ids": [
+        "e.defect6-measured"
+      ]
+    },
+    {
+      "path": "drift_after.out",
+      "sha256": "e161f43fa4a30efd1e1d26c95da4fade88872cf61de75b5e3700a6013d913e08",
+      "claim_ids": [
+        "e.defect6-closed"
+      ]
+    },
+    {
+      "path": "drift_after.exit",
+      "sha256": "c1878d07c636cd37631dc02c63f0c580708d78de1f2bc05c1a3b607dabb60bb7",
+      "claim_ids": [
+        "e.defect6-closed"
+      ]
+    },
+    {
+      "path": "drift_probe.py",
+      "sha256": "0a7f2c448a8a1afb002035354c46e1c6bf9d075fa3ab57e7ad73debb182a724f",
+      "claim_ids": [
+        "e.defect6-closed"
+      ]
+    },
+    {
+      "path": "canonical_in_place.out",
+      "sha256": "bc0c120de23793aabf042d1ea362218bbffc94ea15d53f17c0d440877a8c3edd",
+      "claim_ids": [
+        "e.schema-not-position"
+      ]
+    },
+    {
+      "path": "canonical_in_place.exit",
+      "sha256": "c1878d07c636cd37631dc02c63f0c580708d78de1f2bc05c1a3b607dabb60bb7",
+      "claim_ids": [
+        "e.schema-not-position"
+      ]
+    },
+    {
+      "path": "regression_matrix.out",
+      "sha256": "d21281bde459a434b9829599f5c3555653b2b6ab68115ba304ef68eb63024223",
+      "claim_ids": [
+        "e.no-regression"
+      ]
+    },
+    {
+      "path": "regression_matrix.exit",
+      "sha256": "c1878d07c636cd37631dc02c63f0c580708d78de1f2bc05c1a3b607dabb60bb7",
+      "claim_ids": [
+        "e.no-regression"
+      ]
+    },
+    {
+      "path": "probe_e11_v2.py",
+      "sha256": "f689b4d6ad346eee97f4e4c3905bb6eb7b018c296b2f1a1003c6ecc2fe290a60",
+      "claim_ids": [
+        "e.no-regression"
+      ]
+    },
+    {
+      "path": "canonical_in_place.err",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "claim_ids": []
+    },
+    {
+      "path": "drift_after.err",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "claim_ids": []
+    },
+    {
+      "path": "drift_before.err",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "claim_ids": []
+    },
+    {
+      "path": "inputs.sha256",
+      "sha256": "7037759bad4d3824f5aeb157f6bcd0bbfb8af53eabea2e118e8904cbfad1a41e",
+      "claim_ids": []
+    },
+    {
+      "path": "regression_matrix.err",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "claim_ids": []
+    }
+  ],
+  "artifacts": [
+    "drift_before.out",
+    "drift_before.exit",
+    "drift_after.out",
+    "drift_after.exit",
+    "drift_probe.py",
+    "canonical_in_place.out",
+    "canonical_in_place.exit",
+    "regression_matrix.out",
+    "regression_matrix.exit",
+    "probe_e11_v2.py",
+    "canonical_in_place.err",
+    "drift_after.err",
+    "drift_before.err",
+    "inputs.sha256",
+    "regression_matrix.err"
+  ],
+  "tests": [
+    {
+      "command": "python3 drift_probe.py <scratch>",
+      "producer_exit_code": 1,
+      "result": "FAIL",
+      "stdout_artifact": "drift_before.out",
+      "stderr_artifact": "drift_before.err",
+      "negative_control": true
+    },
+    {
+      "command": "python3 drift_probe.py <scratch>  # after fix",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "drift_after.out",
+      "stderr_artifact": "drift_after.err",
+      "negative_control": true
+    },
+    {
+      "command": "python3 probe_e11_v2.py <scratch>",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "regression_matrix.out",
+      "stderr_artifact": "regression_matrix.err",
+      "negative_control": true
+    }
+  ],
+  "decisions_requested": [],
+  "risks": [
+    "The gate is stronger but still checks a DOCUMENT. Registry closure prevents silent widening of the allow-list; it does not make any validator enforce it in code."
+  ],
+  "next_action": "Continue the checklist; item 5 remains open pending an E11 implementation."
+}

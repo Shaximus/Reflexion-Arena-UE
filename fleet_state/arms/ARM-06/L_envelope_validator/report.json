@@ -1,0 +1,131 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-06-20260805T0120Z-CHECKPOINT-13",
+  "arm_id": "ARM-06",
+  "goal_id": "wave1a-ARM-06-product-verification-v1",
+  "generated_at": "2026-08-05T01:20:00Z",
+  "state": "CHECKPOINT",
+  "chat_url": "https://claude.ai/code/session_01Qy2Sxm1r9VZPewmoMV6N8k",
+  "authority_ceiling": "L2",
+  "evidence_root": "fleet_state/arms/ARM-06/L_envelope_validator",
+  "claims": [
+    {
+      "claim_id": "l.validator-committed",
+      "text": "The check that found D_admission_path unadmittable is committed rather than left as an inline heredoc. It validates what \"files exist\" and \"hashes match\" both miss: that each evidence path can be RESOLVED from its declared root. Current state: 4 envelopes, all ADMISSIBLE, 0 defects.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "l.positive-control-is-the-real-defect",
+      "text": "The positive control is the historical artifact, not a hypothetical: the real pre-repair D envelope restored from commit 90d24aa is REFUSED with exactly the two \"../\" escapes that actually occurred, while the other three envelopes stay ADMISSIBLE in the same run.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "l.all-branches-fire",
+      "text": "All eight refusal branches fire, zero silent: clean control -> 0; missing required key, absolute evidence_root, missing file, sha256 mismatch, bad claim status, load-bearing claim with no evidence, and path escape all -> 1.",
+      "status": "MACHINE_VERIFIED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "validate_now.out",
+      "sha256": "81ac5a792e7556e770fa9e568e261766e9ff7900c2a3593f6da7ede2c1cb841a",
+      "claim_ids": [
+        "l.validator-committed"
+      ]
+    },
+    {
+      "path": "validate_now.exit",
+      "sha256": "c1878d07c636cd37631dc02c63f0c580708d78de1f2bc05c1a3b607dabb60bb7",
+      "claim_ids": [
+        "l.validator-committed"
+      ]
+    },
+    {
+      "path": "validate_prerepair.out",
+      "sha256": "d0fc11e68fdbabcc5a632df925b06e4a2b1a8ab6e4145f4efd6f89dd49523c8d",
+      "claim_ids": [
+        "l.positive-control-is-the-real-defect"
+      ]
+    },
+    {
+      "path": "validate_prerepair.exit",
+      "sha256": "8ffe88297a09bdd5d400275a19d8d71f32811572eb8f16fc1ddb63f96064be4d",
+      "claim_ids": [
+        "l.positive-control-is-the-real-defect"
+      ]
+    },
+    {
+      "path": "branch_matrix.out",
+      "sha256": "882050ad6e7494fe0ac7015ccb41bd2782d6799c0af2ded779edc0dd89d6aa1f",
+      "claim_ids": [
+        "l.all-branches-fire"
+      ]
+    },
+    {
+      "path": "branch_matrix.exit",
+      "sha256": "c1878d07c636cd37631dc02c63f0c580708d78de1f2bc05c1a3b607dabb60bb7",
+      "claim_ids": [
+        "l.all-branches-fire"
+      ]
+    },
+    {
+      "path": "validator_branches.py",
+      "sha256": "3e538c99b7991c1c2b90f18e2e60c0f11c18aa555354a7c8b63a4463098b8c91",
+      "claim_ids": [
+        "l.all-branches-fire"
+      ]
+    },
+    {
+      "path": "branch_matrix.err",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "claim_ids": []
+    },
+    {
+      "path": "validate_now.err",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "claim_ids": []
+    }
+  ],
+  "artifacts": [
+    "validate_now.out",
+    "validate_now.exit",
+    "validate_prerepair.out",
+    "validate_prerepair.exit",
+    "branch_matrix.out",
+    "branch_matrix.exit",
+    "validator_branches.py",
+    "branch_matrix.err",
+    "validate_now.err"
+  ],
+  "tests": [
+    {
+      "command": "python3 fleet_state/arms/ARM-06/validate_reports.py",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "validate_now.out",
+      "stderr_artifact": "validate_now.err",
+      "negative_control": false
+    },
+    {
+      "command": "python3 validate_reports.py  # pre-repair D restored",
+      "producer_exit_code": 1,
+      "result": "FAIL",
+      "stdout_artifact": "validate_prerepair.out",
+      "stderr_artifact": "validate_prerepair.out",
+      "negative_control": true
+    },
+    {
+      "command": "python3 validator_branches.py <scratch>",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "branch_matrix.out",
+      "stderr_artifact": "branch_matrix.err",
+      "negative_control": true
+    }
+  ],
+  "decisions_requested": [],
+  "risks": [
+    "This validator duplicates part of strict admission on the arm side. It is a self-check so evidence changes can be caught before submission, not a replacement for the authoritative validator."
+  ],
+  "next_action": "Re-run after any evidence change."
+}

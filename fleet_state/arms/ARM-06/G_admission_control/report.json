@@ -1,0 +1,117 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-06-20260805T0030Z-CHECKPOINT-08",
+  "arm_id": "ARM-06",
+  "goal_id": "wave1a-ARM-06-product-verification-v1",
+  "generated_at": "2026-08-05T00:30:00Z",
+  "state": "CHECKPOINT",
+  "chat_url": "https://claude.ai/code/session_01Qy2Sxm1r9VZPewmoMV6N8k",
+  "authority_ceiling": "L2",
+  "evidence_root": "fleet_state/arms/ARM-06/G_admission_control",
+  "claims": [
+    {
+      "claim_id": "g.control-waits-for-implementation",
+      "text": "Kestrel item 5 has an end-to-end control that requires no edit when E11 lands. Today it exits 2 with PRODUCT_AUTHORITY_PATH_ABSENT because the exploit and the canon-legitimate case are refused identically by the effect vocabulary.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "g.all-branches-exercised",
+      "text": "All four exit branches were exercised with fake admission paths injected via RX_ORACLE_DIR, zero deviations: real gate -> 0, breach (exploit admitted) -> 1, not-a-gate (both refused for different reasons) -> 1, broken harness (canonical spec refused) -> 2. A branch that has never executed is not tested.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "g.positive-control-mandatory",
+      "text": "Before any refusal is believed the canonical spec must be ADMITTED; if a known-good spec cannot reach the validator, every refusal is meaningless and the test exits 2 rather than 0. Two probes earlier in this cycle passed while measuring nothing, which is why this is enforced rather than assumed.",
+      "status": "MACHINE_VERIFIED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "today.out",
+      "sha256": "0776a6eb5ccbb2a6472c0b4586eeb07f035dea8b2f33103b7600d8d469addf9b",
+      "claim_ids": [
+        "g.control-waits-for-implementation",
+        "g.positive-control-mandatory"
+      ]
+    },
+    {
+      "path": "today.exit",
+      "sha256": "1fa8f02ccff9ca4b826d9125eef87fe4626be33266b4e9b2633b5e7fcf71e859",
+      "claim_ids": [
+        "g.control-waits-for-implementation"
+      ]
+    },
+    {
+      "path": "inputs.sha256",
+      "sha256": "e202c89488fb3c172c960e4b5d4e1d6a2f6aa15bd0cb7935ccb5fdec3a1332a4",
+      "claim_ids": [
+        "g.control-waits-for-implementation"
+      ]
+    },
+    {
+      "path": "branch_matrix.out",
+      "sha256": "7623c6e3b2690f4ab11ab84dc7f07c24445e8d10714ee5e8b9a901566477a75f",
+      "claim_ids": [
+        "g.all-branches-exercised",
+        "g.positive-control-mandatory"
+      ]
+    },
+    {
+      "path": "branch_matrix.exit",
+      "sha256": "c1878d07c636cd37631dc02c63f0c580708d78de1f2bc05c1a3b607dabb60bb7",
+      "claim_ids": [
+        "g.all-branches-exercised"
+      ]
+    },
+    {
+      "path": "admission_paths_probe.py",
+      "sha256": "9471a8d883be3c05672384fac9076ab30c02cf5548e80ac5f866ddbdb51026ea",
+      "claim_ids": [
+        "g.all-branches-exercised"
+      ]
+    },
+    {
+      "path": "branch_matrix.err",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "claim_ids": []
+    },
+    {
+      "path": "today.err",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "claim_ids": []
+    }
+  ],
+  "artifacts": [
+    "today.out",
+    "today.exit",
+    "inputs.sha256",
+    "branch_matrix.out",
+    "branch_matrix.exit",
+    "admission_paths_probe.py",
+    "branch_matrix.err",
+    "today.err"
+  ],
+  "tests": [
+    {
+      "command": "python3 Design/tests/test_e11_admission_path.py",
+      "producer_exit_code": 2,
+      "result": "FAIL",
+      "stdout_artifact": "today.out",
+      "stderr_artifact": "today.err",
+      "negative_control": true
+    },
+    {
+      "command": "python3 admission_paths_probe.py <scratch>",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "branch_matrix.out",
+      "stderr_artifact": "branch_matrix.err",
+      "negative_control": true
+    }
+  ],
+  "decisions_requested": [],
+  "risks": [
+    "Exit 2 is INCONCLUSIVE, never a pass. Any runner treating non-zero as failure or zero as success will misread this test; branch on 1 vs 2."
+  ],
+  "next_action": "Re-run when ARM-08 commits an E11 admission path and report what it says."
+}

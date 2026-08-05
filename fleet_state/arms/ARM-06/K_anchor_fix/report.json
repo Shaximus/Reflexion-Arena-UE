@@ -1,0 +1,181 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-06-20260805T0110Z-CHECKPOINT-12",
+  "arm_id": "ARM-06",
+  "goal_id": "wave1a-ARM-06-product-verification-v1",
+  "generated_at": "2026-08-05T01:10:00Z",
+  "state": "CHECKPOINT",
+  "chat_url": "https://claude.ai/code/session_01Qy2Sxm1r9VZPewmoMV6N8k",
+  "authority_ceiling": "L2",
+  "evidence_root": "fleet_state/arms/ARM-06/K_anchor_fix",
+  "claims": [
+    {
+      "claim_id": "k.anchor-corrected",
+      "text": "The stale §4.1 anchor was corrected under an explicit authority grant: RxBossEarthquake.h:81 -> :80. All 6 read anchors now resolve at TOLERANCE=0. RX_SKILL_ENUMS_V1.md 747ad874... -> dab22c88..., one line changed.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "k.gate-reproven",
+      "text": "The registry doc is an INPUT to the E11 gate, so the edit required re-proving the gate, not just the anchor test: gate exit 0 (6 counters, 7/7 cases), 10-control regression exit 0 zero deviations, 3 drift controls exit 0 zero deviations.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "k.prediction-corrected",
+      "text": "I predicted the suite would go 1 -> 0. It goes 1 -> 2, and 2 is correct: clearing the defect leaves test_e11_admission_path.py INCONCLUSIVE because no E11 path exists to exercise, and inconclusive is not a pass. Had the runner used a two-value contract this suite would now report GREEN with a third of it unrun.",
+      "status": "MACHINE_VERIFIED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "anchors_after.out",
+      "sha256": "1a432fc27a5e029490c981a8a00d5f54c73032e62dcf16d84efbc3dac521cd5a",
+      "claim_ids": [
+        "k.anchor-corrected"
+      ]
+    },
+    {
+      "path": "anchors_after.exit",
+      "sha256": "c1878d07c636cd37631dc02c63f0c580708d78de1f2bc05c1a3b607dabb60bb7",
+      "claim_ids": [
+        "k.anchor-corrected"
+      ]
+    },
+    {
+      "path": "doc_after.sha256",
+      "sha256": "fe6da73389e2dc159e9120d84542c768c696bf8d5eb6ff8e2dd2f939d7f1bad8",
+      "claim_ids": [
+        "k.anchor-corrected"
+      ]
+    },
+    {
+      "path": "gate_after.out",
+      "sha256": "bc0c120de23793aabf042d1ea362218bbffc94ea15d53f17c0d440877a8c3edd",
+      "claim_ids": [
+        "k.gate-reproven"
+      ]
+    },
+    {
+      "path": "gate_after.exit",
+      "sha256": "c1878d07c636cd37631dc02c63f0c580708d78de1f2bc05c1a3b607dabb60bb7",
+      "claim_ids": [
+        "k.gate-reproven"
+      ]
+    },
+    {
+      "path": "regression_after.out",
+      "sha256": "d21281bde459a434b9829599f5c3555653b2b6ab68115ba304ef68eb63024223",
+      "claim_ids": [
+        "k.gate-reproven"
+      ]
+    },
+    {
+      "path": "regression_after.exit",
+      "sha256": "c1878d07c636cd37631dc02c63f0c580708d78de1f2bc05c1a3b607dabb60bb7",
+      "claim_ids": [
+        "k.gate-reproven"
+      ]
+    },
+    {
+      "path": "drift_after.out",
+      "sha256": "e161f43fa4a30efd1e1d26c95da4fade88872cf61de75b5e3700a6013d913e08",
+      "claim_ids": [
+        "k.gate-reproven"
+      ]
+    },
+    {
+      "path": "drift_after.exit",
+      "sha256": "c1878d07c636cd37631dc02c63f0c580708d78de1f2bc05c1a3b607dabb60bb7",
+      "claim_ids": [
+        "k.gate-reproven"
+      ]
+    },
+    {
+      "path": "suite_after.out",
+      "sha256": "687ca202713349c6e03689fbcfffafbfa510300f0817a5bf6a87d9002db62b58",
+      "claim_ids": [
+        "k.prediction-corrected"
+      ]
+    },
+    {
+      "path": "suite_after.exit",
+      "sha256": "1fa8f02ccff9ca4b826d9125eef87fe4626be33266b4e9b2633b5e7fcf71e859",
+      "claim_ids": [
+        "k.prediction-corrected"
+      ]
+    },
+    {
+      "path": "anchors_after.err",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "claim_ids": []
+    },
+    {
+      "path": "drift_after.err",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "claim_ids": []
+    },
+    {
+      "path": "gate_after.err",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "claim_ids": []
+    },
+    {
+      "path": "regression_after.err",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "claim_ids": []
+    },
+    {
+      "path": "suite_after.err",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "claim_ids": []
+    }
+  ],
+  "artifacts": [
+    "anchors_after.out",
+    "anchors_after.exit",
+    "doc_after.sha256",
+    "gate_after.out",
+    "gate_after.exit",
+    "regression_after.out",
+    "regression_after.exit",
+    "drift_after.out",
+    "drift_after.exit",
+    "suite_after.out",
+    "suite_after.exit",
+    "anchors_after.err",
+    "drift_after.err",
+    "gate_after.err",
+    "regression_after.err",
+    "suite_after.err"
+  ],
+  "tests": [
+    {
+      "command": "python3 Design/tests/test_c10_read_anchors.py",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "anchors_after.out",
+      "stderr_artifact": "anchors_after.err",
+      "negative_control": false
+    },
+    {
+      "command": "python3 Design/tests/test_e11_authority_gate.py",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "gate_after.out",
+      "stderr_artifact": "gate_after.err",
+      "negative_control": false
+    },
+    {
+      "command": "python3 Design/tests/run_tests.py",
+      "producer_exit_code": 2,
+      "result": "FAIL",
+      "stdout_artifact": "suite_after.out",
+      "stderr_artifact": "suite_after.err",
+      "negative_control": false
+    }
+  ],
+  "decisions_requested": [],
+  "risks": [
+    "Zero open defects remain, but the suite still cannot reach 0 while the admission path is absent. That is the honest state, not a failure."
+  ],
+  "next_action": "Suite reaches 0 when ARM-08 lands E11."
+}
