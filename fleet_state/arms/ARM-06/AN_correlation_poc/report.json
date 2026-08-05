@@ -1,0 +1,73 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-06-20260805T2200Z-M2ATTEST-02",
+  "arm_id": "ARM-06",
+  "goal_id": "kestrel-v2-attest-independent-verification",
+  "generated_at": "2026-08-05T22:00:00Z",
+  "state": "CHECKPOINT",
+  "chat_url": "https://chatgpt.com/g/g-p-6a46a73f024481918cf7a4c4ce131766-the-board-room/c/6a72276b-1b18-83ea-9617-54360924c769",
+  "authority_ceiling": "L2",
+  "evidence_root": "fleet_state/arms/ARM-06/AN_correlation_poc",
+  "claims": [
+    {
+      "claim_id": "an.correlation-demonstrated",
+      "text": "The fix I recommended is DEMONSTRATED, not asserted: all 5 receipts for session claudesquad_product-verification-v1 correlate to payload bytes that actually arrived in my transcripts, matched by exact sha256 of the delivered text. A fabricated receipt (ATTACK A) for bytes that never arrived would have no match.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "an.membership-alone-is-replayable",
+      "text": "MY OWN RECOMMENDATION WAS INCOMPLETE. All 5 receipts carry the SAME payload hash — one continuation text sent repeatedly — so correlation by hash proves 'these bytes arrived at least once', not 'five distinct injections happened'. A fabricated sixth receipt for the same payload would also correlate. The check must be CARDINALITY: for each (session, payload_hash), receipts <= arrivals. Measured today: 5 receipts against 22 arrivals, 0 payloads where receipts exceed arrivals.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "an.needs-no-root-was-wrong",
+      "text": "FALSIFIED — my own phrase from the previous envelope, 'correlation ... needs no root'. The transcript is uid 1000 mode 600 and its directory uid 1000 mode 700 — the SAME uid as the chain (uid 1000 mode 664) and the same uid as the loop. The two records share one trust domain, so a forger who can write one can write the other. Correlation raises the cost of forgery — it must now be consistent across two records, one being appended live by the harness — but it is not a permission boundary, and I let 'needs no root' imply independence it does not have.",
+      "status": "FALSIFIED"
+    },
+    {
+      "claim_id": "an.revised-minimum-fix",
+      "text": "REVISED MINIMUM FIX, third revision, each forced by measurement rather than reflection: (1) root-owned append-only chain closes ATTACK B; (2) cardinality correlation against arrivals raises ATTACK A's cost; (3) ONE of the two records must live outside uid 1000, and that is what actually closes A. Escalating only (1), as originally proposed, or only (1)+(2), as I proposed last turn, leaves forgery open in both cases.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "an.attestation-coverage-is-a-minority",
+      "text": "COVERAGE FINDING, separate from soundness: my session has 5 receipts against 22 arrivals of the same payload. 17 of 22 real continuations have NO receipt and correctly report ORIGIN_UNRESOLVED. Attestation currently covers a minority of actual injections because the chain began partway through. Any fleet-level claim resting on it must state 5-of-22, not 'attested'.",
+      "status": "MACHINE_VERIFIED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "correlation_poc.txt",
+      "sha256": "1a1757f93b047bea9d07ca95d716c1ae52e01304d11177e634f233625dcb5910",
+      "claim_ids": [
+        "an.correlation-demonstrated",
+        "an.membership-alone-is-replayable",
+        "an.needs-no-root-was-wrong",
+        "an.revised-minimum-fix",
+        "an.attestation-coverage-is-a-minority"
+      ]
+    }
+  ],
+  "artifacts": [
+    "correlation_poc.txt"
+  ],
+  "tests": [
+    {
+      "command": "hash every non-tool_result user message in my transcripts; match against chain receipts by payload hash; then compare receipt counts to arrival counts per payload",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "correlation_poc.txt",
+      "stderr_artifact": "correlation_poc.txt",
+      "negative_control": false
+    }
+  ],
+  "decisions_requested": [
+    "SUPERSEDES my previous escalation advice. Do not escalate (1) alone, and do not escalate (1)+(2) as I said last turn. The narrow ask to Curtis should be: one root-owned append-only location for EITHER the chain or a mirror of the arrival record, so the two correlated records no longer share a single uid. That is the smallest change that closes both attacks.",
+    "Attestation coverage is 5 of 22 for my session. Decide whether the chain should be backfilled, or whether all pre-chain continuations are simply ORIGIN_UNRESOLVED forever — the second is more honest and needs no work, but it must be stated when the metric is quoted."
+  ],
+  "risks": [
+    "I have now revised this recommendation three times, each revision forced by a measurement I could have taken before speaking. The pattern is that I reason a fix, state it, and only then test it. Stating it first is what makes it a claim; testing it first would make it a finding.",
+    "The cardinality check is correct only while arrivals are a superset of receipts. If a continuation is delivered by a transport the harness does not record, arrivals would undercount and honest receipts would look like forgeries. I have not enumerated the transports."
+  ],
+  "next_action": "Return the corrected escalation to Prime. BLOCKED on push. No browser work."
+}

@@ -1,0 +1,75 @@
+PROOF-OF-CONCEPT for the fix I RECOMMENDED but had not demonstrated:
+  'correlation against an INDEPENDENT record that the injection actually
+   ARRIVED ... needs no root - the transcript already records arrivals.'
+A recommendation is a claim. Prime may escalate it to Curtis, so it gets
+tested before it is acted on.
+
+receipts for claudesquad_product-verification-v1: 5
+distinct arrival payload hashes in my transcripts: 68
+
+  receipt payload hash          len  arrival found?
+  ------------------------------------------------------------------------
+  fff7023065021cfc68a7504916   2891  YES  53254b17
+  fff7023065021cfc68a7504916   2891  YES  53254b17
+  fff7023065021cfc68a7504916   2891  YES  53254b17
+  fff7023065021cfc68a7504916   2891  YES  53254b17
+  fff7023065021cfc68a7504916   2891  YES  53254b17
+
+  receipts correlated to a real arrival: 5/5
+
+  CORRELATION WORKS. Every receipt for my session commits to bytes that
+  actually arrived. A FABRICATED receipt (ATTACK A) would have no matching
+  arrival and would be detectable without root.
+
+==========================================================================
+REFINEMENT — my own recommendation is INCOMPLETE as stated.
+==========================================================================
+All 5 receipts for my session carry the SAME payload hash: the identical
+continuation text, sent 5 times. Correlation by hash alone therefore proves
+'these bytes arrived at least once' — NOT 'five distinct injections arrived'.
+A fabricated 6th receipt for the same payload would ALSO correlate.
+Replay is the gap. The fix needs CARDINALITY, not just membership.
+
+  payload hash                receipts  arrivals  verdict
+  ----------------------------------------------------------------------
+  fff7023065021cfc68a7504916         5        22  consistent
+
+  sessions/payloads where receipts EXCEED arrivals: 0
+
+  CARDINALITY HOLDS TODAY: no payload has more receipts than arrivals, so
+  no forged surplus exists in the live chain right now.
+  The CHECK that closes ATTACK A is therefore:
+      for each (session, payload_hash): receipts <= arrivals in that
+      session's transcript. A fabricated receipt pushes receipts above
+      arrivals and is detected WITHOUT root and WITHOUT a key.
+  Still not closed by this: a forger who also appends a fake arrival to the
+  transcript. The transcript is written by the harness, not the loop, which
+  is why it is a usable independent record — but I have NOT verified its
+  ownership or write permissions, and that is the next thing to check before
+  anyone relies on this.
+
+=== INDEPENDENCE CHECK — and it corrects my own recommendation AGAIN ===
+transcript dir : uid=1000 mode=700
+transcript file: uid=1000 mode=600
+chain file     : uid=1000 mode=664
+
+Same uid. My phrase 'needs no root' was about the MECHANISM, but I let it
+imply the record was independent. It is not independent BY PERMISSION.
+A forger who can write the chain can also write the transcript.
+
+What correlation actually buys: forgery must now be consistent across TWO
+records, one of which is being appended live by the harness. That raises the
+cost materially. It is not a boundary.
+
+REVISED MINIMUM FIX (third revision, each forced by measurement):
+  1. root-owned append-only chain           closes ATTACK B (rewrite)
+  2. + cardinality correlation vs arrivals  raises ATTACK A's cost
+  3. + ONE of the two records outside uid 1000   is what actually closes A
+Without (3) both records share a single trust domain and a determined author
+can forge both.
+
+COVERAGE, separately: my session shows 5 receipts against 22 arrivals of the
+same payload. 17 of my 22 continuations have NO receipt at all. Those report
+ORIGIN_UNRESOLVED, which is the correct behaviour, but it means attestation
+currently covers a minority of real injections — the chain began partway
+through. Any fleet claim resting on attestation must say 5-of-22, not 'attested'.
