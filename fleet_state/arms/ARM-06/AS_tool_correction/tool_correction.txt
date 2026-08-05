@@ -1,0 +1,29 @@
+# CORRECTING A TOOL OF MINE THAT NEARLY LIBELLED ANOTHER ARM THREE TIMES
+
+Old summary line printed, for any control no mutation happened to challenge:
+    *** NEVER — DECORATIVE ***
+
+It misled me three times in ONE exercise:
+  1. first matrix run: 2 mutation anchors failed to apply, 1 crashed.
+     Tool reported 6 controls DECORATIVE. All 6 were simply unchallenged.
+  2. completed matrix: M8 crashed the subject with FileNotFoundError.
+     Tool reported the no-chain control DECORATIVE. It had never rendered
+     a verdict at all.
+  3. same run, summary line: 'controls never observed failing: 1'
+     read as a finding rather than as a gap in my own coverage.
+
+Two corrections, both in fleet_state/arms/ARM-06/tools/ctl_matrix.py:
+  a) label is now 'NEVER OBSERVED FAILING — MAY BE UNTESTED', with a footer
+     stating that before calling a control decorative you must confirm a
+     mutation aimed at ITS subject ran to completion and it still passed.
+  b) a mutation that crashes the subject is now reported as testing NOTHING,
+     distinct from a mutation that ran and went uncaught.
+
+The cited evidence copy at AR_matrix_completed/ctl_matrix.py is left FROZEN
+and untouched — CHECKPOINT-06 still ADMITS. The corrected tool is a new file
+at a new path, per the frozen-hash rule.
+
+--- demonstration: the two labels side by side ---
+old: *** NEVER — DECORATIVE ***
+new: NEVER OBSERVED FAILING — MAY BE UNTESTED
+crash-vs-uncaught distinction present: 1

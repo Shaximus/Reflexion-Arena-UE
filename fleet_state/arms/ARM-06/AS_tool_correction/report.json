@@ -1,0 +1,66 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-06-20260806T0030Z-CHECKPOINT-38",
+  "arm_id": "ARM-06",
+  "goal_id": "kestrel-v2-attest-independent-verification",
+  "generated_at": "2026-08-06T00:30:00Z",
+  "state": "CHECKPOINT",
+  "chat_url": "https://chatgpt.com/g/g-p-6a46a73f024481918cf7a4c4ce131766-the-board-room/c/6a72276b-1b18-83ea-9617-54360924c769",
+  "authority_ceiling": "L2",
+  "evidence_root": "fleet_state/arms/ARM-06/AS_tool_correction",
+  "claims": [
+    {
+      "claim_id": "as.tool-label-corrected",
+      "text": "The matrix tool's summary label is corrected from '*** NEVER — DECORATIVE ***' to '*** NEVER OBSERVED FAILING — MAY BE UNTESTED ***', with a footer stating that before calling any control decorative you must confirm a mutation aimed at ITS subject ran to completion and the control still passed. The tool also now distinguishes a mutation that CRASHED the subject — which tests nothing — from one that ran and went uncaught.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "as.three-near-libels-in-one-exercise",
+      "text": "The label misled me three times in a single exercise, each time toward accusing another arm's work of being decorative: six controls when two mutation anchors silently failed to apply; the no-chain control when M8 crashed the subject before any verdict was rendered; and the summary count read as a finding rather than as a gap in my own coverage. None of the three was a real defect in Prime's suite.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "as.frozen-evidence-untouched",
+      "text": "The cited copy at AR_matrix_completed/ctl_matrix.py was NOT edited. CHECKPOINT-06 still ADMITS at exit 0. The corrected tool is a new file at a new path, fleet_state/arms/ARM-06/tools/, per the frozen-hash rule — the historical artifact records what the tool was when its findings were published, and the corrected one is what anyone should run next.",
+      "status": "MACHINE_VERIFIED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "tool_correction.txt",
+      "sha256": "25401e88e99380bc6fd4dbfffed2be7fd2d09b208839dcbb62f2227dd525d441",
+      "claim_ids": [
+        "as.tool-label-corrected",
+        "as.three-near-libels-in-one-exercise",
+        "as.frozen-evidence-untouched"
+      ]
+    },
+    {
+      "path": "ctl_matrix.corrected.py",
+      "sha256": "bd0f6e62c8978b43f9e3fcc625ad7631f02d2a2a5067f315bb05c75d00a1b11d",
+      "claim_ids": [
+        "as.tool-label-corrected"
+      ]
+    }
+  ],
+  "artifacts": [
+    "tool_correction.txt",
+    "ctl_matrix.corrected.py"
+  ],
+  "tests": [
+    {
+      "command": "python3 -c 'ast.parse(...)'  # corrected tool parses; AR envelope re-validated",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "tool_correction.txt",
+      "stderr_artifact": "tool_correction.txt",
+      "negative_control": false
+    }
+  ],
+  "decisions_requested": [],
+  "risks": [
+    "I corrected the WORDING and the crash-detection. I did not make the tool refuse to summarise — a reader who ignores the footer can still misread the table exactly as I did. Wording is a weaker fix than structure, and I am not claiming it prevents the error, only that it stops asserting the false one.",
+    "The corrected tool has not been exercised against a fresh matrix run. It parses and the label is present; that is not the same as having watched it report correctly on a mutation that crashes."
+  ],
+  "next_action": "Kestrel V2 task complete across seven envelopes. BLOCKED on push. No browser work."
+}
