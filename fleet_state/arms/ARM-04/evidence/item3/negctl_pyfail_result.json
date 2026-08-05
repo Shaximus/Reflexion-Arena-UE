@@ -1,0 +1,23 @@
+{
+  "map_package": "/Game/Maps/RxTestMap",
+  "steps": [
+    {
+      "step": "get_subsystems",
+      "ok": true,
+      "detail": "LevelEditorSubsystem=True EditorActorSubsystem=True"
+    },
+    {
+      "step": "new_level",
+      "ok": true,
+      "detail": "/Game/Maps/RxTestMap"
+    },
+    {
+      "step": "load_cube",
+      "ok": true,
+      "detail": "/Engine/BasicShapes/Cube.Cube"
+    }
+  ],
+  "actors_spawned": [],
+  "ok": false,
+  "error": "Traceback (most recent call last):\n  File \"/home/shax/.claude-squad/worktrees/arm/ue-playability-v1_18c8af39d3ffe92e/fleet_state/arms/ARM-04/py/make_test_map.py\", line 65, in <module>\n    floor = spawn(unreal.StaticMeshActor, unreal.Vector(0, 0, -50), unreal.Rotator(0, 0, 0), \"RxFloor\")\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/shax/.claude-squad/worktrees/arm/ue-playability-v1_18c8af39d3ffe92e/fleet_state/arms/ARM-04/py/make_test_map.py\", line 61, in spawn\n    result[\"actors_spawned\"].append({\"label\": label, \"class\": str(cls.get_name())})\n                                                                  ^^^^^^^^^^^^^^\nTypeError: unbound method _ObjectBase.get_name() needs an argument\n"
+}

@@ -1,0 +1,11 @@
+  FAIL map_loaded
+  PASS gamemode_is_project_gamemode
+  PASS player_spawned_at_playerstart
+  PASS world_brought_up_for_play
+  PASS engine_ticked
+  count restart_player_count = 1
+  count error_lines = 59
+  count max_tick_index = 922
+  count total_lines = 1652
+  count fell_out_of_world_hits = 0
+VERDICT ok=False

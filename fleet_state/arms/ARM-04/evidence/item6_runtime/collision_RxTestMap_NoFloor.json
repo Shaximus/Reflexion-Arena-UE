@@ -1,0 +1,27 @@
+{
+  "map": "/Game/Maps/RxTestMap_NoFloor",
+  "traces": [
+    {
+      "trace": "map_loaded",
+      "hit": true,
+      "detail": "/Game/Maps/RxTestMap_NoFloor"
+    },
+    {
+      "trace": "floor_line_trace",
+      "hit": false,
+      "detail": "no hit between z=500 and z=-500"
+    },
+    {
+      "trace": "floor_capsule_sweep",
+      "hit": false,
+      "detail": "capsule swept through: nothing to stand on"
+    },
+    {
+      "trace": "wall_line_trace",
+      "hit": false,
+      "detail": "no lateral blocker found"
+    }
+  ],
+  "ok": true,
+  "error": null
+}

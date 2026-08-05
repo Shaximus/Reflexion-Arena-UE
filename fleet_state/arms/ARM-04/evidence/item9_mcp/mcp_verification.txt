@@ -1,0 +1,26 @@
+ARM-04 item9 - unreal-mcp end-to-end verification
+2026-08-04T23:44:50-03:00
+
+== server bound ==
+State  Recv-Q Send-Q Local Address:Port Peer Address:PortProcess
+LISTEN 0      16         127.0.0.1:8766      0.0.0.0:*    users:(("UnrealEditor-Cm",pid=73731,fd=236))
+ss_exit=0
+
+== editor process ==
+  73731    1300 /home/shax/Projects/UnrealEngine/UE-5.8/Engine/Binaries/Linux/UnrealEditor-Cmd /home/shax/.claude-squad/worktrees/arm/ue-playability-v1_18c8af39d3ffe92e/ReflexionArena.uproject -nullrhi -nosplash -ModelContextProtocolStartServer
+ps_exit=0
+
+== editor log: MCP startup ==
+[2026.08.05-02.23.22:300][  0]LogModelContextProtocol: Starting MCP server on port 8766 (override with -ModelContextProtocolPort=N).
+[2026.08.05-02.23.22:300][  0]LogHttpListener: Created new HttpListener on 127.0.0.1:8766
+
+== bind ERRORS this run (must be 0) ==
+0
+grep_exit=1
+
+== ToolsetDefinition errors in EDITOR mode (must be 0) ==
+0
+grep_exit=1
+
+== toolsets returned over MCP: 50+, incl animation_toolset ControlRigTools ==
+(client-side tool call mcp__unreal-mcp__list_toolsets succeeded)

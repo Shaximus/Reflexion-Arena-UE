@@ -1,0 +1,65 @@
+{
+  "map_package": "/Game/Maps/RxTestMap_NoFloor",
+  "steps": [
+    {
+      "step": "get_subsystems",
+      "ok": true,
+      "detail": "LevelEditorSubsystem=True EditorActorSubsystem=True"
+    },
+    {
+      "step": "new_level",
+      "ok": true,
+      "detail": "/Game/Maps/RxTestMap_NoFloor"
+    },
+    {
+      "step": "load_cube",
+      "ok": true,
+      "detail": "/Engine/BasicShapes/Cube.Cube"
+    },
+    {
+      "step": "floor",
+      "ok": true,
+      "detail": "OMITTED - negative control map, nothing to stand on"
+    },
+    {
+      "step": "wall",
+      "ok": true,
+      "detail": "blocking wall at X=600"
+    },
+    {
+      "step": "player_start",
+      "ok": true,
+      "detail": "at (0,0,120)"
+    },
+    {
+      "step": "lights",
+      "ok": true,
+      "detail": "directional + sky"
+    },
+    {
+      "step": "save_current_level",
+      "ok": true,
+      "detail": "/Game/Maps/RxTestMap_NoFloor"
+    }
+  ],
+  "actors_spawned": [
+    {
+      "label": "RxWall",
+      "class": "StaticMeshActor"
+    },
+    {
+      "label": "RxPlayerStart",
+      "class": "PlayerStart"
+    },
+    {
+      "label": "RxSun",
+      "class": "DirectionalLight"
+    },
+    {
+      "label": "RxSkyLight",
+      "class": "SkyLight"
+    }
+  ],
+  "ok": true,
+  "error": null
+}

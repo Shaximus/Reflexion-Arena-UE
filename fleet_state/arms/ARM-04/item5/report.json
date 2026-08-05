@@ -1,0 +1,70 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-04-ITEM5-20260805T0801250300",
+  "arm_id": "ARM-04",
+  "goal_id": "WAVE1A-ARM-04-UE-WORLD-AND-PLAYABILITY",
+  "generated_at": "2026-08-05T08:01:25-03:00",
+  "state": "CHECKPOINT",
+  "chat_url": "https://chatgpt.com/g/g-p-6a46a73f024481918cf7a4c4ce131766-the-board-room/c/6a7226f5-65a8-83ea-abde-289ead2dcd5f",
+  "authority_ceiling": "L2",
+  "evidence_root": ".",
+  "claims": [
+    {
+      "claim_id": "C5.1",
+      "text": "The player's view target IS the pawn at runtime (view_target=BP_ThirdPersonCharacter_C_0, view_target_is_pawn=true).",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "C5.2",
+      "text": "The camera tracks the pawn at the configured spring-arm length: pawn ended at X=515.000, camera at X=115.000, trail exactly 400.000.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "C5.3",
+      "text": "Decisive tracking control: on the no-floor map the pawn fell 55835.8 uu while camera_max_distance stayed 400.250; a static camera would read ~55000.",
+      "status": "MACHINE_VERIFIED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item5_runtime/cam_floor.json",
+      "sha256": "273db8a3ed1daf52ec4067a557a0c25923469681705a7138461910360c039e9e",
+      "claim_ids": [
+        "C5.1",
+        "C5.2"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item5_runtime/cam_nofloor.json",
+      "sha256": "8c9640ff4f3367d58f8b5a4073676181f9f85f0b0e9b73af84f49ae266038e8e",
+      "claim_ids": [
+        "C5.3"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/verify_camera.py",
+      "sha256": "4cbd2e1e66af7a21cb9578d71c1501496883acee33587e896f00d43a48a0f7cf",
+      "claim_ids": [
+        "C5.1",
+        "C5.2",
+        "C5.3"
+      ]
+    }
+  ],
+  "artifacts": [],
+  "tests": [
+    {
+      "command": "python3 fleet_state/arms/ARM-04/verify_camera.py fleet_state/arms/ARM-04/evidence/item5_runtime/cam_floor.json fleet_state/arms/ARM-04/evidence/item5_runtime/cam_nofloor.json",
+      "producer_exit_code": 0,
+      "result": "PASS"
+    },
+    {
+      "command": "python3 fleet_state/arms/ARM-04/verify_camera.py <fabricated static-camera fixture> <fabricated detached-view-target fixture>",
+      "producer_exit_code": 1,
+      "result": "NEGATIVE_CONTROL_FIRED"
+    }
+  ],
+  "decisions_requested": [],
+  "risks": [],
+  "next_action": "None."
+}

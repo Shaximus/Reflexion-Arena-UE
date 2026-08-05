@@ -1,0 +1,120 @@
+{
+  "checks": [
+    {
+      "check": "character_bp_loads",
+      "ok": true,
+      "detail": "/Game/ThirdPerson/Blueprints/BP_ThirdPersonCharacter"
+    },
+    {
+      "check": "gamemode_bp_loads",
+      "ok": true,
+      "detail": "/Game/ThirdPerson/Blueprints/BP_ThirdPersonGameMode"
+    },
+    {
+      "check": "playercontroller_bp_loads",
+      "ok": true,
+      "detail": "/Game/ThirdPerson/Blueprints/BP_ThirdPersonPlayerController"
+    },
+    {
+      "check": "input_mapping_context_loads",
+      "ok": true,
+      "detail": "/Game/Input/IMC_Default"
+    },
+    {
+      "check": "character_is_ACharacter",
+      "ok": true,
+      "detail": "cdo class=BP_ThirdPersonCharacter_C"
+    },
+    {
+      "check": "gamemode_default_pawn_is_character",
+      "ok": true,
+      "detail": "default_pawn_class=BP_ThirdPersonCharacter_C"
+    },
+    {
+      "check": "has_character_movement_component",
+      "ok": true,
+      "detail": "class=CharacterMovementComponent"
+    },
+    {
+      "check": "movement_params_sane",
+      "ok": true,
+      "detail": "max_walk_speed=600.0 gravity_scale=1.0 jump_z_velocity=500.0"
+    },
+    {
+      "check": "has_capsule_collision",
+      "ok": true,
+      "detail": "class=CapsuleComponent"
+    },
+    {
+      "check": "capsule_collision_enabled",
+      "ok": true,
+      "detail": "radius=35.0 half_height=90.0 profile=Custom enabled=<CollisionEnabled.QUERY_AND_PHYSICS: 3>"
+    },
+    {
+      "check": "test_map_loads",
+      "ok": true,
+      "detail": "/Game/Maps/RxTestMap"
+    },
+    {
+      "check": "character_spawns_into_world",
+      "ok": true,
+      "detail": "spawned at (0,0,300)"
+    },
+    {
+      "check": "has_camera_component",
+      "ok": true,
+      "detail": "components=['ArrowComponent', 'CameraComponent', 'CapsuleComponent', 'CharacterMovementComponent', 'SkeletalMeshComponent', 'SpringArmComponent']"
+    },
+    {
+      "check": "has_spring_arm",
+      "ok": true,
+      "detail": "components=['ArrowComponent', 'CameraComponent', 'CapsuleComponent', 'CharacterMovementComponent', 'SkeletalMeshComponent', 'SpringArmComponent']"
+    },
+    {
+      "check": "editor_world_available",
+      "ok": true,
+      "detail": "<Object '/Game/Maps/RxTestMap.RxTestMap' (0xb19fd9b8c00) Class 'World'>"
+    },
+    {
+      "check": "config_gamemode_path_resolves",
+      "ok": true,
+      "detail": "GlobalDefaultGameMode=/Game/ThirdPerson/Blueprints/BP_ThirdPersonGameMode.BP_ThirdPersonGameMode_C -> <Object '/Game/ThirdPerson/Blueprints/BP_ThirdPersonGameMode.BP_ThirdPersonGameMode_C' (0xb1a02829a00) Class 'BlueprintGeneratedClass'>"
+    },
+    {
+      "check": "map_gamemode_override_set",
+      "ok": true,
+      "detail": "SKIPPED - WorldSettings unreachable from Python in 5.8; project-level GlobalDefaultGameMode is authoritative and resolves"
+    },
+    {
+      "check": "test_map_saved",
+      "ok": true,
+      "detail": "/Game/Maps/RxTestMap"
+    }
+  ],
+  "ok": true,
+  "error": null,
+  "movement": {
+    "max_walk_speed": 600.0,
+    "gravity_scale": 1.0,
+    "jump_z_velocity": 500.0
+  },
+  "collision": {
+    "capsule_radius": 35.0,
+    "capsule_half_height": 90.0,
+    "profile": "Custom",
+    "collision_enabled": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>"
+  },
+  "camera": {
+    "field_of_view": 90.0,
+    "target_arm_length": 400.0
+  },
+  "components": [
+    "ArrowComponent",
+    "CameraComponent",
+    "CapsuleComponent",
+    "CharacterMovementComponent",
+    "SkeletalMeshComponent",
+    "SpringArmComponent"
+  ],
+  "world_settings_python_reachable": false
+}

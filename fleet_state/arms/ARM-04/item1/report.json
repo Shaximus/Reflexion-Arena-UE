@@ -1,0 +1,71 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-04-ITEM1-20260805T0801250300",
+  "arm_id": "ARM-04",
+  "goal_id": "WAVE1A-ARM-04-UE-WORLD-AND-PLAYABILITY",
+  "generated_at": "2026-08-05T08:01:25-03:00",
+  "state": "CHECKPOINT",
+  "chat_url": "https://chatgpt.com/g/g-p-6a46a73f024481918cf7a4c4ce131766-the-board-room/c/6a7226f5-65a8-83ea-abde-289ead2dcd5f",
+  "authority_ceiling": "L2",
+  "evidence_root": ".",
+  "claims": [
+    {
+      "claim_id": "C1.1",
+      "text": "Engine is UE 5.8.1 at /home/shax/Projects/UnrealEngine/UE-5.8 (source build, branch 5.8, HEAD 14e4ff3b8), confirmed from the RUNNING process as 'LogInit: Engine Version: 5.8.1-0+UE5', not only from config files.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "C1.2",
+      "text": "The project is ReflexionArena.uproject and its EngineAssociation is the empty string.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "C1.3",
+      "text": "EngineAssociation is INERT on this path: a deliberately bogus GUID still built exit 0, so the engine is located solely by absolute Build.sh path plus -Project=.",
+      "status": "MACHINE_VERIFIED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "ReflexionArena.uproject",
+      "sha256": "6590bae99759f6d163a80aff0b1c7974b5b1208f14b2b5c8637c7cff82559d56",
+      "claim_ids": [
+        "C1.2",
+        "C1.3"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/checkpoint/checkpoint_run.log",
+      "sha256": "21313e973b3d672f8b7a2d29abe06e851769a0a3aaaf59225a99a41fc76c782a",
+      "claim_ids": [
+        "C1.1",
+        "C1.2"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item2/assoc_bogus.stdout",
+      "sha256": "a1744ec30a36f9c77449c3708c83ab47891606695f03c30c98bc567fab33d052",
+      "claim_ids": [
+        "C1.3"
+      ]
+    }
+  ],
+  "artifacts": [
+    "ReflexionArena.uproject"
+  ],
+  "tests": [
+    {
+      "command": "Engine/Build/BatchFiles/Linux/Build.sh -Mode=QueryTargets -Project=<abs>/ReflexionArena.uproject (with EngineAssociation set to a bogus GUID)",
+      "producer_exit_code": 0,
+      "result": "NEGATIVE_CONTROL_DID_NOT_FIRE"
+    },
+    {
+      "command": "fleet_state/arms/ARM-04/checkpoint.sh",
+      "producer_exit_code": 0,
+      "result": "PASS"
+    }
+  ],
+  "decisions_requested": [],
+  "risks": [],
+  "next_action": "None; superseded by item2."
+}

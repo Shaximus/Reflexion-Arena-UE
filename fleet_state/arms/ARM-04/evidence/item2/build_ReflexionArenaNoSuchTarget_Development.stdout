@@ -1,0 +1,17 @@
+Setting up bundled DotNet SDK
+Running command : dotnet Engine/Binaries/DotNET/UnrealBuildTool/UnrealBuildTool.dll ReflexionArenaNoSuchTarget Linux Development -Project=/home/shax/.claude-squad/worktrees/arm/ue-playability-v1_18c8af39d3ffe92e/ReflexionArena.uproject -WaitMutex
+Log file: /home/shax/Projects/UnrealEngine/UE-5.8/Engine/Programs/UnrealBuildTool/Log.txt
+Determining max actions to execute in parallel (16 physical cores, 32 logical cores)
+  Executing up to 16 processes, one per physical core
+Using 'git status' to determine working set for adaptive non-unity build (/home/shax/Projects/UnrealEngine/UE-5.8).
+Using 'git status' to determine working set for adaptive non-unity build (/home/shax/.claude-squad/worktrees/arm/ue-playability-v1_18c8af39d3ffe92e).
+Creating makefile for ReflexionArenaNoSuchTarget (no existing makefile)
+UbaStorageServer - FileMapping backing: memfd
+UbaServer - Listening on 0.0.0.0:1345
+Couldn't find target rules file for target 'ReflexionArenaNoSuchTarget' in rules assembly 'UE5Rules, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null'
+Location: /home/shax/Projects/UnrealEngine/UE-5.8/Engine/Intermediate/Build/BuildRules/UE5Rules.dll
+
+
+Result: Failed (RulesError)
+Total execution time: 0.66 seconds
+Trace written to file /home/shax/Projects/UnrealEngine/UE-5.8/Engine/Programs/UnrealBuildTool/Trace.uba with size 1.7kb

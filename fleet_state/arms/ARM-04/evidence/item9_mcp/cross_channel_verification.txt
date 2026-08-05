@@ -1,0 +1,25 @@
+ARM-04 - INDEPENDENT CROSS-CHANNEL VERIFICATION via live-editor MCP
+2026-08-04T23:48:47-03:00
+
+Channel A (original): my own pythonscript commandlet + in-process C++ observer.
+Channel B (this file): unreal-mcp tool calls against a LIVE editor, pid 73731, port 8766.
+Two unrelated measurement paths, same numbers.
+
+MCP call: SceneTools.get_current_level      -> /Game/Maps/RxTestMap
+MCP call: SceneTools.trace_world (0,0,500)->(0,0,-500)   -> distance 500
+   => hit at Z = 500 - 500 = 0.000  == RxFloor top surface (floor centre Z=-50, cube 100uu, scaleZ=1)
+MCP call: SceneTools.trace_world (0,0,150)->(1000,0,150)  -> distance 550
+   => hit at X = 550.000  == RxWall near face (wall centre X=600, cube 100uu, scaleX=1)
+
+CORROBORATION OF THE 515.000 TRAVEL FIGURE:
+   wall near face (MCP-measured, channel B) = 550.000
+   capsule radius (measured off BP_ThirdPersonCharacter, channel A) = 35.0
+   predicted contact = 550 - 35 = 515.000
+   observer-measured travel (channel A) = 515.000   -> AGREE
+
+ALSO RESOLVES A PRIOR FAILED DETECTOR:
+   The identical trace returned NO HIT inside a -run=pythonscript commandlet.
+   It hits in a live editor. This confirms the commandlet editor world has no
+   initialised physics scene, and that the earlier misses were a tooling
+   limitation, NOT missing geometry. The failed detector is now explained, not
+   merely discarded.

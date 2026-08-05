@@ -1,0 +1,156 @@
+{
+  "arm_id": "ARM-04",
+  "items": [
+    7,
+    8
+  ],
+  "evidence_root": ".",
+  "claims": {
+    "C7-1": "launch_playtest.sh launches the game headlessly into RxTestMap; exit 124 is the EXPECTED code (session runs until timeout terminates it).",
+    "C7-2": "verify_playtest.py confirms from the log: map loaded, Game class is BP_ThirdPersonGameMode_C, RestartPlayerAtPlayerStart occurred, world brought up for play, engine ticked (460 ticks/60s).",
+    "C7-3": "NEGATIVE CONTROL: verify_playtest.py asserting a map name that was never loaded returns FAIL / exit 1.",
+    "C7-4": "FAILED DETECTOR, recorded not discarded: the no-floor control map produces an IDENTICAL playtest verdict to the floored map. The launch log therefore does NOT discriminate collision. Not usable as a collision gate.",
+    "C6-3": "FAILED DETECTOR: physics traces (line + capsule sweep) return NO HIT in a pythonscript commandlet even against BlockAll static geometry -- it fails its own positive control, so its 'no hit' results prove nothing. Also: the 'getall' console command yields no output under -nullrhi -unattended.",
+    "C6-4": "Independent diagnostic confirms the map content IS correct: RxFloor StaticMeshActor (0,0,-50) scale 50x50x1 Cube QueryAndPhysics profile BlockAll; RxWall (600,0,150) scale 1x8x3 same settings; RxPlayerStart (0,0,120). So C6-3's failure is a commandlet-world limitation, not missing geometry."
+  },
+  "entries": [
+    {
+      "path": "Content/Maps/RxTestMap_NoFloor.umap",
+      "sha256": "3c1586aac5b6857e1c426c6c4625d1c6a2fdda31422ded17164c5a1448ac7e7c",
+      "bytes": 15338,
+      "claim_ids": [
+        "C7-4"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item6_runtime/collision_RxTestMap.json",
+      "sha256": "c7be3613dd857f3f013fa1b3b0fb627e8d5e2d9b0bc65797100d86edf7848c7e",
+      "bytes": 544,
+      "claim_ids": [
+        "C6-3"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item6_runtime/collision_RxTestMap_NoFloor.json",
+      "sha256": "f7c33c97d4eaa932f3f0c0b3bbb15f59b29f59ddd5f445fde319ba5137f5c693",
+      "bytes": 560,
+      "claim_ids": [
+        "C6-3"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item6_runtime/diag_RxTestMap.json",
+      "sha256": "864c68b3986d37a1be4d3051951be067522997a85ceb463f8042c9e1933b9195",
+      "bytes": 3746,
+      "claim_ids": [
+        "C6-4"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item6_runtime/diag_RxTestMap.stdout",
+      "sha256": "2047913d1c5e932d0f8fba8abab477af666f337226ba5dd52bfa683ee917969c",
+      "bytes": 258605,
+      "claim_ids": [
+        "C6-4"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item7/getall_probe.stdout",
+      "sha256": "7ba21e2dff448a674dbe9ba379636c59178c31c90f3b3f68b5db20ff7e3051a5",
+      "bytes": 210480,
+      "claim_ids": [
+        "C6-3"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item7/make_nofloor_result.json",
+      "sha256": "4aeeff100c4997e70117397c9c14b361747eda3b980a64730b3cb41f08338c3c",
+      "bytes": 1268,
+      "claim_ids": [
+        "C7-4"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item7/playtest_RxTestMap.stderr",
+      "sha256": "81e84590e04f659572c417756613107820fe94eeb89a7628c3bc1d078e680329",
+      "bytes": 95,
+      "claim_ids": [
+        "C7-1"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item7/playtest_RxTestMap.stdout",
+      "sha256": "b34b002a9227c491fb5454809a5d48d4c85dc99cee4f8ded78bcf7d714a055f3",
+      "bytes": 210505,
+      "claim_ids": [
+        "C7-1",
+        "C7-2"
+      ],
+      "previous_sha256": "647f95c6275ff7a451b694178400594237f6131b691bf14cbb1b87fe1b8ac962",
+      "rehash_note": "re-hashed: checkpoint.sh re-ran the SAME repeatable command, which overwrites this fixed-name output path. Content is a fresh run of the identical command, not a different claim. Known design flaw: build_editor.sh / launch_playtest.sh write fixed filenames, so re-running mutates prior evidence. Smallest fix: include a run id in the output filename."
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item7/playtest_RxTestMap_NoFloor.stdout",
+      "sha256": "636c411f4d84c2de1d7023082fd4fa3f401e228bcbedeedfc8c92dd30ffcca7a",
+      "bytes": 209643,
+      "claim_ids": [
+        "C7-4"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item7/verdict_RxTestMap.json",
+      "sha256": "a30bcd42ca6db86d8c48436ea59e3662d1e7f6a19d6a6601e53f51e832a0a3b1",
+      "bytes": 547,
+      "claim_ids": [
+        "C7-2"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item7/verdict_RxTestMap_NoFloor.json",
+      "sha256": "f9babf4d8bd220421137b6a84e01170c2fac09b3cdcdd5cf9eb010ed717db23b",
+      "bytes": 563,
+      "claim_ids": [
+        "C7-4"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/launch_playtest.sh",
+      "sha256": "8fd0aa0d399dc7ce346d253e8ea40878b2bc1a1cf4364af9996f276985728977",
+      "bytes": 2595,
+      "claim_ids": [
+        "C7-1"
+      ],
+      "rehash_history": [
+        {
+          "previous_sha256": "9f983a6533f28b56aba86a5a2d5edf82ba763241dbeb5b1d1b25741faffa58c3",
+          "reason": "re-hashed at final checkpoint: superseded within this session by an intentional change -- the three ARM-04 scripts gained a RUN_ID so re-runs stop overwriting hashed evidence, checkpoint.sh gained the runtime movement/collision gate, and checkpoint.sh regenerates its own outputs by design. Previous hash retained below."
+        }
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/py/diagnose_map.py",
+      "sha256": "226644827cedfc77f75ae75995a905cf179e37effabee45af204b1e7e4a20cd9",
+      "bytes": 2382,
+      "claim_ids": [
+        "C6-4"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/py/verify_collision.py",
+      "sha256": "2dec5b89f7003ab19e431662bf3958e36d2a04dc011b9d98ad172adbb6726db9",
+      "bytes": 4286,
+      "claim_ids": [
+        "C6-3"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/verify_playtest.py",
+      "sha256": "0cfb27318e7d5dd9c63d9f97e4b17c9bbea2519899f76b3eb69efe048e7a70d7",
+      "bytes": 2737,
+      "claim_ids": [
+        "C7-2",
+        "C7-3"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "arm_id": "ARM-04",
+  "evidence_root": ".",
+  "checkpoint": "UE_PROJECT_OPENED_OR_BUILT",
+  "claims": {
+    "H-1": "HANDOFF.md persists every measured fact, failed detector, and open authority item from the ARM-04 session into the repo, so none of it depends on chat context surviving.",
+    "H-2": "Every script and evidence path named in HANDOFF.md was verified to resolve; verify_camera.py was found non-executable and fixed (chmod +x), then re-run to confirm exit 0."
+  },
+  "entries": [
+    {
+      "path": "fleet_state/arms/ARM-04/HANDOFF.md",
+      "sha256": "22ec9ae59aa9a6a608b6406c57e003e3f90c2dd7b89981e88a74b591db4f07ff",
+      "bytes": 7787,
+      "claim_ids": [
+        "H-1"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/verify_camera.py",
+      "sha256": "4cbd2e1e66af7a21cb9578d71c1501496883acee33587e896f00d43a48a0f7cf",
+      "bytes": 2814,
+      "claim_ids": [
+        "H-2"
+      ]
+    }
+  ]
+}

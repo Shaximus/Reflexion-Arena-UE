@@ -1,0 +1,88 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-04-ITEM3-20260805T0801250300",
+  "arm_id": "ARM-04",
+  "goal_id": "WAVE1A-ARM-04-UE-WORLD-AND-PLAYABILITY",
+  "generated_at": "2026-08-05T08:01:25-03:00",
+  "state": "CHECKPOINT",
+  "chat_url": "https://chatgpt.com/g/g-p-6a46a73f024481918cf7a4c4ce131766-the-board-room/c/6a7226f5-65a8-83ea-abde-289ead2dcd5f",
+  "authority_ceiling": "L2",
+  "evidence_root": ".",
+  "claims": [
+    {
+      "claim_id": "C3.1",
+      "text": "Content/Maps/RxTestMap.umap was authored headlessly by a repeatable commandlet; its result JSON reports all 8 steps ok.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "C3.2",
+      "text": "Map geometry confirmed on TWO independent channels: a commandlet diagnostic (RxFloor at (0,0,-50) scale 50x50x1 and RxWall at (600,0,150), both QueryAndPhysics/BlockAll) and live-editor MCP trace_world (floor top Z=0.000, wall near face X=550.000).",
+      "status": "INDEPENDENTLY_VERIFIED"
+    },
+    {
+      "claim_id": "C3.3",
+      "text": "A paired negative-control map RxTestMap_NoFloor exists, identical except the floor is omitted.",
+      "status": "MACHINE_VERIFIED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item3/make_test_map_result.json",
+      "sha256": "3b918ed44dc30a552bac275c940e209b18b41aa7303fb871e73e948d50f8e7a3",
+      "claim_ids": [
+        "C3.1"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/py/make_test_map.py",
+      "sha256": "870dfd78878f58aae3b3a2613188e8caba4171cf7f5ceed6f86f443a99e0ccd2",
+      "claim_ids": [
+        "C3.1",
+        "C3.3"
+      ]
+    },
+    {
+      "path": "Content/Maps/RxTestMap.umap",
+      "sha256": "d7bb291132e77389a6080ab82f3e52d3770b14d3d067bae82b7da130ce6bb157",
+      "claim_ids": [
+        "C3.1",
+        "C3.2"
+      ]
+    },
+    {
+      "path": "Content/Maps/RxTestMap_NoFloor.umap",
+      "sha256": "3c1586aac5b6857e1c426c6c4625d1c6a2fdda31422ded17164c5a1448ac7e7c",
+      "claim_ids": [
+        "C3.3"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item6_runtime/diag_RxTestMap.json",
+      "sha256": "864c68b3986d37a1be4d3051951be067522997a85ceb463f8042c9e1933b9195",
+      "claim_ids": [
+        "C3.2"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item9_mcp/cross_channel_verification.txt",
+      "sha256": "e99546ba16b160f45628060091a57cf24f2f4f47e8efafb7e1d46b3674dc9057",
+      "claim_ids": [
+        "C3.2"
+      ]
+    }
+  ],
+  "artifacts": [
+    "Content/Maps/RxTestMap.umap",
+    "Content/Maps/RxTestMap_NoFloor.umap"
+  ],
+  "tests": [
+    {
+      "command": "UnrealEditor-Cmd <project> -run=pythonscript -script=fleet_state/arms/ARM-04/py/make_test_map.py -unattended -nopause -nosplash -nullrhi",
+      "producer_exit_code": 1,
+      "result": "COMPLETED_WITH_LOGGED_ERRORS (commandlet returns 1 even on success in this project; success is read from the result JSON, not the exit code)"
+    }
+  ],
+  "decisions_requested": [],
+  "risks": [],
+  "next_action": "None."
+}

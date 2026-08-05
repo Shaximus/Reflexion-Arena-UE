@@ -1,0 +1,117 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-04-ITEM9_MCP-20260805T0801250300",
+  "arm_id": "ARM-04",
+  "goal_id": "WAVE1A-ARM-04-UE-WORLD-AND-PLAYABILITY",
+  "generated_at": "2026-08-05T08:01:25-03:00",
+  "state": "CHECKPOINT",
+  "chat_url": "https://chatgpt.com/g/g-p-6a46a73f024481918cf7a4c4ce131766-the-board-room/c/6a7226f5-65a8-83ea-abde-289ead2dcd5f",
+  "authority_ceiling": "L2",
+  "evidence_root": ".",
+  "claims": [
+    {
+      "claim_id": "C9.1",
+      "text": "The editor's MCP server binds the fixed port: log shows 'Starting MCP server on port 8766' and 'Created new HttpListener on 127.0.0.1:8766' - created, not the bind ERROR that preceded the fix - and ss showed UnrealEditor listening.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "C9.2",
+      "text": "Zero 'unable to bind' errors in that editor run, versus 8 before the port fix.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "C9.3",
+      "text": "A real MCP client round-trip succeeded: list_toolsets returned 50+ toolsets from the live editor, verifying end-to-end what was previously only CLAIMED.",
+      "status": "INDEPENDENTLY_VERIFIED"
+    },
+    {
+      "claim_id": "C9.4",
+      "text": "Zero ToolsetDefinition errors in EDITOR mode, and the python animation_toolset ControlRigTools registered - independently confirming AllToolsets is NOT broken and that declining Prime's granted disable was correct.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "C9.5",
+      "text": "Cross-channel corroboration: live-editor MCP trace_world puts the floor top at Z=0.000 and the wall near face at X=550.000; 550 - 35 = 515.000, matching the travel the in-process observer measured on a wholly separate channel.",
+      "status": "INDEPENDENTLY_VERIFIED"
+    },
+    {
+      "claim_id": "C9.6",
+      "text": "A previously FAILED detector is now explained, not merely discarded: the same trace returns NO HIT in a -run=pythonscript commandlet but HITS in a live editor, confirming the commandlet editor world has no initialised physics scene.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "C9.7",
+      "text": "RETRACTED CLAIM, recorded rather than deleted: ARM-04 previously reported 'AllToolsets is broken in this engine build' and Prime granted a .uproject disable on that basis. Measurement FALSIFIED it - editor mode shows 0 ToolsetDefinition errors and 18 successful toolset inits, and MCP list_toolsets returned 50+ working toolsets including the very animation_toolset ControlRigTools that errors in -game. The errors are -game-only and cosmetic. Acting on the original claim would have deleted a working 50-toolset surface. The granted disable was declined and the .uproject left byte-identical.",
+      "status": "FALSIFIED"
+    },
+    {
+      "claim_id": "C9.8",
+      "text": "RETRACTED CLAIM: the narrower fix '\"TargetAllowList\": [\"Editor\"] will stop the -game toolset errors' was FALSIFIED by measurement - still 8 errors, because UnrealEditor-Cmd -game runs the EDITOR target, which the allow-list admits. The change was inert for its purpose and was reverted.",
+      "status": "FALSIFIED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item9_mcp/mcp_verification.txt",
+      "sha256": "0197b251aedc4700d709d05b69655b5395a11f2cba746805367e9dd9c286e709",
+      "claim_ids": [
+        "C9.1",
+        "C9.2",
+        "C9.3",
+        "C9.4"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item9_mcp/cross_channel_verification.txt",
+      "sha256": "e99546ba16b160f45628060091a57cf24f2f4f47e8efafb7e1d46b3674dc9057",
+      "claim_ids": [
+        "C9.5",
+        "C9.6"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item6_runtime/collision_RxTestMap.json",
+      "sha256": "c7be3613dd857f3f013fa1b3b0fb627e8d5e2d9b0bc65797100d86edf7848c7e",
+      "claim_ids": [
+        "C9.6"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/checkpoint/obs_floor.json",
+      "sha256": "21b0ef06a676edd8fdd28fafeef2461e3e354f684ea305333da73f5af89a7ff7",
+      "claim_ids": [
+        "C9.5"
+      ]
+    },
+    {
+      "path": "Config/DefaultEditorPerProjectUserSettings.ini",
+      "sha256": "d6b56f2e1b326ce528ec0868ede1a4887e1b4e1c305597d09ac30e61ed99a070",
+      "claim_ids": [
+        "C9.1"
+      ]
+    }
+  ],
+  "artifacts": [
+    "fleet_state/arms/ARM-04/HANDOFF.md"
+  ],
+  "tests": [
+    {
+      "command": "mcp__unreal-mcp__list_toolsets (live editor, port 8766)",
+      "producer_exit_code": 0,
+      "result": "PASS"
+    },
+    {
+      "command": "mcp__unreal-mcp__call_tool SceneTools.trace_world (0,0,500)->(0,0,-500)",
+      "producer_exit_code": 0,
+      "result": "PASS (returned 500 => floor top at Z=0.000)"
+    },
+    {
+      "command": "mcp__unreal-mcp__call_tool SceneTools.trace_world (0,0,150)->(1000,0,150)",
+      "producer_exit_code": 0,
+      "result": "PASS (returned 550 => wall near face at X=550.000)"
+    }
+  ],
+  "decisions_requested": [],
+  "risks": [],
+  "next_action": "Editor stopped after verification; restart command recorded in HANDOFF.md."
+}

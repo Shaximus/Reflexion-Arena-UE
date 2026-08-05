@@ -1,0 +1,249 @@
+{
+  "arm_id": "ARM-04",
+  "item": 2,
+  "evidence_root": ".",
+  "note": "evidence_root is the ARM-04 worktree root; all paths below are relative to it",
+  "entries": [
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item2/assoc_bogus.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "claim_ids": [
+        "C2-2",
+        "C2-3"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item2/assoc_bogus.stdout",
+      "sha256": "a1744ec30a36f9c77449c3708c83ab47891606695f03c30c98bc567fab33d052",
+      "bytes": 573,
+      "claim_ids": [
+        "C2-2",
+        "C2-3"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item2/assoc_empty.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "claim_ids": [
+        "C2-2"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item2/assoc_empty.stdout",
+      "sha256": "a1744ec30a36f9c77449c3708c83ab47891606695f03c30c98bc567fab33d052",
+      "bytes": 573,
+      "claim_ids": [
+        "C2-2"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item2/assoc_guid.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "claim_ids": [
+        "C2-2"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item2/assoc_guid.stdout",
+      "sha256": "a1744ec30a36f9c77449c3708c83ab47891606695f03c30c98bc567fab33d052",
+      "bytes": 573,
+      "claim_ids": [
+        "C2-2"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item2/assoc_ver58.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "claim_ids": [
+        "C2-2"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item2/assoc_ver58.stdout",
+      "sha256": "a1744ec30a36f9c77449c3708c83ab47891606695f03c30c98bc567fab33d052",
+      "bytes": 573,
+      "claim_ids": [
+        "C2-2"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item2/build_ReflexionArenaEditor_Development.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "claim_ids": [
+        "C2-7"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item2/build_ReflexionArenaEditor_Development.stdout",
+      "sha256": "72fbd587c83d7d2d9a128aba5d440e9e13f9d119bcb6ec89699c3160647d528c",
+      "bytes": 2961,
+      "claim_ids": [
+        "C2-7"
+      ],
+      "previous_sha256": "195e695e58aa1b5b5b4b86b76806a4559100c518d43289b281db34cd77f973e8",
+      "rehash_note": "re-hashed: checkpoint.sh re-ran the SAME repeatable command, which overwrites this fixed-name output path. Content is a fresh run of the identical command, not a different claim. Known design flaw: build_editor.sh / launch_playtest.sh write fixed filenames, so re-running mutates prior evidence. Smallest fix: include a run id in the output filename.",
+      "rehash_history": [
+        {
+          "previous_sha256": "01159ed970f543d20895914888b5ecc9c53b54f75a7a8019384bd3534a273cc7",
+          "reason": "re-hashed at final checkpoint: superseded within this session by an intentional change -- the three ARM-04 scripts gained a RUN_ID so re-runs stop overwriting hashed evidence, checkpoint.sh gained the runtime movement/collision gate, and checkpoint.sh regenerates its own outputs by design. Previous hash retained below."
+        }
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item2/build_ReflexionArenaNoSuchTarget_Development.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "claim_ids": [
+        "C2-6"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item2/build_ReflexionArenaNoSuchTarget_Development.stdout",
+      "sha256": "33615722c7fc877847d780c9009ec0bbd032ad8fed65fdab3c92e84b1205c1a2",
+      "bytes": 1369,
+      "claim_ids": [
+        "C2-6"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item2/build_editor.exitcode",
+      "sha256": "ce706d40b6f9b1b9add553f35b5b482d4812f773d13013fb4cd667e1d78c7ab5",
+      "bytes": 13,
+      "claim_ids": [
+        "C2-5"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item2/build_editor.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "claim_ids": [
+        "C2-5"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item2/build_editor.stdout",
+      "sha256": "1fe19d228cddc61e57d30d00531ddf68509a0179902e5cef96f3ca771c46cd7d",
+      "bytes": 3492,
+      "claim_ids": [
+        "C2-5"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item2/negctl_badtarget.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "claim_ids": [
+        "C2-6"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item2/negctl_badtarget.stdout",
+      "sha256": "7799595b4c0ee94d0a5a0a9ff0a5360cda0500ae8376472e4bdebb70326fc5d5",
+      "bytes": 1369,
+      "claim_ids": [
+        "C2-6"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item2/regen_check.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "claim_ids": [
+        "C2-4"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item2/regen_check.stdout",
+      "sha256": "a1744ec30a36f9c77449c3708c83ab47891606695f03c30c98bc567fab33d052",
+      "bytes": 573,
+      "claim_ids": [
+        "C2-4"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item2/routeB_querytargets.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "claim_ids": [
+        "C2-1"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item2/routeB_querytargets.stdout",
+      "sha256": "920078a64cc95ca8007555a41f5016b3669bf7af721a8e71709dcc39acf059e6",
+      "bytes": 573,
+      "claim_ids": [
+        "C2-1"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item2/uproject.ORIGINAL.bak",
+      "sha256": "6590bae99759f6d163a80aff0b1c7974b5b1208f14b2b5c8637c7cff82559d56",
+      "bytes": 468,
+      "claim_ids": [
+        "C2-8"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/build_editor.sh",
+      "sha256": "ee24597a984323a15cc164aefde4ff6c49e7634628c411c37bad1ce3bc40f1d8",
+      "bytes": 2278,
+      "claim_ids": [
+        "C2-7"
+      ],
+      "rehash_history": [
+        {
+          "previous_sha256": "04d4fac4df1f98b547a592140c15e5aef5783365d11cba11c122d4d254c2e83f",
+          "reason": "re-hashed at final checkpoint: superseded within this session by an intentional change -- the three ARM-04 scripts gained a RUN_ID so re-runs stop overwriting hashed evidence, checkpoint.sh gained the runtime movement/collision gate, and checkpoint.sh regenerates its own outputs by design. Previous hash retained below."
+        }
+      ]
+    },
+    {
+      "path": "ReflexionArena.uproject",
+      "sha256": "6590bae99759f6d163a80aff0b1c7974b5b1208f14b2b5c8637c7cff82559d56",
+      "bytes": 468,
+      "claim_ids": [
+        "C2-8"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item2/editor_headless_load.stdout",
+      "sha256": "e55b18aaaa178ace7dd8c3743a83bc7dbb046633c23906469f387a2e5c81fa53",
+      "bytes": 2686072,
+      "claim_ids": [
+        "C2-9",
+        "C2-10",
+        "C2-11"
+      ],
+      "rehash_note": "re-hashed: file was still being flushed by the terminated DDC commandlet when first recorded",
+      "previous_sha256": "d539a2304f0a56a6170bc7ccb4d06748e8a5a80c5fa08292b4aebea44473b83b"
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item2/editor_headless_load.stderr",
+      "sha256": "81e84590e04f659572c417756613107820fe94eeb89a7628c3bc1d078e680329",
+      "bytes": 95,
+      "claim_ids": [
+        "C2-10"
+      ]
+    }
+  ],
+  "claims": {
+    "C2-1": "Build.sh + explicit -Project= resolves the engine and the project; exit 0.",
+    "C2-2": "EngineAssociation value does not change the outcome on this path (empty / GUID / '5.8' all exit 0).",
+    "C2-3": "NEGATIVE CONTROL: a bogus GUID association ALSO exits 0, proving the association is not consulted here.",
+    "C2-4": "TargetInfo.json was genuinely regenerated per run, not read from cache.",
+    "C2-5": "ReflexionArenaEditor Linux Development built from clean: exit 0, 11.75s.",
+    "C2-6": "NEGATIVE CONTROL: the same build command with a bogus target exits 8 (Failed/RulesError).",
+    "C2-7": "The recorded script fleet_state/arms/ARM-04/build_editor.sh reproduces the build: exit 0.",
+    "C2-8": "ReflexionArena.uproject was restored byte-identical after the association experiment.",
+    "C2-9": "The editor opened the project headlessly: 'Running engine for game: ReflexionArena'.",
+    "C2-10": "Runtime reports Engine Version 5.8.1-0+UE5, independently confirming item 1's static measurement.",
+    "C2-11": "The MCP plugin could not bind 127.0.0.1:8765; that port is held by an unrelated python process (pid 4312)."
+  }
+}

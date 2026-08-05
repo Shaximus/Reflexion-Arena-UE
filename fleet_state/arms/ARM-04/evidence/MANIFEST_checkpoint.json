@@ -1,0 +1,155 @@
+{
+  "arm_id": "ARM-04",
+  "checkpoint": "UE_PROJECT_OPENED_OR_BUILT",
+  "evidence_root": ".",
+  "claims": {
+    "K-1": "Engine installation measured at /home/shax/Projects/UnrealEngine/UE-5.8; Build.version = 5.8.1 (Major 5 Minor 8 Patch 1); source build, git branch 5.8, HEAD 14e4ff3b8. Build.sh present and executable (test -x exit 0).",
+    "K-2": "Project = /home/shax/.claude-squad/worktrees/arm/ue-playability-v1_18c8af39d3ffe92e/ReflexionArena.uproject, sha256 6590bae9...; branch arm/ue-playability-v1; HEAD c5fa2f8. EngineAssociation measured as '' (empty) and proven inert.",
+    "K-3": "Repeatable build: fleet_state/arms/ARM-04/build_editor.sh -> Result: Succeeded, BUILD_EXIT=0.",
+    "K-4": "Repeatable open/launch: fleet_state/arms/ARM-04/launch_playtest.sh RxTestMap -> LAUNCH_EXIT=124, which is the EXPECTED code (headless -game never self-exits; timeout terminates it).",
+    "K-5": "FIRST_TEST_MAP_LAUNCHED: log shows map loaded, Game class is BP_ThirdPersonGameMode_C, RestartPlayerAtPlayerStart occurred, world brought up for play, 710 engine ticks. VERDICT_EXIT=0.",
+    "K-6": "NEGATIVE CONTROL: the same verifier asserting a never-loaded map returns exit 1. The gate can fail.",
+    "K-7": "Runtime engine version read from the running process: 'LogInit: Engine Version: 5.8.1-0+UE5' - confirms K-1 from the process, not a config file.",
+    "K-8": "EARLIEST FAILING CHECK: runtime collision/movement behaviour is NOT demonstrated. Third and final in-scope route closed: PythonScriptPlugin is UncookedOnly, so `py` via -ExecCmds never executes in -game (zero LogPython lines).",
+    "K-9": "The failure in K-8 is NOT missing content: diagnostic confirms RxFloor (0,0,-50) scale 50x50x1 and RxWall (600,0,150), both QueryAndPhysics profile BlockAll."
+  },
+  "entries": [
+    {
+      "path": "fleet_state/arms/ARM-04/checkpoint.sh",
+      "sha256": "f00862aac7759e678cb16e870cd96182cdcdc0c1d2bdf00395ea7f4ef724464f",
+      "bytes": 6464,
+      "claim_ids": [
+        "K-1",
+        "K-2",
+        "K-3",
+        "K-4",
+        "K-5"
+      ],
+      "rehash_history": [
+        {
+          "previous_sha256": "531c3975d6732cc1b6efe9c4ed256dd9c4ef7fc33999af14615280702c79c928",
+          "reason": "re-hashed at final checkpoint: superseded within this session by an intentional change -- the three ARM-04 scripts gained a RUN_ID so re-runs stop overwriting hashed evidence, checkpoint.sh gained the runtime movement/collision gate, and checkpoint.sh regenerates its own outputs by design. Previous hash retained below."
+        },
+        {
+          "previous_sha256": "e66184b7b13c787ba4bb0d8eda2b45254afed556a659fc72de3bc692db72c685",
+          "reason": "re-hashed at camera checkpoint: superseded by this turn intentional changes -- the observer gained camera sampling, checkpoint.sh gained the camera gate, and checkpoint.sh regenerates its own outputs by design. Previous hash retained."
+        }
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/checkpoint/checkpoint_run.err",
+      "sha256": "2d3ccddd098254730ace84e20361edc5460256ec20ef7d2a0c9667c875319126",
+      "bytes": 122,
+      "claim_ids": [
+        "K-3",
+        "K-4"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/checkpoint/checkpoint_run.log",
+      "sha256": "ebd1f4c999cdeb2641907e2df10fa13353e3f3d1cf5ab60bfc5fe6033dd6d6b8",
+      "bytes": 4879,
+      "claim_ids": [
+        "K-1",
+        "K-2",
+        "K-3",
+        "K-4",
+        "K-5"
+      ],
+      "rehash_history": [
+        {
+          "previous_sha256": "11150197eec3717ebae2d34eab7e09a5628936166b52bb569de40e44bb9deccd",
+          "reason": "re-hashed at final checkpoint: superseded within this session by an intentional change -- the three ARM-04 scripts gained a RUN_ID so re-runs stop overwriting hashed evidence, checkpoint.sh gained the runtime movement/collision gate, and checkpoint.sh regenerates its own outputs by design. Previous hash retained below."
+        },
+        {
+          "previous_sha256": "1f924033041ab2492724cbbfd41691047ab78c5cb056dc986478e87da57c41a4",
+          "reason": "re-hashed at camera checkpoint: superseded by this turn intentional changes -- the observer gained camera sampling, checkpoint.sh gained the camera gate, and checkpoint.sh regenerates its own outputs by design. Previous hash retained."
+        }
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/checkpoint/negative_control.txt",
+      "sha256": "3b7fc4c993e1e40979fafc68c32299f0e2602b247922427462a47fce4a01bf93",
+      "bytes": 311,
+      "claim_ids": [
+        "K-6"
+      ],
+      "rehash_history": [
+        {
+          "previous_sha256": "e9f9ab5dec0b3634937e7c206d0f0fe161bda632540cf88fca2da69e93b85edc",
+          "reason": "re-hashed at final checkpoint: superseded within this session by an intentional change -- the three ARM-04 scripts gained a RUN_ID so re-runs stop overwriting hashed evidence, checkpoint.sh gained the runtime movement/collision gate, and checkpoint.sh regenerates its own outputs by design. Previous hash retained below."
+        },
+        {
+          "previous_sha256": "56f21a362de9c8e6594dc240b2eda9db6be804b0b37f3564a1f11cbe7845bec4",
+          "reason": "re-hashed at camera checkpoint: superseded by this turn intentional changes -- the observer gained camera sampling, checkpoint.sh gained the camera gate, and checkpoint.sh regenerates its own outputs by design. Previous hash retained."
+        }
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/checkpoint/verdict.json",
+      "sha256": "c3734b7cd52cd82a8f7f9c00b9f87f8129137efe2fb4a4a55c47337ed4a56931",
+      "bytes": 558,
+      "claim_ids": [
+        "K-5"
+      ],
+      "rehash_history": [
+        {
+          "previous_sha256": "9d79935d4adc4e8cb25eeca7968d5c7b0ed464e6de49209ec9f568202daf0035",
+          "reason": "re-hashed at final checkpoint: superseded within this session by an intentional change -- the three ARM-04 scripts gained a RUN_ID so re-runs stop overwriting hashed evidence, checkpoint.sh gained the runtime movement/collision gate, and checkpoint.sh regenerates its own outputs by design. Previous hash retained below."
+        },
+        {
+          "previous_sha256": "7b2f503e80f010f8d733032bb048d69d93fcb59eac6328cccbd2c2df1bd1887c",
+          "reason": "re-hashed at camera checkpoint: superseded by this turn intentional changes -- the observer gained camera sampling, checkpoint.sh gained the camera gate, and checkpoint.sh regenerates its own outputs by design. Previous hash retained."
+        }
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item2/build_ReflexionArenaEditor_Development.stdout",
+      "sha256": "72fbd587c83d7d2d9a128aba5d440e9e13f9d119bcb6ec89699c3160647d528c",
+      "bytes": 2961,
+      "claim_ids": [
+        "K-3"
+      ],
+      "rehash_history": [
+        {
+          "previous_sha256": "01159ed970f543d20895914888b5ecc9c53b54f75a7a8019384bd3534a273cc7",
+          "reason": "re-hashed at final checkpoint: superseded within this session by an intentional change -- the three ARM-04 scripts gained a RUN_ID so re-runs stop overwriting hashed evidence, checkpoint.sh gained the runtime movement/collision gate, and checkpoint.sh regenerates its own outputs by design. Previous hash retained below."
+        }
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item6_runtime/diag_RxTestMap.json",
+      "sha256": "864c68b3986d37a1be4d3051951be067522997a85ceb463f8042c9e1933b9195",
+      "bytes": 3746,
+      "claim_ids": [
+        "K-9"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item6_runtime/runtime_RxTestMap.stdout",
+      "sha256": "21f7793ee609bd6aebabd6c476c9723a7350902f08c9c09ce227272075f102ba",
+      "bytes": 210413,
+      "claim_ids": [
+        "K-8"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item7/playtest_RxTestMap.stdout",
+      "sha256": "b34b002a9227c491fb5454809a5d48d4c85dc99cee4f8ded78bcf7d714a055f3",
+      "bytes": 210505,
+      "claim_ids": [
+        "K-4",
+        "K-5",
+        "K-7"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/py/observe_pawn_runtime.py",
+      "sha256": "4472d549937f111b663273ad3c11a9779b40d7bd03c27bed75cc670e8fca6fad",
+      "bytes": 3982,
+      "claim_ids": [
+        "K-8"
+      ]
+    }
+  ]
+}

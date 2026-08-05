@@ -1,0 +1,178 @@
+{
+  "arm_id": "ARM-04",
+  "checkpoint": "UE_PROJECT_OPENED_OR_BUILT",
+  "evidence_root": ".",
+  "claims": {
+    "R-1": "Runtime observer implemented ONLY in the granted carve-out Source/ReflexionArena/Diagnostics/. UTickableWorldSubsystem, auto-instantiated, so NO hook was needed anywhere outside the carve-out and ReflexionArena.Build.cs was NOT edited. Compiles: BUILD_EXIT=0.",
+    "R-2": "FIRST_TEST_MAP_LAUNCHED re-proven in the same run: 5/5 log signals PASS, VERDICT_EXIT=0; negative control (never-loaded map name) exits 1.",
+    "R-3": "MOVEMENT AND COLLISION PROVEN on RxTestMap: pawn landed (ever_on_ground=true), mode Walking, 15732/15732 ground samples, Z pinned at 92.150, input drove it 515.0 uu forward until the wall stopped it.",
+    "R-4": "NEGATIVE CONTROL FIRED on RxTestMap_NoFloor: ever_on_ground=false, mode Falling, 0/31888 ground samples, fell to Z=-55716. The detector discriminates.",
+    "R-5": "INERTNESS CONTROL: without -RxObserve the subsystem is never created (0 RX_ markers, session runs to timeout). Normal play is unaffected.",
+    "R-6": "SELF-INFLICTED BUG FOUND AND FIXED, recorded not hidden: revision 1 attached to the engine's transient 'Untitled' world; its teardown fired the Deinitialize fallback -> RequestExit, ending the session before the real map ticked (sample_count=0). Fixed by requiring a /Game/ package and by never requesting exit from the teardown path."
+  },
+  "entries": [
+    {
+      "path": "Source/ReflexionArena/Diagnostics/RxRuntimeObserverSubsystem.cpp",
+      "sha256": "6c4c691adc4a301a5504d5d4f561da397699e190d4878f0645dfb2b06746a17a",
+      "bytes": 9293,
+      "claim_ids": [
+        "R-1",
+        "R-6"
+      ],
+      "rehash_history": [
+        {
+          "previous_sha256": "31bf2547d3ad88fe2e8a5c09cf40073a55e62d3913287750572fcba88c23834a",
+          "reason": "re-hashed at camera checkpoint: superseded by this turn intentional changes -- the observer gained camera sampling, checkpoint.sh gained the camera gate, and checkpoint.sh regenerates its own outputs by design. Previous hash retained."
+        }
+      ]
+    },
+    {
+      "path": "Source/ReflexionArena/Diagnostics/RxRuntimeObserverSubsystem.h",
+      "sha256": "73c9229237dc89304c23237b62b048b4abe8231d3ceb6bbdb44f4f262309707b",
+      "bytes": 4227,
+      "claim_ids": [
+        "R-1"
+      ],
+      "rehash_history": [
+        {
+          "previous_sha256": "a45635da4e0285fc886cd7327027d87ea44f59db1c66672b2e60f0f7bf9fc21b",
+          "reason": "re-hashed at camera checkpoint: superseded by this turn intentional changes -- the observer gained camera sampling, checkpoint.sh gained the camera gate, and checkpoint.sh regenerates its own outputs by design. Previous hash retained."
+        }
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/checkpoint.sh",
+      "sha256": "f00862aac7759e678cb16e870cd96182cdcdc0c1d2bdf00395ea7f4ef724464f",
+      "bytes": 6464,
+      "claim_ids": [
+        "R-2",
+        "R-3",
+        "R-4",
+        "R-5"
+      ],
+      "rehash_history": [
+        {
+          "previous_sha256": "e66184b7b13c787ba4bb0d8eda2b45254afed556a659fc72de3bc692db72c685",
+          "reason": "re-hashed at camera checkpoint: superseded by this turn intentional changes -- the observer gained camera sampling, checkpoint.sh gained the camera gate, and checkpoint.sh regenerates its own outputs by design. Previous hash retained."
+        }
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/checkpoint/checkpoint_run.log",
+      "sha256": "ebd1f4c999cdeb2641907e2df10fa13353e3f3d1cf5ab60bfc5fe6033dd6d6b8",
+      "bytes": 4879,
+      "claim_ids": [
+        "R-2",
+        "R-3",
+        "R-4",
+        "R-5"
+      ],
+      "rehash_history": [
+        {
+          "previous_sha256": "1f924033041ab2492724cbbfd41691047ab78c5cb056dc986478e87da57c41a4",
+          "reason": "re-hashed at camera checkpoint: superseded by this turn intentional changes -- the observer gained camera sampling, checkpoint.sh gained the camera gate, and checkpoint.sh regenerates its own outputs by design. Previous hash retained."
+        }
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/checkpoint/negative_control.txt",
+      "sha256": "3b7fc4c993e1e40979fafc68c32299f0e2602b247922427462a47fce4a01bf93",
+      "bytes": 311,
+      "claim_ids": [
+        "R-2"
+      ],
+      "rehash_history": [
+        {
+          "previous_sha256": "56f21a362de9c8e6594dc240b2eda9db6be804b0b37f3564a1f11cbe7845bec4",
+          "reason": "re-hashed at camera checkpoint: superseded by this turn intentional changes -- the observer gained camera sampling, checkpoint.sh gained the camera gate, and checkpoint.sh regenerates its own outputs by design. Previous hash retained."
+        }
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/checkpoint/obs_floor.json",
+      "sha256": "cfb16eb6ab470bfdacc9968362a7bd75c020561b960288e3fa0d7f1e78f873fc",
+      "bytes": 697,
+      "claim_ids": [
+        "R-3"
+      ],
+      "rehash_history": [
+        {
+          "previous_sha256": "602083fea5645d7bfb706ac1d32f1b49802478abb82808c4f0758f2d9142ea76",
+          "reason": "re-hashed at camera checkpoint: superseded by this turn intentional changes -- the observer gained camera sampling, checkpoint.sh gained the camera gate, and checkpoint.sh regenerates its own outputs by design. Previous hash retained."
+        }
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/checkpoint/obs_floor.stdout",
+      "sha256": "95a3f5e3ada1e5934ef5fe868c08f007c38c98fd5e9139de9379346452f98116",
+      "bytes": 209973,
+      "claim_ids": [
+        "R-3"
+      ],
+      "rehash_history": [
+        {
+          "previous_sha256": "0cbad4eb35abe1ebea5dbc6a9c7053074518b253e897e25c98f392efd8b5668d",
+          "reason": "re-hashed at camera checkpoint: superseded by this turn intentional changes -- the observer gained camera sampling, checkpoint.sh gained the camera gate, and checkpoint.sh regenerates its own outputs by design. Previous hash retained."
+        }
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/checkpoint/obs_nofloor.json",
+      "sha256": "313171f7d66f0d4bc3a9487fd09e63f67a3504fbaa438c0a32c16bcac3c007ca",
+      "bytes": 725,
+      "claim_ids": [
+        "R-4"
+      ],
+      "rehash_history": [
+        {
+          "previous_sha256": "0dda9ecc0d647969dc309399fd53689c2f76b199c0669b3485ee82d2f7e67488",
+          "reason": "re-hashed at camera checkpoint: superseded by this turn intentional changes -- the observer gained camera sampling, checkpoint.sh gained the camera gate, and checkpoint.sh regenerates its own outputs by design. Previous hash retained."
+        }
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/checkpoint/obs_nofloor.stdout",
+      "sha256": "c0a63c2108c5b66f37b4cb67cb4a36b31c915cc54b8bf9f11bbcb29c2a738d32",
+      "bytes": 210126,
+      "claim_ids": [
+        "R-4"
+      ],
+      "rehash_history": [
+        {
+          "previous_sha256": "6c3d29015853efa4430c8fc63d2e02b1c33033cfbfe557bf7716cab3df74865b",
+          "reason": "re-hashed at camera checkpoint: superseded by this turn intentional changes -- the observer gained camera sampling, checkpoint.sh gained the camera gate, and checkpoint.sh regenerates its own outputs by design. Previous hash retained."
+        }
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/checkpoint/verdict.json",
+      "sha256": "c3734b7cd52cd82a8f7f9c00b9f87f8129137efe2fb4a4a55c47337ed4a56931",
+      "bytes": 558,
+      "claim_ids": [
+        "R-2"
+      ],
+      "rehash_history": [
+        {
+          "previous_sha256": "7b2f503e80f010f8d733032bb048d69d93fcb59eac6328cccbd2c2df1bd1887c",
+          "reason": "re-hashed at camera checkpoint: superseded by this turn intentional changes -- the observer gained camera sampling, checkpoint.sh gained the camera gate, and checkpoint.sh regenerates its own outputs by design. Previous hash retained."
+        }
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item6_runtime/obs2_inert.stdout",
+      "sha256": "00b2912d21f5bc226d02a908b2f9a064bec00af4c7338c6b5d223c58b5873e47",
+      "bytes": 210130,
+      "claim_ids": [
+        "R-5"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item6_runtime/obs_floor.json",
+      "sha256": "cbc489785f7f533137a1f37d96f6a414f0f8264c5db7d829763f58f76bfe4586",
+      "bytes": 434,
+      "claim_ids": [
+        "R-6"
+      ]
+    }
+  ]
+}

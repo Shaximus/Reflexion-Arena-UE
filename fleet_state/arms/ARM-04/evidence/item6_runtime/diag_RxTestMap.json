@@ -1,0 +1,150 @@
+{
+  "map": "/Game/Maps/RxTestMap",
+  "actors": [
+    {
+      "label": "RxFloor",
+      "class": "StaticMeshActor",
+      "location": [
+        0.0,
+        0.0,
+        -50.0
+      ],
+      "scale": [
+        50.0,
+        50.0,
+        1.0
+      ],
+      "primitives": [
+        {
+          "class": "StaticMeshComponent",
+          "collision_enabled": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>",
+          "profile": "BlockAll",
+          "mesh": "Cube"
+        }
+      ]
+    },
+    {
+      "label": "RxWall",
+      "class": "StaticMeshActor",
+      "location": [
+        600.0,
+        0.0,
+        150.0
+      ],
+      "scale": [
+        1.0,
+        8.0,
+        3.0
+      ],
+      "primitives": [
+        {
+          "class": "StaticMeshComponent",
+          "collision_enabled": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>",
+          "profile": "BlockAll",
+          "mesh": "Cube"
+        }
+      ]
+    },
+    {
+      "label": "RxPlayerStart",
+      "class": "PlayerStart",
+      "location": [
+        0.0,
+        0.0,
+        120.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "primitives": [
+        {
+          "class": "CapsuleComponent",
+          "collision_enabled": "<CollisionEnabled.NO_COLLISION: 0>",
+          "profile": "NoCollision",
+          "mesh": null
+        },
+        {
+          "class": "BillboardComponent",
+          "collision_enabled": "<CollisionEnabled.NO_COLLISION: 0>",
+          "profile": "NoCollision",
+          "mesh": null
+        },
+        {
+          "class": "BillboardComponent",
+          "collision_enabled": "<CollisionEnabled.NO_COLLISION: 0>",
+          "profile": "NoCollision",
+          "mesh": null
+        },
+        {
+          "class": "ArrowComponent",
+          "collision_enabled": "<CollisionEnabled.NO_COLLISION: 0>",
+          "profile": "NoCollision",
+          "mesh": null
+        }
+      ]
+    },
+    {
+      "label": "RxSun",
+      "class": "DirectionalLight",
+      "location": [
+        0.0,
+        0.0,
+        1000.0
+      ],
+      "scale": [
+        2.5,
+        2.5,
+        2.5
+      ],
+      "primitives": [
+        {
+          "class": "ArrowComponent",
+          "collision_enabled": "<CollisionEnabled.NO_COLLISION: 0>",
+          "profile": "NoCollision",
+          "mesh": null
+        },
+        {
+          "class": "BillboardComponent",
+          "collision_enabled": "<CollisionEnabled.NO_COLLISION: 0>",
+          "profile": "NoCollision",
+          "mesh": null
+        }
+      ]
+    },
+    {
+      "label": "RxSkyLight",
+      "class": "SkyLight",
+      "location": [
+        0.0,
+        0.0,
+        800.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "primitives": [
+        {
+          "class": "BillboardComponent",
+          "collision_enabled": "<CollisionEnabled.NO_COLLISION: 0>",
+          "profile": "NoCollision",
+          "mesh": null
+        },
+        {
+          "class": "BillboardComponent",
+          "collision_enabled": "<CollisionEnabled.NO_COLLISION: 0>",
+          "profile": "NoCollision",
+          "mesh": null
+        }
+      ]
+    }
+  ],
+  "notes": [
+    "load_level=True",
+    "world=<Object '/Game/Maps/RxTestMap.RxTestMap' (0x488af4d2a00) Class 'World'>"
+  ],
+  "error": "Traceback (most recent call last):\n  File \"/home/shax/.claude-squad/worktrees/arm/ue-playability-v1_18c8af39d3ffe92e/fleet_state/arms/ARM-04/py/diagnose_map.py\", line 49, in <module>\n    out[\"notes\"].append(\"has_begun_play=%s\" % world.get_editor_property(\"has_begun_play\")\n                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nException: World: Failed to find property 'has_begun_play' for attribute 'has_begun_play' on 'World'\n"
+}

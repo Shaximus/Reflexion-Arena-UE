@@ -1,0 +1,105 @@
+############ 1. ENGINE — MEASURED ############
+--- Engine/Build/Build.version ---
+{
+	"MajorVersion": 5,
+	"MinorVersion": 8,
+	"PatchVersion": 1,
+	"Changelist": 0,
+	"CompatibleChangelist": 55116800,
+	"IsLicenseeVersion": 0,
+	"IsPromotedBuild": 0,
+	"BranchName": "UE5"
+}
+
+cat_exit=0
+--- Build.sh present and executable? ---
+-rwxrwxr-x 1 shax shax 1314 Jul 27 15:12 /home/shax/Projects/UnrealEngine/UE-5.8/Engine/Build/BatchFiles/Linux/Build.sh
+ls_exit=0
+is_executable_exit=0 (0 == yes)
+--- engine git identity ---
+14e4ff3b88a76ed4d7cede2cac63c637dcf081b4
+exit=0
+5.8
+exit=0
+############ 2. PROJECT — MEASURED ############
+PROJECT_ROOT=/home/shax/.claude-squad/worktrees/arm/ue-playability-v1_18c8af39d3ffe92e
+-rw-rw-r-- 1 shax shax 468 Aug  4 21:56 /home/shax/.claude-squad/worktrees/arm/ue-playability-v1_18c8af39d3ffe92e/ReflexionArena.uproject
+ls_exit=0
+6590bae99759f6d163a80aff0b1c7974b5b1208f14b2b5c8637c7cff82559d56  /home/shax/.claude-squad/worktrees/arm/ue-playability-v1_18c8af39d3ffe92e/ReflexionArena.uproject
+exit=0
+--- EngineAssociation (measured, not assumed) ---
+''
+exit=0
+arm/ue-playability-v1
+exit=0
+c5fa2f8965fb9eb908bdcbcbc7f89db4fd467ad5
+exit=0
+############ 3. BUILD ############
+ENGINE_ROOT=/home/shax/Projects/UnrealEngine/UE-5.8
+UPROJECT=/home/shax/.claude-squad/worktrees/arm/ue-playability-v1_18c8af39d3ffe92e/ReflexionArena.uproject
+TARGET=ReflexionArenaEditor  CONFIG=Development  PLATFORM=Linux
+BUILD_EXIT=0
+stdout: /home/shax/.claude-squad/worktrees/arm/ue-playability-v1_18c8af39d3ffe92e/fleet_state/arms/ARM-04/evidence/item2/build_ReflexionArenaEditor_Development_checkpoint.stdout
+stderr: /home/shax/.claude-squad/worktrees/arm/ue-playability-v1_18c8af39d3ffe92e/fleet_state/arms/ARM-04/evidence/item2/build_ReflexionArenaEditor_Development_checkpoint.stderr
+Total time in Unreal Build Accelerator local executor: 0.21 seconds
+Output binary: /home/shax/Projects/UnrealEngine/UE-5.8/Engine/Binaries/Linux/UnrealEditor
+
+Result: Succeeded
+Total execution time: 2.30 seconds
+Trace written to file /home/shax/Projects/UnrealEngine/UE-5.8/Engine/Programs/UnrealBuildTool/Trace.uba with size 2.8kb
+BUILD_EXIT=0
+############ 4. OPEN / LAUNCH FIRST TEST MAP ############
+ENGINE_ROOT=/home/shax/Projects/UnrealEngine/UE-5.8
+UPROJECT=/home/shax/.claude-squad/worktrees/arm/ue-playability-v1_18c8af39d3ffe92e/ReflexionArena.uproject
+MAP=/Game/Maps/RxTestMap  SECONDS=45  HEADLESS=1
+RUN_EXIT=124   (124 = ran the full 45s and was terminated: EXPECTED)
+stdout: /home/shax/.claude-squad/worktrees/arm/ue-playability-v1_18c8af39d3ffe92e/fleet_state/arms/ARM-04/evidence/item7/playtest_RxTestMap_checkpoint.stdout
+stderr: /home/shax/.claude-squad/worktrees/arm/ue-playability-v1_18c8af39d3ffe92e/fleet_state/arms/ARM-04/evidence/item7/playtest_RxTestMap_checkpoint.stderr
+LAUNCH_EXIT=124   (124 == ran the full session then was terminated: EXPECTED)
+############ 5. LOG VERDICT + NEGATIVE CONTROL ############
+  PASS map_loaded
+  PASS gamemode_is_project_gamemode
+  PASS player_spawned_at_playerstart
+  PASS world_brought_up_for_play
+  PASS engine_ticked
+  count restart_player_count = 1
+  count error_lines = 59
+  count max_tick_index = 922
+  count total_lines = 1652
+  count fell_out_of_world_hits = 0
+VERDICT ok=True
+wrote /home/shax/.claude-squad/worktrees/arm/ue-playability-v1_18c8af39d3ffe92e/fleet_state/arms/ARM-04/evidence/checkpoint/verdict.json
+VERDICT_EXIT=0 (0 == all required signals present)
+NEGCTL_EXIT=1 (MUST be 1 — proves the verdict can fail)
+############ 6. RUNTIME MOVEMENT + COLLISION (in-process observer) ############
+OBS_FLOOR_EXIT=0
+OBS_NOFLOOR_EXIT=0
+  PASS floor: pawn landed
+  PASS floor: mode Walking
+  PASS floor: input moved the pawn
+  PASS floor: wall stopped it at 515
+  PASS control: never landed
+  PASS control: mode Falling
+  PASS control: fell far
+RUNTIME_GATE_OK=True
+RUNTIME_EXIT=0 (0 == movement AND collision proven, control fired)
+############ 7. CAMERA OPERATES (Checkpoint A criterion) ############
+CAM_FLOOR_EXIT=0
+CAM_NOFLOOR_EXIT=0
+  PASS floor: view target is the pawn
+  PASS floor: camera exists at runtime
+  PASS floor: camera trails pawn by the spring-arm length (400)
+  PASS floor: camera-pawn distance never exceeds the arm length
+  PASS control: view target is the pawn
+  PASS control: pawn fell far (>10000 uu)
+  PASS control: camera followed the fall (distance stayed ~400, not ~55000)
+  measured floor_pawn_x=515.000 camera_final_x=115.000 trail=400.000
+  measured control_fall=55836.4 uu camera_max_distance=400.438
+CAMERA_GATE_OK=True
+CAMERA_EXIT=0 (0 == camera operates: view target is the pawn and it tracks)
+############ RUNTIME ENGINE VERSION (from the process, not a file) ############
+LogInit: Engine Version: 5.8.1-0+UE5
+grep_exit=0
+############ SUMMARY ############
+BUILD_EXIT=0 LAUNCH_EXIT=124 VERDICT_EXIT=0 NEGCTL_EXIT=1 RUNTIME_EXIT=0 CAMERA_EXIT=0
+CHECKPOINT=UE_PROJECT_OPENED_OR_BUILT

@@ -1,0 +1,174 @@
+{
+  "arm_id": "ARM-04",
+  "items": [
+    3,
+    4,
+    5,
+    6
+  ],
+  "evidence_root": ".",
+  "claims": {
+    "C3-1": "A test map was authored headlessly by a repeatable commandlet; result JSON reports 8/8 steps ok.",
+    "C3-2": "Content/Maps/RxTestMap.umap exists on disk with floor, blocking wall, PlayerStart, sun, skylight.",
+    "C3-3": "NEGATIVE CONTROL: an in-script failure is recorded as ok=false with a full traceback, not silently passed.",
+    "C3-4": "MEASURED LIMITATION: the pythonscript commandlet exit code does NOT discriminate success (probe_ok exits 1) from success-with-logged-errors; only an uncaught raise differs (255). Exit code is not a usable gate for this project.",
+    "C4-1": "The player character is an ACharacter subclass and is the GameMode's DefaultPawnClass; it spawns into the world.",
+    "C4-2": "The Enhanced Input mapping context the character depends on resolves.",
+    "C5-1": "The character carries a CameraComponent (FOV 90) on a SpringArmComponent (arm length 400).",
+    "C6-1": "Movement: CharacterMovementComponent, max_walk_speed 600, gravity_scale 1.0, jump_z 500. Collision: CapsuleComponent r35 hh90, QueryAndPhysics.",
+    "C6-2": "Config/DefaultEngine.ini now points GameDefaultMap/EditorStartupMap at RxTestMap and sets GlobalDefaultGameMode; the before-state is preserved."
+  },
+  "entries": [
+    {
+      "path": "Config/DefaultEngine.ini",
+      "sha256": "5a7f0d8fdaac7e8330f22be2f1c475a372a84c2dc0e89acf64ada4c909e8fecd",
+      "bytes": 727,
+      "claim_ids": [
+        "C6-2"
+      ]
+    },
+    {
+      "path": "Content/Input/IMC_Default.uasset",
+      "sha256": "133bda6567aaeea1aae05c03597345e4b1d9ef24d868a0275203b3203a7aae98",
+      "bytes": 7787,
+      "claim_ids": [
+        "C4-2"
+      ]
+    },
+    {
+      "path": "Content/Maps/RxTestMap.umap",
+      "sha256": "d7bb291132e77389a6080ab82f3e52d3770b14d3d067bae82b7da130ce6bb157",
+      "bytes": 18694,
+      "claim_ids": [
+        "C3-2"
+      ]
+    },
+    {
+      "path": "Content/ThirdPerson/Blueprints/BP_ThirdPersonCharacter.uasset",
+      "sha256": "5b2f02daf78ea15efc4e83fc78e7e30ccfe73b6540dc213d099ae72458e7d645",
+      "bytes": 148667,
+      "claim_ids": [
+        "C4-1"
+      ]
+    },
+    {
+      "path": "Content/ThirdPerson/Blueprints/BP_ThirdPersonGameMode.uasset",
+      "sha256": "8e4355f6d7c091e0b77c330044b6059cb03637c2439d7ef4de102df2d365d2ee",
+      "bytes": 16003,
+      "claim_ids": [
+        "C4-1"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item3/make_test_map.stderr",
+      "sha256": "81e84590e04f659572c417756613107820fe94eeb89a7628c3bc1d078e680329",
+      "bytes": 95,
+      "claim_ids": [
+        "C3-1"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item3/make_test_map.stdout",
+      "sha256": "1c04dd00226deffacbe527d6c07f251363e5da1b92a43a80534697432a19fc33",
+      "bytes": 254087,
+      "claim_ids": [
+        "C3-1"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item3/make_test_map_result.json",
+      "sha256": "3b918ed44dc30a552bac275c940e209b18b41aa7303fb871e73e948d50f8e7a3",
+      "bytes": 1306,
+      "claim_ids": [
+        "C3-1",
+        "C3-2"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item3/negctl_pyfail.stdout",
+      "sha256": "05170a6ace27a34515ec40b6f6c94bab0a66b6a76ed58d968a32f2d69f6c3e27",
+      "bytes": 257319,
+      "claim_ids": [
+        "C3-3"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item3/negctl_pyfail_result.json",
+      "sha256": "f58f47de33d0e72c8a85b31fc01186862fa78985704be822d7f11c9e8006ac6f",
+      "bytes": 1240,
+      "claim_ids": [
+        "C3-3"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item3/probe_fail.stdout",
+      "sha256": "bb4fe3444f4018e0d285f94dff074f4b1601ae3819e0cf8b4f83cd5bf14f980e",
+      "bytes": 255637,
+      "claim_ids": [
+        "C3-4"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item3/probe_ok.stdout",
+      "sha256": "bc7e5ecb42e87bfcc14b523753eacf7a895c1e4efe3e2e9358a0c5e0c24f1c5a",
+      "bytes": 254124,
+      "claim_ids": [
+        "C3-4"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item4_6/DefaultEngine.ini.BEFORE",
+      "sha256": "0d6fb0c168747ab0a54cc190c260254673ca29924fcdeefc65ccd7f5e456588f",
+      "bytes": 632,
+      "claim_ids": [
+        "C6-2"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item4_6/wire_and_verify.stderr",
+      "sha256": "81e84590e04f659572c417756613107820fe94eeb89a7628c3bc1d078e680329",
+      "bytes": 95,
+      "claim_ids": [
+        "C4-1"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item4_6/wire_and_verify.stdout",
+      "sha256": "6e58df7fa16eb647cc2c9962910810001a53fa94d755ae8286c05e44353e189d",
+      "bytes": 270217,
+      "claim_ids": [
+        "C4-1"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item4_6/wire_and_verify_result.json",
+      "sha256": "23fb462589bebf76e9bd7d1f86fd9cd570f2f40c0710fea58866da776a699198",
+      "bytes": 3529,
+      "claim_ids": [
+        "C4-1",
+        "C5-1",
+        "C6-1"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/py/make_test_map.py",
+      "sha256": "870dfd78878f58aae3b3a2613188e8caba4171cf7f5ceed6f86f443a99e0ccd2",
+      "bytes": 4331,
+      "claim_ids": [
+        "C3-1"
+      ],
+      "rehash_note": "re-hashed: script was later parameterised with RX_MAP_PACKAGE/RX_INCLUDE_FLOOR to build the no-floor negative-control map. Default path (RX_INCLUDE_FLOOR unset) still builds floor+wall+PlayerStart+lights exactly as when item 3's evidence was produced.",
+      "previous_sha256": "7190183b69aa85996a9e9541b137253c1685d9d569368aaee0e7d3aa6629d967"
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/py/wire_and_verify_pawn.py",
+      "sha256": "1b1beb210913ea987891477e4349156e5a693ab918e8ca9ca924a459de9ce444",
+      "bytes": 8340,
+      "claim_ids": [
+        "C4-1",
+        "C5-1",
+        "C6-1"
+      ]
+    }
+  ]
+}

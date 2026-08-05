@@ -1,0 +1,69 @@
+{
+  "map_package": "/Game/Maps/RxTestMap",
+  "steps": [
+    {
+      "step": "get_subsystems",
+      "ok": true,
+      "detail": "LevelEditorSubsystem=True EditorActorSubsystem=True"
+    },
+    {
+      "step": "new_level",
+      "ok": true,
+      "detail": "/Game/Maps/RxTestMap"
+    },
+    {
+      "step": "load_cube",
+      "ok": true,
+      "detail": "/Engine/BasicShapes/Cube.Cube"
+    },
+    {
+      "step": "floor",
+      "ok": true,
+      "detail": "50x50x1 slab, top at Z=0, QueryAndPhysics"
+    },
+    {
+      "step": "wall",
+      "ok": true,
+      "detail": "blocking wall at X=600"
+    },
+    {
+      "step": "player_start",
+      "ok": true,
+      "detail": "at (0,0,120)"
+    },
+    {
+      "step": "lights",
+      "ok": true,
+      "detail": "directional + sky"
+    },
+    {
+      "step": "save_current_level",
+      "ok": true,
+      "detail": "/Game/Maps/RxTestMap"
+    }
+  ],
+  "actors_spawned": [
+    {
+      "label": "RxFloor",
+      "class": "StaticMeshActor"
+    },
+    {
+      "label": "RxWall",
+      "class": "StaticMeshActor"
+    },
+    {
+      "label": "RxPlayerStart",
+      "class": "PlayerStart"
+    },
+    {
+      "label": "RxSun",
+      "class": "DirectionalLight"
+    },
+    {
+      "label": "RxSkyLight",
+      "class": "SkyLight"
+    }
+  ],
+  "ok": true,
+  "error": null
+}

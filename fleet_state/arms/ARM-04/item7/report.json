@@ -1,0 +1,94 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-04-ITEM7-20260805T0801250300",
+  "arm_id": "ARM-04",
+  "goal_id": "WAVE1A-ARM-04-UE-WORLD-AND-PLAYABILITY",
+  "generated_at": "2026-08-05T08:01:25-03:00",
+  "state": "CHECKPOINT",
+  "chat_url": "https://chatgpt.com/g/g-p-6a46a73f024481918cf7a4c4ce131766-the-board-room/c/6a7226f5-65a8-83ea-abde-289ead2dcd5f",
+  "authority_ceiling": "L2",
+  "evidence_root": ".",
+  "claims": [
+    {
+      "claim_id": "C7.1",
+      "text": "launch_playtest.sh launches the game headlessly into RxTestMap. Its producer exit code is 124 BY DESIGN: a headless -game session never self-exits and timeout ends it. 124 is therefore not a PASS, it is an expected termination; the PASS comes from the log verdict.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "C7.2",
+      "text": "verify_playtest.py confirms 5/5 required log signals and exits 0.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "C7.3",
+      "text": "The verdict is falsifiable: asserting a never-loaded map name returns exit 1.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "C7.4",
+      "text": "The launch log alone CANNOT discriminate collision - the no-floor control map produced an identical verdict. Recorded so it is never used as a collision gate.",
+      "status": "CLAIMED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "fleet_state/arms/ARM-04/launch_playtest.sh",
+      "sha256": "8fd0aa0d399dc7ce346d253e8ea40878b2bc1a1cf4364af9996f276985728977",
+      "claim_ids": [
+        "C7.1"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/verify_playtest.py",
+      "sha256": "0cfb27318e7d5dd9c63d9f97e4b17c9bbea2519899f76b3eb69efe048e7a70d7",
+      "claim_ids": [
+        "C7.2",
+        "C7.3"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/checkpoint/verdict.json",
+      "sha256": "4e2cfd3afeafb2430135ede760d30c04ef1a79e75286c7b8a7d4ce06aad660aa",
+      "claim_ids": [
+        "C7.2"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/checkpoint/negative_control.txt",
+      "sha256": "ce3f5068fe0c7ff0b71b6155d76334681e109895b6a6a9bc5b1b9365a01cd65e",
+      "claim_ids": [
+        "C7.3"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item7/verdict_RxTestMap_NoFloor.json",
+      "sha256": "f9babf4d8bd220421137b6a84e01170c2fac09b3cdcdd5cf9eb010ed717db23b",
+      "claim_ids": [
+        "C7.4"
+      ]
+    }
+  ],
+  "artifacts": [
+    "fleet_state/arms/ARM-04/launch_playtest.sh"
+  ],
+  "tests": [
+    {
+      "command": "fleet_state/arms/ARM-04/launch_playtest.sh RxTestMap",
+      "producer_exit_code": 124,
+      "result": "EXPECTED_TERMINATION (headless -game never self-exits; timeout ends the session)"
+    },
+    {
+      "command": "python3 fleet_state/arms/ARM-04/verify_playtest.py <playtest log> --expect-map RxTestMap",
+      "producer_exit_code": 0,
+      "result": "PASS"
+    },
+    {
+      "command": "python3 fleet_state/arms/ARM-04/verify_playtest.py <playtest log> --expect-map MapThatWasNeverLoaded",
+      "producer_exit_code": 1,
+      "result": "NEGATIVE_CONTROL_FIRED"
+    }
+  ],
+  "decisions_requested": [],
+  "risks": [],
+  "next_action": "None."
+}

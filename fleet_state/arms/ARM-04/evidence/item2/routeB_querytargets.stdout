@@ -1,0 +1,5 @@
+Setting up bundled DotNet SDK
+Running command : dotnet Engine/Binaries/DotNET/UnrealBuildTool/UnrealBuildTool.dll -Mode=QueryTargets -Project=/home/shax/.claude-squad/worktrees/arm/ue-playability-v1_18c8af39d3ffe92e/ReflexionArena.uproject
+Log file: /home/shax/Projects/UnrealEngine/UE-5.8/Engine/Programs/UnrealBuildTool/Log_QueryTargets.txt
+Written /home/shax/.claude-squad/worktrees/arm/ue-playability-v1_18c8af39d3ffe92e/Intermediate/TargetInfo.json
+Trace written to file /home/shax/Projects/UnrealEngine/UE-5.8/Engine/Programs/UnrealBuildTool/Trace.uba with size 632b

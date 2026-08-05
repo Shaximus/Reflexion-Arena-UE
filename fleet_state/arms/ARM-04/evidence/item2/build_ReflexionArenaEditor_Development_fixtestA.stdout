@@ -1,0 +1,17 @@
+Setting up bundled DotNet SDK
+Running command : dotnet Engine/Binaries/DotNET/UnrealBuildTool/UnrealBuildTool.dll ReflexionArenaEditor Linux Development -Project=/home/shax/.claude-squad/worktrees/arm/ue-playability-v1_18c8af39d3ffe92e/ReflexionArena.uproject -WaitMutex
+Log file: /home/shax/Projects/UnrealEngine/UE-5.8/Engine/Programs/UnrealBuildTool/Log.txt
+Determining max actions to execute in parallel (16 physical cores, 32 logical cores)
+  Executing up to 16 processes, one per physical core
+Using 'git status' to determine working set for adaptive non-unity build (/home/shax/Projects/UnrealEngine/UE-5.8).
+Using 'git status' to determine working set for adaptive non-unity build (/home/shax/.claude-squad/worktrees/arm/ue-playability-v1_18c8af39d3ffe92e).
+UbaStorageServer - FileMapping backing: memfd
+UbaServer - Listening on 0.0.0.0:1345
+Target is up to date
+Using Unreal Build Accelerator local executor to run 0 action(s)
+Total time in Unreal Build Accelerator local executor: 0.22 seconds
+Output binary: /home/shax/Projects/UnrealEngine/UE-5.8/Engine/Binaries/Linux/UnrealEditor
+
+Result: Succeeded
+Total execution time: 1.60 seconds
+Trace written to file /home/shax/Projects/UnrealEngine/UE-5.8/Engine/Programs/UnrealBuildTool/Trace.uba with size 2.7kb

@@ -1,0 +1,96 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-04-ITEM6-20260805T0801250300",
+  "arm_id": "ARM-04",
+  "goal_id": "WAVE1A-ARM-04-UE-WORLD-AND-PLAYABILITY",
+  "generated_at": "2026-08-05T08:01:25-03:00",
+  "state": "CHECKPOINT",
+  "chat_url": "https://chatgpt.com/g/g-p-6a46a73f024481918cf7a4c4ce131766-the-board-room/c/6a7226f5-65a8-83ea-abde-289ead2dcd5f",
+  "authority_ceiling": "L2",
+  "evidence_root": ".",
+  "claims": [
+    {
+      "claim_id": "C6.1",
+      "text": "Collision holds the pawn: ever_on_ground=true, mode=Walking, 15895/15895 ground samples, resting Z pinned at 92.150.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "C6.2",
+      "text": "Movement responds to input and the wall blocks it at 515.000 uu. The figure was PREDICTED before measurement, and the wall face it derives from was later confirmed on a separate channel: live-editor MCP trace_world returns X=550.000, and 550 - 35 (capsule radius) = 515.000.",
+      "status": "INDEPENDENTLY_VERIFIED"
+    },
+    {
+      "claim_id": "C6.3",
+      "text": "Negative control fires: on the no-floor map ever_on_ground=false, mode=Falling, 0/31822 ground samples, fell to Z=-55716.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "C6.4",
+      "text": "The observer is inert unless requested: without -RxObserve the subsystem is never created and the session shows no observer markers.",
+      "status": "MACHINE_VERIFIED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/checkpoint/obs_floor.json",
+      "sha256": "21b0ef06a676edd8fdd28fafeef2461e3e354f684ea305333da73f5af89a7ff7",
+      "claim_ids": [
+        "C6.1",
+        "C6.2"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/checkpoint/obs_nofloor.json",
+      "sha256": "b466467180aa9e86d1f0851241dc346a8142a5f25ea8e5f4ff0c6055d39583f4",
+      "claim_ids": [
+        "C6.3"
+      ]
+    },
+    {
+      "path": "Source/ReflexionArena/Diagnostics/RxRuntimeObserverSubsystem.cpp",
+      "sha256": "6c4c691adc4a301a5504d5d4f561da397699e190d4878f0645dfb2b06746a17a",
+      "claim_ids": [
+        "C6.1",
+        "C6.2",
+        "C6.4"
+      ]
+    },
+    {
+      "path": "Source/ReflexionArena/Diagnostics/RxRuntimeObserverSubsystem.h",
+      "sha256": "73c9229237dc89304c23237b62b048b4abe8231d3ceb6bbdb44f4f262309707b",
+      "claim_ids": [
+        "C6.4"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item6_runtime/obs2_inert.stdout",
+      "sha256": "00b2912d21f5bc226d02a908b2f9a064bec00af4c7338c6b5d223c58b5873e47",
+      "claim_ids": [
+        "C6.4"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item9_mcp/cross_channel_verification.txt",
+      "sha256": "e99546ba16b160f45628060091a57cf24f2f4f47e8efafb7e1d46b3674dc9057",
+      "claim_ids": [
+        "C6.2"
+      ]
+    }
+  ],
+  "artifacts": [],
+  "tests": [
+    {
+      "command": "UnrealEditor-Cmd <project> /Game/Maps/RxTestMap -game -unattended -nosplash -nullrhi -RxObserve=<out>.json -RxObserveSeconds=16",
+      "producer_exit_code": 0,
+      "result": "PASS"
+    },
+    {
+      "command": "UnrealEditor-Cmd <project> /Game/Maps/RxTestMap_NoFloor -game -unattended -nosplash -nullrhi -RxObserve=<out>.json -RxObserveSeconds=16",
+      "producer_exit_code": 0,
+      "result": "NEGATIVE_CONTROL_FIRED"
+    }
+  ],
+  "decisions_requested": [],
+  "risks": [],
+  "next_action": "None."
+}

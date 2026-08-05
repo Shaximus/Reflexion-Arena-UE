@@ -1,0 +1,66 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-04-ITEM4-20260805T0801250300",
+  "arm_id": "ARM-04",
+  "goal_id": "WAVE1A-ARM-04-UE-WORLD-AND-PLAYABILITY",
+  "generated_at": "2026-08-05T08:01:25-03:00",
+  "state": "CHECKPOINT",
+  "chat_url": "https://chatgpt.com/g/g-p-6a46a73f024481918cf7a4c4ce131766-the-board-room/c/6a7226f5-65a8-83ea-abde-289ead2dcd5f",
+  "authority_ceiling": "L2",
+  "evidence_root": ".",
+  "claims": [
+    {
+      "claim_id": "C4.1",
+      "text": "The pawn is an ACharacter subclass (BP_ThirdPersonCharacter_C) and is the GameMode's DefaultPawnClass.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "C4.2",
+      "text": "At runtime the GameMode possesses it: the log shows Game class is 'BP_ThirdPersonGameMode_C' and RestartPlayerAtPlayerStart, and the in-process observer found and sampled the pawn.",
+      "status": "MACHINE_VERIFIED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item4_6/wire_and_verify_result.json",
+      "sha256": "23fb462589bebf76e9bd7d1f86fd9cd570f2f40c0710fea58866da776a699198",
+      "claim_ids": [
+        "C4.1"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/py/wire_and_verify_pawn.py",
+      "sha256": "1b1beb210913ea987891477e4349156e5a693ab918e8ca9ca924a459de9ce444",
+      "claim_ids": [
+        "C4.1"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/checkpoint/obs_floor.json",
+      "sha256": "21b0ef06a676edd8fdd28fafeef2461e3e354f684ea305333da73f5af89a7ff7",
+      "claim_ids": [
+        "C4.2"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/checkpoint/verdict.json",
+      "sha256": "4e2cfd3afeafb2430135ede760d30c04ef1a79e75286c7b8a7d4ce06aad660aa",
+      "claim_ids": [
+        "C4.2"
+      ]
+    }
+  ],
+  "artifacts": [
+    "Content/ThirdPerson/Blueprints/BP_ThirdPersonCharacter.uasset"
+  ],
+  "tests": [
+    {
+      "command": "python3 fleet_state/arms/ARM-04/verify_playtest.py fleet_state/arms/ARM-04/evidence/item7/playtest_RxTestMap_checkpoint.stdout --expect-map RxTestMap",
+      "producer_exit_code": 0,
+      "result": "PASS"
+    }
+  ],
+  "decisions_requested": [],
+  "risks": [],
+  "next_action": "None."
+}

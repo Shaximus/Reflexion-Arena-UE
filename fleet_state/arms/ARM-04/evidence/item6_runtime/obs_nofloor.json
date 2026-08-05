@@ -1,0 +1,19 @@
+{
+  "reason": "deinitialize_before_budget",
+  "world": "RxTestMap_NoFloor",
+  "pawn_found": false,
+  "ever_on_ground": false,
+  "settle_seconds": -1.000,
+  "spawn_z": 0.000,
+  "settled_z": 0.000,
+  "final_z": 0.000,
+  "min_z": 0.000,
+  "settled_x": 0.000,
+  "max_forward_x": 0.000,
+  "travelled_x": 0.000,
+  "sample_count": 0,
+  "ground_sample_count": 0,
+  "last_movement_mode": "none",
+  "elapsed_seconds": 0.000,
+  "drive_seconds": 0.000
+}

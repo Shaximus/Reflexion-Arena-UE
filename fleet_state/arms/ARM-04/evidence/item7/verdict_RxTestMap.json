@@ -1,0 +1,19 @@
+{
+  "log": "/home/shax/.claude-squad/worktrees/arm/ue-playability-v1_18c8af39d3ffe92e/fleet_state/arms/ARM-04/evidence/item7/playtest_RxTestMap.stdout",
+  "expect_map": "RxTestMap",
+  "signals": {
+    "map_loaded": true,
+    "gamemode_is_project_gamemode": true,
+    "player_spawned_at_playerstart": true,
+    "world_brought_up_for_play": true,
+    "engine_ticked": true
+  },
+  "counts": {
+    "restart_player_count": 1,
+    "error_lines": 58,
+    "max_tick_index": 460,
+    "total_lines": 1661,
+    "fell_out_of_world_hits": 0
+  },
+  "ok": true
+}

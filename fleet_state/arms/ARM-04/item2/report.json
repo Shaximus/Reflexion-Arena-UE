@@ -1,0 +1,77 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-04-ITEM2-20260805T0801250300",
+  "arm_id": "ARM-04",
+  "goal_id": "WAVE1A-ARM-04-UE-WORLD-AND-PLAYABILITY",
+  "generated_at": "2026-08-05T08:01:25-03:00",
+  "state": "CHECKPOINT",
+  "chat_url": "https://chatgpt.com/g/g-p-6a46a73f024481918cf7a4c4ce131766-the-board-room/c/6a7226f5-65a8-83ea-abde-289ead2dcd5f",
+  "authority_ceiling": "L2",
+  "evidence_root": ".",
+  "claims": [
+    {
+      "claim_id": "C2.1",
+      "text": "fleet_state/arms/ARM-04/build_editor.sh builds ReflexionArenaEditor Linux Development with BUILD_EXIT=0 and 'Result: Succeeded'.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "C2.2",
+      "text": "Clean-build reproducibility proven: a from-scratch build ran 2791 actions in 1329.79s and returned exit 0. Every prior build was incremental (19 actions).",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "C2.3",
+      "text": "The build command is a real detector: the same command with a bogus target returns exit 8 (Failed/RulesError).",
+      "status": "MACHINE_VERIFIED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item2/build_ReflexionArenaEditor_Development_cleanbuild.stdout",
+      "sha256": "23e973a8bb6752eb26d5de405b4b8df7e79f1f42fb8bd8ca0ad43da81a65c75d",
+      "claim_ids": [
+        "C2.1",
+        "C2.2"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/build_editor.sh",
+      "sha256": "ee24597a984323a15cc164aefde4ff6c49e7634628c411c37bad1ce3bc40f1d8",
+      "claim_ids": [
+        "C2.1"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/item2/negctl_badtarget.stdout",
+      "sha256": "7799595b4c0ee94d0a5a0a9ff0a5360cda0500ae8376472e4bdebb70326fc5d5",
+      "claim_ids": [
+        "C2.3"
+      ]
+    },
+    {
+      "path": "fleet_state/arms/ARM-04/evidence/checkpoint/checkpoint_run.log",
+      "sha256": "21313e973b3d672f8b7a2d29abe06e851769a0a3aaaf59225a99a41fc76c782a",
+      "claim_ids": [
+        "C2.1"
+      ]
+    }
+  ],
+  "artifacts": [
+    "Binaries/Linux/libUnrealEditor-ReflexionArena.so"
+  ],
+  "tests": [
+    {
+      "command": "fleet_state/arms/ARM-04/build_editor.sh ReflexionArenaEditor Development",
+      "producer_exit_code": 0,
+      "result": "PASS"
+    },
+    {
+      "command": "Engine/Build/BatchFiles/Linux/Build.sh ReflexionArenaNoSuchTarget Linux Development -Project=<abs>/ReflexionArena.uproject -WaitMutex",
+      "producer_exit_code": 8,
+      "result": "NEGATIVE_CONTROL_FIRED"
+    }
+  ],
+  "decisions_requested": [],
+  "risks": [],
+  "next_action": "None."
+}
