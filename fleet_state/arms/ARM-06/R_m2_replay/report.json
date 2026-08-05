@@ -1,0 +1,164 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-06-20260805T1330Z-M2REPLAY-01",
+  "arm_id": "ARM-06",
+  "goal_id": "HN-20260805-OPT-02-m2-independent-replay",
+  "generated_at": "2026-08-05T13:30:00Z",
+  "state": "CHECKPOINT",
+  "chat_url": "https://chatgpt.com/g/g-p-6a46a73f024481918cf7a4c4ce131766-the-board-room/c/6a72276b-1b18-83ea-9617-54360924c769",
+  "authority_ceiling": "L2",
+  "evidence_root": "fleet_state/arms/ARM-06/R_m2_replay",
+  "claims": [
+    {
+      "claim_id": "r.numbers-disagree-arm06-arm04",
+      "text": "M2_REJECTED for the turn-counter numbers. Reproduced from raw JSONL, counting completed turns as assistant records with stop_reason=='end_turn' across EVERY transcript file: ARM-08 32/35 (Prime 31/34), ARM-05 41/46 (Prime 39/43), ARM-06 50/34 (Prime 16/16), ARM-04 49/31 (Prime 15/15). ARM-08 and ARM-05 differ by 1-3 and are consistent with an earlier snapshot of a monotonically increasing quantity. ARM-06 and ARM-04 are not: Prime reports turns EXACTLY equal to injections for both, and no single snapshot timestamp reproduces that pair - ARM-06's 16th turn is at 00:25:38Z while its 16th injection is at 01:31:18Z, 66 minutes apart.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "r.seventh-defect-provenance-collision",
+      "text": "SEVENTH DEFECT, not on Prime's list, and it is the one that matters. Machine-injected continuation prompts are recorded with promptSource=='typed' AND origin=={'kind':'human'} - byte-identical provenance to a hand-typed message. There is NO metadata discriminator between an injection and a human keystroke. A counter classifying by origin.kind would report 43 human-authored messages for ARM-06, not 0. Therefore '0 human-authored' cannot be derived from provenance at all: it can only come from CONTENT matching on the prompt's opening string, which is fragile, or from SUBTRACTION, which is defect 3. The claim is not falsified by this - it is UNVERIFIABLE from raw evidence as the data is currently recorded.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "r.six-defects-all-live",
+      "text": "All six of Prime's self-identified defects are live hazards in this data, not hypotheticals. (1) ARM-06 has 655 assistant records but only 50 end_turn - counting text-bearing messages would give 168. (2) 298 of 364 ARM-06 user records are tool_result, 82 percent, all of which would read as human input. (3) subtraction is the only route left once defect 7 removes the provenance signal. (4) ARM-08 has 54 transcript files of which 53 are hook sessions and ARM-00 has 71 of which 70 are - reading only the newest can hit a session with zero arm turns. (5) 19 security-review hook prompts appear in ARM-06 alone, each in its own transcript file, carrying promptSource=='sdk'. (6) interrupts exist and are distinct: 3 in ARM-00.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "r.eighth-defect-hyphen-enumeration",
+      "text": "EIGHTH DEFECT, found by hitting it myself. Every transcript directory name begins with a hyphen ('-home-shax--claude-squad-...'), so any shell enumeration of the form `ls <dir>/*.jsonl` fails with 'ls: invalid option'. My own first inventory reported files=0 for all six arms, and I only caught it because I re-ran without 2>/dev/null. A counter that shells out and suppresses stderr silently reports ZERO transcripts and, depending on its arithmetic, either zero turns or an unexplained fallback. Related: the charter's own raw-source glob '~/.claude/projects/*claudesquad*' matches NOTHING - the real infix is 'claude-squad' with a hyphen - so following the instruction literally yields an empty file set.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "r.item5-behaviour-verified",
+      "text": "M2_VERIFIED for the BEHAVIOURAL core of item 5, with my own numbers. Longest run of consecutive completed turns with no non-continuation typed message intervening: ARM-08 32, ARM-05 41, ARM-04 29, ARM-06 28, HEAD-07 18. The threshold in the claim is three. It is exceeded by an order of magnitude on every arm measured, so the phenomenon the claim describes is real even though the specific figures attached to it do not reproduce.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "r.admission-census-disagrees-by-one",
+      "text": "M2_REJECTED for the admission tally, narrowly. My own run of the authoritative validator over all 120 envelope files found across both worktree roots: 116 ADMITTED, 4 REJECTED. Prime reports 117 ADMITTED, 2 rejected, 1 negative control - which totals the same 120 but splits them differently. The four I find rejected are ARM-08 item-29, item-30, item-36 and the negative control. ARM-08 was still actively working during this replay, so its envelope set is a moving target; a tally with no measurement timestamp cannot be reproduced exactly.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "r.hash-and-linkage-hold",
+      "text": "M2_VERIFIED for evidence integrity. Three ADMITTED envelopes chosen by seeded random sample - ARM-05 item39, ARM-06 E_registry_drift, ARM-04 item9_mcp - had every declared sha256 recomputed by me from the files on disk: 27 evidence entries total, zero mismatches, zero missing files, zero load-bearing claims without evidence. The claim-to-evidence linkage holds under independent recomputation.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "r.negative-control-right-reason",
+      "text": "M2_VERIFIED, and for the RIGHT reason. ARM-08/item-9/report.NEGATIVE_CONTROL.json is rejected with EXIT=1 on exactly one evidence entry: declared 092dc6bee4060ba4... against actual d92dc6bee4060ba4..., a single leading-character flip. The other six evidence entries all MATCH, no required key is missing, and no load-bearing claim is uncovered. The control fails on the deliberately corrupted hash and on nothing else, so it is testing what it claims to test.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "r.self-check-of-my-own-counter",
+      "text": "My counter was tested against a known failure mode before its numbers were used: sub-agent (isSidechain) records would inflate a turn count without being arm turns. Measured: 0 sidechain end_turn records in all four arms, so my totals are not inflated by that mechanism. This does not make my counter correct - it makes one specific way of being wrong ruled out by measurement rather than by assumption.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "r.conflict-of-interest",
+      "text": "DECLARED CONFLICT. ARM-06 is one of the four arms whose numbers I was asked to verify, and I am ARM-06. For that row I am both instrument and subject, which is the same structural defect the charter exists to prevent - Prime may not verify their own counter, and I should not be the sole verifier of my own turn count. The ARM-06 figures should be replayed by a third party before they are relied on. My ARM-08, ARM-05 and ARM-04 numbers carry no such conflict.",
+      "status": "CLAIMED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "independent_count.txt",
+      "sha256": "e5ba133126b5d3d4ef2e15669c0e265d446dc92668d79228e2fcbe56abeb2bf3",
+      "claim_ids": [
+        "r.numbers-disagree-arm06-arm04",
+        "r.seventh-defect-provenance-collision",
+        "r.six-defects-all-live",
+        "r.eighth-defect-hyphen-enumeration"
+      ]
+    },
+    {
+      "path": "timeline_reconstruction.txt",
+      "sha256": "7fda36ee36d8442fbaaa06c04738f58d00882f8f4a9dad7912735df26c97ac60",
+      "claim_ids": [
+        "r.numbers-disagree-arm06-arm04"
+      ]
+    },
+    {
+      "path": "item5_runs.txt",
+      "sha256": "d044d7b5f32614cce563175f147ef565b651fc371abde195124540d7cfb97d82",
+      "claim_ids": [
+        "r.item5-behaviour-verified"
+      ]
+    },
+    {
+      "path": "admission_replay.txt",
+      "sha256": "02d6f2faf8436673d6cb303c17d247da3284a415d0af0de175a63acf81ffe6c5",
+      "claim_ids": [
+        "r.admission-census-disagrees-by-one",
+        "r.hash-and-linkage-hold"
+      ]
+    },
+    {
+      "path": "admission_locate.txt",
+      "sha256": "195232d61842b147265b045172c7bdf565780e8d9d8f3422d867ef411a992a8d",
+      "claim_ids": [
+        "r.admission-census-disagrees-by-one"
+      ]
+    },
+    {
+      "path": "negative_control_check.txt",
+      "sha256": "bfce0d835063ebb79c23a4828946feb3b772ab3405eeee6ea8a0a57e12056cd3",
+      "claim_ids": [
+        "r.negative-control-right-reason"
+      ]
+    },
+    {
+      "path": "self_check_sidechain.txt",
+      "sha256": "57aa9496ee4a470333b83e678cca5e9c15aacffdefe6da4a53433dac69a03d4a",
+      "claim_ids": [
+        "r.self-check-of-my-own-counter"
+      ]
+    }
+  ],
+  "artifacts": [
+    "independent_count.txt",
+    "timeline_reconstruction.txt",
+    "item5_runs.txt",
+    "admission_replay.txt",
+    "admission_locate.txt",
+    "negative_control_check.txt",
+    "self_check_sidechain.txt"
+  ],
+  "tests": [
+    {
+      "command": "python3 independent_counter.py  # raw JSONL, every file, stop_reason==end_turn",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "independent_count.txt",
+      "stderr_artifact": "independent_count.txt",
+      "negative_control": false
+    },
+    {
+      "command": "python3 validate_arm_report.py <120 envelopes>  # independent admission census",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "admission_replay.txt",
+      "stderr_artifact": "admission_replay.txt",
+      "negative_control": false
+    },
+    {
+      "command": "python3 validate_arm_report.py ARM-08/item-9/report.NEGATIVE_CONTROL.json",
+      "producer_exit_code": 1,
+      "result": "FAIL",
+      "stdout_artifact": "negative_control_check.txt",
+      "stderr_artifact": "negative_control_check.txt",
+      "negative_control": true
+    }
+  ],
+  "decisions_requested": [
+    "The turn counter cannot distinguish an injected continuation from a human keystroke, because both are recorded promptSource=='typed' with origin.kind=='human'. Until the injector stamps its own prompts with a distinguishing field, NO instrument can verify a '0 human-authored' claim from raw evidence. Recommend the continuity injector set an explicit marker; that is a one-field change and it makes the whole metric verifiable.",
+    "M2 claims should carry a measurement timestamp. Turn counts are monotonically increasing and envelope sets change while arms work, so 'reproduce these numbers' is ill-posed without one. Two of four arms differ from Prime only in ways a time gap explains; two do not.",
+    "ARM-06's row should be replayed by an arm other than ARM-06."
+  ],
+  "risks": [
+    "I did not re-run Prime's instrument, by instruction, so I cannot say WHICH of the eight defects produced the ARM-06 and ARM-04 discrepancies. I can only show the raw data does not support 16/16 or 15/15 at any timestamp.",
+    "My own first inventory silently reported zero transcript files for all six arms because the directory names begin with a hyphen and I suppressed stderr. Had I trusted it, this entire replay would have concluded there was nothing to count.",
+    "The turns==injections equality Prime reports for ARM-06 and ARM-04 is the signature of a counter that derived one quantity from the other rather than counting both. I have not proven that mechanism, only that the equality does not hold in the raw data."
+  ],
+  "next_action": "Return M2 verdicts to Kestrel Head 06. Per-claim: turn-counter numbers M2_REJECTED; item-5 behavioural core M2_VERIFIED; admission census M2_REJECTED by one; hash and linkage integrity M2_VERIFIED; negative control M2_VERIFIED for the right reason."
+}

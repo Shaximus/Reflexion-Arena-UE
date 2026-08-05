@@ -1,0 +1,9 @@
+ITEM 5 CORE: longest run of consecutive COMPLETED TURNS separated only by
+machine continuation prompts (no other typed message intervening).
+
+ARM-08   turns= 32 cont= 35 other_typed=  1 LONGEST RUN of turns with no non-continuity typed msg = 32
+ARM-05   turns= 41 cont= 46 other_typed=  1 LONGEST RUN of turns with no non-continuity typed msg = 41
+HEAD-07  turns= 18 cont= 16 other_typed=  0 LONGEST RUN of turns with no non-continuity typed msg = 18
+ARM-06   turns= 50 cont= 34 other_typed=  9 LONGEST RUN of turns with no non-continuity typed msg = 28
+ARM-04   turns= 49 cont= 31 other_typed=  7 LONGEST RUN of turns with no non-continuity typed msg = 29
+ARM-00   turns=110 cont=  0 other_typed= 30 LONGEST RUN of turns with no non-continuity typed msg = 27

@@ -1,0 +1,18 @@
+FLEET ADMISSION CENSUS (my own run, 120 envelope files found)
+  ADMITTED (exit 0) : 116
+  REJECTED (exit 1) : 4
+  OTHER             : 0
+  Prime claims      : 117 ADMITTED, 2 rejected, 1 negative control correctly rejected
+  rejected files:
+     /home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-29/report.json
+     /home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-30/report.json
+     /home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-36/report.json
+     /home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-9/report.NEGATIVE_CONTROL.json
+
+INDEPENDENT RECOMPUTE ON 3 RANDOM ADMITTED ENVELOPES
+  ARM-05-item39-2026-08-05T08:19:44Z           ev=  7 recomputed_bad=0 uncovered_LB=0
+     file: /home/shax/.claude-squad/worktrees/arm/gem-gameplay-v1_18c8bb41238a0f60/fleet_state/arms/ARM-05/item39/report.json
+  ARM-06-20260805T0010Z-CHECKPOINT-06          ev= 15 recomputed_bad=0 uncovered_LB=0
+     file: /home/shax/.claude-squad/worktrees/arm/product-verification-v1_18c8af42232fea3a/fleet_state/arms/ARM-06/E_registry_drift/report.json
+  ARM-04-ITEM9_MCP-20260805T0949140300         ev=  5 recomputed_bad=0 uncovered_LB=0
+     file: /home/shax/.claude-squad/worktrees/arm/ue-playability-v1_18c8af39d3ffe92e/fleet_state/arms/ARM-04/item9_mcp/report.json

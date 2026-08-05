@@ -1,0 +1,5 @@
+=== locate the negative control ===
+/home/shax/.claude-squad/worktrees/arm/e11-authority-impl-v1_18c8bb498efd1db9/fleet_state/arms/ARM-08/item-9/report.NEGATIVE_CONTROL.json
+
+=== fleet-wide envelope census ===
+120

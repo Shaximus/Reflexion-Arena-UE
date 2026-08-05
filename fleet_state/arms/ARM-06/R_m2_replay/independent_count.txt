@@ -1,0 +1,107 @@
+============================================================================================================
+ARM-06 INDEPENDENT COUNT — every transcript file, raw records
+============================================================================================================
+
+arm-e11-authority-impl-v1-18c8bb498efd1db9
+  files= 54  MAIN=1  HOOK=53  OTHER=0
+  MAIN completed turns (stop_reason==end_turn) : 32
+  MAIN tool_use steps (NOT turns)              : 1447
+  MAIN tool_result user records (NOT human)    : 819
+  MAIN injections (PRIME CONTINUITY prefix)    : 35
+  MAIN typed NON-injection messages            : 1
+  MAIN records with origin.kind == "human"     : 36
+  MAIN interrupts (human action, not cont.)    : 0
+  HOOK-session end_turns EXCLUDED from arm count: 0
+  typed non-injection texts:
+      - You are ARM-08, E11 Authority Implementation, reporting to Hannah Prim
+
+arm-gem-gameplay-v1-18c8bb41238a0f60
+  files= 44  MAIN=1  HOOK=43  OTHER=0
+  MAIN completed turns (stop_reason==end_turn) : 41
+  MAIN tool_use steps (NOT turns)              : 1262
+  MAIN tool_result user records (NOT human)    : 702
+  MAIN injections (PRIME CONTINUITY prefix)    : 46
+  MAIN typed NON-injection messages            : 1
+  MAIN records with origin.kind == "human"     : 47
+  MAIN interrupts (human action, not cont.)    : 0
+  HOOK-session end_turns EXCLUDED from arm count: 0
+  typed non-injection texts:
+      - You are ARM-05, Gem Forge Gameplay Integration, reporting to Hannah Pr
+
+arm-head07-inference-fable-18c8bea5f96e85d1
+  files=  1  MAIN=1  HOOK=0  OTHER=0
+  MAIN completed turns (stop_reason==end_turn) : 18
+  MAIN tool_use steps (NOT turns)              : 241
+  MAIN tool_result user records (NOT human)    : 114
+  MAIN injections (PRIME CONTINUITY prefix)    : 16
+  MAIN typed NON-injection messages            : 0
+  MAIN records with origin.kind == "human"     : 16
+  MAIN interrupts (human action, not cont.)    : 0
+  HOOK-session end_turns EXCLUDED from arm count: 0
+
+arm-product-verification-v1-18c8af42232fea3a
+  files= 20  MAIN=1  HOOK=19  OTHER=0
+  MAIN completed turns (stop_reason==end_turn) : 50
+  MAIN tool_use steps (NOT turns)              : 485
+  MAIN tool_result user records (NOT human)    : 231
+  MAIN injections (PRIME CONTINUITY prefix)    : 34
+  MAIN typed NON-injection messages            : 9
+  MAIN records with origin.kind == "human"     : 43
+  MAIN interrupts (human action, not cont.)    : 0
+  HOOK-session end_turns EXCLUDED from arm count: 0
+  typed non-injection texts:
+      - You are ARM-06, Product Verification and Authority. Authority L0-L2 in
+      - PRIME RULING ARM-06 — scope correction plus go for task A. (1) Scope c
+      - PRIME RULING ARM-06 — staging explained, Task B authorised. The A-stat
+      - PRIME RULING ARM-06 — both decisions answered, you are unblocked. (1) 
+      - PRIME — commit the E11 gate repair on your own branch (arm/product-ver
+      - PRIME — Kestrel L4 ruling. Task A is ADMITTED as CHECKPOINT, not COMPL
+      - PRIME RULING ARM-06 — commit your D evidence on your own branch now, t
+      - PRIME — push APPROVED. Push arm/product-verification-v1 to origin. It 
+      - PRIME — INDEPENDENT REPLAY TASK, this is your ratified charter and it 
+
+arm-ue-playability-v1-18c8af39d3ffe92e
+  files=  2  MAIN=1  HOOK=1  OTHER=0
+  MAIN completed turns (stop_reason==end_turn) : 49
+  MAIN tool_use steps (NOT turns)              : 621
+  MAIN tool_result user records (NOT human)    : 285
+  MAIN injections (PRIME CONTINUITY prefix)    : 31
+  MAIN typed NON-injection messages            : 7
+  MAIN records with origin.kind == "human"     : 38
+  MAIN interrupts (human action, not cont.)    : 0
+  HOOK-session end_turns EXCLUDED from arm count: 0
+  typed non-injection texts:
+      - You are ARM-04, Rx Worlds UE World and Playability. Authority L0-L2 in
+      - PRIME RULING ARM-04 — canonical root confirmed, item 2 authorised. (1)
+      - PRIME RULING ARM-04 — item 3 authorised, commandlet route confirmed. Y
+      - PRIME — continue. Finish the remaining checklist items without stoppin
+      - PRIME — Kestrel L4 ruling, continue immediately. Your next checkpoint 
+      - PRIME RULING ARM-04 — Source/ grant APPROVED, but narrowed, because I 
+      - PRIME RULING ARM-04 — four decisions, three granted, one needs evidenc
+
+arm-00-fleet-foundry
+  files= 71  MAIN=1  HOOK=70  OTHER=0
+  MAIN completed turns (stop_reason==end_turn) : 109
+  MAIN tool_use steps (NOT turns)              : 2460
+  MAIN tool_result user records (NOT human)    : 1158
+  MAIN injections (PRIME CONTINUITY prefix)    : 0
+  MAIN typed NON-injection messages            : 30
+  MAIN records with origin.kind == "human"     : 32
+  MAIN interrupts (human action, not cont.)    : 3
+  HOOK-session end_turns EXCLUDED from arm count: 0
+  typed non-injection texts:
+      - You are waking up from a Fork after Compaction, How do you feel? and a
+      - You would Be the First arm tasked with the claude code web bridge plug
+      - ok so the problem is I dont have the kimi web bridge installed in fire
+      - Icoming management Channels. The Cards URL will be at the very beginin
+      - Yes Kestrel I dont think pre organized his own split Cause I didn't in
+      - I need full pathways or you need to actually get a permanent running C
+      - you need to remember and Have the /fleet-management skill in mind and 
+      - you mixed it up somehow, you used an Old channel I was branching from 
+      - well I am confused because you also said you only see 2 tabs, yet, [Im
+      - now can you Fix the kimi-web bridge skill properly please? you already
+      - I'm sick of this... and all this misunderstanding today. The pro sessi
+      - I'm sick of this... and all this misunderstanding today. The pro sessi
+      - Get Grok research Asap, and Im mid Creating the Heads.
+      - install claude-squad and mem0   and then explain this rationale...  "P
+      ... and 16 more

@@ -1,0 +1,17 @@
+=== validator verdict on the negative control ===
+ERROR: evidence[0] sha256 mismatch for evidence/35_e2e_before_after.txt: declared 092dc6bee4060ba4… actual d92dc6bee4060ba4…
+EXIT=1
+
+=== is the rejection reason a CORRUPTED HASH, and only that? ===
+evidence_root: fleet_state/arms/ARM-08/
+  MISMATCH evidence/35_e2e_before_after.txt
+      declared 092dc6bee4060ba48075767ec10dd36a60e3fbbeba59bd6b02afc5478bce8fd3
+      actual   d92dc6bee4060ba48075767ec10dd36a60e3fbbeba59bd6b02afc5478bce8fd3
+  MATCH    tests/run_e2e_before_after.sh
+  MATCH    evidence/25_ue_gate_commandlet.txt
+  MATCH    evidence/27_parity_oracle.txt
+  MATCH    evidence/30_oracle_falsification.txt
+  MATCH    tests/run_ue_gate_commandlet.sh
+  MATCH    FINDINGS.md
+  load-bearing claims uncovered: none
+  required keys missing: none

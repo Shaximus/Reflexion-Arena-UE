@@ -1,0 +1,7 @@
+SELF-CHECK OF MY OWN COUNTER: are sub-agent (isSidechain) turns inflating my numbers?
+A Task-tool subagent runs in the same transcript file but is NOT an arm turn.
+
+ARM-08: end_turn main=32  SIDECHAIN(subagent)=0  injections=35
+ARM-05: end_turn main=41  SIDECHAIN(subagent)=0  injections=46
+ARM-06: end_turn main=50  SIDECHAIN(subagent)=0  injections=34
+ARM-04: end_turn main=49  SIDECHAIN(subagent)=0  injections=31
