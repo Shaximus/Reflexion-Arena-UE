@@ -1,0 +1,95 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-06-20260805T1430Z-CHECKPOINT-19",
+  "arm_id": "ARM-06",
+  "goal_id": "K-03B-transient-authority-trajectory",
+  "generated_at": "2026-08-05T14:30:00Z",
+  "state": "CHECKPOINT",
+  "chat_url": "https://chatgpt.com/g/g-p-6a46a73f024481918cf7a4c4ce131766-the-board-room/c/6a72276b-1b18-83ea-9617-54360924c769",
+  "authority_ceiling": "L2",
+  "evidence_root": "fleet_state/arms/ARM-06/T_k03b_trajectory",
+  "claims": [
+    {
+      "claim_id": "k.canary-observed-failing",
+      "text": "DONE-CONDITION 1 — the canary is observed FAILING. One canary mutates a protected field inside the measured blind window and restores it 60 ticks later. The per-tick audit catches it: 1 forbidden transient at tick_idx=3500, boss_stability 300 -> 340, 'protected field INCREASED'. The detector is therefore observed refusing, not merely observed passing.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "k.canonical-clean",
+      "text": "DONE-CONDITION 2 — canonical execution shows NO forbidden transient mutation across all 11,902 traced ticks: 0 violations, exit 0. Protected fields boss_stability and world_tick are audited at EVERY tick, not at the end.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "k.writable-path-observable",
+      "text": "DONE-CONDITION 3 — the legitimate writable path remains observable. boss_release_delay, the one canon-writable counter, takes 2 distinct values [0, 20] in both canonical and canary runs, so the audit does not achieve cleanliness by freezing the field it is allowed to move.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "k.deterministic",
+      "text": "DONE-CONDITION 4 — the trace is deterministic across two runs. Full-trace sha256 IDENTICAL within each mode: canonical dad45bd470a36cdb..., canary 8f1bf61c06be1ee9....",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "k.blind-window-now-instrumented",
+      "text": "THE POINT, and it is measured: the canary's FINAL STATE IS IDENTICAL to canonical — world_tick 11901, boss_stability 0, boss_release_delay 20. Every end-state assertion in the behavioural oracle passes on the canary run. A protected authority field was mutated and restored and the end-state oracle cannot see it. The per-tick audit catches it at tick 3500. That is precisely the ~300-tick blind window recorded in I_per_tick, now instrumented for the four scoped fields.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "k.counter-threshold-absent",
+      "text": "SCOPE HONESTY — the ruling scoped K-03B to four fields, but counter_threshold (C10) has no implementation on any surface, so there is nothing to trace. It is reported as absent rather than simulated, stubbed, or quietly dropped from the field list. Three of four fields are instrumented; the fourth does not exist to instrument.",
+      "status": "MACHINE_VERIFIED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "k03b_run.txt",
+      "sha256": "7cf39cd722bc0d676292669af7805a914da19983b147db5911741f246428b2c4",
+      "claim_ids": [
+        "k.canary-observed-failing",
+        "k.canonical-clean",
+        "k.writable-path-observable",
+        "k.deterministic",
+        "k.blind-window-now-instrumented",
+        "k.counter-threshold-absent"
+      ]
+    },
+    {
+      "path": "k03b_trajectory.py",
+      "sha256": "5e58ecd414ea492a48efacc677616d6270617ed54ce4d5f37e35a5a2c294d3b7",
+      "claim_ids": [
+        "k.canary-observed-failing"
+      ]
+    }
+  ],
+  "artifacts": [
+    "k03b_run.txt",
+    "k03b_trajectory.py"
+  ],
+  "tests": [
+    {
+      "command": "python3 k03b_trajectory.py <sandbox>",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "k03b_run.txt",
+      "stderr_artifact": "k03b_run.txt",
+      "negative_control": false
+    },
+    {
+      "command": "python3 k03b_trajectory.py <sandbox> --canary",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "k03b_run.txt",
+      "stderr_artifact": "k03b_run.txt",
+      "negative_control": true
+    }
+  ],
+  "decisions_requested": [
+    "K-03B done-conditions are all four met. Requesting Head 06 disposition on whether CONTINUOUS TRAJECTORY CLAIMS move from RECORDED-NOT-CLOSED to closed for the four scoped fields, or whether closure additionally requires the audit to run inside the shipped oracle rather than as a separate bounded harness."
+  ],
+  "risks": [
+    "The audit is a SEPARATE harness, not part of behavioural_oracle.py. Per 'do not build a generalized trajectory-observability system' I did not wire it into the shipped oracle, so a normal oracle run still cannot see a transient. The blind window is now DETECTABLE on demand, not continuously monitored.",
+    "The detector rule is 'a protected field must never increase'. That catches the canary and any raise-and-restore, but a transient that only DECREASES a protected field and restores it would evade it. Scoping to the ruling's four fields and one canary, I did not extend the rule; a decrease-transient canary is the obvious next control if this item is widened.",
+    "counter_threshold could not be instrumented because it does not exist. If C10 is implemented later, this harness must be re-run with the fourth field before its claims still hold."
+  ],
+  "next_action": "K-01C independent replay remains PENDING on ARM-08 landing the E11 path. BLOCKED on push: 'Bash(git push:*)' is in the settings deny array."
+}

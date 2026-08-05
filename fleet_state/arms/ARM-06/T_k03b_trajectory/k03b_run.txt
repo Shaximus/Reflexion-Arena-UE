@@ -1,0 +1,22 @@
+=== K-03B CANONICAL ===
+  ticks traced            : 11902
+  final                   : {'world_tick': 11901, 'boss_stability': 0, 'boss_release_delay': 20}
+  forbidden transients    : 0
+  boss_release_delay observable: True  distinct_values=2 e.g. [0, 20]
+  counter_threshold (C10) : NOT IMPLEMENTED — 0 occurrences on every implementation surface; nothing to trace. Reported, not simulated.
+  determinism (two runs)  : IDENTICAL  dad45bd470a36cdb
+
+  EXPECTED: canonical MUST be clean -> violations == 0
+CANONICAL_EXIT=0
+
+=== K-03B CANARY ===
+  ticks traced            : 11902
+  final                   : {'world_tick': 11901, 'boss_stability': 0, 'boss_release_delay': 20}
+  forbidden transients    : 1
+      tick_idx=3500 boss_stability 300 -> 340  protected field INCREASED
+  boss_release_delay observable: True  distinct_values=2 e.g. [0, 20]
+  counter_threshold (C10) : NOT IMPLEMENTED — 0 occurrences on every implementation surface; nothing to trace. Reported, not simulated.
+  determinism (two runs)  : IDENTICAL  8f1bf61c06be1ee9
+
+  EXPECTED: canary MUST be caught -> violations > 0
+CANARY_EXIT=0
