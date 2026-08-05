@@ -1,0 +1,10 @@
+{
+ "tag": "needlefinal-to-5b",
+ "old_pid": "619555",
+ "kill_rc": 0,
+ "kill_err": "",
+ "api_ready_s": 76.0,
+ "completion": "RECOVERED",
+ "first_completion_s": 76.2,
+ "new_pid": "630379"
+}

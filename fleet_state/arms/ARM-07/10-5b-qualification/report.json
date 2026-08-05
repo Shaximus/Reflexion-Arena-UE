@@ -1,0 +1,88 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-07-10-5b-qualification-20260805T1625",
+  "arm_id": "ARM-07",
+  "goal_id": "5b-qualification-per-HEAD07-ruling-ARM07-CKPT-20260805-0812",
+  "generated_at": "2026-08-05T16:25:00-03:00",
+  "state": "CHECKPOINT",
+  "chat_url": "https://chatgpt.com/g/g-p-6a46a73f024481918cf7a4c4ce131766-the-board-room/c/6a7227b3-db30-83ea-9332-dd024ed0fc67",
+  "authority_ceiling": "ARM-07 sole technical owner of qwen27-mtp per HEAD07 R2; all mutations under the flock measurement-window protocol; profile promotion requires Head ruling",
+  "evidence_root": "fleet_state/arms/ARM-07/evidence",
+  "claims": [
+    {
+      "claim_id": "C1",
+      "status": "MACHINE_VERIFIED",
+      "text": "VERDICT: REJECT under the ruling's gates as written. The sole failing gate is deterministic-digest identity: the temp-0 seed-fixed qualify output under 5b (c5ff09be..., stable across all 5b runs) differs from the in-window baseline digest (35280d79...). Every other gate passes. Baseline was restored and verified after every window; production ends on the canonical K6/FP8/YaRN baseline."
+    },
+    {
+      "claim_id": "C2",
+      "status": "MACHINE_VERIFIED",
+      "text": "Performance gates all PASS with wide margins, one uncontaminated in-window matrix, identical prompts/harness both sides: repeated-50k-prefix TTFT 10.014s -> 0.812s (12.33x, gate >=5x); repeated ~300k beyond-native TTFT 218.566s -> 4.384s (49.86x, gate >=3x); short-prompt decode +2.05% (gate allows -5%); cold-prefix penalties 1.3-4.7% (ungated per ruling)."
+    },
+    {
+      "claim_id": "C3",
+      "status": "MACHINE_VERIFIED",
+      "text": "Semantic gates other than digest PASS on 5b: thinking-true battery 18/18 (10/10 rigid-contract + 8/8 24k-extraction); beyond-native needle retrieved exactly with clean negative control using the foundry's baseline-proven probe run verbatim (depth 296,833 > native 262,144; negative answered NONE in 59s vs 268s on baseline — prefix reuse accelerating even the divergent case)."
+    },
+    {
+      "claim_id": "C4",
+      "status": "MACHINE_VERIFIED",
+      "text": "Stability and resource gates PASS: three controlled kill/recovery cycles on 5b, all automatic (88/86/84s to first correct completion), no EngineCore assertions, no CUDA/host OOM, no swap; 136 GB DDR5 pinned CPU pool, 17.7 GB physically offloaded GPU->CPU during the matrix, GPU KV pool 1,556,357 tokens at 1M under 5b."
+    },
+    {
+      "claim_id": "C5",
+      "status": "MACHINE_VERIFIED",
+      "text": "OPERATIONAL FINDING (profile-independent): decode at ~300k context depth runs at 4.98 tok/s on baseline and 4.6-4.7 tok/s on 5b — a ~26x slowdown vs short context that is stack physics, not a candidate property. Any 1M-context workload on this box decodes at ~5 tok/s regardless of configuration; thinking-mode responses at depth take minutes to tens of minutes."
+    },
+    {
+      "claim_id": "C6",
+      "status": "MACHINE_VERIFIED",
+      "text": "Instrument-failure history, stated plainly: (a) run 1 aborted a healthy 5b boot on a log-readback contaminated by vLLM-logged prompt text carrying old init lines — fixed by offset-anchored boot-segment parsing; (b) needle attempts 1-3 with a word-salad haystack were instrument-bound (thinking-mode reasoning consumed every budget; even the trivial negative control burned 2000 tokens) — settled by running the foundry probe verbatim; (c) needle window 1 crashed client-side and its restore was not in a finally block, leaving production on 5b with the lock released for ~4 minutes until this arm's emergency restore under a fresh lock — a self-caught protocol breach, receipted, and the harness now restores in try/finally."
+    }
+  ],
+  "evidence": [
+    {"path": "10_verdict_final.json", "sha256": "914315686fcb19cb66d17071c4decb2b107d9186cdbff8268b8bb1b92b53defd", "claim_ids": ["C1"]},
+    {"path": "10_matrix_baseline.json", "sha256": "d4edc884c89bb772ee45d2f5d00ad89b53ea8052a6021a9d7062c426224b7705", "claim_ids": ["C2"]},
+    {"path": "10_matrix_5b.json", "sha256": "6547fd34abb21646d308dc480d3a5088c6ac8d4c9ed6f53506118a337399b3d7", "claim_ids": ["C2"]},
+    {"path": "10_baseline_qualify.json", "sha256": "0933ace350898e1a2128de751e093bcf2d21e03c28b6b4265ee6731e58e213d0", "claim_ids": ["C1", "C2"]},
+    {"path": "10_5b_qualify.json", "sha256": "66f50f77b9fd29a4e6315ba6dbc8fe5534ab47312c972f8f07604dcaaf0584de", "claim_ids": ["C1", "C2"]},
+    {"path": "10_5b_semantic.json", "sha256": "8f1d32f7972a924170d071d5581239741007fa1755df447933a28f92c7b7f8aa", "claim_ids": ["C3"]},
+    {"path": "10_5b_needle_foundry_probe.json", "sha256": "717ebc1f1d32c707684f9157398df8684e9e711e0c3a1d661c00311835660afb", "claim_ids": ["C3"]},
+    {"path": "10_5b_stability.json", "sha256": "d6a26f4a1bd3efc7e8ba53c174c60e3b3e9a6b312d521b1d21d931bc8c108d5e", "claim_ids": ["C4"]},
+    {"path": "10_5b_memory_after_load.json", "sha256": "6a687e194d2e35b175125af0ba7485af2259c717308dc0544c038ae7e4c0f954", "claim_ids": ["C4"]},
+    {"path": "10_5b_effective_config.json", "sha256": "b87458b8212ea5d01be436b47f6f35c0386406ce8989a57d86e985d1dcdcafaf", "claim_ids": ["C4"]},
+    {"path": "10_baseline_decode_at_depth.json", "sha256": "01201e524874f377cf37e6cf9b0fe9a253a5fc20c50669bb4284a3a81277be20", "claim_ids": ["C5"]},
+    {"path": "10_5b_needle.json", "sha256": "e06beaa5571e74271bd6452dae31bba834641df7c20ecd9fbe94d43e84fd39c8", "claim_ids": ["C5", "C6"]},
+    {"path": "10_5b_needle_corrected.json", "sha256": "6bb8623f960977bd452b46ea5b5779fbfc95a5ed28ce2aad89d659b47dd74b14", "claim_ids": ["C6"]},
+    {"path": "10_needlewin_emergency_restore.txt", "sha256": "44399832f993404c677e3d48950058473b8d7a45c0764a4aa7429f0c0d79a515", "claim_ids": ["C6"]},
+    {"path": "10_restore_final.json", "sha256": "6ec361cccde014d51c9782bad148ff13daa90474eafb3d06ae33c840c5e7ceda", "claim_ids": ["C1"]},
+    {"path": "10_needlefinal_restore.json", "sha256": "d759f14145cdc9ebebd70c074e17611ddb8b06a4f53c82eb90f9eb214106821c", "claim_ids": ["C1"]}
+  ],
+  "artifacts": [
+    "fleet_state/arms/ARM-07/tools/arm07_window.sh + arm07_5b_qual.py (matrix driver, offset-anchored readback)",
+    "fleet_state/arms/ARM-07/tools/arm07_needle_final.py (foundry probe wrapper, try/finally restore)",
+    "fleet_state/arms/ARM-07/evidence_run1_aborted/ (aborted run-1 receipts, preserved)",
+    "Rollback command (executed, verified): cp evidence/10_hook_backup_prewindow.py <hook> && kill -9 MainPID (systemd auto-restarts)"
+  ],
+  "tests": [
+    {"name": "matrix_baseline_and_5b", "command": "arm07_window.sh (flock) -> arm07_5b_qual.py full matrix", "result": "receipts 10_matrix_*.json; gates in C2", "producer_exit_code": 0},
+    {"name": "needle_foundry_probe_on_5b", "command": "probe_beyond_native.py http://127.0.0.1:8010 qwen27-mtp (verbatim)", "result": "retrieved=True beyond native, control_clean=True", "producer_exit_code": 0},
+    {"name": "stability_3x", "command": "kill -9 MainPID x3 inside window", "result": "3/3 automatic recovery, 84-88s", "producer_exit_code": 0},
+    {"name": "needle_wordsalad_attempts", "command": "800-token and 2000-token thinking budgets on word-salad haystack", "result": "instrument-bound: finish=length, empty content, negative control failed to answer NONE", "producer_exit_code": 1}
+  ],
+  "decisions_requested": [
+    {
+      "id": "D1",
+      "decision": "Head 07: the sole failing gate is digest identity, and the output difference is deterministic and stable within-profile while every correctness measure passes (18/18 battery, beyond-native needle + clean negative, V-style behavior). Rule whether the digest gate should be re-scoped (e.g. to the V11 teacher-forced-NLL tolerance form) for retaining 5b as the opt-in qwen27-mtp-longprefix profile. Until ruled, REJECT stands and production remains on the canonical baseline."
+    },
+    {
+      "id": "D2",
+      "decision": "Head 07: the ~5 tok/s decode-at-depth finding (C5) materially changes the operational value of 1M context on this stack; recommend it be weighed in any long-context product commitment. Optimizing it would be a NEW goal (per the stop-after-this-matrix rule) — flagging, not proposing scope."
+    }
+  ],
+  "risks": [
+    "The digest difference has an unknown root mechanism (mamba-align state handling under reuse is the suspect); if 5b is ever retained, a recurrent-state equivalence test (as the FlashKDA ruling demanded for kernel substitutions) would be the rigorous closure.",
+    "The protocol breach in C6 was recovered in ~4 minutes but real; the try/finally fix is in place, and window wrappers should gain a supervising restore-check before any future mutation window."
+  ],
+  "next_action": "DFlash-vs-MTP bounded comparison (Prime dispatch, queued task) under a fresh lock window; then report both verdicts to Head 07 on the warm hannah-head07 tab."
+}

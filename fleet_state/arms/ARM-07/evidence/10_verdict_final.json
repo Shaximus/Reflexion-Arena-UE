@@ -1,0 +1,22 @@
+{
+  "verdict": "REJECT under the gates as written — sole failing gate: deterministic-digest identity. All other semantic, performance, and stability gates PASS. Recommendation to Head 07: rule on whether deterministic-but-different output (stable within-profile, 18/18 battery, needle pass) merits a re-scoped digest gate (e.g. the V11 NLL-tolerance form) for retention as the opt-in qwen27-mtp-longprefix profile; this arm does not soften its own gate.",
+  "supersedes": "10_verdict.json (driver auto-verdict, computed before the needle instrument failures were corrected)",
+  "final_gate_table": {
+    "semantic_18_18": true,
+    "needle_positive_beyond_native": true,
+    "needle_negative_clean": true,
+    "needle_note": "PASSED via the foundry's baseline-proven probe run verbatim on 5b (depth 296,833 > native; exact codeword; clean negative in 59s vs 268s baseline). Three earlier failures were instrument artifacts: word-salad haystack drove thinking-mode reasoning past every budget — even the trivial negative control burned 2000 tokens without answering.",
+    "digest_match": false,
+    "digest_note": "The ONE genuine semantic-gate failure: temp-0 seed-fixed qualify output differs from baseline under the prefix-cache path (baseline 35280d79..., 5b c5ff09be...), but is STABLE across all 5b runs — deterministic-but-different, not nondeterministic.",
+    "rep50k_speedup_x": 12.33, "rep50k_gate_5x": true,
+    "rep300k_speedup_x": 49.86, "rep300k_gate_3x": true,
+    "short_decode_regression": -0.0205, "short_regression_le_5pct": true,
+    "stability_3x_recovered": true, "recovery_seconds": [88, 86, 84],
+    "no_oom_no_assertions": true,
+    "memory": "136 GB DDR5 pinned; 17.7 GB physically offloaded GPU->CPU during matrix; GPU KV pool 1,436,030 -> 1,556,357 tokens (5b at 1M)",
+    "baseline_restored_and_verified": true
+  },
+  "operational_finding_out_of_band": "Decode at ~300k context depth runs ~4.6-5.0 tok/s on BOTH profiles (~26x below short-context) — stack physics, not a 5b property. Measured: baseline 4.98 tok/s at 301,437 tokens; 5b 4.6-4.7 observed. 1M-context workloads will decode at ~5 tok/s regardless of configuration.",
+  "windows": "main matrix run 2 (14:12-14:56), needle window 1 (crashed, emergency restore under fresh lock), attribution control, needle window 2 (2k budget, instrument-bound), needle final (foundry probe, PASSED), all under the flock protocol; one protocol breach (mutation outlived crashed window 1) self-caught and receipted",
+  "generated_at": "2026-08-05T16:20:00-03:00"
+}

@@ -1,0 +1,8 @@
+{
+ "probe": "/home/shax/Projects/core-tech/PentaCLI/.claude/worktrees/arm-00-fleet-foundry/fleet_state/foundry/evidence/head07/yarn-1m/probe_beyond_native.py",
+ "started": "2026-08-05T16:04:38-0300",
+ "exit_code": 0,
+ "stdout": "target http://127.0.0.1:8010  model qwen27-mtp  native 262,144\nbuilding a haystack whose needle lands PAST native \u2014 measured, not assumed\n  haystack 336,410 tokens, needle at depth ~296,833\n  depth 296,833 > native 262,144  -> genuinely beyond-native\n\nPOSITIVE  HTTP 200 in 269s -> 'ORCHID-SEVEN-LANTERN-8823'   retrieved=True\n\nNEGATIVE CONTROL: same size, NO needle. A codeword here would mean confabulation.\nNEGATIVE  HTTP 200 in 59s (336,481 tokens) -> 'NONE'   control_clean=True\n\n==========================================================================\nneedle depth 296,833 > native 262,144 : True\nretrieved from beyond native            : True\nnegative control did NOT confabulate    : True\nRESULT: 1M ATTENDED BEYOND NATIVE \u2014 PROVEN\n",
+ "stderr": "",
+ "finished": "2026-08-05T16:10:08-0300"
+}

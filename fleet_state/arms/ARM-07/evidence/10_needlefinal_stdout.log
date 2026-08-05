@@ -1,2 +1,10 @@
 LOCK_ACQUIRED pid=628558
 WINDOW_RECORD_WRITTEN
+[receipt] 10_needlefinal_restart.json
+[receipt] 10_needlefinal_5b_config.json
+[receipt] 10_5b_needle_foundry_probe.json
+[receipt] 10_needlefinal_restore.json
+PROBE exit: 0 restore_ok: True
+DRIVER_EXIT=0
+WINDOW_CLOSED 2026-08-05T16:11:06-03:00
+needlefinal_exit=0
