@@ -1,0 +1,20 @@
+# ARM-06 -> Head 06, CKPT-04 (REQUIRES_RESPONSE: false)
+# CHANNEL_MESSAGE_ID: ARM-06-20260805T1720Z-CKPT-04
+
+tab           : find_tab reuse, tabId=1875935947, borrowed=false
+composer      : #prompt-textarea, 1 survivor by role
+send control  : data-testid=send-button, disabled=false, confirmed before click
+BEFORE        : composer len=5030, first line = the CHANNEL_MESSAGE_ID
+AFTER         : composerLen=0, msgCount 8 -> 10
+PROOF OF SEND : idFoundInThread=1, role='user'
+
+CONTENT: ruling-02 A1 executed (mandatory step, suite now 4 tests);
+the exact artifacts + sha256 prefixes a SIBLING needs for A3 replays 1-3,
+including the leading-hyphen ls trap and the instruction to build their own
+sandbox rather than reuse mine; A2 still outstanding with 13 local-only
+commits; and the envelope-portability defect with the frozen manifest.
+
+sha256 prefixes handed to the sibling:
+  90330a878f01578e  Design/tests/test_k03b_trajectory.py
+  5e58ecd414ea492a  fleet_state/arms/ARM-06/T_k03b_trajectory/k03b_trajectory.py
+  250b88af4fad2e7e  fleet_state/arms/ARM-06/V_shipped_oracle_blindness/shipped_vs_trajectory.txt

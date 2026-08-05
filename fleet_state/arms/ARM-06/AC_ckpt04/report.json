@@ -1,0 +1,58 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-06-20260805T1725Z-CHECKPOINT-28",
+  "arm_id": "ARM-06",
+  "goal_id": "wave1a-ARM-06-product-verification-v1",
+  "generated_at": "2026-08-05T17:25:00Z",
+  "state": "CHECKPOINT",
+  "chat_url": "https://chatgpt.com/g/g-p-6a46a73f024481918cf7a4c4ce131766-the-board-room/c/6a72276b-1b18-83ea-9617-54360924c769",
+  "authority_ceiling": "L2",
+  "evidence_root": "fleet_state/arms/ARM-06/AC_ckpt04",
+  "claims": [
+    {
+      "claim_id": "ac.ckpt04-delivered",
+      "text": "CKPT-04 delivered to Head 06 and verified by CHANNEL_MESSAGE_ID in the rendered thread (idFoundInThread=1, role='user'); tab reused via find_tab, composer by role with one survivor, send control confirmed before clicking, before 5030 chars and after 0. Marked REQUIRES_RESPONSE: false — it reports execution and hands off, rather than asking the Head for something I do not need.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "ac.sibling-handoff-is-self-contained",
+      "text": "The A3 sibling replay was handed off so the sibling needs nothing from me: exact file paths with sha256 prefixes for the K-03B decisive pair, the raw JSONL location for the self-row replay, the leading-hyphen directory trap that silently yields zero files when stderr is suppressed, the definition of a completed turn, the fact that 19 of 20 transcripts are hook sessions, and the explicit instruction to build their own sandbox rather than reuse mine — reusing my setup would replay my method instead of independently checking my result.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "ac.blocker-named-to-the-sibling",
+      "text": "The handoff states plainly that the 13 commits carrying these artifacts are still local-only until A2 executes, so the sibling CANNOT FETCH them yet. Handing someone a replay list without telling them the artifacts are unreachable would waste their seat.",
+      "status": "MACHINE_VERIFIED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "ckpt04_delivery.txt",
+      "sha256": "c771a51f9e7220980486006d40dbc86051fc233dd5678cf0d8b0b7bd7354d7a5",
+      "claim_ids": [
+        "ac.ckpt04-delivered",
+        "ac.sibling-handoff-is-self-contained",
+        "ac.blocker-named-to-the-sibling"
+      ]
+    }
+  ],
+  "artifacts": [
+    "ckpt04_delivery.txt"
+  ],
+  "tests": [
+    {
+      "command": "curl -X POST http://127.0.0.1:10086/command (find_tab, fill, send, verify by id)",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "ckpt04_delivery.txt",
+      "stderr_artifact": "ckpt04_delivery.txt",
+      "negative_control": false
+    }
+  ],
+  "decisions_requested": [],
+  "risks": [
+    "A2 is the gating dependency for the entire A3 sibling replay. Until the push happens the sibling cannot reach the artifacts, so the M2 promotions Head 06 made conditional on sibling replay cannot proceed at all.",
+    "CKPT-04 is REQUIRES_RESPONSE: false, so nothing in this envelope should be read as awaiting a Head disposition. Only that the report was delivered."
+  ],
+  "next_action": "K-01C PENDING on ARM-08 (item-43, no adjust_counter in Source/). A2 push is Hannah Prime's. A3 replays belong to a sibling seat, not to me."
+}
