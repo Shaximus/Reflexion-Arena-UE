@@ -1,0 +1,214 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-06-20260805T0300Z-STATUS-01",
+  "arm_id": "ARM-06",
+  "goal_id": "wave1a-ARM-06-product-verification-v1",
+  "generated_at": "2026-08-05T03:00:00Z",
+  "state": "BLOCKED",
+  "chat_url": "https://chatgpt.com/g/g-p-6a46a73f024481918cf7a4c4ce131766-the-board-room/c/6a72276b-1b18-83ea-9617-54360924c769",
+  "authority_ceiling": "L2",
+  "evidence_root": "fleet_state/arms/ARM-06",
+  "claims": [
+    {
+      "claim_id": "chk.A1-independent-replay",
+      "text": "CHECKLIST A.1 — replay post-merge, independently of the original author's run: DONE. test_e11_authority_gate.py replayed by ARM-06 at the canonical cwd, exit 0, 7/7 cases, 0 bytes stderr, at HEAD c5fa2f8. Producer was not the author of 032d900.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "chk.A2-A3-A4-registry-only",
+      "text": "CHECKLIST A.2/A.3/A.4 — boss_stability rejects, world_tick rejects, boss_release_delay remains writable: SATISFIED AGAINST THE REGISTRY DOCUMENT ONLY, each with a demonstrated failure under its own negative control. NOT satisfied as product behaviour: no E11 admission path exists, so nothing rejects anything. This is the distinction L4/L5 must rule on and it is deliberately not blurred.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "chk.A5-c10-open",
+      "text": "CHECKLIST A.5 — C10 reads unaffected: OPEN, by explicit ruling and by measurement. counter_threshold occurs 0 times across all 10 implementation surfaces, so 'unaffected' is VACUOUSLY true rather than verified. Expected semantics were not found in canon. No test was invented.",
+      "status": "UNKNOWN"
+    },
+    {
+      "claim_id": "chk.A6-evidence-discipline",
+      "text": "CHECKLIST A.6 — preserve commands, stderr, producer exit codes, hashes, claim-to-evidence links: DONE. 15 envelopes, all ADMITTED by the authoritative validator, every sha256 recomputable, no 2>/dev/null and no bare || true anywhere in the harnesses.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "chk.B1-B2-discrimination",
+      "text": "CHECKLIST B.1/B.2 — every retained assertion observed FAILING under a relevant negative control and PASSING under the canonical fixture: DONE. total_hp_lost went 0/5 -> 3/5 sim-rule controls after repair; all six assertions have a demonstrated failure.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "chk.B3-non-discriminating-removed",
+      "text": "CHECKLIST B.3 — remove or replace non-discriminating assertions: DONE, and applied twice. The carried total_hp_lost bound [1, 10_000_000] was replaced with an exact expectation; and a stability guard I wrote MYSELF was removed after proving it could not fail.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "chk.B4-characterised-honestly",
+      "text": "CHECKLIST B.4 — characterise the oracle correctly as diagnostic specificity, not detection beyond the hash, and do not overclaim: DONE, with two self-corrections. The hash strictly dominates the oracle as a DETECTOR (state_hash diverged under every control, including two the oracle passes); and my own 'the design, not a gap' sentence was falsified by per-tick measurement showing a ~300-tick blind window.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "chk.kestrel-item5-pending",
+      "text": "KESTREL ITEM 5 — exercise one real E11 admission path end-to-end: PENDING ARM-08 by ruling. The control is built and all four of its exit branches are exercised; it exits 2 PRODUCT_AUTHORITY_PATH_ABSENT today and becomes a real authority test with no edit when E11 lands.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "chk.kestrel-item6-absent",
+      "text": "KESTREL ITEM 6 — PRODUCT_AUTHORITY_PATH_ABSENT reported rather than a path invented: DONE and ADMITTED. E11 occurs 0 times across 10 implementation surfaces and 7 in specification, with a working detector positive control.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "chk.six-gate-defects-closed",
+      "text": "Beyond the checklist: six defects in the E11 gate found and closed, each with a measured before/after exit code — absent-reads-as-denied, positional column capture, exit-code collision, garbled verdict silently denied, write-column removable, and registry drift fail-open. Plus one stale §4.1 read anchor corrected under grant.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "chk.blocked-delivery",
+      "text": "ARM STATE IS BLOCKED, not complete. Two exits are sealed by permission denials that no authority grant clears: `git push -u origin arm/product-verification-v1` (25 commits, no upstream) and `curl -s -X POST http://127.0.0.1:10086/command` for the Head 06 channel. The checkpoint for Head 06 is written, hash-stable and undelivered.",
+      "status": "CLAIMED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "A_e11_replay/report.json",
+      "sha256": "77f68fd5bb79d2859ff49e14661940eac0ba7158f96d62f19ab0d131d0cbc28a",
+      "claim_ids": [
+        "chk.A1-independent-replay",
+        "chk.A2-A3-A4-registry-only"
+      ]
+    },
+    {
+      "path": "D_admission_path/report.json",
+      "sha256": "04a5f317df8f02f4018fc588b23a1b8aa3d175f0354125731866a4655f25afce",
+      "claim_ids": [
+        "chk.A2-A3-A4-registry-only",
+        "chk.kestrel-item6-absent"
+      ]
+    },
+    {
+      "path": "C_e11_test_repair/report.json",
+      "sha256": "c674ecad19b24d53920b27a675276626aafdf3d9dc498484b834976ff99b9bda",
+      "claim_ids": [
+        "chk.A2-A3-A4-registry-only",
+        "chk.six-gate-defects-closed"
+      ]
+    },
+    {
+      "path": "O_authoritative_validation/report.json",
+      "sha256": "2887b1e51157878e8b7a38bbb6853a5216a765b85167461e9f479a330e57cb47",
+      "claim_ids": [
+        "chk.A6-evidence-discipline"
+      ]
+    },
+    {
+      "path": "L_envelope_validator/report.json",
+      "sha256": "a8ce9c10e3ea27e6a8d9855ea25420583434e822bd76dafc273cbcb3e58026cc",
+      "claim_ids": [
+        "chk.A6-evidence-discipline"
+      ]
+    },
+    {
+      "path": "B_oracle_discrimination/report.json",
+      "sha256": "b0efb3024e91c83303e3dd3b3eef56a80f2ec962f0fab06a51cae4e766fad03c",
+      "claim_ids": [
+        "chk.B1-B2-discrimination",
+        "chk.B3-non-discriminating-removed",
+        "chk.B4-characterised-honestly"
+      ]
+    },
+    {
+      "path": "N_stability/report.json",
+      "sha256": "c12619bf0e025345affbd5e1023d8c7da8767cecae91cdb2c9a0333f317b3b15",
+      "claim_ids": [
+        "chk.B3-non-discriminating-removed"
+      ]
+    },
+    {
+      "path": "I_per_tick/report.json",
+      "sha256": "f5c930e5f33efcc9cb41214d6869e10aa2a8ea7b08db4cf31adee2bb87509804",
+      "claim_ids": [
+        "chk.B4-characterised-honestly"
+      ]
+    },
+    {
+      "path": "G_admission_control/report.json",
+      "sha256": "dbcc9acd80e0422e0ffdde25ea1191178ff46a8c39c4f1ee03d7231614aaf9d5",
+      "claim_ids": [
+        "chk.kestrel-item5-pending"
+      ]
+    },
+    {
+      "path": "E_registry_drift/report.json",
+      "sha256": "4f857dca2f246d165bbad2dde8af5bcba24753dbe584eaa12ac9f35bf170f46e",
+      "claim_ids": [
+        "chk.six-gate-defects-closed"
+      ]
+    },
+    {
+      "path": "K_anchor_fix/report.json",
+      "sha256": "4a1b26425b4c369b375ed6ab4a84f812b757b2cecb2bbef1b96fd236d18d0f3f",
+      "claim_ids": [
+        "chk.six-gate-defects-closed"
+      ]
+    },
+    {
+      "path": "F_c10_read_anchors/report.json",
+      "sha256": "486b46c62a63bb6aa69b88d6d02e52f98894f6ca4be1cab583adfe83f447d72d",
+      "claim_ids": [
+        "chk.six-gate-defects-closed"
+      ]
+    },
+    {
+      "path": "M_head_channel/report.json",
+      "sha256": "ab674fd05c21cfbef42148013376f8ae85a2f4d87101443c23129bf6c298c599",
+      "claim_ids": [
+        "chk.blocked-delivery"
+      ]
+    },
+    {
+      "path": "H_suite_runner/report.json",
+      "sha256": "9ac8e8dc9dddf76cd551fa1defb7b4c7d234a9832958bece15a13c390ae7a27a",
+      "claim_ids": []
+    },
+    {
+      "path": "J_redistribution/report.json",
+      "sha256": "de5edde0023a5ee55649b343b0456bd79e8bb3ec4df31c7864a0e16f6ff95c90",
+      "claim_ids": []
+    }
+  ],
+  "artifacts": [
+    "A_e11_replay/report.json",
+    "D_admission_path/report.json",
+    "C_e11_test_repair/report.json",
+    "O_authoritative_validation/report.json",
+    "L_envelope_validator/report.json",
+    "B_oracle_discrimination/report.json",
+    "N_stability/report.json",
+    "I_per_tick/report.json",
+    "G_admission_control/report.json",
+    "E_registry_drift/report.json",
+    "K_anchor_fix/report.json",
+    "F_c10_read_anchors/report.json",
+    "M_head_channel/report.json",
+    "H_suite_runner/report.json",
+    "J_redistribution/report.json"
+  ],
+  "tests": [
+    {
+      "command": "python3 fleet_state/foundry/tools/validate_arm_report.py <each report.json>",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "O_authoritative_validation/authoritative_run.txt",
+      "stderr_artifact": "O_authoritative_validation/authoritative_run.txt",
+      "negative_control": false
+    }
+  ],
+  "decisions_requested": [
+    "Does K-01 close on registry-document evidence plus the PRODUCT_AUTHORITY_PATH_ABSENT proof, or stay ACTIVE pending an implemented E11 admission path?",
+    "Is E1-E16 a roadmap or a contract? The design specifies 16 effects; SkillSystem.LEGAL_EFFECTS is ['destabilize_anchor'] — one. That gap is larger than the E11 repair and is not ARM-06 scope.",
+    "Does the ~300-tick oracle blind window stay recorded-not-closed under 'minimum means minimum', or is trajectory sampling authorised as a separate bounded item?"
+  ],
+  "risks": [
+    "STATE IS BLOCKED, NOT COMPLETE_CANDIDATE. COMPLETE_CANDIDATE would be an overclaim: A.5 is OPEN by ruling and Kestrel item 5 is pending ARM-08 by ruling. An arm with items open by its own Head's instruction is not a completion candidate.",
+    "All 25 commits and 16 envelopes are reachable only from this worktree. Deleting it destroys the cycle's entire output — the condition that already destroyed one version of the oracle.",
+    "Four times this cycle my own tooling was the defect and reported confidently: a ripgrep single-file count, an ERR_MALFORMED admission probe, a git ls-files index audit, and a stability guard that could not fail. Every one was caught by checking a case whose answer was already known. That pattern is the most transferable output of this arm."
+  ],
+  "next_action": "Deliver CKPT-01 to Head 06 and push the branch. Both need a permission rule or a human action; neither is an authority question."
+}
