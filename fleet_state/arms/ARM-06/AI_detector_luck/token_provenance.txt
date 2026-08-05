@@ -1,0 +1,33 @@
+Is my UE surface scan CORRECT, or merely LUCKY?
+It keys on the tokens ('adjust_counter','AdjustCounter'). If ARM-08's gate
+spells those only in comments and string literals, a functionally identical
+gate written without that wording would be INVISIBLE to my detector, and I
+would revert to the false-absence failure I just fixed.
+
+  CODE     RxCounterAuthority.cpp:49  const char* const AdjustCounterEffectId = "E11";
+  CODE     RxCounterAuthority.cpp:77  { AdjustCounterEffectId, "A2_E11_ADJUST_COUNTER" },
+  CODE     RxCounterAuthority.cpp:143  return SameId(AdjustCounterEffectId, EffectId);
+  STRING   RxCounterAuthority.cpp:256  return "E11 adjust_counter: counter_id is not in the C10 registry";
+  STRING   RxCounterAuthority.cpp:258  return "E11 adjust_counter: counter_id is authority-owned and not A2-writable"
+  COMMENT  RxCounterAuthority.h:8  * `adjust_counter` (A2, player-authorable, allow-listed) took `counter_id:
+  COMMENT  RxCounterAuthority.h:132  *   `adjust_counter` as the counter-writing effect. An effect calling itself
+  STRING   RxSkillSystem.cpp:217  FString::Printf(TEXT("E11 adjust_counter: %s"), *Spec.EffectsParseError));
+  STRING   RxSkillSystem.cpp:250  TEXT("E11 adjust_counter: effect_id '%s' may not write a counter; only ")
+  STRING   RxSkillSystem.cpp:263  TEXT("E11 adjust_counter: counter_id does not survive marshalling intact ")
+  STRING   RxSkillSystem.cpp:334  TEXT("E11 adjust_counter: effect_id '%s' may not write a counter; only ")
+  STRING   RxSkillSystem.cpp:348  TEXT("E11 adjust_counter: counter_id does not survive marshalling intact ")
+  STRING   RxSkillSystem.cpp:382  TEXT("E11 adjust_counter: delta %d would overflow counter '%s' at %d ")
+  STRING   RxSkillSystem.cpp:395  TEXT("E11 adjust_counter: '%s' is A2-writable but has no execution target ")
+  STRING   RxSkillSystem.cpp:423  TEXT("E11 adjust_counter: effect '%s' reached execution with no authority ")
+  STRING   RxSkillSystem.cpp:440  TEXT("E11 adjust_counter: counter '%s' was written and the audit event ")
+  STRING   RxSkillSystem.cpp:450  TEXT("E11 adjust_counter: refused target reached execution"));
+  COMMENT  RxSkillSystem.h:77  * an E11 `adjust_counter` names a counter and a delta, and neither could be
+  COMMENT  RxSkillSystem.h:93  /** RX_SKILL_ENUMS_V1.md §5 id of adjust_counter — the one A2 effect that writ
+  CODE     RxSkillSystem.h:96  inline constexpr const TCHAR* AdjustCounter = TEXT("E11");
+
+  CODE identifiers : 4
+  STRING literals  : 12
+  COMMENT mentions : 4
+
+  VERDICT: at least some hits are real code identifiers, but the ratio
+  still tells me how much of the detection is incidental.

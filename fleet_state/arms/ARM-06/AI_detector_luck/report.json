@@ -1,0 +1,81 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-06-20260805T1950Z-CHECKPOINT-34",
+  "arm_id": "ARM-06",
+  "goal_id": "K-01C-independent-authority-replay",
+  "generated_at": "2026-08-05T19:50:00Z",
+  "state": "CHECKPOINT",
+  "chat_url": "https://chatgpt.com/g/g-p-6a46a73f024481918cf7a4c4ce131766-the-board-room/c/6a72276b-1b18-83ea-9617-54360924c769",
+  "authority_ceiling": "L2",
+  "evidence_root": "fleet_state/arms/ARM-06/AI_detector_luck",
+  "claims": [
+    {
+      "claim_id": "ai.detector-was-mostly-lucky",
+      "text": "MEASURED: of the 20 hits my surface detector found on ARM-08's gate, only 4 were CODE identifiers — 12 were string literals and 4 were comments. It fired, but 80% of its evidence was prose. Detecting THIS implementation is not the same as detecting AN implementation: a functionally identical gate that never spells 'adjust_counter' in its wording would have been invisible, and the control would have reverted to the false absence fixed one commit earlier.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "ai.broadened-to-structural-tokens",
+      "text": "Tokens broadened from the effect's English name to the SHAPE an authority gate takes: AdmitCounterWrite, EAdmission, CounterAuthority, bA2Writable, A2Writable, IsKnownCounter. Against ARM-08's tree the scan goes from 20 hits to 72, now anchored on API surface rather than comment text.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "ai.no-false-positive-introduced",
+      "text": "Broadening a detector usually costs precision, so the opposite direction was checked rather than assumed: against my own worktree, where no gate exists, the scan reports 0 occurrences and the control still exits 2 PRODUCT_AUTHORITY_PATH_ABSENT. The honest absence finding is intact and the suite is unchanged at exit 2.",
+      "status": "MACHINE_VERIFIED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "token_provenance.txt",
+      "sha256": "36b8708a6490ced08ceb8146663f3e9bbf97b62c4e77d1403616e96420206905",
+      "claim_ids": [
+        "ai.detector-was-mostly-lucky"
+      ]
+    },
+    {
+      "path": "broadened_tokens.txt",
+      "sha256": "a5ef5efc19e3df36e784ce6fc64aec4cedb77c5900728dac6921cb8abf9bd84e",
+      "claim_ids": [
+        "ai.broadened-to-structural-tokens",
+        "ai.no-false-positive-introduced"
+      ]
+    },
+    {
+      "path": "test_e11_admission_path.py",
+      "sha256": "82af1f153454ecefa7bb9a79b28554f6b8ce080316bda31cbb0e93af1c480540",
+      "claim_ids": [
+        "ai.broadened-to-structural-tokens"
+      ]
+    }
+  ],
+  "artifacts": [
+    "token_provenance.txt",
+    "broadened_tokens.txt",
+    "test_e11_admission_path.py"
+  ],
+  "tests": [
+    {
+      "command": "python3 test_e11_admission_path.py  # ARM-08 tree, broadened tokens",
+      "producer_exit_code": 2,
+      "result": "FAIL",
+      "stdout_artifact": "broadened_tokens.txt",
+      "stderr_artifact": "broadened_tokens.txt",
+      "negative_control": true
+    },
+    {
+      "command": "python3 Design/tests/test_e11_admission_path.py  # own worktree, must stay 0 hits",
+      "producer_exit_code": 2,
+      "result": "FAIL",
+      "stdout_artifact": "broadened_tokens.txt",
+      "stderr_artifact": "broadened_tokens.txt",
+      "negative_control": true
+    }
+  ],
+  "decisions_requested": [],
+  "risks": [
+    "The structural tokens are drawn from ARM-08's actual API, so the detector is now fitted to the one implementation that exists. That is better than fitting to its comments, but it is still fitted. A second, differently-shaped implementation would need its own tokens — the honest framing is 'detects the gates we know about', not 'detects any gate'.",
+    "A static token scan can only ever say a gate is PRESENT, never that it WORKS. The control is explicit that a present gate is UNEXERCISED; nothing here brings K-01C closer to exercising the C++ path, which still needs a built editor."
+  ],
+  "next_action": "K-01C blocked on a UE build or a seat holding ARM-08's code. BLOCKED on push. No browser work per the stand-down."
+}

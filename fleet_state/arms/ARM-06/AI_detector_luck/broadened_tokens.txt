@@ -1,0 +1,20 @@
+== BEFORE: name-only tokens against ARM-08's gate ==
+  20 hits, of which CODE=4  STRING=12  COMMENT=4
+  -> fires, but 80% of the evidence is prose
+
+== AFTER: structural tokens added ==
+
+  UE static scan: 72 occurrence(s) of ('adjust_counter', 'AdjustCounter', 'AdmitCounterWrite', 'EAdmission', 'CounterAuthority', 'bA2Writable', 'A2Writable', 'IsKnownCounter')
+      Source/ReflexionArena/Sim/RxCounterAuthority.cpp:1
+      Source/ReflexionArena/Sim/RxCounterAuthority.cpp:3
+      Source/ReflexionArena/Sim/RxCounterAuthority.cpp:49
+      Source/ReflexionArena/Sim/RxCounterAuthority.cpp:77
+
+== FALSE-POSITIVE CHECK: my own worktree, where no gate exists ==
+
+  UE static scan: 0 occurrence(s) of ('adjust_counter', 'AdjustCounter', 'AdmitCounterWrite', 'EAdmission', 'CounterAuthority', 'bA2Writable', 'A2Writable', 'IsKnownCounter')
+
+  own-worktree exit=2 (2 = correctly still ABSENT, no false positive)
+
+== suite unaffected ==
+  suite_exit=2
