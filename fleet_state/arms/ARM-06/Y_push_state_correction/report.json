@@ -1,0 +1,66 @@
+{
+  "report_version": "1.0",
+  "report_id": "ARM-06-20260805T1600Z-CHECKPOINT-24",
+  "arm_id": "ARM-06",
+  "goal_id": "wave1a-ARM-06-product-verification-v1",
+  "generated_at": "2026-08-05T16:00:00Z",
+  "state": "CHECKPOINT",
+  "chat_url": "https://chatgpt.com/g/g-p-6a46a73f024481918cf7a4c4ce131766-the-board-room/c/6a72276b-1b18-83ea-9617-54360924c769",
+  "authority_ceiling": "L2",
+  "evidence_root": "fleet_state/arms/ARM-06/Y_push_state_correction",
+  "claims": [
+    {
+      "claim_id": "y.my-repeated-figure-was-wrong",
+      "text": "FALSIFIED — a figure I repeated in every checkpoint from CHECKPOINT-14 onward. I reported 'N commits reachable only from this worktree', rising to 35, and framed it as the cycle's highest-risk condition. The number came from `git rev-list --count origin/master..HEAD`, which measures distance from MASTER, not from my own upstream. My branch has an upstream, origin/arm/product-verification-v1, and it has been pushed to a65ae02. The correct exposure was never 35.",
+      "status": "FALSIFIED"
+    },
+    {
+      "claim_id": "y.actual-state",
+      "text": "MEASURED ACTUAL STATE: upstream origin/arm/product-verification-v1 at a65ae02, local HEAD at 2ba668d, 9 commits ahead, 0 behind. 26 commits — including all of tasks A through Q, the arm-level status report and 21 admitted envelopes — are PRESERVED ON THE REMOTE and no longer at risk from worktree removal. The real exposure is 9 local-only commits.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "y.remaining-exposure-named",
+      "text": "The 9 local-only commits are named individually rather than counted: the frozen-hash audit, the M2 independent replay, the Head 06 channel opening, the captured Head ruling, all three K-03B results, and both risk audits. That includes the entire M2 verification charter and the entire K-03B ruling execution — the most recent and least reproducible work in the cycle.",
+      "status": "MACHINE_VERIFIED"
+    },
+    {
+      "claim_id": "y.deny-rule-persists",
+      "text": "'Bash(git push:*)' remains in the deny array of .claude/settings.json, so I still cannot push the 9 remaining commits myself. Head 06 routed the stale profile to Fleet Platform as a broken overlay rather than an authority question; that correction has not landed.",
+      "status": "MACHINE_VERIFIED"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "push_state.txt",
+      "sha256": "3ec4159b7152e10d6bd925ac0bfc36c0c9ff78e369c7f0f71ce43c70b6a74124",
+      "claim_ids": [
+        "y.my-repeated-figure-was-wrong",
+        "y.actual-state",
+        "y.remaining-exposure-named",
+        "y.deny-rule-persists"
+      ]
+    }
+  ],
+  "artifacts": [
+    "push_state.txt"
+  ],
+  "tests": [
+    {
+      "command": "git rev-list --count @{u}..HEAD ; git rev-list --count origin/master..HEAD",
+      "producer_exit_code": 0,
+      "result": "PASS",
+      "stdout_artifact": "push_state.txt",
+      "stderr_artifact": "push_state.txt",
+      "negative_control": false
+    }
+  ],
+  "decisions_requested": [
+    "Push the remaining 9 commits: `git push origin arm/product-verification-v1` from an authorized seat. They carry the M2 replay charter results and the entire K-03B ruling execution."
+  ],
+  "risks": [
+    "I escalated a risk for many consecutive checkpoints using a number I never verified, and it was inflated roughly fourfold. Repetition made it feel established; nobody re-derives a figure that has been in the last six reports. This is the same defect I found in Prime's turn counter — an unverified number carried forward by restatement — and I committed it while auditing them for it.",
+    "I did not notice the push when it happened. I was measuring the wrong baseline, so a significant change in my own risk posture was invisible to my own monitoring."
+  ],
+  "next_action": "Report K-03B completion and this correction to Head 06 via the open channel. K-01C remains PENDING on ARM-08."
+}

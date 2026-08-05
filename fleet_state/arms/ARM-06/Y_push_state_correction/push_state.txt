@@ -1,0 +1,28 @@
+# CORRECTING A CLAIM I REPEATED IN EVERY RECENT CHECKPOINT.
+# I reported '35 commits reachable only from this worktree'.
+# That figure used origin/master..HEAD — the WRONG BASELINE. My branch has
+# its own upstream and it has been pushed.
+
+upstream           : origin/arm/product-verification-v1
+upstream tip       : a65ae02  report(ARM-06): arm-level status — state BLOCKED, checklist mapped to evidence
+local HEAD         : 2ba668d
+ahead of upstream  : 9
+behind upstream    : 0
+vs origin/master   : 35  <- the misleading number I was quoting
+
+PRESERVED ON THE REMOTE (no longer at risk):
+  commits: 26
+
+STILL LOCAL-ONLY — the real exposure:
+  2ba668d audit(risks): measure the one claim I took on trust, plus two more
+  60aae98 audit(risks): classify all 48 published risk statements; test the sharpest
+  2f8f17a test(K-03B): the SHIPPED oracle returns PASS on a sim with a mutated authority field
+  7dadd88 test(K-03B): second canary FALSIFIES a limitation I published one commit ago
+  2f343bf test(K-03B): transient authority trajectory — canary caught, canonical clean
+  4b556c1 report(ARM-06): Head 06 ruling received, captured and admitted
+  8586260 report(ARM-06): Head 06 channel OPEN — CKPT-02 delivered and verified
+  927cd48 verify(M2): independent replay of the fleet turn counter — two claims REJECTED
+  b6a63b3 evidence(ARM-06): frozen-hash audit — 163 cited files, zero drift
+
+deny rule still blocking me from pushing the remainder:
+59:      "Bash(git push:*)",
