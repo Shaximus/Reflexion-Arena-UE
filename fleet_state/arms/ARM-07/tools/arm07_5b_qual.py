@@ -74,7 +74,20 @@ def build_doc(target_tokens, seed):
 def mainpid():
     return sh("systemctl show qwen27-mtp -p MainPID --value")[1]
 
+def log_offset():
+    return os.path.getsize(LOG)
+
+def boot_segment(offset):
+    """Log bytes appended after `offset`. Anchoring at the pre-kill offset makes
+    the parse immune to vLLM-logged prompt text containing old log lines — the
+    defect that killed a healthy 5b boot on run 1 (receipt
+    10_rollback_bundle_correction.json)."""
+    with open(LOG, "rb") as f:
+        f.seek(offset)
+        return f.read().decode("utf-8", "replace")
+
 def kill_and_wait(tag, timeout=420):
+    kill_and_wait.last_offset = log_offset()
     pid = mainpid()
     t0 = time.monotonic()
     rc, _, err = sh(f"kill -9 {pid}")
@@ -102,10 +115,14 @@ def kill_and_wait(tag, timeout=420):
     rec["new_pid"] = mainpid()
     return rec, rec.get("completion") == "RECOVERED"
 
-def effective_config():
-    rc, out, err = sh(
-        f"tail -c 9000000 {LOG} | grep -E 'core.py:114|KV cache size|kv-offloading|KEEP_PREFIX' | tail -8")
-    cfg = {"raw_tail": out.splitlines()[-8:], "grep_rc": rc, "grep_err": err}
+def effective_config(offset=None):
+    if offset is None:
+        offset = getattr(kill_and_wait, "last_offset", max(0, log_offset() - 9000000))
+    seg = boot_segment(offset)
+    lines = [l for l in seg.splitlines()
+             if re.search(r"core.py:114|KV cache size|kv-offloading|KEEP_PREFIX|OffloadingConnector", l)]
+    out = "\n".join(lines)
+    cfg = {"raw_tail": lines[-8:], "anchor_offset": offset}
     init = [l for l in out.splitlines() if "core.py:114" in l]
     if init:
         l = init[-1]
@@ -251,7 +268,10 @@ def main():
         f"{HOOK} /home/shax/Projects/pentarchy/local-inference/vllm-stock-venv/lib/python3.12/site-packages/qwen_mtp_boot_tuning.pth "
         "/home/shax/Projects/pentarchy/local-inference/runtime/qwen27-mtp-online-fp8.enabled "
         "/home/shax/mnt_data/models/Qwen/Qwen3.5-27B/config.json 2>&1")
-    bundle["effective_config"] = effective_config()
+    # S0 config from the server, not the log — logged prompt text can carry
+    # old log lines (see 10_rollback_bundle_correction.json).
+    bundle["effective_config"] = {
+        "max_model_len_from_server": api("/v1/models", None, timeout=15)["data"][0]["max_model_len"]}
     bundle["memory"] = memory_accounting()
     receipt("10_rollback_bundle.json", bundle)
     shutil.copy(HOOK, HOOK_BACKUP)
