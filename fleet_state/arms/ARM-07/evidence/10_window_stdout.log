@@ -3,3 +3,18 @@ WINDOW_RECORD_WRITTEN /home/shax/.claude-squad/worktrees/arm/head07-inference-fa
 [receipt] 10_rollback_bundle.json
 [docs] building
 [receipt] 10_docs_meta.json
+[receipt] 10_matrix_baseline.json
+[receipt] 10_restart_to_5b.json
+[receipt] 10_5b_effective_config.json
+[receipt] 10_5b_memory.json
+[receipt] 10_matrix_5b.json
+[receipt] 10_5b_semantic.json
+[receipt] 10_5b_needle.json
+[receipt] 10_5b_memory_after_load.json
+[receipt] 10_5b_stability.json
+[receipt] 10_restore_final.json
+[receipt] 10_verdict.json
+VERDICT: REJECT — semantic or stability failure; baseline restored
+DRIVER_EXIT=0
+WINDOW_CLOSED 2026-08-05T14:56:31-03:00
+window_exit=0

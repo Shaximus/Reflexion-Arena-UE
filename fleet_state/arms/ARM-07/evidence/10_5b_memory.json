@@ -1,0 +1,7 @@
+{
+ "free_b_line": "Mem:     267748007936 179728457728 10618470400 146736844800 226221993984 88019550208",
+ "meminfo": "Mlocked:            4108 kB\nShmem:          143297700 kB",
+ "kv_offload_metrics": [
+  "vllm:kv_offload_cpu_cache_usage_perc{engine=\"0\",model_name=\"qwen27-mtp\"} 0.0"
+ ]
+}

@@ -1,0 +1,35 @@
+{
+ "cycles": [
+  {
+   "tag": "stability-1",
+   "old_pid": "102008",
+   "kill_rc": 0,
+   "kill_err": "",
+   "api_ready_s": 88.0,
+   "completion": "RECOVERED",
+   "first_completion_s": 88.2,
+   "new_pid": "183636"
+  },
+  {
+   "tag": "stability-2",
+   "old_pid": "183636",
+   "kill_rc": 0,
+   "kill_err": "",
+   "api_ready_s": 86.0,
+   "completion": "RECOVERED",
+   "first_completion_s": 86.2,
+   "new_pid": "191721"
+  },
+  {
+   "tag": "stability-3",
+   "old_pid": "191721",
+   "kill_rc": 0,
+   "kill_err": "",
+   "api_ready_s": 84.0,
+   "completion": "RECOVERED",
+   "first_completion_s": 84.2,
+   "new_pid": "198445"
+  }
+ ],
+ "all_recovered": true
+}

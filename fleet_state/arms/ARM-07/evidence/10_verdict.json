@@ -1,0 +1,21 @@
+{
+ "verdict": "REJECT \u2014 semantic or stability failure; baseline restored",
+ "gates": {
+  "semantic_18_18": true,
+  "needle_positive_beyond_native": false,
+  "needle_negative_clean": false,
+  "digest_match": false,
+  "rep50k_speedup": 12.33,
+  "rep50k_gate_5x": true,
+  "rep300k_speedup": 49.86,
+  "rep300k_gate_3x": true,
+  "short_decode_regression": -0.0205,
+  "short_regression_le_5pct": true,
+  "stability_3x_recovered": true,
+  "baseline_restored": true
+ },
+ "window": {
+  "start": "2026-08-05T14:29:03-0300",
+  "end": "2026-08-05T14:56:31-0300"
+ }
+}

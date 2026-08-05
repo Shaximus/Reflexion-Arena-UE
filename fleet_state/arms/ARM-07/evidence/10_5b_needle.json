@@ -1,0 +1,12 @@
+{
+ "code": "ORCA-983-BASALT-7810",
+ "depth_tokens": 265210,
+ "beyond_native": true,
+ "haystack_tokens": 301437,
+ "positive_out": "",
+ "positive_ok": false,
+ "positive_wall_s": 71.5,
+ "negative_out": "",
+ "negative_clean": false,
+ "negative_wall_s": 172.3
+}
